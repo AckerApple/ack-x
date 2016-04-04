@@ -24,6 +24,16 @@ describe('ack()',function(){
 		assert.equal(object.get('TEST'),33)
 	})
 
+	it('#promise',function(done){
+		ack.promise('a','b','c')
+		.then(function(a,b,c){
+			assert.equal(a, 'a')
+			assert.equal(b, 'b')
+			assert.equal(c, 'c')
+		})
+		.then(done).catch(done)
+	})
+
 	it('#nullsToEmptyString',function(){
 		var object = {test:11, Test:null, TEST:33}
 		ack(object).nullsToEmptyString()
