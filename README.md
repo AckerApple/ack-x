@@ -1,7 +1,7 @@
-# ack-x, the Acker way of fullfilling our everyday Javascript needs
+# ack-x, the Acker Way of Fullfilling Our Everyday Javascript Needs
 Extra functional library to objectify & compartmentalize variables into wrappers that make invokation & injection processes, lighter & easier to implement.
 
-## A stable project but is often developing & maturing
+## This is a Stable Project But is Developing & Maturing
 This code was born out of countless past production projects that were implemented and put together by Acker Apple. This code is used in existing production projects and is still primarly maintained by Acker Apple.
 
 At this time, the documentation is just now evolving as this package is just now becoming a publically consumed piece of software. The demand for this code to be available for immediate use as a public package, has out weighed producing proper documentation.
