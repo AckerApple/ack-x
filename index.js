@@ -2,7 +2,7 @@
 var debugModule = require('debug')
 
 
-var jc = require('jc'),//old old old library for Classes and Accessors
+var jc = require('./js/jc'),//old old old library for Classes and Accessors
 		ackP = require('ack-p'),
 		ackInjector = require('./ackInjector')
 

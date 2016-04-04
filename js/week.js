@@ -1,5 +1,5 @@
 "use strict";
-var jc = require('jc')
+var jc = require('./jc')
 	,xMonth = require('./month')
 	,ExDate = require('./date')
 

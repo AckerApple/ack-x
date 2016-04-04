@@ -19,12 +19,9 @@
   ],
   "author": "Acker Apple",
   "license": "ISC",
-  "dependencies": {
-    "ack-p": "git+ssh://git@bitbucket.org:virgindata/ack-p.git",
-    "debug": "^2.2.0",
-    "jc": "git+ssh://git@bitbucket.org:virgindata/jc.git"
-  },
   "devDependencies": {
+    "ack-p": "https://github.com/AckerApple/ack-p.git",
+    "debug": "^2.2.0",
     "mocha": "^2.4.5",
     "mocha-loader": "^0.7.1"
   }
