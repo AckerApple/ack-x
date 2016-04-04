@@ -111,12 +111,9 @@ ack.logError = function(err, msg, logTo){
 		return new ackInjector($scope)
 	}
 
-	ack.promise = function(thenable, context){
+	ack.promise = function(var0, var1, var2, var3){
 		var promise = ackP.start()
-		if(thenable){
-			promise=promise.then(thenable, context)
-		}
-		return promise
+		return promise.set.apply(promise,arguments)
 	}
 /* end: hard-coded modules */
 

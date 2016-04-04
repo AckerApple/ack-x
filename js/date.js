@@ -197,14 +197,20 @@ ackDate.prototype.dayOfYear = function(){
 	return Math.ceil((d - new Date(d.getFullYear(), 0, 1)) / 86400000)
 }
 
-ackDate.prototype.nextYear = function(y){
+ackDate.prototype.getNextYear = function(y){
 	y = y==null ? 1 : Number(y)
-	this.setYear( this.year()+y )
+	return this.year()+y
+}
+ackDate.prototype.nextYear = function(y){
+	this.setYear( this.getNextYear(y) )
 	return this
 }
-ackDate.prototype.priorYear = function(y){
+ackDate.prototype.getPriorYear = function(y){
 	y = y==null ? 1 : Number(y)
-	this.setYear( this.year()-Math.abs(y) )
+	return this.year()-Math.abs(y)
+}
+ackDate.prototype.priorYear = function(y){
+	this.setYear( this.getPriorYear(y) )
 	return this
 }
 ackDate.prototype.addYear = ackDate.prototype.nextYear;
