@@ -19,9 +19,11 @@
   ],
   "author": "Acker Apple",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "ack-p": "https://github.com/AckerApple/ack-p.git",
-    "debug": "^2.2.0",
+    "debug": "^2.2.0"
+  },
+  "devDependencies": {
     "mocha": "^2.4.5",
     "mocha-loader": "^0.7.1"
   }
