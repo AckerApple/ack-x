@@ -869,9 +869,13 @@
 
 	  amount = amount || 1
 
-	  var rtn = []
-	  for(var i=1; i <= stackArray.length && i <= amount; ++i){
-	    rtn.push( stackArray[i] )
+	  if(stackArray.length==1){
+	    var rtn = [stackArray[0]]
+	  }else{
+	    var rtn = []
+	    for(var i=1; i <= stackArray.length && i <= amount; ++i){
+	      rtn.push( stackArray[i] )
+	    }
 	  }
 
 	  return rtn.join(' at ')
@@ -911,7 +915,7 @@
 
 	jError.prototype.getFailingObjectName = function(){
 	  var trace = this.getFirstTrace()
-	  return trace.split('(')[0].trim()
+	  return trace.split(/\(|@/)[0].trim()
 	}
 
 	jError.prototype.getMessage = function(){
