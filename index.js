@@ -1,73 +1,81 @@
-"use strict";//this file only intended for web browsers. NodeJs use jN.js
-var debugModule = require('debug')
-
+"use strict";
 
 var jc = require('./js/jc'),//old old old library for Classes and Accessors
-		ackP = require('ack-p'),
-		ackInjector = require('./ackInjector')
-
+		ackInjector = require('./ackInjector'),
+		partyModules = require('./parties-pack.js').modules
 
 /** calling ack() as function, will return a module to work with almost any object */
-function ack($var,$scope){
-	return new ackClass($var,$scope)
+function ack($var){
+	return new ackExpose($var)
 }
 
-//ack.modules = new ackInjector(ack)
-ack.error = require('./js/error.js')
-ack.number = require('./js/number.js')
-ack.string = require('./js/String')
-ack.binary = require('./js/Binary')
-ack.base64 = require('./js/Base64')
-ack.object = require('./js/Object')
-ack.method = require('./js/method')
-ack['function'] = require('./js/method')
-ack.array = require('./js/Array')
-ack.queryObject = require('./js/queryObject')
-ack.week = require('./js/week')
-ack.month = require('./js/month')
-ack.year = require('./js/year')
-ack.date = require('./js/date')
+ack.Expose = ackExpose//Outsider's referense to expose factory
 
-var indexSelector = require('./js/IndexSelector')
+/* MODULES */
+	//ack.modules = new ackInjector(ack)
+	ack.error = require('./js/error.js')
+	ack.number = require('./js/number.js')
+	ack.string = require('./js/String')
+	ack.binary = require('./js/Binary')
+	ack.base64 = require('./js/Base64')
+	ack.object = require('./js/Object')
+	ack.method = require('./js/method')
+	ack['function'] = require('./js/method')
+	ack.array = require('./js/Array')
+	ack.queryObject = require('./js/queryObject')
+	ack.week = require('./js/week')
+	ack.month = require('./js/month')
+	ack.year = require('./js/year')
+	ack.date = require('./js/date')
 
-ack.indexSelector = function(){
-	var $scope = {}
-	if(arguments.length){
-		$scope.indexes = arguments[0]
-	}
-	return new indexSelector($scope)
-}
-
-/** Organized debug logging. See npm debug for more information */
-ack.debug = function debug(name, log0, log1, log2){
-	var logger = debugModule(name)
-	ack.debug.map[name] = logger//store memory of logger for meta referencing
-
-	if(arguments.length>1){//logging intended to go with
-		var args = Array.prototype.slice.call(arguments)
-		args.shift()//remove first
-		logger.apply(logger,args)
+	ack['class'] = function(cl, extendOrAccessors, accessors){
+		return new jc(cl, extendOrAccessors, accessors)
 	}
 
-	logger.debug = function(subname, log0, log1, log2){
-		arguments[0] = name+':'+subname
-		return ack.debug.apply(ack, arguments)
+	ack.accessors = function($scope){
+		return new jc.Vm($scope)
 	}
-	logger.sublog = logger.debug
 
-	return logger
-}
+	ack.injector = function($scope){
+		return new ackInjector($scope)
+	}
 
-/* create storage of all loggers created */
-	//global.ackDebugMap = global.ackDebugMap || {}
-	//ack.debug.map = global.ackDebugMap
-	var ackDebugMap = {}
-	ack.debug.map = ackDebugMap
-/* end */
+	ack.promise = function(var0, var1, var2, var3){
+		var promise = partyModules.ackP.start()
+		return promise.set.apply(promise,arguments)
+	}
 
+	var indexSelector = require('./js/IndexSelector')
+	ack.indexSelector = function(){
+		var $scope = {}
+		if(arguments.length){
+			$scope.indexes = arguments[0]
+		}
+		return new indexSelector($scope)
+	}
 
+	/** Organized debug logging. See npm debug for more information */
+	var ackDebugMap = {}//create storage of all loggers created
+	ack.debug = function debug(name, log0, log1, log2){
+		var logger = partyModules.debug(name)
+		ack.debug.map[name] = logger//store memory of logger for meta referencing
 
+		if(arguments.length>1){//logging intended to go with
+			var args = Array.prototype.slice.call(arguments)
+			args.shift()//remove first
+			logger.apply(logger,args)
+		}
 
+		logger.debug = function(subname, log0, log1, log2){
+			arguments[0] = name+':'+subname
+			return ack.debug.apply(ack, arguments)
+		}
+		logger.sublog = logger.debug
+
+		return logger
+	}
+	ack.debug.map = ackDebugMap//latch onto storage
+/* END MODULES */
 
 ack.throwBy = function(ob, msg){
 	if(ob){
@@ -98,39 +106,34 @@ ack.logError = function(err, msg, logTo){
 	ack.logErrorArray(drray, logTo)
 }
 
-/* hard-coded modules */
-	ack['class'] = function(cl, extendOrAccessors, accessors){
-		return new jc(cl, extendOrAccessors, accessors)
-	}
-
-	ack.accessors = function($scope){
-		return new jc.Vm($scope)
-	}
-
-	ack.injector = function($scope){
-		return new ackInjector($scope)
-	}
-
-	ack.promise = function(var0, var1, var2, var3){
-		var promise = ackP.start()
-		return promise.set.apply(promise,arguments)
-	}
-/* end: hard-coded modules */
 
 
 
 
 
 
-
-
-function ackClass($var,$scope){
+function ackExpose($var){
 	this.$var = $var
-	this.$scope = $scope || {}
 	return this
 }
 
-ackClass.prototype.getSimpleClone = function(){
+ackExpose.prototype.error = function(){return ack.error(this.$var)}
+ackExpose.prototype.number = function(){return ack.number(this.$var)}
+ackExpose.prototype.string = function(){return ack.string(this.$var)}
+ackExpose.prototype.binary = function(){return ack.binary(this.$var)}
+ackExpose.prototype.base64 = function(){return ack.base64(this.$var)}
+ackExpose.prototype.object = function(){return ack.object(this.$var)}
+ackExpose.prototype.method = function(){return ack.method(this.$var)}
+ackExpose.prototype['function'] = function(){return ack['function'](this.$var)}
+ackExpose.prototype.array = function(){return ack.array(this.$var)}
+ackExpose.prototype.queryObject = function(){return ack.queryObject(this.$var)}
+ackExpose.prototype.week = function(){return ack.week(this.$var)}
+ackExpose.prototype.month = function(){return ack.month(this.$var)}
+ackExpose.prototype.year = function(){return ack.year(this.$var)}
+ackExpose.prototype.date = function(){return ack.date(this.$var)}
+
+
+ackExpose.prototype.getSimpleClone = function(){
 	var target = {}
 	for (var i in this.$var){
 		target[i] = this.$var[i]
@@ -139,7 +142,9 @@ ackClass.prototype.getSimpleClone = function(){
 }
 
 //get at raw variable within target variable
-ackClass.prototype.get = function(name,def){
+ackExpose.prototype.get = function(name,def){
+	if(!name)return this.$var
+
 	if(this.$var && this.$var[name]!=null)//try exact match first
 		return this.$var[name]
 
@@ -154,23 +159,23 @@ ackClass.prototype.get = function(name,def){
 }
 
 //$var[name] returned as ack Object. When null, null returned
-ackClass.prototype.byName = function(name){
+ackExpose.prototype.byName = function(name){
 	var v = this.get(name)
 	if(v!=null)return ack(v)
 }
 
-ackClass.prototype['throw'] = function(msg, logTo){
+ackExpose.prototype['throw'] = function(msg, logTo){
 	ack.logError(this.$var, msg, logTo)
 	ack.throwBy(this.$var, msg)
 	return this
 }
 
-ackClass.prototype.dump = function(){
+ackExpose.prototype.dump = function(){
 	return JSON.stringify(this.$var)
 }
 
 /** negative numbers will be 0  */
-ackClass.prototype.getBit = function(){
+ackExpose.prototype.getBit = function(){
 	var b = this.getBoolean()
 	if(b && b.constructor==Number && b < 0){
 		b=0
@@ -179,7 +184,7 @@ ackClass.prototype.getBit = function(){
 }
 
 //!NON PROTOTYPED
-ackClass.prototype.nullsToEmptyString = function(){
+ackExpose.prototype.nullsToEmptyString = function(){
 	for(var key in this.$var){
 		if(this.$var[key]==null){
 			this.$var[key]='';
@@ -188,8 +193,8 @@ ackClass.prototype.nullsToEmptyString = function(){
 	return this
 }
 
-
-ackClass.prototype.getBoolean = function(){
+/** reduces variable to a true/false */
+ackExpose.prototype.getBoolean = function(){
   if(this.$var==null || !this.$var.constructor)return false
 
   var a = this.$var
@@ -217,7 +222,7 @@ ackClass.prototype.getBoolean = function(){
   return null
 }
 
-ackClass.prototype.isBooleanLike = function(){
+ackExpose.prototype.isBooleanLike = function(){
   if(this.$var==null || !this.$var.constructor)return false
   return this.getBoolean()!==null
 }
