@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1);
+	module.exports = __webpack_require__(1);
 
 /***/ },
 /* 1 */
@@ -52,9 +52,37 @@
 
 	"use strict";
 
-	var jc = __webpack_require__(2),//old old old library for Classes and Accessors
-			ackInjector = __webpack_require__(3),
-			partyModules = __webpack_require__(4).modules
+	var ack = __webpack_require__(2)
+
+	ack.error = __webpack_require__(10)
+	ack.number = __webpack_require__(11)
+	ack.string = __webpack_require__(12)
+	ack.binary = __webpack_require__(17)
+	ack.base64 = __webpack_require__(18)
+	ack.object = __webpack_require__(19)
+	ack.method = __webpack_require__(20)
+	ack.array = __webpack_require__(21)
+	ack.queryObject = __webpack_require__(22)
+	ack.week = __webpack_require__(23)
+	ack.month = __webpack_require__(24)
+	ack.year = __webpack_require__(26)
+	ack.date = __webpack_require__(25)
+	/*
+	ack.function = require('./js/method')
+	*/
+	ack['function'] = __webpack_require__(20);
+
+	module.exports = ack
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var jc = __webpack_require__(3),//old old old library for Classes and Accessors
+			ackInjector = __webpack_require__(4),
+			partyModules = {ackP:__webpack_require__(5), debug:__webpack_require__(6)}
 
 	/** calling ack() as function, will return a module to work with almost any object */
 	function ack($var){
@@ -64,21 +92,7 @@
 	ack.Expose = ackExpose//Outsider's referense to expose factory
 
 	/* MODULES */
-		//ack.modules = new ackInjector(ack)
-		ack.error = __webpack_require__(5)
-		ack.number = __webpack_require__(6)
-		ack.string = __webpack_require__(7)
-		ack.binary = __webpack_require__(12)
-		ack.base64 = __webpack_require__(13)
-		ack.object = __webpack_require__(14)
-		ack.method = __webpack_require__(15)
-		ack['function'] = __webpack_require__(15)
-		ack.array = __webpack_require__(16)
-		ack.queryObject = __webpack_require__(17)
-		ack.week = __webpack_require__(18)
-		ack.month = __webpack_require__(19)
-		ack.year = __webpack_require__(21)
-		ack.date = __webpack_require__(20)
+		ack.modules = new ackInjector(ack)
 
 		ack['class'] = function(cl, extendOrAccessors, accessors){
 			return new jc(cl, extendOrAccessors, accessors)
@@ -97,7 +111,7 @@
 			return promise.set.apply(promise,arguments)
 		}
 
-		var indexSelector = __webpack_require__(22)
+		var indexSelector = __webpack_require__(9)
 		ack.indexSelector = function(){
 			var $scope = {}
 			if(arguments.length){
@@ -283,7 +297,7 @@
 	module.exports = ack
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(__dirname) {"use strict";
@@ -702,7 +716,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -810,13 +824,1742 @@
 	module.exports = ackInjector
 
 /***/ },
-/* 4 */
-/***/ function(module, exports) {
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
 
-	this.modules=function(t){function e(n){if(r[n])return r[n].exports;var o=r[n]={exports:{},id:n,loaded:!1};return t[n].call(o.exports,o,o.exports,e),o.loaded=!0,o.exports}var r={};return e.m=t,e.c=r,e.p="",e(0)}([function(t,e,r){t.exports={ackP:r(1),debug:r(2)}},function(t,e,r){"use strict";function n(t){var e,r=[];for(e in t)r.push(e);return r}function o(t){function e(){return n.resolve.apply(n,arguments)}function r(){return n["throw"].apply(n,arguments)}var n=new a;return t(e,r)}function a(){return this._promise0=!0,this.data={waiting:0},this.processor()}function s(t){var e=[];for(var r in t)t[r]&&t[r].constructor&&t[r].constructor==Function&&e.push(r);return e.join(",")}var i=function(t,e){return t&&t.then&&t!=e};o.resolve=function(t,e,r,n){var o=new a;return o=o.set.apply(o,arguments)},o.start=function(){return new a},o.method=function(t){return function(){var e=new o.start;return e.set.apply(e,arguments).then(t)}},o.getErrorType=function(t){var e=t.name&&null!=t.name.toLowerCase,r=t.code&&null!=t.code.toLowerCase;return r&&"Error"==t.name?t.code:e?t.name:void 0},o.isErrorType=function(t,e){if(null==t)return!1;if(t.constructor&&e==t.constructor)return!0;var r=o.getErrorType(t);return!(!r||r.toLowerCase()!=e.toLowerCase())},o.callback4callback=function(t,e,r){return function(){var n=Array.prototype.slice.call(arguments),a=n.pop(),s=o.getNextCallback(a,e);t.length?n[t.length-1]=s:n.push(s),t.apply(r||this,n)}},o.createIf=function(t,e,r,n,o){o=null==o?!0:o;var a=e&&e.constructor&&e.constructor==Function;if(a)var s=function(t,r,n){r.call(n,e.apply(n,t))};else var s=function(t,r,n){var o=t[0]===e;r.call(n,o)};var i=function(){var t=Array.prototype.slice.call(arguments),e=t.pop();s(t,function(r){var a=o&&1==r||!o&&0==r;a?n.call(this,t,e):e.apply(e,t)},this)};return t.next(i,r)},o.getNextCallback=function(t,e){return function(){if(null!=arguments[0])return e["throw"].call(e,arguments[0]);var r=Array.prototype.slice.call(arguments);r.shift(),t.apply(t,r)}},a.prototype.processor=function(){if(this.values=Array.prototype.slice.call(arguments),this.data&&this.data.task){var t={args:Array.prototype.slice.call(arguments)},e=this.data.task,r=e.context||this.data.context||this.nextContext||this;this.data.waiting=1;var n=this;if(e.isAsync===!0){var o=0===e.method.length?-1:e.method.length-1,a=function(){var t=Array.prototype.slice.call(arguments),r=function(){if(n.inpass){if(--n.inpass.count,n.inpass.count>0)return;return n.inpass.lastProm.runNextPromise()}return n.runNextPromise()};arguments.length&&i(arguments[0],n)?n.runSubPromise(arguments[0],e,t).then(r):(e&&!e.isPass&&(n.values=t),r())};a["throw"]=function(){return n["throw"].apply(n,arguments)},o>=0?t.args[o]=a:t.args.push(a)}e.isPass===!0&&(e.isAsync===!0&&(this.inpass?++this.inpass.count:this.inpass={count:1}),this.inpass&&(this.inpass.lastProm=this));try{var s=e.method.apply(r,t.args)}catch(c){if(c.constructor==String){var u=c;c=new Error(c),c.name=u}!c.code&&c.message&&(c.code=c.message);try{c.method=e.method}catch(c){}return void this["throw"].call(this,c)}if(e.isPass===!0)return this.runNextPromise();if(e.isAsync!==!0){if(i(s,this))return this.runSubPromise(s,e).then(function(){n.runNextPromise()});if(this.data){if(null!=this.inpass&&(this.inpass.count=null,this.inpass.lastProm=null,this.inpass=null),s==this||null==s&&"undefined"==typeof s?this.values=null:this.values=[s],null!=this.data.getNextPromise)return this.runNextPromise();this.data.waiting=0,this.clearMem()}}}},a.prototype.runSubPromise=function(t,e){var r=this,n=function(){e&&!e.isPass&&(r.values=Array.prototype.slice.call(arguments))};return t=t.then(n)["catch"](function(t){r["throw"].call(r,t)})},a.prototype.runNextPromise=function(){return this._rejected?void 0:this.values&&this.values.length?this.runNextPromiseWithValueArray(this.values):this.runNextPromiseWithValueArray()},a.prototype.runNextPromiseWithValueArray=function(t){if(this.data){var e=this.data.getNextPromise?this.data.getNextPromise():null;if(!e)return void(this.data.waiting=0);if(!(this.inpass&&this.inpass.count&&e.data&&e.data.task)||e.data.task.isPass){e.data.waiting=-1,e.nextContext=e.nextContext||this.nextContext,e.data.context=e.data.context||this.nextContext,e.inpass=this.inpass,this.clearMem(),this.nextContext=null;var r=e.processor.apply(e,t);return r}}},a.prototype.runCatch=function(t,e){var r=e.call(this.nextContext||this,t);if(i(r)){var n=this;return r.then(function(){n.runNextPromiseWithValueArray(Array.prototype.slice.call(arguments))})}var o=[];null!==r&&o.push(r),this.values=o;var a=this.runNextPromiseWithValueArray(o);return this.clearMem(),a},a.prototype.getLastPromise=function(){return this.data&&this.data.getNextPromise?this.data.getNextPromise().getLastPromise():this},a.prototype["catch"]=function(t,e){var r=this.next(function(){var t=Array.prototype.slice.call(arguments),e=t.pop();e.apply(this,t)});if(r._rejected=null,this.catchers=this.catchers||{},e)switch(typeof t){case"string":var n=t.toLowerCase();this.catchers["catch"+n]=e,this._rejected&&!this._rejectedCaught&&o.isErrorType(this._rejected,n)&&(this._rejectedCaught=!0,this.runCatch(this._rejected,e));break;default:this.catchers.catch_type_array=this.catchers.catch_type_array||[],this.catchers.catch_type_array.push({method:e,type:t}),this._rejected&&!this._rejectedCaught&&o.isErrorType(this._rejected,t)&&(this._rejectedCaught=!0,this.runCatch(this._rejected,e))}else e=t,this.catchers.catchAll=t,this._rejected&&!this._rejectedCaught&&(this._rejectedCaught=!0,this.runCatch(this._rejected,e));return this._rejected&&!this._rejectedCaught&&(r._rejected=this._rejected,c&&(this.then=a.rejectedThen)),r},a.prototype.caught=a.prototype["catch"],a.prototype["if"]=function(t,e,r){return o.createIf(this,t,r,function(t,r){var n=e.apply(this,t);r.call(r,n)})},a.prototype.ifNot=function(t,e,r){var n=function(t,r){var n=e.apply(this,t);r.call(r,n)};return o.createIf(this,t,r,n,!1)},a.prototype.ifNext=function(t,e,r){var n=function(t,r){e.length?t[e.length-1]=r:t.push(r),e.apply(this,t)};return o.createIf(this,t,r,n)},a.prototype.ifCallback=function(t,e,r){return o.createIf(this,t,r,function(t,r){var n=o.getNextCallback(r,this);e.length?t[e.length-1]=n:t.push(n),e.apply(this,t)})},a.prototype.getNewData=function(){return{waiting:0}},a.prototype.paramData=function(){return this.data=this.data||this.getNewData(),this},a.prototype.setNextPromise=function(t){return this.data.getNextPromise=function(){return t},t.nextContext=this.nextContext,this._rejected&&(t._rejected=this._rejected,c&&(t.then=a.rejectedThen)),t},a.prototype.add=function(t){if(null==t.method){this["throw"].call(this,"promise task undefined");var e=new Error("promise task undefined");throw e.name="promise task undefined",e}if(this.paramData(),i(t.method)){var r=t.method;t.method=function(){return r};var n=o.start().add(t);return this.setNextPromise(n)}if(this.data.getNextPromise)return this.data.getNextPromise().add(t);if(this.data.task){var a=o.start();return this.setNextPromise(a),a.data.waiting=1,a.add(t),0==this.data.waiting&&this.runNextPromise(),a}return this.data.task=t,0===this.data.waiting&&this.processor.apply(this,this.values),this},a.prototype.pass=function(t,e){return this.add({method:t,context:e,isPass:!0,isAsync:!0})},a.prototype.call=function(t){var e=Array.prototype.slice.call(arguments);return e.shift(),this.then(function(){if(arguments.length&&arguments[0][t])return arguments[0][t].apply(arguments[0],e);var r='promise.call "'+t+'" is not a function.';arguments.length&&(r+=" Function list: "+s(arguments[0]));var n=new Error(r);throw n.name="not-a-function",n})},a.prototype.bindCall=function(t){var e=Array.prototype.slice.call(arguments);return e.shift(),this.then(function(){if(this[t])return this[t].apply(this,e);var r='promise.bindCall "'+t+'" is not a function.';r+=" Function list: "+s(this);var n=new Error(r);throw n.name="not-a-function",n})},a.prototype.bindResult=function(){return this.then(function(t){return this.bind(t),o.start().set(Array.prototype.slice.call(arguments)).spread()})},a.prototype.bind=function(t){if(t!=this&&i(t)){var e={};return this.then(function(){e.result=Array.prototype.slice.call(arguments)}).then(t).bindResult().set(e).get("result").spread()}return this.paramData(),this.data.task||(this.data.context=t),this.nextContext=t,this},a.prototype.singleGet=function(t){return!isNaN(t)&&0>t?this.then(function(e){return e&&e.constructor==Array?e[e.length+t]:e[t]}):this.then(function(e){return e[t]})},a.prototype.get=function(){for(var t=Array.prototype.slice.call(arguments),e=this,r=0;r<t.length;++r)e=e.singleGet(t[r]);return e},a.prototype.set=function(){var t=Array.prototype.slice.call(arguments);return this.next(function(e){e.apply(e,t)})},a.prototype["return"]=a.prototype.set,a.prototype.resolve=a.prototype.set,a.prototype.delay=function(t){return this.next(function(){var e=Array.prototype.slice.call(arguments),r=e.pop();setTimeout(function(){r.apply(r,e)},t)})},a.prototype.past=function(t,e){return this.add({method:t,context:e,isPass:!0,isAsync:!1})},a.prototype.tap=a.prototype.past,a.prototype.inspect=function(t,e){var r=function(){var r=Array.prototype.slice.call(arguments);r.unshift(this),t.apply(e||this,r)};return this.add({method:r,context:this,isPass:!0,isAsync:!1})},a.prototype.tap=a.prototype.past,a.prototype.next=function(t,e){return this.add({method:t,context:e,isAsync:!0})},a.prototype.then=function(t,e){return this.add({method:t,context:e,isAsync:!1})},a.prototype.method=a.prototype.then,a.rejectedThen=function(t,e){if(this._rejected&&t.toString()==c.toString())throw err;return this.add({method:t,context:e,isAsync:!1})},a.prototype.spread=function(t,e){return t?this.add({method:function(e){return t.apply(this,e)},context:e,isAsync:!1}):this.add({method:function(t,e){e.apply(e,t)},context:this,isAsync:!0})},a.prototype.spreadCallback=function(t,e){return this.callback(function(){var e=Array.prototype.slice.call(arguments),r=e[e.length-1];if(e.length){switch(e[0].constructor){case String:case Boolean:case Object:e=[e[0]];break;case Array:e=e[0];break;default:e=[]}e.push(r)}t.apply(this,e)},e)},a.prototype.callback=function(t,e){var r=function(){var r=e||this,n=o.start();n.set.apply(n,arguments).spread();var a=o.callback4callback(t,n,r);return n.next(function(){return a.apply(r,arguments)})};return this.add({method:r,scope:e,isAsync:!1})},a.prototype.clearMem=function(){return this.data=null,this},a.prototype.seekPromiseCatcher=function(t){return this.catchers&&null==t?this:this.data&&this.data.getNextPromise?this.data.getNextPromise().seekPromiseCatcher():void 0},a.prototype.throwPromiseCatcher=function(t,e){if(e.catchers.catch_type_array)for(var r=0;r<e.catchers.catch_type_array.length;++r)if(e.catchers.catch_type_array[r].type==t.constructor){this._rejectedCaught=!0;var n=e.catchers.catch_type_array[r].method;return e.runCatch(t,n),this}if(t&&t.name&&t.name.toLowerCase){var o=t.name.toLowerCase();if(e.catchers["catch"+o]){this._rejectedCaught=!0;var n=e.catchers["catch"+o];return e.runCatch(t,n),this}}if(t&&t.code&&t.code.toLowerCase){var o=t.code.toLowerCase();if(e.catchers["catch"+o]){this._rejectedCaught=!0;var n=e.catchers["catch"+o];return e.runCatch(t,n),this}}if(t&&t.message&&t.message.toLowerCase){var o=t.message.toLowerCase();if(e.catchers["catch"+o]){this._rejectedCaught=!0;var n=e.catchers["catch"+o];return e.runCatch(t,n),this}}if(e.catchers.catchAll){this._rejectedCaught=!0;var n=e.catchers.catchAll;return e.runCatch(t,n),this}var e=e.seekPromiseCatcher(!1);return e?this.throwPromiseCatcher(t,e):void 0},a.prototype["throw"]=function(t){if(t&&t.constructor==String){var e=t;t=new Error(t),t.name=e}this._rejected=t,this._rejectedCaught=!1,c&&(this.then=a.rejectedThen);var r=this.seekPromiseCatcher();if(r)return this.throwPromiseCatcher(t,r);if(this.data&&this.data.getNextPromise){var n=this.data.getNextPromise();return n["throw"].call(n,t)}},a.prototype.all=function(){var t=Array.prototype.slice.call(arguments);return t.push(function(){if(arguments.length){var t=Array.prototype.slice.call(arguments);return t}}),this.join.apply(this,t)},a.prototype.join=function(){var t,e=this,r=[],n=0,a=Array.prototype.slice.call(arguments),s=a.length&&a[0]&&a[0].constructor==Array,c=s?arguments[0]:a;if(a[a.length-1]&&a[a.length-1].constructor==Function)var u=a.pop(),h=function(){var n=o.start().set(r).spread(u,e);n.then(function(){t.apply(t,Array.prototype.slice.call(arguments))})};else var h=function(){t.apply(t,[r])};var l=function(){if(t=Array.prototype.slice.call(arguments).pop(),!c.length)return h();var e=function(t,e){r[t]=e,++n,n==c.length&&h()},o=function(e){t["throw"](e)};c.forEach(function(t,r){i(t)?t.then(function(t){e(r,t)})["catch"](o):e(r,t)})};return e.next(l)},a.prototype.map=function(){var t=Array.prototype.slice.call(arguments);if("object"==typeof t[t.length-1])var e=t.pop();else var e={concurrency:0};var r=null==e.concurrency||isNaN(e.concurrency)?0:e.concurrency,a=t.pop(),s=[],i=function(t,e,r){return o.start().then(function(){var n=a.call(this,t,e,r);return n&&n.then?n.then(function(t){s[e]=t}):void(s[e]=n)},this)},c=function(t,e){if(!t)return e(null);var o,a=0,c=0;if(t.constructor===Array){var u=t.length;u||e(null,[]);var h=function(n,o,h){if(o!=u){var l=i.call(h,t[o],o,u).then(function(){++c,c==u&&e(null,s)})["catch"](e);if(r>0){var p=(o+1)%r;return 0==p?l.then(function(){n(n,o+1,h)}):(++a,n(n,o+1,h).then(function(){--a,0==a&&n(n,o+1,h)}))}return l.then(function(){n(n,o+1,h)})}};return void h(h,0,this)}var u=n(t).length;u||e(null,{});for(var l in t)o=t[l],i.call(this,o,l,u).then(function(){++c,c==u&&e(null,s)})["catch"](e)};return t[0]&&t[0].constructor!==Function?this.callback(function(e){c.call(this,t[0],e)}):this.callback(function(t,e){c.call(this,t,e)})},a.prototype.each=function(t){return this.then(function(e){for(var r=o.start(),n=0;n<e.length;++n)r=r.set(e[n],n,e).then(t);return r.set.apply(r,arguments)})},a.prototype._then=function(t,e,r,n,o){return this.add({method:function(){t.apply(n,arguments)},isAsync:!1})["catch"](function(){e.apply(n,arguments)})},t.exports=o;var c,u=Object.prototype.toString,h=(Function.prototype.toString,RegExp("^"+String(u).replace(/[.*+?^${}()|[\]\/\\]/g,"\\$&").replace(/toString|(function).*?(?=\\\()| for .+?(?=\\\])/g,"$1.*?")+"$"),"undefined"!=typeof Promise&&Promise&&Promise.resolve);h&&Promise.resolve().then(function(){var t={};return t.then=function(t){c=t},t}).then(function(){})},function(t,e,r){function n(){return"WebkitAppearance"in document.documentElement.style||window.console&&(console.firebug||console.exception&&console.table)||navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/)&&parseInt(RegExp.$1,10)>=31}function o(){var t=arguments,r=this.useColors;if(t[0]=(r?"%c":"")+this.namespace+(r?" %c":" ")+t[0]+(r?"%c ":" ")+"+"+e.humanize(this.diff),!r)return t;var n="color: "+this.color;t=[t[0],n,"color: inherit"].concat(Array.prototype.slice.call(t,1));var o=0,a=0;return t[0].replace(/%[a-z%]/g,function(t){"%%"!==t&&(o++,"%c"===t&&(a=o))}),t.splice(a,0,n),t}function a(){return"object"==typeof console&&console.log&&Function.prototype.apply.call(console.log,console,arguments)}function s(t){try{null==t?e.storage.removeItem("debug"):e.storage.debug=t}catch(r){}}function i(){var t;try{t=e.storage.debug}catch(r){}return t}function c(){try{return window.localStorage}catch(t){}}e=t.exports=r(3),e.log=a,e.formatArgs=o,e.save=s,e.load=i,e.useColors=n,e.storage="undefined"!=typeof chrome&&"undefined"!=typeof chrome.storage?chrome.storage.local:c(),e.colors=["lightseagreen","forestgreen","goldenrod","dodgerblue","darkorchid","crimson"],e.formatters.j=function(t){return JSON.stringify(t)},e.enable(i())},function(t,e,r){function n(){return e.colors[h++%e.colors.length]}function o(t){function r(){}function o(){var t=o,r=+new Date,a=r-(u||r);t.diff=a,t.prev=u,t.curr=r,u=r,null==t.useColors&&(t.useColors=e.useColors()),null==t.color&&t.useColors&&(t.color=n());var s=Array.prototype.slice.call(arguments);s[0]=e.coerce(s[0]),"string"!=typeof s[0]&&(s=["%o"].concat(s));var i=0;s[0]=s[0].replace(/%([a-z%])/g,function(r,n){if("%%"===r)return r;i++;var o=e.formatters[n];if("function"==typeof o){var a=s[i];r=o.call(t,a),s.splice(i,1),i--}return r}),"function"==typeof e.formatArgs&&(s=e.formatArgs.apply(t,s));var c=o.log||e.log||console.log.bind(console);c.apply(t,s)}r.enabled=!1,o.enabled=!0;var a=e.enabled(t)?o:r;return a.namespace=t,a}function a(t){e.save(t);for(var r=(t||"").split(/[\s,]+/),n=r.length,o=0;n>o;o++)r[o]&&(t=r[o].replace(/\*/g,".*?"),"-"===t[0]?e.skips.push(new RegExp("^"+t.substr(1)+"$")):e.names.push(new RegExp("^"+t+"$")))}function s(){e.enable("")}function i(t){var r,n;for(r=0,n=e.skips.length;n>r;r++)if(e.skips[r].test(t))return!1;for(r=0,n=e.names.length;n>r;r++)if(e.names[r].test(t))return!0;return!1}function c(t){return t instanceof Error?t.stack||t.message:t}e=t.exports=o,e.coerce=c,e.disable=s,e.enable=a,e.enabled=i,e.humanize=r(4),e.names=[],e.skips=[],e.formatters={};var u,h=0},function(t,e){function r(t){if(t=""+t,!(t.length>1e4)){var e=/^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(t);if(e){var r=parseFloat(e[1]),n=(e[2]||"ms").toLowerCase();switch(n){case"years":case"year":case"yrs":case"yr":case"y":return r*h;case"days":case"day":case"d":return r*u;case"hours":case"hour":case"hrs":case"hr":case"h":return r*c;case"minutes":case"minute":case"mins":case"min":case"m":return r*i;case"seconds":case"second":case"secs":case"sec":case"s":return r*s;case"milliseconds":case"millisecond":case"msecs":case"msec":case"ms":return r}}}}function n(t){return t>=u?Math.round(t/u)+"d":t>=c?Math.round(t/c)+"h":t>=i?Math.round(t/i)+"m":t>=s?Math.round(t/s)+"s":t+"ms"}function o(t){return a(t,u,"day")||a(t,c,"hour")||a(t,i,"minute")||a(t,s,"second")||t+" ms"}function a(t,e,r){return e>t?void 0:1.5*e>t?Math.floor(t/e)+" "+r:Math.ceil(t/e)+" "+r+"s"}var s=1e3,i=60*s,c=60*i,u=24*c,h=365.25*u;t.exports=function(t,e){return e=e||{},"string"==typeof t?r(t):e["long"]?o(t):n(t)}}]);
+	"use strict";
+	var isPromiseLike = function isPromiseLike(potentialPromise, notThisPromise){
+	  return potentialPromise && potentialPromise.then && potentialPromise!=notThisPromise
+	}
+
+	function objectKeys(ob){
+	  var x,array = []
+	  for(x in ob)array.push(x)
+	  return array
+	}
+
+	/** function(resolve,reject){} */
+	function ackPromise(resolver){
+	  var promise = new ackP()
+	  function resolve(){
+	    return promise.resolve.apply(promise,arguments)
+	  }
+	  function reject(){
+	    return promise.throw.apply(promise,arguments)
+	  }
+	  return resolver(resolve,reject)
+	}
+
+	/** all arguments are used to jump start a thenable promise */
+	ackPromise.resolve = function(v0,v1,v2,v3){
+	  var promise = new ackP()
+	  promise = promise.set.apply(promise,arguments)
+	  return promise
+	}
+
+	ackPromise.start = function(){
+	  return new ackP()
+	}
+
+
+	ackPromise.method = function(method){
+	  return function(){
+	    var Promise = new ackPromise.start()
+	    return Promise.set.apply(Promise, arguments).then(method)
+	  }
+	}
+
+	ackPromise.getErrorType = function(error){
+	  var isNamed = error.name && error.name.toLowerCase!=null
+	  var isCode = error.code && error.code.toLowerCase!=null
+
+	  if(isCode && error.name=='Error'){
+	    return error.code
+	  }
+
+	  if(isNamed){
+	    return error.name
+	  }
+	}
+
+	ackPromise.isErrorType = function(error, type){
+	  if(error==null)return false
+
+	  if(error.constructor && type == error.constructor)
+	    return true
+
+	  var eName = ackPromise.getErrorType(error)
+	  if(eName && eName.toLowerCase()==type.toLowerCase()){
+	    return true
+	  }
+
+	  return false
+	}
+
+	ackPromise.callback4callback = function(method, promise, bind){
+	  return function(){
+	    var args = Array.prototype.slice.call(arguments)
+	    var next = args.pop()
+	    var processor = ackPromise.getNextCallback(next, promise)
+
+	    if(method.length){
+	      args[method.length-1] = processor
+	    }else{
+	      args.push(processor)
+	    }
+
+	    method.apply(bind||this,args)
+	  }
+	}
+
+	ackPromise.createIf = function(promise, condition, $scope, onTrue, isTruthMode){
+	  isTruthMode = isTruthMode==null ? true : isTruthMode
+	  var isMethod = condition && condition.constructor && condition.constructor==Function
+
+	  if(isMethod){
+	    var processCondition = function(args, next, scope){
+	      next.call(scope, condition.apply(scope,args))
+	    }
+	  }else{
+	    var processCondition = function(args, next, scope){
+	      var result = args[0]===condition
+	      next.call(scope, result)
+	    }
+	  }
+
+	  var ifMethod = function(){
+	    var args = Array.prototype.slice.call(arguments)
+	    var next = args.pop()//last argument will be next method to call
+
+	    processCondition(args, function(result){
+	      var isVal = (isTruthMode && result==true) || (!isTruthMode && result==false)
+	      if(isVal){
+	        onTrue.call(this, args, next)//onTrue.call(this, args, next)
+	      }else{
+	        next.apply(next, args)//pass along args cause i didn't run
+	      }
+	    }, this)
+	  }
+
+	  return promise.next(ifMethod, $scope)
+	}
+
+	ackPromise.getNextCallback = function(next, promise){
+	  return function(){
+	    if(arguments[0]!=null){//1st arg is error!
+	      return promise['throw'].call(promise, arguments[0])
+	    }
+	    var args = Array.prototype.slice.call(arguments)
+	    args.shift()//remove error
+	    next.apply(next, args)
+	  }
+	}
+
+
+
+
+
+
+
+
+
+
+	function ackP(){
+	  this._promise0 = true//bluebird compatibility
+	  this.data = {waiting:0}
+	  return this.processor()//fire
+	}
+
+
+	ackP.prototype.processor = function(){
+	  this.values = Array.prototype.slice.call(arguments)
+	  if(!this.data || !this.data.task){
+	    return// this
+	  }
+
+	  var $scope={
+	    args:Array.prototype.slice.call(arguments)//args that can be manipulated
+	  }
+
+	  var thisTask = this.data.task
+	  var context = thisTask.context || this.data.context || this.nextContext || this//never use outside arguments.context as context can be changed by bind()
+	  this.data.waiting=1//indicate in-process
+
+	  /* async callback method */
+	    var $this = this
+	    if(thisTask.isAsync===true){//if callback required, how is it defined. Pipe=last-arg-as-callback
+	      var nPos = thisTask.method.length===0 ? -1 : thisTask.method.length-1
+
+	      var oneTimeCall = false
+	      var oneTimeMethod = function(){
+	        var args = Array.prototype.slice.call(arguments)
+	        var then = function(){
+	          if($this.inpass){
+	            --$this.inpass.count
+
+	            if($this.inpass.count>0){
+	              return// $this
+	            }
+	            return $this.inpass.lastProm.runNextPromise()
+	          }
+	          return $this.runNextPromise()
+	        }
+
+	        if(arguments.length && isPromiseLike(arguments[0], $this)){//result is promise
+	          $this.runSubPromise(arguments[0], thisTask, args).then(then)
+	        }else{
+	          if(thisTask && !thisTask.isPass){
+	            $this.values = args
+	          }
+	          then()
+	        }
+
+	      }
+
+	      oneTimeMethod['throw'] = function(){
+	        return $this['throw'].apply($this, arguments)
+	      }
+
+	      if(nPos>=0)
+	        $scope.args[nPos] = oneTimeMethod//last argument will be next call
+	      else
+	        $scope.args.push(oneTimeMethod)//last argument will be next call
+	    }
+	  /* end: async callback method */
+
+	  if(thisTask.isPass===true){
+	    if(thisTask.isAsync===true){
+	      if(!this.inpass){
+	        this.inpass={count:1}
+	      }else{
+	        ++this.inpass.count
+	      }
+	    }
+
+	    if(this.inpass)this.inpass.lastProm = this
+	  }
+
+	  try{
+	    var result = thisTask.method.apply(context, $scope.args)//args from last next call are directly fed in
+	  }catch(e){
+	    if(e.constructor==String){
+	      var eName = e
+	      e = new Error(e)
+	      e.name = eName
+	    }
+
+	    if(!e.code && e.message){
+	      e.code = e.message
+	    }
+
+	    //try to indicate which method has failed
+	    try{
+	      e.method = thisTask.method//maybe read-only and so may error
+	    }catch(e){}
+
+	    this['throw'].call(this, e)
+	    return// this
+	  }
+
+	  if(thisTask.isPass===true){
+	    return this.runNextPromise()
+	  }
+
+	  if(thisTask.isAsync===true)return;
+
+	  if(isPromiseLike(result, this)){//result is promise
+	    return this.runSubPromise(result, thisTask)
+	    .then(function(){
+	      $this.runNextPromise()
+	    })
+	  }
+
+	  if(!this.data){
+	    return// this
+	  }
+
+	  if(this.inpass!=null){//pass over
+	    this.inpass.count = null
+	    this.inpass.lastProm = null
+	    this.inpass = null
+	  }
+
+	  if(result==this || result==null && typeof(result)==='undefined'){
+	    this.values = null//if we are not passing previous result, then lets set
+	  }else{
+	    this.values = [result]//if we are not passing previous result, then lets set
+	  }
+
+	  if(this.data.getNextPromise!=null){//we need to trigger our next task
+	    return this.runNextPromise()
+	  }
+
+	  this.data.waiting=0//no longer waiting for another task. This is key for a then being added to a fully exectured chain
+
+	  this.clearMem()
+
+	  return// this
+	}
+
+	ackP.prototype.runSubPromise = function(result, thisTask){
+	  var $this = this,
+	      closingTask = function(){
+	        if(thisTask && !thisTask.isPass){
+	          $this.values = Array.prototype.slice.call(arguments)
+	        }
+	      }
+
+	  result = result.then(closingTask)
+	  ['catch'](function(e){
+	    //e = e.cause || e//bluebird may have wrapped the true error
+	    $this['throw'].call($this, e)//result promise catcher
+	  })
+
+	  return result
+	}
+
+	ackP.prototype.runNextPromise = function(){
+	  if(this._rejected){
+	    return
+	  }
+	  if(this.values && this.values.length){
+	    return this.runNextPromiseWithValueArray(this.values)
+	  }
+	  return this.runNextPromiseWithValueArray()
+	  //this.values = null//intended to clear memory
+	}
+
+	ackP.prototype.runNextPromiseWithValueArray = function(valueArray){
+	  if(!this.data){
+	    return// this
+	  }
+	  var np = this.data.getNextPromise ? this.data.getNextPromise() : null
+	  if(!np){
+	    this.data.waiting = 0;return// this
+	  }
+
+	  if(
+	      this.inpass && this.inpass.count
+	  &&  np.data && np.data.task && !np.data.task.isPass
+	  ){
+	    return// np
+	  }
+	  //np.paramData()
+	  //var shares
+	  np.data.waiting = -1
+	  np.nextContext = np.nextContext || this.nextContext// || this.data.context
+	  np.data.context = np.data.context || this.nextContext// || this.data.context
+	  np.inpass = this.inpass
+	  this.clearMem()
+	  this.nextContext = null//clear mem
+
+	  var r = np.processor.apply(np, valueArray)
+	  return r
+
+	}
+
+	ackP.prototype.runCatch = function(err, catcher){
+	  var caught = catcher.call(this.nextContext || this, err)
+	  if(isPromiseLike(caught)){
+	    var $this = this
+	    return caught.then(function(){
+	      $this.runNextPromiseWithValueArray( Array.prototype.slice.call(arguments) )
+	    })
+	  }
+
+	  var argArray=[]
+	  if(caught!==null){
+	    argArray.push(caught)
+	  }
+	  this.values = argArray
+	  var r = this.runNextPromiseWithValueArray(argArray)
+	  this.clearMem()
+	  return r
+	}
+
+	ackP.prototype.getLastPromise = function(){
+	  if(!this.data || !this.data.getNextPromise){
+	    return this
+	  }
+	  return this.data.getNextPromise().getLastPromise()
+	}
+
+	ackP.prototype['catch'] = function(typeOrMethod, method){
+	  var newProm = this.next(function(){
+	    var args = Array.prototype.slice.call(arguments)
+	    var next = args.pop()
+	    next.apply(this, args)
+	  })
+
+	  newProm._rejected = null
+
+	  this.catchers = this.catchers || {}
+	  if(method){
+	    switch(typeof(typeOrMethod)){
+	      case 'string':
+	        var type = typeOrMethod.toLowerCase()
+	        this.catchers['catch'+type] = method;
+	        if(this._rejected && !this._rejectedCaught && ackPromise.isErrorType(this._rejected, type)){//error already happend
+	          this._rejectedCaught = true
+	          this.runCatch(this._rejected, method)//method.call(this, this._rejected)
+	        }
+	        break;
+	      //case 'function':break;
+	      default:{
+	        this.catchers.catch_type_array = this.catchers.catch_type_array || []
+	        this.catchers.catch_type_array.push({method:method, type:typeOrMethod})
+	        if(this._rejected && !this._rejectedCaught && ackPromise.isErrorType(this._rejected, typeOrMethod)){
+	          this._rejectedCaught = true
+	          this.runCatch(this._rejected, method)//method.call(this, this._rejected)
+	        }
+	      }
+	    }
+	  }else{
+	    method = typeOrMethod
+	    this.catchers.catchAll = typeOrMethod
+	    if(this._rejected && !this._rejectedCaught){
+	      this._rejectedCaught = true
+	      this.runCatch(this._rejected, method)//method.call(this, this._rejected)
+	    }
+	  }
+
+	  if(this._rejected && !this._rejectedCaught){
+	    newProm._rejected = this._rejected
+	    if(nativePromiseThen)this.then = ackP.rejectedThen
+	  }
+
+	  return newProm
+	}
+	/** alias for compatibility with earlier ECMAScript version */
+	ackP.prototype.caught = ackP.prototype['catch']
+
+	/**
+	  @condition - if condition is not a method, then value must strictly match condition. If condition is method, condition only must return truthy
+	*/
+	ackP.prototype['if'] = function(condition,method,scope){
+	  return ackPromise.createIf(this, condition, scope, function(args, next){
+	    var mr = method.apply(this, args)
+	    next.call(next, mr)
+	  })
+	}
+
+	ackP.prototype.ifNot = function(condition,method,scope){
+	  var processor = function(args, next){
+	    var mr = method.apply(this, args)
+	    next.call(next, mr)
+	  }
+	  return ackPromise.createIf(this, condition, scope, processor, false)
+	}
+
+	ackP.prototype.ifNext = function(condition,method,scope){
+	  var processor = function(args,next){
+	    if(method.length){
+	      args[method.length-1] = next
+	    }else{
+	      args.push(next)
+	    }
+
+	    method.apply(this,args)
+	  }
+	  return ackPromise.createIf(this, condition, scope, processor)
+	}
+
+	ackP.prototype.ifCallback = function(condition,method,scope){
+	  return ackPromise.createIf(this, condition, scope, function(args,next){
+	    var cb = ackPromise.getNextCallback(next, this)
+
+	    if(method.length)
+	      args[method.length-1] = cb
+	    else
+	      args.push(cb)
+
+	    method.apply(this,args)
+	  })
+	}
+
+	ackP.prototype.getNewData = function(){
+	  return {waiting:0}
+	}
+
+	ackP.prototype.paramData = function(){
+	  this.data = this.data || this.getNewData();return this
+	}
+
+	ackP.prototype.setNextPromise = function(np){
+	    this.data.getNextPromise = function(){
+	      return np
+	    }
+	    np.nextContext = this.nextContext
+	    if(this._rejected){
+	      np._rejected = this._rejected
+	      if(nativePromiseThen)np.then = ackP.rejectedThen
+	    }
+
+	    return np
+	}
+
+	ackP.prototype.add = function(options){
+	  if(options.method==null){
+	    this['throw'].call(this,'promise task undefined')
+	    var e = new Error('promise task undefined')
+	    e.name = 'promise task undefined'
+	    throw e
+	  }
+
+	  this.paramData()
+	//???
+	  if( isPromiseLike(options.method) ){
+	  var nextp = options.method
+	  options.method = function(){
+	    return nextp
+	  }
+	    var newp = ackPromise.start().add(options)//.bind(this.data.context)
+	    return this.setNextPromise( newp )//options.method
+	  }
+
+	  if(this.data.getNextPromise){
+	    return this.data.getNextPromise().add(options)
+	  }else if(this.data.task){
+	    var np = ackPromise.start()//.paramData()
+	    this.setNextPromise(np)
+	    np.data.waiting = 1
+	    np.add(options)
+
+	    if(this.data.waiting==0){
+	      this.runNextPromise()
+	    }
+
+	    return np
+	  }
+
+	  this.data.task = options//first added task
+	  //this.data.context = this.nextContext
+
+	  if(this.data.waiting===0){//?already done process, put back into process
+	    this.processor.apply(this, this.values)
+	  }
+
+	  return this
+	}
+
+	//async-method whose input is passed exactly as output AFTER the last-method(callback) is called
+	ackP.prototype.pass = function(method,scope){
+	  //this.checkPassMode()
+	  return this.add({method:method, context:scope, isPass:true, isAsync:true})
+	}
+
+	function getMethodNameList(ob){
+	  var array = []
+	  for(var x in ob){
+	    if(ob[x] && ob[x].constructor && ob[x].constructor == Function){
+	      array.push(x)
+	    }
+	  }
+	  return array.join(',')
+	}
+
+	/** (name, args0, arg1, arg2) */
+	ackP.prototype.call = function(name){
+	  var args = Array.prototype.slice.call(arguments)
+	  args.shift()//remove name argument
+	  return this.then(function(){
+	    if(arguments.length && arguments[0][name]){
+	      return arguments[0][name].apply(arguments[0], args)
+	    }
+	    var msg = 'promise.call "'+name+'" is not a function.'
+	    if(arguments.length){
+	      msg += ' Function list: '+getMethodNameList(arguments[0])
+	    }
+	    var e = new Error(msg)
+	    e.name='not-a-function'
+	    throw e
+	  })
+	}
+
+	/** (name, args0, arg1, arg2) */
+	ackP.prototype.bindCall = function(name){
+	  var args = Array.prototype.slice.call(arguments)
+	  args.shift()//remove name argument
+	  return this.then(function(){
+	    if(this[name]){
+	      return this[name].apply(this, args)
+	    }
+	    var msg = 'promise.bindCall "'+name+'" is not a function.'
+	    msg += ' Function list: '+getMethodNameList(this)
+	    var e = new Error(msg)
+	    e.name='not-a-function'
+	    throw e
+	  })
+	}
+
+	/** promise result will become "this" context */
+	ackP.prototype.bindResult = function(){
+	  return this.then(function(v){
+	    this.bind(v)
+	    return ackPromise.start().set( Array.prototype.slice.call(arguments) ).spread()
+	  })
+	}
+
+	ackP.prototype.bind = function($this){
+	  if( $this!=this && isPromiseLike($this) ){
+	    var passon = {}
+	    return this.then(function(){
+	      passon.result = Array.prototype.slice.call(arguments)
+	    })
+	    .then($this)
+	    .bindResult()
+	    .set(passon).get('result').spread()
+	  }
+
+	  this.paramData()
+	  if(!this.data.task){
+	    this.data.context = $this
+	  }
+	  this.nextContext = $this
+	  return this
+	}
+
+	ackP.prototype.singleGet = function(name){
+	  if(!isNaN(name) && name < 0){//negative number array index? array[-1] = array[array.length-1]
+	    return this.then(function(v){
+	      if(v && v.constructor==Array){
+	        return v[ v.length + name ]
+	      }
+	      return v[name]
+	    })
+	  }
+
+	  return this.then(function(v){
+	    return v[name]
+	  })
+	}
+
+	ackP.prototype.get = function(){
+	  var args = Array.prototype.slice.call(arguments)
+	  var promise = this
+	  for(var aIndex=0; aIndex < args.length; ++aIndex){
+	    promise = promise.singleGet(args[aIndex])
+	  }
+	  return promise
+	}
+
+	ackP.prototype.set = function(){
+	  var args = Array.prototype.slice.call(arguments)
+	  return this.next(function(next){
+	    next.apply(next, args)
+	  })
+	}
+	ackP.prototype.return = ackP.prototype.set//respect the bluebird alias
+	ackP.prototype.resolve = ackP.prototype.set//alias for other promise libaries
+
+	ackP.prototype.delay = function(t){
+	  return this.next(function(){
+	    var args = Array.prototype.slice.call(arguments),
+	      next = args.pop()
+	    setTimeout(function(){
+	      next.apply(next, args)
+	    }, t)
+	  })
+	}
+
+	//sync-method whose input is passed exactly as output to the next method in chain
+	ackP.prototype.past = function(method,scope){
+	  return this.add({method:method, context:scope, isPass:true, isAsync:false})
+	}
+	ackP.prototype.tap = ackP.prototype.past//respect the bluebird
+
+	/** when this thenable is run, the first argument is this promise in it's current state */
+	ackP.prototype.inspect = function(method,scope){
+	  var inspect = function(){
+	    var args = Array.prototype.slice.call(arguments)
+	    args.unshift(this)
+	    method.apply(scope||this, args)
+	  }
+
+	  return this.add({method:inspect, context:this, isPass:true, isAsync:false})
+	}
+	ackP.prototype.tap = ackP.prototype.past//respect the bluebird
+
+	//async-method
+	ackP.prototype.next = function(method,scope){
+	  return this.add({method:method, context:scope, isAsync:true})
+	}
+
+	ackP.prototype.then = function(method,scope){
+
+	  return this.add({method:method, context:scope, isAsync:false})
+	}
+	ackP.prototype.method = ackP.prototype.then//respect the blue bird
+
+	/** this function will be made into ackP.prototype.then WHEN a promise error occurs. It makes catching errors flow properly between ecma6 promises and ackP */
+	ackP.rejectedThen = function(method,scope){
+	  /* !extremely important! - This connects ackP promises with native promises */
+	  if(this._rejected && method.toString()==nativePromiseThen.toString() ){
+	    throw err//This will reject to the native promise. I have already been rejected and a native promise is trying to chain onto me
+	  }
+
+	  return this.add({method:method, context:scope, isAsync:false})
+	}
+
+	ackP.prototype.spread = function(method,scope){
+	  if(!method){
+	    return this.add({method:function(a,next){next.apply(next,a)}, context:this, isAsync:true})
+	  }else{
+	    return this.add({method:function(a){
+	      return method.apply(this, a)}, context:scope, isAsync:false
+	    })
+	  }
+	}
+
+	ackP.prototype.spreadCallback = function(method,scope){
+	  return this.callback(function(){
+	    var args = Array.prototype.slice.call(arguments)
+	    var callback = args[args.length-1]
+	    if(args.length){
+	      switch(args[0].constructor){
+	        case String: case Boolean: case Object:
+	          args = [args[0]]
+	          break;
+	        case Array:
+	          args = args[0]
+	          break;
+
+	        default:args=[]
+	      }
+
+	      args.push(callback)
+	    }
+	    method.apply(this, args)
+	  }, scope)
+	}
+
+	//async-method aka promisify
+	ackP.prototype.callback = function(method,scope){
+	  var fireMethod = function(){
+	    var bind = scope||this
+	    var prom = ackPromise.start()
+	    prom.set.apply(prom,arguments).spread()
+	    var myMethod = ackPromise.callback4callback(method, prom, bind)
+	    return prom
+	    .next(function(){
+	      return myMethod.apply(bind, arguments)
+	    })
+	    return prom
+	  }
+	  return this.add({method:fireMethod, scope:scope, isAsync:false})
+	}
+
+	ackP.prototype.clearMem = function(){
+	  this.data = null;
+	  return this
+	}
+
+	ackP.prototype.seekPromiseCatcher = function(allowSelf){
+	  if(this.catchers && allowSelf==null){
+	    return this
+	  }
+
+	  if(this.data && this.data.getNextPromise){
+	    return this.data.getNextPromise().seekPromiseCatcher()
+	  }
+	}
+
+	ackP.prototype.throwPromiseCatcher = function(e, promiseCatcher){
+	  if(promiseCatcher.catchers.catch_type_array){
+	    for(var i=0; i < promiseCatcher.catchers.catch_type_array.length; ++i){
+	      if(promiseCatcher.catchers.catch_type_array[i].type == e.constructor){
+	        this._rejectedCaught = true
+	        //var r = promiseCatcher.catchers.catch_type_array[i].method.call(this,e)
+	        var catcher = promiseCatcher.catchers.catch_type_array[i].method
+	        promiseCatcher.runCatch(e, catcher)
+	        return this
+	      }
+	    }
+	  }
+
+	  /* error string type catchers */
+	    if(e && e.name && e.name.toLowerCase){
+	      var eName = e.name.toLowerCase()
+	      if(promiseCatcher.catchers['catch'+eName]){
+	        this._rejectedCaught = true
+	        //var r = promiseCatcher.catchers['catch'+eName].call(this,e)
+	        var catcher = promiseCatcher.catchers['catch'+eName]
+	        promiseCatcher.runCatch(e, catcher)
+	        return this//r
+	      }
+	    }
+
+	    if(e && e.code && e.code.toLowerCase){
+	      var eName = e.code.toLowerCase()
+	      if(promiseCatcher.catchers['catch'+eName]){
+	        this._rejectedCaught = true
+	        //var r = promiseCatcher.catchers['catch'+eName].call(this,e)
+	        var catcher = promiseCatcher.catchers['catch'+eName]
+	        promiseCatcher.runCatch(e, catcher)
+	        return this//r
+	      }
+	    }
+
+	    if(e && e.message && e.message.toLowerCase){
+	      var eName = e.message.toLowerCase()
+	      if(promiseCatcher.catchers['catch'+eName]){
+	        this._rejectedCaught = true
+	        //var r = promiseCatcher.catchers['catch'+eName].call(this,e)
+	        var catcher = promiseCatcher.catchers['catch'+eName]
+	        promiseCatcher.runCatch(e, catcher)
+	        return this//r
+	      }
+	    }
+	  /* end: error string type catchers */
+
+	  if(promiseCatcher.catchers.catchAll){
+	    this._rejectedCaught = true
+	    //var r = promiseCatcher.catchers.catchAll.call(this,e)
+	    var catcher = promiseCatcher.catchers.catchAll
+	    promiseCatcher.runCatch(e, catcher)
+	    return this//r
+	  }
+
+	  var promiseCatcher = promiseCatcher.seekPromiseCatcher(false)//the current promise catcher we have didn't work out
+	  if(promiseCatcher){
+	    return this.throwPromiseCatcher(e, promiseCatcher)
+	  }
+	}
+
+	ackP.prototype['throw'] = function(err){
+	  if(err && err.constructor==String){
+	    var s = err
+	    err = new Error(err)
+	    err.name = s
+	  }
+
+	  this._rejected = err
+	  this._rejectedCaught = false
+	  if(nativePromiseThen)this.then = ackP.rejectedThen
+
+	  var $this = this
+	  var promiseCatcher = this.seekPromiseCatcher()
+
+	  if(promiseCatcher){
+	    return this.throwPromiseCatcher(err, promiseCatcher)
+	  }
+
+	  if(this.data && this.data.getNextPromise){
+	    var np = this.data.getNextPromise()
+	    return np['throw'].call(np, err)//cascade error reporting
+	  }
+
+	  //throw err
+	  //return err
+	}
+
+	ackP.prototype.all = function(){
+	  var args = Array.prototype.slice.call(arguments);
+	  //create handler function
+	  args.push(function(){
+	    if(arguments.length){
+	      var args = Array.prototype.slice.call(arguments)
+	      return args
+	    }
+	  })
+	  return this.join.apply(this, args)
+	}
+
+	//expected every argument but last is a running promise. Last argument is callback. Example: join(firePromiseA(),firePromiseB(),function(A,B){return 22}).then(function(r22){})
+	//if only one argument, then it is a single promise whos result will be passed along
+	ackP.prototype.join = function(/* promiseArrayOrPromise, promiseArrayOrPromise, joinMethod */){
+	  var joinPromise, next, $this = this
+
+	  var resultArray = []
+	      ,count = 0
+	      ,argSlice = Array.prototype.slice.call(arguments)//mutatable arguments
+	      ,isArg0Array = argSlice.length && argSlice[0] && argSlice[0].constructor==Array
+	      ,promiseArray = isArg0Array ? arguments[0] : argSlice
+
+	  if(argSlice[argSlice.length-1] && argSlice[argSlice.length-1].constructor == Function){
+	    var controller = argSlice.pop()//last arg is controller
+	    //function that is called when this function counts all promises completed
+	    var done = function(){
+	      var controlResult = ackPromise.start().set(resultArray).spread(controller, $this)
+	      controlResult.then(function(){
+	        next.apply(next, Array.prototype.slice.call(arguments))
+	        //$this.values = Array.prototype.slice.call(arguments)
+	        //$this.runNextPromise()
+	      })
+	    }
+	  }else{
+	    var done = function(){
+	      next.apply(next, [resultArray])
+	    }
+	  }
+
+	  var nextMethod = function(){//we will call $this instead of a next method
+	    next = Array.prototype.slice.call(arguments).pop()//last argument is next method
+	    if(!promiseArray.length){
+	      return done()
+	    }
+
+	    var processResult = function(i, v){
+	      resultArray[i] = v
+	      ++count//count a finishing promise
+	      if(count==promiseArray.length){//all promises have been accounted for
+	        done()
+	      }
+	    }
+
+	    var catcher = function(e){
+	      next['throw'](e)
+	    }
+
+	    promiseArray.forEach(function(v,i){
+	      if(isPromiseLike(v)){
+	        v.then(function(v){
+	          processResult(i,v)
+	        })['catch'](catcher)
+	      }else{
+	        processResult(i,v)
+	      }
+	    })
+	  }
+
+	  return $this.next(nextMethod)
+	}
+
+	/**
+	  (array|callback, callback, options)
+	  @options {concurrency}
+	*/
+	ackP.prototype.map = function(){
+	  var args = Array.prototype.slice.call(arguments)
+
+	  if(typeof(args[args.length-1])==='object'){//last is option
+	    var options = args.pop()
+	  }else{
+	    var options = {concurrency:0}//infinite
+	  }
+
+	  var conc = options.concurrency==null||isNaN(options.concurrency) ? 0 : options.concurrency
+	  var controller = args.pop()//last is controller
+	  var newArray = []
+
+	  var per = function(v,i,len){
+	    return ackPromise.start().then(function(){
+	      var r = controller.call(this, v, i, len)
+	      if(r && r.then){//fire controller's promise
+	        return r.then(function(newItem){
+	          newArray[i] = newItem
+	        })
+	      }else{
+	        newArray[i] = r
+	      }
+	    }, this)
+	  }
+
+	  var loopArray = function(arrOrOb, callback){
+	    if(!arrOrOb){
+	      return callback(null);
+	    }
+
+	    var v, wait=0,counter=0;
+	    if(arrOrOb.constructor===Array){
+	      var len = arrOrOb.length
+	      if(!len){
+	        callback(null,[])
+	      }
+
+	      var next = function(nx, i, $this){
+	        if(i==len){
+	          return;//no more loop
+	        }
+
+	        var prom = per.call($this, arrOrOb[i], i, len)
+	        .then(function(){
+	          ++counter
+	          if(counter==len){//fullment by equal array.length
+	            callback(null,newArray)
+	          }
+	        })['catch'](callback)
+
+	        if(conc>0){
+	          var rotation = (i+1) % conc
+	          if(rotation==0){
+	            return prom.then(function(){
+	              nx(nx,i+1,$this)
+	            })
+	          }
+	          ++wait;
+	          return nx(nx,i+1,$this).then(function(){
+	            --wait;
+	            if(wait==0){
+	              nx(nx,i+1,$this)
+	            }
+	          })
+	        }
+
+	          return prom.then(function(){
+	            nx(nx, i+1, $this)
+	          })
+	      }
+
+	      next(next, 0, this)
+
+	      return;
+	    }
+
+	    //loop objects
+	    var len = objectKeys(arrOrOb).length
+	    if(!len)callback(null,{})
+	    for(var x in arrOrOb){
+	      v = arrOrOb[x];
+
+	      per.call(this, v, x, len)
+	      .then(function(){
+	        ++counter
+	        if(counter==len){//fullment by equal array len
+	          callback(null,newArray)
+	        }
+	      })['catch'](callback)
+	    }
+	  }
+
+	  if(args[0] && args[0].constructor!==Function){//we have array
+	    return this.callback(function(callback){
+	      loopArray.call(this, args[0], callback)
+	    })
+	  }
+
+	  return this.callback(function(array,callback){
+	    loopArray.call(this, array, callback)
+	  })
+	}
+
+	/** always returns original array */
+	ackP.prototype.each = function(func){
+	  return this.then(function(a){
+	    var prom = ackPromise.start()
+	    for(var i=0; i < a.length; ++i){
+	      prom = prom.set(a[i],i,a).then(func)
+	    }
+
+	    return prom.set.apply(prom, arguments)
+	  })
+	}
+
+	//bluebird compatibility
+	ackP.prototype._then = function(didFulfill,didReject,didProgress,receiver,internalData){
+	  return this.add({method:function(){
+	    didFulfill.apply(receiver, arguments)//success
+	  }, isAsync:false})
+	  .catch(function(){
+	    didReject.apply(receiver,arguments)//reject
+	  })
+	}
+
+
+
+
+	if(true){
+	  module.exports = ackPromise
+	  //module.exports.__dirname = __dirname
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// Used to resolve the internal `[[Class]]` of values
+	var toString = Object.prototype.toString;
+
+	// Used to resolve the decompiled source of functions
+	var fnToString = Function.prototype.toString;
+
+	// Used to detect host constructors (Safari > 4; really typed array specific)
+	var reHostCtor = /^\[object .+?Constructor\]$/;
+
+	// Compile a regexp using a common native method as a template.
+	// We chose `Object#toString` because there's a good chance it is not being mucked with.
+	var reNative = RegExp('^' +
+	  // Coerce `Object#toString` to a string
+	  String(toString)
+	  // Escape any special regexp characters
+	  .replace(/[.*+?^${}()|[\]\/\\]/g, '\\$&')
+	  // Replace mentions of `toString` with `.*?` to keep the template generic.
+	  // Replace thing like `for ...` to support environments like Rhino which add extra info
+	  // such as method arity.
+	  .replace(/toString|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+	);
+
+	function isNative(value) {
+	  var type = typeof value;
+	  return type == 'function'
+	    // Use `Function#toString` to bypass the value's own `toString` method
+	    // and avoid being faked out.
+	    ? reNative.test(fnToString.call(value))
+	    // Fallback to a host object check because some environments will represent
+	    // things like typed arrays as DOM methods which may not conform to the
+	    // normal native pattern.
+	    : (value && type == 'object' && reHostCtor.test(toString.call(value))) || false;
+	}
+
+	var nativePromiseThen;
+	var isNativePromised = typeof(Promise)!='undefined' && Promise && Promise.resolve
+	if(isNativePromised){
+	  Promise.resolve().then(function(){
+	    var testerP = {}
+
+	    testerP.then = function(nativeThen){
+	      nativePromiseThen = nativeThen
+	    }
+	    return testerP
+	  })
+	  .then(function(){})//triggers native promise to invoke my promise
+	}
 
 /***/ },
-/* 5 */
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/**
+	 * This is the web browser implementation of `debug()`.
+	 *
+	 * Expose `debug()` as the module.
+	 */
+
+	exports = module.exports = __webpack_require__(7);
+	exports.log = log;
+	exports.formatArgs = formatArgs;
+	exports.save = save;
+	exports.load = load;
+	exports.useColors = useColors;
+	exports.storage = 'undefined' != typeof chrome
+	               && 'undefined' != typeof chrome.storage
+	                  ? chrome.storage.local
+	                  : localstorage();
+
+	/**
+	 * Colors.
+	 */
+
+	exports.colors = [
+	  'lightseagreen',
+	  'forestgreen',
+	  'goldenrod',
+	  'dodgerblue',
+	  'darkorchid',
+	  'crimson'
+	];
+
+	/**
+	 * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+	 * and the Firebug extension (any Firefox version) are known
+	 * to support "%c" CSS customizations.
+	 *
+	 * TODO: add a `localStorage` variable to explicitly enable/disable colors
+	 */
+
+	function useColors() {
+	  // is webkit? http://stackoverflow.com/a/16459606/376773
+	  return ('WebkitAppearance' in document.documentElement.style) ||
+	    // is firebug? http://stackoverflow.com/a/398120/376773
+	    (window.console && (console.firebug || (console.exception && console.table))) ||
+	    // is firefox >= v31?
+	    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+	    (navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31);
+	}
+
+	/**
+	 * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+	 */
+
+	exports.formatters.j = function(v) {
+	  return JSON.stringify(v);
+	};
+
+
+	/**
+	 * Colorize log arguments if enabled.
+	 *
+	 * @api public
+	 */
+
+	function formatArgs() {
+	  var args = arguments;
+	  var useColors = this.useColors;
+
+	  args[0] = (useColors ? '%c' : '')
+	    + this.namespace
+	    + (useColors ? ' %c' : ' ')
+	    + args[0]
+	    + (useColors ? '%c ' : ' ')
+	    + '+' + exports.humanize(this.diff);
+
+	  if (!useColors) return args;
+
+	  var c = 'color: ' + this.color;
+	  args = [args[0], c, 'color: inherit'].concat(Array.prototype.slice.call(args, 1));
+
+	  // the final "%c" is somewhat tricky, because there could be other
+	  // arguments passed either before or after the %c, so we need to
+	  // figure out the correct index to insert the CSS into
+	  var index = 0;
+	  var lastC = 0;
+	  args[0].replace(/%[a-z%]/g, function(match) {
+	    if ('%%' === match) return;
+	    index++;
+	    if ('%c' === match) {
+	      // we only are interested in the *last* %c
+	      // (the user may have provided their own)
+	      lastC = index;
+	    }
+	  });
+
+	  args.splice(lastC, 0, c);
+	  return args;
+	}
+
+	/**
+	 * Invokes `console.log()` when available.
+	 * No-op when `console.log` is not a "function".
+	 *
+	 * @api public
+	 */
+
+	function log() {
+	  // this hackery is required for IE8/9, where
+	  // the `console.log` function doesn't have 'apply'
+	  return 'object' === typeof console
+	    && console.log
+	    && Function.prototype.apply.call(console.log, console, arguments);
+	}
+
+	/**
+	 * Save `namespaces`.
+	 *
+	 * @param {String} namespaces
+	 * @api private
+	 */
+
+	function save(namespaces) {
+	  try {
+	    if (null == namespaces) {
+	      exports.storage.removeItem('debug');
+	    } else {
+	      exports.storage.debug = namespaces;
+	    }
+	  } catch(e) {}
+	}
+
+	/**
+	 * Load `namespaces`.
+	 *
+	 * @return {String} returns the previously persisted debug modes
+	 * @api private
+	 */
+
+	function load() {
+	  var r;
+	  try {
+	    r = exports.storage.debug;
+	  } catch(e) {}
+	  return r;
+	}
+
+	/**
+	 * Enable namespaces listed in `localStorage.debug` initially.
+	 */
+
+	exports.enable(load());
+
+	/**
+	 * Localstorage attempts to return the localstorage.
+	 *
+	 * This is necessary because safari throws
+	 * when a user disables cookies/localstorage
+	 * and you attempt to access it.
+	 *
+	 * @return {LocalStorage}
+	 * @api private
+	 */
+
+	function localstorage(){
+	  try {
+	    return window.localStorage;
+	  } catch (e) {}
+	}
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/**
+	 * This is the common logic for both the Node.js and web browser
+	 * implementations of `debug()`.
+	 *
+	 * Expose `debug()` as the module.
+	 */
+
+	exports = module.exports = debug;
+	exports.coerce = coerce;
+	exports.disable = disable;
+	exports.enable = enable;
+	exports.enabled = enabled;
+	exports.humanize = __webpack_require__(8);
+
+	/**
+	 * The currently active debug mode names, and names to skip.
+	 */
+
+	exports.names = [];
+	exports.skips = [];
+
+	/**
+	 * Map of special "%n" handling functions, for the debug "format" argument.
+	 *
+	 * Valid key names are a single, lowercased letter, i.e. "n".
+	 */
+
+	exports.formatters = {};
+
+	/**
+	 * Previously assigned color.
+	 */
+
+	var prevColor = 0;
+
+	/**
+	 * Previous log timestamp.
+	 */
+
+	var prevTime;
+
+	/**
+	 * Select a color.
+	 *
+	 * @return {Number}
+	 * @api private
+	 */
+
+	function selectColor() {
+	  return exports.colors[prevColor++ % exports.colors.length];
+	}
+
+	/**
+	 * Create a debugger with the given `namespace`.
+	 *
+	 * @param {String} namespace
+	 * @return {Function}
+	 * @api public
+	 */
+
+	function debug(namespace) {
+
+	  // define the `disabled` version
+	  function disabled() {
+	  }
+	  disabled.enabled = false;
+
+	  // define the `enabled` version
+	  function enabled() {
+
+	    var self = enabled;
+
+	    // set `diff` timestamp
+	    var curr = +new Date();
+	    var ms = curr - (prevTime || curr);
+	    self.diff = ms;
+	    self.prev = prevTime;
+	    self.curr = curr;
+	    prevTime = curr;
+
+	    // add the `color` if not set
+	    if (null == self.useColors) self.useColors = exports.useColors();
+	    if (null == self.color && self.useColors) self.color = selectColor();
+
+	    var args = Array.prototype.slice.call(arguments);
+
+	    args[0] = exports.coerce(args[0]);
+
+	    if ('string' !== typeof args[0]) {
+	      // anything else let's inspect with %o
+	      args = ['%o'].concat(args);
+	    }
+
+	    // apply any `formatters` transformations
+	    var index = 0;
+	    args[0] = args[0].replace(/%([a-z%])/g, function(match, format) {
+	      // if we encounter an escaped % then don't increase the array index
+	      if (match === '%%') return match;
+	      index++;
+	      var formatter = exports.formatters[format];
+	      if ('function' === typeof formatter) {
+	        var val = args[index];
+	        match = formatter.call(self, val);
+
+	        // now we need to remove `args[index]` since it's inlined in the `format`
+	        args.splice(index, 1);
+	        index--;
+	      }
+	      return match;
+	    });
+
+	    if ('function' === typeof exports.formatArgs) {
+	      args = exports.formatArgs.apply(self, args);
+	    }
+	    var logFn = enabled.log || exports.log || console.log.bind(console);
+	    logFn.apply(self, args);
+	  }
+	  enabled.enabled = true;
+
+	  var fn = exports.enabled(namespace) ? enabled : disabled;
+
+	  fn.namespace = namespace;
+
+	  return fn;
+	}
+
+	/**
+	 * Enables a debug mode by namespaces. This can include modes
+	 * separated by a colon and wildcards.
+	 *
+	 * @param {String} namespaces
+	 * @api public
+	 */
+
+	function enable(namespaces) {
+	  exports.save(namespaces);
+
+	  var split = (namespaces || '').split(/[\s,]+/);
+	  var len = split.length;
+
+	  for (var i = 0; i < len; i++) {
+	    if (!split[i]) continue; // ignore empty strings
+	    namespaces = split[i].replace(/\*/g, '.*?');
+	    if (namespaces[0] === '-') {
+	      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+	    } else {
+	      exports.names.push(new RegExp('^' + namespaces + '$'));
+	    }
+	  }
+	}
+
+	/**
+	 * Disable debug output.
+	 *
+	 * @api public
+	 */
+
+	function disable() {
+	  exports.enable('');
+	}
+
+	/**
+	 * Returns true if the given mode name is enabled, false otherwise.
+	 *
+	 * @param {String} name
+	 * @return {Boolean}
+	 * @api public
+	 */
+
+	function enabled(name) {
+	  var i, len;
+	  for (i = 0, len = exports.skips.length; i < len; i++) {
+	    if (exports.skips[i].test(name)) {
+	      return false;
+	    }
+	  }
+	  for (i = 0, len = exports.names.length; i < len; i++) {
+	    if (exports.names[i].test(name)) {
+	      return true;
+	    }
+	  }
+	  return false;
+	}
+
+	/**
+	 * Coerce `val`.
+	 *
+	 * @param {Mixed} val
+	 * @return {Mixed}
+	 * @api private
+	 */
+
+	function coerce(val) {
+	  if (val instanceof Error) return val.stack || val.message;
+	  return val;
+	}
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	/**
+	 * Helpers.
+	 */
+
+	var s = 1000;
+	var m = s * 60;
+	var h = m * 60;
+	var d = h * 24;
+	var y = d * 365.25;
+
+	/**
+	 * Parse or format the given `val`.
+	 *
+	 * Options:
+	 *
+	 *  - `long` verbose formatting [false]
+	 *
+	 * @param {String|Number} val
+	 * @param {Object} options
+	 * @return {String|Number}
+	 * @api public
+	 */
+
+	module.exports = function(val, options){
+	  options = options || {};
+	  if ('string' == typeof val) return parse(val);
+	  return options.long
+	    ? long(val)
+	    : short(val);
+	};
+
+	/**
+	 * Parse the given `str` and return milliseconds.
+	 *
+	 * @param {String} str
+	 * @return {Number}
+	 * @api private
+	 */
+
+	function parse(str) {
+	  str = '' + str;
+	  if (str.length > 10000) return;
+	  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
+	  if (!match) return;
+	  var n = parseFloat(match[1]);
+	  var type = (match[2] || 'ms').toLowerCase();
+	  switch (type) {
+	    case 'years':
+	    case 'year':
+	    case 'yrs':
+	    case 'yr':
+	    case 'y':
+	      return n * y;
+	    case 'days':
+	    case 'day':
+	    case 'd':
+	      return n * d;
+	    case 'hours':
+	    case 'hour':
+	    case 'hrs':
+	    case 'hr':
+	    case 'h':
+	      return n * h;
+	    case 'minutes':
+	    case 'minute':
+	    case 'mins':
+	    case 'min':
+	    case 'm':
+	      return n * m;
+	    case 'seconds':
+	    case 'second':
+	    case 'secs':
+	    case 'sec':
+	    case 's':
+	      return n * s;
+	    case 'milliseconds':
+	    case 'millisecond':
+	    case 'msecs':
+	    case 'msec':
+	    case 'ms':
+	      return n;
+	  }
+	}
+
+	/**
+	 * Short format for `ms`.
+	 *
+	 * @param {Number} ms
+	 * @return {String}
+	 * @api private
+	 */
+
+	function short(ms) {
+	  if (ms >= d) return Math.round(ms / d) + 'd';
+	  if (ms >= h) return Math.round(ms / h) + 'h';
+	  if (ms >= m) return Math.round(ms / m) + 'm';
+	  if (ms >= s) return Math.round(ms / s) + 's';
+	  return ms + 'ms';
+	}
+
+	/**
+	 * Long format for `ms`.
+	 *
+	 * @param {Number} ms
+	 * @return {String}
+	 * @api private
+	 */
+
+	function long(ms) {
+	  return plural(ms, d, 'day')
+	    || plural(ms, h, 'hour')
+	    || plural(ms, m, 'minute')
+	    || plural(ms, s, 'second')
+	    || ms + ' ms';
+	}
+
+	/**
+	 * Pluralization helper.
+	 */
+
+	function plural(ms, n, name) {
+	  if (ms < n) return;
+	  if (ms < n * 1.5) return Math.floor(ms / n) + ' ' + name;
+	  return Math.ceil(ms / n) + ' ' + name + 's';
+	}
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	"use strict";
+	//Helps in the goal of selecting and defining states of properties on indexable data (object & arrays). The indexable data is not to be polluted by the defined properties (data and states seperate)
+	function IndexSelector($scope){
+	  this.data = $scope||{}
+
+	  this.data.indexes = this.data.indexes || []//any object will do
+	  this.data.selected = this.data.selected || []
+	  this.data.states = this.data.states || []
+	  return this
+	}
+
+	IndexSelector.prototype.isIndexSelected = function(index){
+	  for(var i=this.data.states.length-1; i >= 0; --i){
+	    if(this.data.states[i].index==index)return true
+	  }
+	  return false
+	}
+
+	IndexSelector.prototype.selectByIndex = function(index){
+	  var selected = this.data.indexes[index]
+	  if(selected){
+	    this.data.states.push(this.newStateByIndex(index))
+	    this.data.selected.push(selected)
+	  }
+	  return this
+	}
+
+	IndexSelector.prototype.deselectByIndex = function(index){
+	  var i,state
+	  for(i=this.data.states.length-1; i >= 0; --i){
+	    var state = this.data.states[i]
+	    if(state.index==index){
+	      this.data.selected.splice(i, 1)
+	      this.data.states.splice(i, 1)
+	      break
+	    }
+	  }
+	  return this
+	}
+
+	IndexSelector.prototype.deselectState = function(state){
+	  this.deselectByIndex(state.index);return this
+	}
+
+	IndexSelector.prototype.deselectAll = function(){
+	    this.data.selected.length=0
+	    this.data.states.length=0
+	  return this
+	}
+
+	IndexSelector.prototype.selectAll = function(){
+	  if(!this.data.indexes)return this
+
+	  for(var i=0; i < this.data.indexes.length; ++i){
+	    this.selectByIndex(i)
+	  }
+
+	  return this
+	}
+
+	//getter/setter. Getter for determining if selected. Setter to set if selected or not
+	IndexSelector.prototype.selectorByIndex = function(index){
+	  var $this = this
+	  return function(yesNo){
+	      if(yesNo!=null){
+	        yesNo ? $this.selectByIndex(index) : $this.deselectByIndex(index)
+	        return yesNo
+	      }
+
+	      return $this.isIndexSelected(index)
+	    }
+	}
+
+	IndexSelector.prototype.newStateByIndex = function(index){
+	  var state={
+	    data:this.data.indexes[index],
+	    state:{},
+	    index:index
+	  }
+
+	  return state
+	}
+
+	IndexSelector.prototype.selectStateByIndex = function(index){
+	  var i = this.data.states.length
+	  this.selectByIndex(index)
+	  return this.data.states[i].state
+	}
+
+	IndexSelector.prototype.deselectOldest = function(){
+	  this.data.selected.splice(0, 1)
+	  this.data.states.splice(0, 1)
+	  return this
+	}
+
+	IndexSelector.prototype.getOldestIndex = function(){
+	  if(this.data.states.length)return this.data.states[0].index
+	}
+
+	//when IndexSelector has been init with selectives but no states, blank states can be built
+	IndexSelector.prototype.pairSelectedToState = function(){
+	  for(var i=0; i < this.data.states.length; ++i){
+	    var state = this.data.states[i]
+	    this.data.selected[i] = this.data.selected[i] || this.data.indexes[state.index]
+	  }
+	  return this
+	}
+
+	//when IndexSelector has been init with selectives but no states, blank states can be built
+	IndexSelector.prototype.pairStateToSelected = function(){
+	  for(var i=0; i < this.data.selected.length; ++i){
+	    var selected = this.data.selected[i]
+	    this.data.states[i] = this.data.states[i] || this.newStateByIndex(i)
+	  }
+	  return this
+	}
+
+
+	module.exports = IndexSelector
+
+/***/ },
+/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1038,7 +2781,7 @@
 	}
 
 /***/ },
-/* 6 */
+/* 11 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1102,7 +2845,7 @@
 
 
 /***/ },
-/* 7 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {"use strict";
@@ -1181,10 +2924,10 @@
 	}
 	rtn.Class = ExString
 	module.exports = rtn
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13).Buffer))
 
 /***/ },
-/* 8 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -1197,9 +2940,9 @@
 
 	'use strict'
 
-	var base64 = __webpack_require__(9)
-	var ieee754 = __webpack_require__(10)
-	var isArray = __webpack_require__(11)
+	var base64 = __webpack_require__(14)
+	var ieee754 = __webpack_require__(15)
+	var isArray = __webpack_require__(16)
 
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -2736,10 +4479,10 @@
 	  return i
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 9 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -2869,7 +4612,7 @@
 
 
 /***/ },
-/* 10 */
+/* 15 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -2959,7 +4702,7 @@
 
 
 /***/ },
-/* 11 */
+/* 16 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -2970,7 +4713,7 @@
 
 
 /***/ },
-/* 12 */
+/* 17 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2994,7 +4737,7 @@
 
 
 /***/ },
-/* 13 */
+/* 18 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3048,7 +4791,7 @@
 
 
 /***/ },
-/* 14 */
+/* 19 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3104,7 +4847,7 @@
 
 
 /***/ },
-/* 15 */
+/* 20 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3217,7 +4960,7 @@
 
 
 /***/ },
-/* 16 */
+/* 21 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3324,7 +5067,7 @@
 
 
 /***/ },
-/* 17 */
+/* 22 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3467,13 +5210,13 @@
 
 
 /***/ },
-/* 18 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var jc = __webpack_require__(2)
-		,xMonth = __webpack_require__(19)
-		,ExDate = __webpack_require__(20)
+	var jc = __webpack_require__(3)
+		,xMonth = __webpack_require__(24)
+		,ExDate = __webpack_require__(25)
 
 
 	var Week = function Week(num){
@@ -3517,11 +5260,11 @@
 	module.exports = rtn
 
 /***/ },
-/* 19 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var xDate = __webpack_require__(20)
+	var xDate = __webpack_require__(25)
 
 	var xMonth = function xMonth(num){
 		if(num!=null){
@@ -3592,7 +5335,7 @@
 	module.exports = rtn
 
 /***/ },
-/* 20 */
+/* 25 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4208,11 +5951,11 @@
 	module.exports = eackDate
 
 /***/ },
-/* 21 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var xDate = __webpack_require__(20)
+	var xDate = __webpack_require__(25)
 
 	var ackYear = function ackYear(yyyy){
 		if(yyyy!=null)this.setStartDate(yyyy)
@@ -4315,130 +6058,6 @@
 	}
 	rtn.Class = ackYear
 	module.exports = rtn
-
-/***/ },
-/* 22 */
-/***/ function(module, exports) {
-
-	"use strict";
-	//Helps in the goal of selecting and defining states of properties on indexable data (object & arrays). The indexable data is not to be polluted by the defined properties (data and states seperate)
-	function IndexSelector($scope){
-	  this.data = $scope||{}
-
-	  this.data.indexes = this.data.indexes || []//any object will do
-	  this.data.selected = this.data.selected || []
-	  this.data.states = this.data.states || []
-	  return this
-	}
-
-	IndexSelector.prototype.isIndexSelected = function(index){
-	  for(var i=this.data.states.length-1; i >= 0; --i){
-	    if(this.data.states[i].index==index)return true
-	  }
-	  return false
-	}
-
-	IndexSelector.prototype.selectByIndex = function(index){
-	  var selected = this.data.indexes[index]
-	  if(selected){
-	    this.data.states.push(this.newStateByIndex(index))
-	    this.data.selected.push(selected)
-	  }
-	  return this
-	}
-
-	IndexSelector.prototype.deselectByIndex = function(index){
-	  var i,state
-	  for(i=this.data.states.length-1; i >= 0; --i){
-	    var state = this.data.states[i]
-	    if(state.index==index){
-	      this.data.selected.splice(i, 1)
-	      this.data.states.splice(i, 1)
-	      break
-	    }
-	  }
-	  return this
-	}
-
-	IndexSelector.prototype.deselectState = function(state){
-	  this.deselectByIndex(state.index);return this
-	}
-
-	IndexSelector.prototype.deselectAll = function(){
-	    this.data.selected.length=0
-	    this.data.states.length=0
-	  return this
-	}
-
-	IndexSelector.prototype.selectAll = function(){
-	  if(!this.data.indexes)return this
-
-	  for(var i=0; i < this.data.indexes.length; ++i){
-	    this.selectByIndex(i)
-	  }
-
-	  return this
-	}
-
-	//getter/setter. Getter for determining if selected. Setter to set if selected or not
-	IndexSelector.prototype.selectorByIndex = function(index){
-	  var $this = this
-	  return function(yesNo){
-	      if(yesNo!=null){
-	        yesNo ? $this.selectByIndex(index) : $this.deselectByIndex(index)
-	        return yesNo
-	      }
-
-	      return $this.isIndexSelected(index)
-	    }
-	}
-
-	IndexSelector.prototype.newStateByIndex = function(index){
-	  var state={
-	    data:this.data.indexes[index],
-	    state:{},
-	    index:index
-	  }
-
-	  return state
-	}
-
-	IndexSelector.prototype.selectStateByIndex = function(index){
-	  var i = this.data.states.length
-	  this.selectByIndex(index)
-	  return this.data.states[i].state
-	}
-
-	IndexSelector.prototype.deselectOldest = function(){
-	  this.data.selected.splice(0, 1)
-	  this.data.states.splice(0, 1)
-	  return this
-	}
-
-	IndexSelector.prototype.getOldestIndex = function(){
-	  if(this.data.states.length)return this.data.states[0].index
-	}
-
-	//when IndexSelector has been init with selectives but no states, blank states can be built
-	IndexSelector.prototype.pairSelectedToState = function(){
-	  for(var i=0; i < this.data.states.length; ++i){
-	    var state = this.data.states[i]
-	    this.data.selected[i] = this.data.selected[i] || this.data.indexes[state.index]
-	  }
-	  return this
-	}
-
-	//when IndexSelector has been init with selectives but no states, blank states can be built
-	IndexSelector.prototype.pairStateToSelected = function(){
-	  for(var i=0; i < this.data.selected.length; ++i){
-	    var selected = this.data.selected[i]
-	    this.data.states[i] = this.data.states[i] || this.newStateByIndex(i)
-	  }
-	  return this
-	}
-
-
-	module.exports = IndexSelector
 
 /***/ }
 /******/ ]);

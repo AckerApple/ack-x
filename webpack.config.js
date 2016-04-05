@@ -2,20 +2,6 @@ var webpack = require('webpack');
 var path = require('path')
 
 module.exports = [{
-  //target: 'node',
-  entry: "./entry-party.js",
-  output: {
-    path: './',
-    filename: "parties-pack.js",
-    library:"modules",
-    libraryTarget:"this"
-  },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
-    })
-  ]
-},{
   entry: "./entry.js",
   output: {
     path: path.join(__dirname,'dist'),
@@ -36,7 +22,9 @@ module.exports = [{
   entry: "./entry.js",
   output: {
     path: path.join(__dirname,'tests'),
-    filename: "ack-x.js"
+    filename: "ack-x.js",
+    library:'ack',
+    libraryTarget:'this'
   }
 },{
   entry: "mocha!./entry-test.js",

@@ -1,5 +1,5 @@
 "use strict";
-var ack = require('../../index'),
+var ack = require('../ack-x').ack,
 	assert = require('assert')
 
 describe('ack.number',function(){

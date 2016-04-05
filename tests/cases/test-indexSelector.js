@@ -1,5 +1,5 @@
 "use strict";
-var ack = require('../../index')
+var ack = require('../ack-x').ack
 
 describe('ack.indexSelector',function(){
 	var arrSel, camServiceDataArray
