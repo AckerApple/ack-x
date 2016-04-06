@@ -2,7 +2,9 @@
 
 var jc = require('./js/jc'),//old old old library for Classes and Accessors
 		ackInjector = require('./ackInjector'),
-		partyModules = {ackP:require('ack-p'), debug:require('debug')}
+		partyModules = {
+			ackP:require('ack-p'), debug:require('debug')
+		}
 
 /** calling ack() as function, will return a module to work with almost any object */
 function ack($var){
@@ -29,6 +31,10 @@ ack.Expose = ackExpose//Outsider's referense to expose factory
 	ack.promise = function(var0, var1, var2, var3){
 		var promise = partyModules.ackP.start()
 		return promise.set.apply(promise,arguments)
+	}
+
+	ack.Promise = function(resolver){
+		return new partyModules.ackP(resolver)
 	}
 
 	var indexSelector = require('./js/IndexSelector')

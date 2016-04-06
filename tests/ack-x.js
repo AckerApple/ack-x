@@ -83,7 +83,9 @@ this["ack"] =
 
 	var jc = __webpack_require__(3),//old old old library for Classes and Accessors
 			ackInjector = __webpack_require__(4),
-			partyModules = {ackP:__webpack_require__(5), debug:__webpack_require__(6)}
+			partyModules = {
+				ackP:__webpack_require__(5), debug:__webpack_require__(6)
+			}
 
 	/** calling ack() as function, will return a module to work with almost any object */
 	function ack($var){
@@ -110,6 +112,10 @@ this["ack"] =
 		ack.promise = function(var0, var1, var2, var3){
 			var promise = partyModules.ackP.start()
 			return promise.set.apply(promise,arguments)
+		}
+
+		ack.Promise = function(resolver){
+			return new partyModules.ackP(resolver)
 		}
 
 		var indexSelector = __webpack_require__(9)
@@ -839,16 +845,14 @@ this["ack"] =
 	  return array
 	}
 
-	/** function(resolve,reject){} */
+	/** constructor. Invoke by new ackPromise()
+	  @resolver - function(resolve,reject){}
+	*/
 	function ackPromise(resolver){
-	  var promise = new ackP()
-	  function resolve(){
-	    return promise.resolve.apply(promise,arguments)
-	  }
-	  function reject(){
-	    return promise.throw.apply(promise,arguments)
-	  }
-	  return resolver(resolve,reject)
+	  return new ackP()
+	  .next(function(next){
+	    resolver(next, next.throw)
+	  })
 	}
 
 	/** all arguments are used to jump start a thenable promise */

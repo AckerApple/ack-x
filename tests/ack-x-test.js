@@ -473,7 +473,9 @@
 
 		var jc = __webpack_require__(3),//old old old library for Classes and Accessors
 				ackInjector = __webpack_require__(4),
-				partyModules = {ackP:__webpack_require__(5), debug:__webpack_require__(6)}
+				partyModules = {
+					ackP:__webpack_require__(5), debug:__webpack_require__(6)
+				}
 
 		/** calling ack() as function, will return a module to work with almost any object */
 		function ack($var){
@@ -500,6 +502,10 @@
 			ack.promise = function(var0, var1, var2, var3){
 				var promise = partyModules.ackP.start()
 				return promise.set.apply(promise,arguments)
+			}
+
+			ack.Promise = function(resolver){
+				return new partyModules.ackP(resolver)
 			}
 
 			var indexSelector = __webpack_require__(9)
@@ -1231,14 +1237,10 @@
 
 		/** function(resolve,reject){} */
 		function ackPromise(resolver){
-		  var promise = new ackP()
-		  function resolve(){
-		    return promise.resolve.apply(promise,arguments)
-		  }
-		  function reject(){
-		    return promise.throw.apply(promise,arguments)
-		  }
-		  return resolver(resolve,reject)
+		  return new ackP()
+		  .next(function(next){
+		    resolver(next, next.throw)
+		  })
 		}
 
 		/** all arguments are used to jump start a thenable promise */
@@ -7580,6 +7582,20 @@
 
 		it('#promise',function(done){
 			ack.promise('a','b','c')
+			.then(function(a,b,c){
+				assert.equal(a, 'a')
+				assert.equal(b, 'b')
+				assert.equal(c, 'c')
+			})
+			.then(done).catch(done)
+		})
+
+		it('#Promise',function(done){
+			ack.Promise(function(res,rej){
+				setTimeout(function(){
+					res('a','b','c')
+				}, 10)
+			})
 			.then(function(a,b,c){
 				assert.equal(a, 'a')
 				assert.equal(b, 'b')
