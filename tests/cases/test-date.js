@@ -74,6 +74,28 @@ describe('ack.date',function(){
 			assert.equal(sod.getMinutes(), 59)
 			assert.equal(sod.getMilliseconds(), 999)
 		})
+
+		it('#gotoFridayOfWeek',function(){
+			date = ack.date('4/7/2015').gotoFridayOfWeek()
+			assert(date.mmddyyyy,'04/10/2015')
+		})
+
+		describe('#gotoMondayOfWeek',function(){
+			it('tuesday',function(){
+				date = ack.date('4/7/2015').gotoMondayOfWeek()
+				assert(date.mmddyyyy,'04/06/2015')
+			})
+
+			it('monday',function(){
+				date = ack.date('3/30/2015').gotoMondayOfWeek()
+				assert(date.mmddyyyy,'03/30/2015')
+			})
+
+			it('monday2',function(){
+				date = ack.date('4/6/2015').gotoMondayOfWeek()
+				assert(date.mmddyyyy,'04/06/2015')
+			})
+		})
 	})
 
 
@@ -88,23 +110,6 @@ describe('ack.date',function(){
 
 	it('#getDayAbbr',function(){
 		assert.equal( ack.date('06/16/2015').getDayAbbr(), 'Tue' )
-	})
-
-	describe('#gotoMondayOfWeek',function(){
-		it('tuesday',function(){
-			date = ack.date('4/7/2015').gotoMondayOfWeek()
-			assert(date.mmddyyyy,'04/06/2015')
-		})
-
-		it('monday',function(){
-			date = ack.date('3/30/2015').gotoMondayOfWeek()
-			assert(date.mmddyyyy,'03/30/2015')
-		})
-
-		it('monday2',function(){
-			date = ack.date('4/6/2015').gotoMondayOfWeek()
-			assert(date.mmddyyyy,'04/06/2015')
-		})
 	})
 
 	it('#addHours',function(){

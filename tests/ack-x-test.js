@@ -1235,7 +1235,9 @@
 		  return array
 		}
 
-		/** function(resolve,reject){} */
+		/** constructor. Invoke by new ackPromise()
+		  @resolver - function(resolve,reject){}
+		*/
 		function ackPromise(resolver){
 		  return new ackP()
 		  .next(function(next){
@@ -6100,6 +6102,10 @@
 			this.gotoFirstDayOfWeek().nextDay();return this
 		}
 
+		ackDate.prototype.gotoFridayOfWeek = function(){
+			this.gotoFirstDayOfWeek().nextDay(5);return this
+		}
+
 		ackDate.prototype.gotoWeek = function(week){
 			var thisWk = this.week()
 			this.nextWeek( week - thisWk )
@@ -7890,6 +7896,28 @@
 				assert.equal(sod.getMinutes(), 59)
 				assert.equal(sod.getMilliseconds(), 999)
 			})
+
+			it('#gotoFridayOfWeek',function(){
+				date = ack.date('4/7/2015').gotoFridayOfWeek()
+				assert(date.mmddyyyy,'04/10/2015')
+			})
+
+			describe('#gotoMondayOfWeek',function(){
+				it('tuesday',function(){
+					date = ack.date('4/7/2015').gotoMondayOfWeek()
+					assert(date.mmddyyyy,'04/06/2015')
+				})
+
+				it('monday',function(){
+					date = ack.date('3/30/2015').gotoMondayOfWeek()
+					assert(date.mmddyyyy,'03/30/2015')
+				})
+
+				it('monday2',function(){
+					date = ack.date('4/6/2015').gotoMondayOfWeek()
+					assert(date.mmddyyyy,'04/06/2015')
+				})
+			})
 		})
 
 
@@ -7904,23 +7932,6 @@
 
 		it('#getDayAbbr',function(){
 			assert.equal( ack.date('06/16/2015').getDayAbbr(), 'Tue' )
-		})
-
-		describe('#gotoMondayOfWeek',function(){
-			it('tuesday',function(){
-				date = ack.date('4/7/2015').gotoMondayOfWeek()
-				assert(date.mmddyyyy,'04/06/2015')
-			})
-
-			it('monday',function(){
-				date = ack.date('3/30/2015').gotoMondayOfWeek()
-				assert(date.mmddyyyy,'03/30/2015')
-			})
-
-			it('monday2',function(){
-				date = ack.date('4/6/2015').gotoMondayOfWeek()
-				assert(date.mmddyyyy,'04/06/2015')
-			})
 		})
 
 		it('#addHours',function(){
