@@ -6098,13 +6098,15 @@
 			this.prevDay( this.dayOfWeek()-1 );return this
 		}
 
-		ackDate.prototype.gotoMondayOfWeek = function(){
+		ackDate.prototype.gotoMonday = function(){
 			this.gotoFirstDayOfWeek().nextDay();return this
 		}
+		ackDate.prototype.gotoMondayOfWeek = ackDate.prototype.gotoMonday
 
-		ackDate.prototype.gotoFridayOfWeek = function(){
+		ackDate.prototype.gotoFriday = function(){
 			this.gotoFirstDayOfWeek().nextDay(5);return this
 		}
+		ackDate.prototype.gotoFridayOfWeek = ackDate.prototype.gotoFriday
 
 		ackDate.prototype.gotoWeek = function(week){
 			var thisWk = this.week()
@@ -6331,15 +6333,37 @@
 			return this.mmdd(sep)+ sep +d.getFullYear()
 		}
 
+		ackDate.prototype.mdyyyy = function(sep){
+			sep = sep==null ? '/' : sep
+			var d = this.date
+			return this.md(sep)+ sep +d.getFullYear()
+		}
+
+		ackDate.prototype.mdyy = function(sep){
+			sep = sep==null ? '/' : sep
+			var d = this.date
+			return this.md(sep)+ sep +this.yy()
+		}
+
 		ackDate.prototype.mmddyy = function(sep){
 			var r = this.mmddyyyy()
 			return r.substring(0,r.length-4)+r.substring(r.length-2,r.length)
+		}
+
+		ackDate.prototype.yy = function(){
+			return this.date.getFullYear().toString().substring(2,4)
 		}
 
 		ackDate.prototype.mmdd = function(sep){
 			sep = sep==null ? '/' : sep
 			var d = this.date
 			return ackDate.twoDigit(d.getMonth()+1)+ sep + ackDate.twoDigit(d.getDate())
+		}
+
+		ackDate.prototype.md = function(sep){
+			sep = sep==null ? '/' : sep
+			var d = this.date
+			return (d.getMonth()+1)+ sep + d.getDate()
 		}
 
 		var eackDate = function(date){
@@ -7873,9 +7897,61 @@
 			assert.equal(ack.date('2/4/2016').getMonthDateProperNumber(), '4th')
 		})
 
-		it('#mmmmdyyyy',function(){
-			assert.equal(ack.date('2/24/2016').mmmmdyyyy(), 'February 24th 2016')
+		describe.only('formatting',function(){
+			it('#mmmmdyyyy',function(){
+				assert.equal(ack.date('2/24/2016').mmmmdyyyy(), 'February 24th 2016')
+			})
+
+			it('#mmddyyyy',function(){
+				assert.equal(ack.date('2/4/2016').mdyyyy(), '02/04/2016')
+			})
+
+			it('#mdyyyy',function(){
+				assert.equal(ack.date('2/4/2016').mdyyyy(), '2/4/2016')
+			})
+
+			it('#mdyy',function(){
+				assert.equal(ack.date('2/4/2016').mdyy(), '2/4/16')
+			})
+
+			it('#yy',function(){
+				assert.equal(ack.date('2/24/2016').yy(), 16)
+			})
+
+			it('hhmmtt',function(){
+				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
+				var val = jDate.hhmmtt()
+				assert.equal(val, '11:30 AM')
+
+				var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)')
+				var val = jDate.hhmmtt()
+				assert.equal(val, '12:30 PM')
+
+				var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)')
+				var val = jDate.hhmmtt()
+				assert.equal(val, '01:30 PM')
+			})
+
+			it('hmmtt',function(){
+				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
+				var val = jDate.hmmtt()
+				assert.equal(val, '11:30 AM')
+
+				var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)')
+				var val = jDate.hmmtt()
+				assert.equal(val, '12:30 PM')
+
+				var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)')
+				var val = jDate.hmmtt()
+				assert.equal(val, '1:30 PM')
+			})
+
+			it('#storageFormat',function(){
+				var nD = ack.date('Sun Jul 12 2015 15:58:28 GMT-0400 (EDT)')
+				assert.equal(nD.storageFormat(),'2015-07-12 15:58:28.0')
+			})
 		})
+
 
 		it('#daysInMonth',function(){
 			assert.equal(ack.date('7/02/2015').daysInMonth(), 31)
@@ -8078,39 +8154,6 @@
 		it('#getMonthAbbr',function(){
 			var nD = ack.date('4/1/2015').getMonthAbbr()
 			assert.equal(nD,'Apr')
-		})
-
-		it('hhmmtt',function(){
-			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
-			var val = jDate.hhmmtt()
-			assert.equal(val, '11:30 AM')
-
-			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)')
-			var val = jDate.hhmmtt()
-			assert.equal(val, '12:30 PM')
-
-			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)')
-			var val = jDate.hhmmtt()
-			assert.equal(val, '01:30 PM')
-		})
-
-		it('hmmtt',function(){
-			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
-			var val = jDate.hmmtt()
-			assert.equal(val, '11:30 AM')
-
-			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)')
-			var val = jDate.hmmtt()
-			assert.equal(val, '12:30 PM')
-
-			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)')
-			var val = jDate.hmmtt()
-			assert.equal(val, '1:30 PM')
-		})
-
-		it('#storageFormat',function(){
-			var nD = ack.date('Sun Jul 12 2015 15:58:28 GMT-0400 (EDT)')
-			assert.equal(nD.storageFormat(),'2015-07-12 15:58:28.0')
 		})
 
 		it('#dateMonthDiff',function(){
