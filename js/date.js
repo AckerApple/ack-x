@@ -29,7 +29,7 @@ ackDate.dateAddDay = function(d, amount){
 }
 
 ackDate.startOfDateDay = function(date){
-	date = new Date(new Date(date).setHours(1))
+	date = new Date(new Date(date).setHours(0))
 	date = new Date(date.setMinutes(0))
 	date = new Date(date.setSeconds(0))
 	return new Date(date.setMilliseconds(0))

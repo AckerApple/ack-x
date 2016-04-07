@@ -115,7 +115,7 @@ describe('ack.date',function(){
 	describe('gotos',function(){
 		it('#sod#gotoStartOfDate',function(){
 			var sod = ack.date('7/1/2015').gotoSod().date
-			assert.equal(sod.getHours(), 1)
+			assert.equal(sod.getHours(), 0)
 			assert.equal(sod.getMinutes(), 0)
 			assert.equal(sod.getMilliseconds(), 0)
 		})
