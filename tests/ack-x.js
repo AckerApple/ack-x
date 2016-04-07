@@ -5704,9 +5704,10 @@ this["ack"] =
 		return d.getDay()+1
 	}
 
-	ackDate.prototype.gotoFirstDayOfWeek = function(){
+	ackDate.prototype.gotoSunday = function(){
 		this.prevDay( this.dayOfWeek()-1 );return this
 	}
+	ackDate.prototype.gotoFirstDayOfWeek = ackDate.prototype.gotoSunday
 
 	ackDate.prototype.gotoMonday = function(){
 		this.gotoFirstDayOfWeek().nextDay();return this
@@ -5883,6 +5884,7 @@ this["ack"] =
 
 	/** 01:20.220 */
 	ackDate.prototype.hhmmssl = function(timeSep, milsecSep){
+		if(!this.date)return ''
 		timeSep = timeSep || ':'
 		milsecSep = milsecSep || '.'
 		var d = this.date
@@ -5895,6 +5897,7 @@ this["ack"] =
 	}
 
 	ackDate.prototype.hhmmsl = function(){
+		if(!this.date)return ''
 		var d = this.date
 			,h=d.getHours()
 			,m=d.getMinutes()
@@ -5904,6 +5907,7 @@ this["ack"] =
 	}
 
 	ackDate.prototype.hmmtt = function(){
+		if(!this.date)return ''
 		var d = this.date
 			,h=d.getHours()
 			,t='AM'
@@ -5915,6 +5919,7 @@ this["ack"] =
 	}
 
 	ackDate.prototype.hhmmtt = function(){
+		if(!this.date)return ''
 		var d = this.date
 			,h=d.getHours()
 			,t='AM'

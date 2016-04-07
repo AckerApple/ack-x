@@ -362,7 +362,7 @@ ackDate.prototype.dayOfWeek = function(){
 ackDate.prototype.gotoSunday = function(){
 	this.prevDay( this.dayOfWeek()-1 );return this
 }
-ackDate.prototype.gotoFirstDayOfWeek = ackDate.prototype.gotoFirstDayOfWeek
+ackDate.prototype.gotoFirstDayOfWeek = ackDate.prototype.gotoSunday
 
 ackDate.prototype.gotoMonday = function(){
 	this.gotoFirstDayOfWeek().nextDay();return this
@@ -539,6 +539,7 @@ ackDate.prototype.mmmmdyyyy = function(){
 
 /** 01:20.220 */
 ackDate.prototype.hhmmssl = function(timeSep, milsecSep){
+	if(!this.date)return ''
 	timeSep = timeSep || ':'
 	milsecSep = milsecSep || '.'
 	var d = this.date
@@ -551,6 +552,7 @@ ackDate.prototype.hhmmssl = function(timeSep, milsecSep){
 }
 
 ackDate.prototype.hhmmsl = function(){
+	if(!this.date)return ''
 	var d = this.date
 		,h=d.getHours()
 		,m=d.getMinutes()
@@ -560,6 +562,7 @@ ackDate.prototype.hhmmsl = function(){
 }
 
 ackDate.prototype.hmmtt = function(){
+	if(!this.date)return ''
 	var d = this.date
 		,h=d.getHours()
 		,t='AM'
@@ -571,6 +574,7 @@ ackDate.prototype.hmmtt = function(){
 }
 
 ackDate.prototype.hhmmtt = function(){
+	if(!this.date)return ''
 	var d = this.date
 		,h=d.getHours()
 		,t='AM'
