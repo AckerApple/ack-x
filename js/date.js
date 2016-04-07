@@ -359,9 +359,10 @@ ackDate.prototype.dayOfWeek = function(){
 	return d.getDay()+1
 }
 
-ackDate.prototype.gotoFirstDayOfWeek = function(){
+ackDate.prototype.gotoSunday = function(){
 	this.prevDay( this.dayOfWeek()-1 );return this
 }
+ackDate.prototype.gotoFirstDayOfWeek = ackDate.prototype.gotoFirstDayOfWeek
 
 ackDate.prototype.gotoMonday = function(){
 	this.gotoFirstDayOfWeek().nextDay();return this
