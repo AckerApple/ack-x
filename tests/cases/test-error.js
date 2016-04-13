@@ -1,5 +1,5 @@
 "use strict";
-var ack = require('../ack-x').ack,
+var ack = require('../ack-x-dy').ack,
 	assert = require('assert'),
 	path = require('path')
 

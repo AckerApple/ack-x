@@ -5896,14 +5896,16 @@ this["ack"] =
 		return h+timeSep+m+timeSep+s+milsecSep+d.getMilliseconds()
 	}
 
-	ackDate.prototype.hhmmsl = function(){
+	ackDate.prototype.hhmmsl = function(timeSep, milsecSep){
 		if(!this.date)return ''
-		var d = this.date
-			,h=d.getHours()
-			,m=d.getMinutes()
+		var	d = this.date,
+				timeSep = timeSep || ':',
+				milsecSep = milsecSep || '.',
+				h=d.getHours(),
+				m=d.getMinutes();
 		m=m<10?'0'+m:m
 		h = ('0'+h).slice(-2)
-		return h+':'+m+':'+d.getSeconds()+'.'+d.getMilliseconds()
+		return h+timeSep+m+timeSep+d.getSeconds()+milsecSep+d.getMilliseconds()
 	}
 
 	ackDate.prototype.hmmtt = function(){
@@ -5918,16 +5920,24 @@ this["ack"] =
 		return h+':'+m+' '+t
 	}
 
-	ackDate.prototype.hhmmtt = function(){
+	ackDate.prototype.mmddyyyyhhmmtt = function(dateSep, spaceSep, timeSep, ttSep){
 		if(!this.date)return ''
-		var d = this.date
-			,h=d.getHours()
-			,t='AM'
-			,m=d.getMinutes();
+		spaceSep = spaceSep==null?' ':spaceSep;
+		return this.mmddyyyy(dateSep)+ spaceSep + this.hhmmtt(timeSep, ttSep)
+	}
+
+	ackDate.prototype.hhmmtt = function(timeSep, ttSep){
+		if(!this.date)return ''
+		var d = this.date,
+				timeSep = timeSep || ':',
+				ttSep = ttSep==null?' ':ttSep,
+				h=d.getHours(),
+				t='AM',
+				m=d.getMinutes();
 
 		m=m<10?'0'+m:m;
 		h=h>=12?(t='PM',h-12||12):h==0?12:h
-		return ('0'+h).slice(-2)+':'+m+' '+t
+		return ('0'+h).slice(-2) +timeSep+ m+ttSep+t
 	}
 
 	//yyyy-mm-dd hh:nn:ss:l

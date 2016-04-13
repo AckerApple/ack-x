@@ -1,3 +1,4 @@
+ackPath = './ack-x.js'
 require('./tests/cases/test-accessors.js')
 require('./tests/cases/test-ack-x.js')
 require('./tests/cases/test-array.js')

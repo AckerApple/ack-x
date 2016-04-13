@@ -1,5 +1,5 @@
 "use strict";
-var ack = require('../ack-x').ack,
+var ack = require('../ack-x-dy').ack,
 	assert = require('assert')
 
 
@@ -52,6 +52,11 @@ describe('ack.date',function(){
 	})
 
 	describe('formatting',function(){
+		it('#mmddyyyyhhmmtt',function(){
+			var aDate = ack.date().now()
+			assert.equal(aDate.mmddyyyyhhmmtt().length, 19)
+		})
+
 		it('#mmmmdyyyy',function(){
 			assert.equal(ack.date('2/24/2016').mmmmdyyyy(), 'February 24th 2016')
 		})
