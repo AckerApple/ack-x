@@ -484,13 +484,13 @@ ackDate.prototype.getWeeksInYear = function(y){
 
 /** alters this.date and return this */
 ackDate.prototype.addHours = function(n){
-	this.date.setHours( this.date.getHours()+n );
+	if(this.date)this.date.setHours( this.date.getHours()+n );
 	return this
 }
 
 /** alters this.date and return this */
 ackDate.prototype.addMinutes = function(n){
-	this.date = new Date(this.date.getTime() + n*60000)
+	if(this.date)this.date = new Date(this.date.getTime() + n*60000)
 	return this
 }
 
@@ -505,8 +505,7 @@ ackDate.prototype.addSeconds = function(n){
 
 /** alters this.date and return this */
 ackDate.prototype.addMilliseconds = function(n){
-	//this.date.setMilliseconds(this.date.getMilliseconds() + n)
-	this.date = new Date(this.date.getTime() + n)
+	if(this.date)this.date = new Date(this.date.getTime() + n)
 	return this
 }
 
