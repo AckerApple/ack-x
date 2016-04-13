@@ -18,18 +18,18 @@ module.exports = [{
       compress: { warnings: false }
     })
   ]
-},{
+},/*{
   entry: "./entry.js",
   output: {
-    path: path.join(__dirname,'tests'),
+    path: path.join(__dirname,'test'),
     filename: "ack-x.js",
     library:'ack',
     libraryTarget:'this'
   }
-},{
+},*/{
   entry: "mocha!./entry-test.js",
   output: {
-    path: path.join(__dirname,'tests'),
+    path: path.join(__dirname,'test'),
     filename: "ack-x-test.js"
   }
 }]
