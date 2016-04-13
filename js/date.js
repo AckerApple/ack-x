@@ -327,6 +327,7 @@ ackDate.prototype.prevDay = function(amount){
 	this.date = new Date(d)
 	return this
 }
+ackDate.prototype.priorDay = ackDate.prototype.prevDay//aka for naming consistency
 
 ackDate.prototype.getDayName = function(){
 	return ackDate.dayNameArray[ this.date.getDay() ]
