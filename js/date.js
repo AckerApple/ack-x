@@ -1,7 +1,7 @@
 "use strict";
 
 /* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
-var ackDate = function ackDate(date){
+function ackDate(date){
 	this.date = ackDate.toDate(date)
 	return this
 }

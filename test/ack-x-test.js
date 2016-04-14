@@ -47,7 +47,7 @@
 	__webpack_require__(1);
 	mocha.setup("bdd");
 	__webpack_require__(9)
-	__webpack_require__(60);
+	__webpack_require__(61);
 	if(false) {
 		module.hot.accept();
 		module.hot.dispose(function() {
@@ -348,8 +348,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {global.ack = __webpack_require__(10)
-	__webpack_require__(36)
-	__webpack_require__(42)
+	__webpack_require__(37)
 	__webpack_require__(43)
 	__webpack_require__(44)
 	__webpack_require__(45)
@@ -357,7 +356,7 @@
 	__webpack_require__(47)
 	__webpack_require__(48)
 	__webpack_require__(49)
-	__webpack_require__(51)
+	__webpack_require__(50)
 	__webpack_require__(52)
 	__webpack_require__(53)
 	__webpack_require__(54)
@@ -366,6 +365,7 @@
 	__webpack_require__(57)
 	__webpack_require__(58)
 	__webpack_require__(59)
+	__webpack_require__(60)
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
@@ -390,6 +390,7 @@
 	ack.month = __webpack_require__(33)
 	ack.year = __webpack_require__(35)
 	ack.date = __webpack_require__(34)
+	ack.time = __webpack_require__(36)
 	/*
 	ack.function = require('./js/method')
 	*/
@@ -5668,7 +5669,7 @@
 	"use strict";
 
 	/* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
-	var ackDate = function ackDate(date){
+	function ackDate(date){
 		this.date = ackDate.toDate(date)
 		return this
 	}
@@ -6464,9 +6465,72 @@
 /* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	var ackDate = __webpack_require__(34)
+
+	function ackTime(date){
+		this.date = ackTime.toDate(date)
+		return this
+	}
+
+	ackTime.dateObjectBy = function(date){
+		if(date){
+			if(date.constructor == ackTime){
+				return date.date
+			}
+
+			if(date.constructor == Date)
+				return date
+
+			if(date.split){
+				var hour, minute, tt;
+				var tArray = date.split(':');
+				var hour = tArray[0];
+
+				if(tArray.length > 1){
+					minute = tArray[1];
+					minute = minute.split(' ');
+					if(minute.length > 1){
+						tt = minute[1];
+						if(hour<=11 && tt.toLowerCase()=='pm'){
+							hour = Number(hour) + 12;
+						}
+					}
+
+					minute = minute[0];
+				}
+
+				var newDate = new Date().setHours(hour);
+				newDate = new Date(newDate).setMinutes(minute)
+				date = new Date(newDate)
+			}
+
+			return new Date(date)//convert string to date object
+		}
+
+		return date || new Date()
+	}
+
+	ackTime.toDate = function(date){
+		return date!=null ? ackTime.dateObjectBy(date) : null
+	}
+
+	var eackTime = function(date){
+		var date = new ackTime(date).date
+		return ackDate(date)
+	}
+
+	eackTime.Class = ackTime
+	module.exports = eackTime
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.accessors',function(){
 		it('#objectify',function(){
@@ -6479,7 +6543,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// http://wiki.commonjs.org/wiki/Unit_Testing/1.0
@@ -6509,7 +6573,7 @@
 	// when used in node, this will actually load the util module we depend on
 	// versus loading the builtin util module as happens otherwise
 	// this is a bug in node module loading as far as I am concerned
-	var util = __webpack_require__(38);
+	var util = __webpack_require__(39);
 
 	var pSlice = Array.prototype.slice;
 	var hasOwn = Object.prototype.hasOwnProperty;
@@ -6844,7 +6908,7 @@
 
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -7372,7 +7436,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 
-	exports.isBuffer = __webpack_require__(40);
+	exports.isBuffer = __webpack_require__(41);
 
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -7416,7 +7480,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(41);
+	exports.inherits = __webpack_require__(42);
 
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -7434,10 +7498,10 @@
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(39)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(40)))
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -7534,7 +7598,7 @@
 
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -7545,7 +7609,7 @@
 	}
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -7574,12 +7638,12 @@
 
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack()',function(){
 		it('#throw',function(){
@@ -7699,12 +7763,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.array',function(){
 		it('#objectify',function(){
@@ -7772,12 +7836,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.base64',function(){
 		it('#toString',function(){
@@ -7790,12 +7854,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 	/*
 	describe('ack.binary',function(){
 		it('#isBinary',function(){
@@ -7813,12 +7877,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.class',function(){
 		it('init',function(){
@@ -7839,12 +7903,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,//require('../ack-x-dy').ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 
 	describe('ack.date',function(){
@@ -8183,12 +8247,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.debug',function(){
 		it('works',function(){
@@ -8200,13 +8264,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, __dirname) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37),
-		path = __webpack_require__(50)
+		assert = __webpack_require__(38),
+		path = __webpack_require__(51)
 
 	describe('ack.error',function(){
 		it('#getStackArray',function(){
@@ -8289,7 +8353,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), "/"))
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -8517,10 +8581,10 @@
 	    }
 	;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(39)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)))
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8607,12 +8671,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.injector',function(){
 		it('#define',function(){
@@ -8632,12 +8696,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.method',function(){
 		it('#getName',function(){
@@ -8710,12 +8774,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.month',function(){
 		describe('January',function(){
@@ -8814,12 +8878,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 55 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.number',function(){
 		it('#decimalFormat',function(){
@@ -8846,12 +8910,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 56 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.object',function(){
 		it('#isCyclic',function(){
@@ -8873,12 +8937,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 57 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.queryObject',function(){
 		describe('#Csv.#toArray',function(){
@@ -8915,12 +8979,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 58 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.string',function(){
 		it('#htmlFormat',function(){
@@ -8970,12 +9034,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 59 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(37)
+		assert = __webpack_require__(38)
 
 	describe('ack.year',function(){
 		var t14
@@ -9006,7 +9070,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 60 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {process.nextTick(function() {
@@ -9017,7 +9081,7 @@
 			mocha.run();
 	});
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(39)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)))
 
 /***/ }
 /******/ ]);

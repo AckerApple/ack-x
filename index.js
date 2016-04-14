@@ -14,6 +14,7 @@ ack.modules.definePath('week','./js/week')
 ack.modules.definePath('month','./js/month')
 ack.modules.definePath('year','./js/year')
 ack.modules.definePath('date','./js/date')
+ack.modules.definePath('time','./js/time')
 ack.modules.definePath('function','./js/function')
 
 //ensure modules are loaded by a lazy require

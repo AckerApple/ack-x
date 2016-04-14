@@ -15,6 +15,7 @@ ack.week = require('./js/week')
 ack.month = require('./js/month')
 ack.year = require('./js/year')
 ack.date = require('./js/date')
+ack.time = require('./js/time')
 /*
 ack.function = require('./js/method')
 */
