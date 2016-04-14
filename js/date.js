@@ -637,6 +637,7 @@ ackDate.prototype.mmddyyyy = function(sep){
 }
 
 ackDate.prototype.mdyyyy = function(sep){
+	if(!this.date)return '';
 	sep = sep==null ? '/' : sep
 	var d = this.date
 	return this.md(sep)+ sep +d.getFullYear()
