@@ -136,14 +136,20 @@ describe('ack.date',function(){
 			assert.equal(ack.date().param().addMinutes(-40).dateMinuteDiff(), 40)
 		})
 
-		it('#addSeconds',function(){
+		it('#addSeconds',function(done){
 			var d0, d1
 			d0 = d1 = new Date()
 
 			var	D1 = ack.date(d1).addSeconds(5),
 				diff = D1.dateSecondDiff(d0)
 			assert.equal(diff,5,'added 5 seconds but got '+diff)
-			assert.equal(ack.date().param().addSeconds(-40).dateSecondDiff(), 40)
+			/* test rounding */
+				var d = ack.date().param().addSeconds(-40)
+				setTimeout(function(){
+					assert.equal(d.dateSecondDiff(), 40)
+					done()
+				}, 200)
+			/* end */
 		})
 
 		describe('#nextYear',function(){

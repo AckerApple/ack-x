@@ -6185,14 +6185,28 @@
 	ackDate.prototype.dateHourDiff = function(date){
 		return Math.abs(this.date - ackDate.dateObjectBy(date||new Date())) / 36e5;
 	}
+	ackDate.prototype.dateHoursDiff = ackDate.prototype.dateHourDiff//alias
 
-	/** returns no negative numbers */
-	ackDate.prototype.dateSecondDiff = function(date){
+	/** Does not return negative numbers.
+		@date - not required, default = new Date()
+		@decimals - not required, default = false (no decimals causes decimal rounding)
+	*/
+	ackDate.prototype.dateSecondDiff = function(date, decimals){
 		date = ackDate.dateObjectBy(date||new Date())
 		var dif = this.date.getTime() - date.getTime()
 		var Seconds_from_T1_to_T2 = dif / 1000;
-		return Math.abs(Seconds_from_T1_to_T2)
+		var rtn = Math.abs(Seconds_from_T1_to_T2)
+
+		if(decimals){
+			decimals = Number(decimals) && !isNaN(decimals) ? decimals:2;
+			rtn = toDecimal(rtn,decimals)
+		}else{
+			rtn = Math.round(rtn)
+		}
+
+		return rtn
 	}
+	ackDate.prototype.dateSecondsDiff = ackDate.prototype.dateSecondDiff//alias
 
 	//no negative numbers
 	ackDate.prototype.dateMinuteDiff = function(date){
@@ -6200,6 +6214,7 @@
 		var diffMs = this.date - date
 		return Math.abs( Math.round(((diffMs % 86400000) % 3600000) / 60000) )
 	}
+	ackDate.prototype.dateMinutesDiff = ackDate.prototype.dateMinuteDiff//alias
 
 
 
@@ -6321,6 +6336,8 @@
 	var eackDate = function(date){
 		return new ackDate(date)
 	}
+
+	function toDecimal(n,p){var m=Math.pow(10,p);return (Math.round(n*m)/m).toFixed(p)}
 
 	eackDate.Class = ackDate
 	module.exports = eackDate
@@ -7954,14 +7971,20 @@
 				assert.equal(ack.date().param().addMinutes(-40).dateMinuteDiff(), 40)
 			})
 
-			it('#addSeconds',function(){
+			it.only('#addSeconds',function(done){
 				var d0, d1
 				d0 = d1 = new Date()
 
 				var	D1 = ack.date(d1).addSeconds(5),
 					diff = D1.dateSecondDiff(d0)
 				assert.equal(diff,5,'added 5 seconds but got '+diff)
-				assert.equal(ack.date().param().addSeconds(-40).dateSecondDiff(), 40)
+				/* test rounding */
+					var d = ack.date().param().addSeconds(-40)
+					setTimeout(function(){
+						assert.equal(d.dateSecondDiff(), 40)
+						done()
+					}, 200)
+				/* end */
 			})
 
 			describe('#nextYear',function(){

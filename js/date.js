@@ -520,12 +520,24 @@ ackDate.prototype.dateHourDiff = function(date){
 }
 ackDate.prototype.dateHoursDiff = ackDate.prototype.dateHourDiff//alias
 
-/** returns no negative numbers */
-ackDate.prototype.dateSecondDiff = function(date){
+/** Does not return negative numbers.
+	@date - not required, default = new Date()
+	@decimals - not required, default = false (no decimals causes decimal rounding)
+*/
+ackDate.prototype.dateSecondDiff = function(date, decimals){
 	date = ackDate.dateObjectBy(date||new Date())
 	var dif = this.date.getTime() - date.getTime()
 	var Seconds_from_T1_to_T2 = dif / 1000;
-	return Math.abs(Seconds_from_T1_to_T2)
+	var rtn = Math.abs(Seconds_from_T1_to_T2)
+
+	if(decimals){
+		decimals = Number(decimals) && !isNaN(decimals) ? decimals:2;
+		rtn = toDecimal(rtn,decimals)
+	}else{
+		rtn = Math.round(rtn)
+	}
+
+	return rtn
 }
 ackDate.prototype.dateSecondsDiff = ackDate.prototype.dateSecondDiff//alias
 
@@ -657,6 +669,8 @@ ackDate.prototype.md = function(sep){
 var eackDate = function(date){
 	return new ackDate(date)
 }
+
+function toDecimal(n,p){var m=Math.pow(10,p);return (Math.round(n*m)/m).toFixed(p)}
 
 eackDate.Class = ackDate
 module.exports = eackDate
