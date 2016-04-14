@@ -518,6 +518,7 @@ ackDate.prototype.addMilliseconds = function(n){
 ackDate.prototype.dateHourDiff = function(date){
 	return Math.abs(this.date - ackDate.dateObjectBy(date||new Date())) / 36e5;
 }
+ackDate.prototype.dateHoursDiff = ackDate.prototype.dateHourDiff//alias
 
 /** returns no negative numbers */
 ackDate.prototype.dateSecondDiff = function(date){
@@ -526,6 +527,7 @@ ackDate.prototype.dateSecondDiff = function(date){
 	var Seconds_from_T1_to_T2 = dif / 1000;
 	return Math.abs(Seconds_from_T1_to_T2)
 }
+ackDate.prototype.dateSecondsDiff = ackDate.prototype.dateSecondDiff//alias
 
 //no negative numbers
 ackDate.prototype.dateMinuteDiff = function(date){
@@ -533,6 +535,7 @@ ackDate.prototype.dateMinuteDiff = function(date){
 	var diffMs = this.date - date
 	return Math.abs( Math.round(((diffMs % 86400000) % 3600000) / 60000) )
 }
+ackDate.prototype.dateMinutesDiff = ackDate.prototype.dateMinuteDiff//alias
 
 
 
