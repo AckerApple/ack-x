@@ -9,7 +9,7 @@ describe('ack.time',function(){
 		assert.equal(ackDate.hhmmtt(), '01:30 AM');
 	})
 
-	it.only('01:30 PM',function(){
+	it('01:30 PM',function(){
 		var ackDate = ack.time('1:30 pm')
 		assert.equal(ackDate.hhmmtt(), '01:30 PM');
 	})

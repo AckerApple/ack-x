@@ -47,7 +47,7 @@
 	__webpack_require__(1);
 	mocha.setup("bdd");
 	__webpack_require__(9)
-	__webpack_require__(61);
+	__webpack_require__(62);
 	if(false) {
 		module.hot.accept();
 		module.hot.dispose(function() {
@@ -357,7 +357,7 @@
 	__webpack_require__(48)
 	__webpack_require__(49)
 	__webpack_require__(50)
-	__webpack_require__(52)
+	__webpack_require__(51)
 	__webpack_require__(53)
 	__webpack_require__(54)
 	__webpack_require__(55)
@@ -366,6 +366,7 @@
 	__webpack_require__(58)
 	__webpack_require__(59)
 	__webpack_require__(60)
+	__webpack_require__(61)
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
@@ -8251,6 +8252,33 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
+	var ack = global.ack,//require('../ack-x-dy').ack,
+		assert = __webpack_require__(38)
+
+
+	describe('ack.time',function(){
+		it('01:30 AM',function(){
+			var ackDate = ack.time('1:30 am');
+			assert.equal(ackDate.hhmmtt(), '01:30 AM');
+		})
+
+		it('01:30 PM',function(){
+			var ackDate = ack.time('1:30 pm')
+			assert.equal(ackDate.hhmmtt(), '01:30 PM');
+		})
+
+		it('13:30',function(){
+			var ackDate = ack.time('13:30');
+			assert.equal(ackDate.hhmmtt(), '01:30 PM')
+		})
+	})
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 50 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
 		assert = __webpack_require__(38)
 
@@ -8264,13 +8292,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, __dirname) {"use strict";
 	var ack = global.ack,
 		assert = __webpack_require__(38),
-		path = __webpack_require__(51)
+		path = __webpack_require__(52)
 
 	describe('ack.error',function(){
 		it('#getStackArray',function(){
@@ -8353,7 +8381,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), "/"))
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -8584,7 +8612,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)))
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8671,7 +8699,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8696,7 +8724,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8774,7 +8802,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 55 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8878,7 +8906,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 56 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8910,7 +8938,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 57 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8937,7 +8965,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 58 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8979,7 +9007,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 59 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -9034,7 +9062,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 60 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -9070,7 +9098,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 61 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {process.nextTick(function() {
