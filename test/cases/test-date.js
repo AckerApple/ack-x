@@ -118,6 +118,58 @@ describe('ack.date',function(){
 	})
 
 	describe('gotos',function(){
+		it('#addHours',function(){
+			var d0 = new Date('01/01/2015 02:00:00'),
+				d1 = ack.date(new Date(d0)).addHours(5),
+				diff = d1.dateHourDiff(d0)
+
+			assert.equal(diff,5,'added 5 hours but got '+diff)
+			assert.equal(ack.date().param().addHours(-40).dateHourDiff(), 40)
+		})
+
+		it('#addMinutes',function(){
+			var d0 = new Date('01/01/2015 02:00:00'),
+				d1 = ack.date(new Date(d0)).addMinutes(6),
+				diff = d1.dateMinuteDiff(d0)
+
+			assert.equal(diff, 6, 'added 6 minutes but got '+diff)
+			assert.equal(ack.date().param().addMinutes(-40).dateMinuteDiff(), 40)
+		})
+
+		it('#addSeconds',function(){
+			var d0, d1
+			d0 = d1 = new Date()
+
+			var	D1 = ack.date(d1).addSeconds(5),
+				diff = D1.dateSecondDiff(d0)
+			assert.equal(diff,5,'added 5 seconds but got '+diff)
+			assert.equal(ack.date().param().addSeconds(-40).dateSecondDiff(), 40)
+		})
+
+		describe('#nextYear',function(){
+			it('works',function(){
+				assert.equal(ack.date().now().nextYear().year(), new Date().getFullYear()+1)
+			})
+
+			it('#new',function(){
+				assert.equal(ack.date().now().nextYear().new().year(), new Date().getFullYear()+1)
+			})
+
+			it('backwards',function(){
+				assert.equal(ack.date().now().nextYear(-1).year(), new Date().getFullYear()-1)
+			})
+		})
+
+		describe('#priorYear',function(){
+			it('works',function(){
+				assert.equal(ack.date().now().priorYear().year(), new Date().getFullYear()-1)
+			})
+
+			it('#new',function(){
+				assert.equal(ack.date().now().priorYear().new().year(), new Date().getFullYear()-1)
+			})
+		})
+
 		it('#sod#gotoStartOfDate',function(){
 			var sod = ack.date('7/1/2015').gotoSod().date
 			assert.equal(sod.getHours(), 0)
@@ -167,55 +219,6 @@ describe('ack.date',function(){
 
 	it('#getDayAbbr',function(){
 		assert.equal( ack.date('06/16/2015').getDayAbbr(), 'Tue' )
-	})
-
-	it('#addHours',function(){
-		var d0 = new Date('01/01/2015 02:00:00'),
-			d1 = ack.date(new Date(d0)).addHours(5),
-			diff = d1.dateHourDiff(d0)
-
-		assert.equal(diff,5,'added 5 hours but got '+diff)
-	})
-
-	it('#addMinutes',function(){
-		var d0 = new Date('01/01/2015 02:00:00'),
-			d1 = ack.date(new Date(d0)).addMinutes(6),
-			diff = d1.dateMinuteDiff(d0)
-
-		assert.equal(diff, 6, 'added 6 minutes but got '+diff)
-	})
-
-	it('#addSeconds',function(){
-		var d0, d1
-		d0 = d1 = new Date()
-
-		var	D1 = ack.date(d1).addSeconds(5),
-			diff = D1.dateSecondDiff(d0)
-		assert.equal(diff,5,'added 5 seconds but got '+diff)
-	})
-
-	describe('#nextYear',function(){
-		it('works',function(){
-			assert.equal(ack.date().now().nextYear().year(), new Date().getFullYear()+1)
-		})
-
-		it('#new',function(){
-			assert.equal(ack.date().now().nextYear().new().year(), new Date().getFullYear()+1)
-		})
-
-		it('backwards',function(){
-			assert.equal(ack.date().now().nextYear(-1).year(), new Date().getFullYear()-1)
-		})
-	})
-
-	describe('#priorYear',function(){
-		it('works',function(){
-			assert.equal(ack.date().now().priorYear().year(), new Date().getFullYear()-1)
-		})
-
-		it('#new',function(){
-			assert.equal(ack.date().now().priorYear().new().year(), new Date().getFullYear()-1)
-		})
 	})
 
 	it('#dateMinuteDiff',function(){

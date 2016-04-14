@@ -5709,6 +5709,21 @@
 		return new Date(date.setMilliseconds(999))
 	}
 
+	ackDate.dateObjectBy = function(date){
+		if(date){
+			if(date.constructor == ackDate)
+				return date.date
+
+			if(date.constructor == Date)
+				return date
+
+			//if(['string','number'].indexOf(typeof(date)))
+			return new Date(date)//convert string to date object
+		}
+
+		return date || new Date()
+	}
+
 	ackDate.toDate = function(date){
 		return date!=null ? ackDate.dateObjectBy(date) : null
 	}
@@ -5736,21 +5751,6 @@
 		return ackDate.monthLcaseNameArray.indexOf(mon.toLowerCase())
 	}
 
-	ackDate.dateObjectBy = function(date){
-		if(date){
-			if(date.constructor == ackDate)
-				return date.date
-
-			if(date.constructor == Date)
-				return date
-
-			//if(['string','number'].indexOf(typeof(date)))
-			return new Date(date)//convert string to date object
-		}
-
-		return date || new Date()
-	}
-
 	ackDate.monthNameArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	ackDate.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
 	ackDate.monthAbbrArray = ['Jan','Feb','Mar','Apr','Ma','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
@@ -5768,6 +5768,10 @@
 
 	ackDate.prototype.now = function(){
 		this.date = new Date();return this;
+	}
+
+	ackDate.prototype.param = function(){
+		this.date = this.date||new Date();return this;
 	}
 
 	//returns years.months (32.11 is 32 years and 11 months && 32.1 is 32 years 1 month)
@@ -5994,6 +5998,7 @@
 		this.date = new Date(d)
 		return this
 	}
+	ackDate.prototype.priorDay = ackDate.prototype.prevDay//aka for naming consistency
 
 	ackDate.prototype.getDayName = function(){
 		return ackDate.dayNameArray[ this.date.getDay() ]
@@ -6178,19 +6183,20 @@
 
 	/** returns no negative numbers */
 	ackDate.prototype.dateHourDiff = function(date){
-		return Math.abs(this.date - ackDate.dateObjectBy(date)) / 36e5;
+		return Math.abs(this.date - ackDate.dateObjectBy(date||new Date())) / 36e5;
 	}
 
 	/** returns no negative numbers */
 	ackDate.prototype.dateSecondDiff = function(date){
-		var dif = this.date.getTime() - ackDate.dateObjectBy(date).getTime()
+		date = ackDate.dateObjectBy(date||new Date())
+		var dif = this.date.getTime() - date.getTime()
 		var Seconds_from_T1_to_T2 = dif / 1000;
 		return Math.abs(Seconds_from_T1_to_T2)
 	}
 
 	//no negative numbers
 	ackDate.prototype.dateMinuteDiff = function(date){
-		date = ackDate.toDate(date)
+		date = ackDate.toDate(date||new Date())
 		var diffMs = this.date - date
 		return Math.abs( Math.round(((diffMs % 86400000) % 3600000) / 60000) )
 	}
@@ -6438,7 +6444,6 @@
 
 	describe('ack.accessors',function(){
 		it('#objectify',function(){
-	    console.log('ack', ack)
 			var x = ack.accessors({test:22, TEST:44})
 			assert.equal(x.get('test'),22)
 			assert.equal(x.get('TEST'),44)
@@ -7931,6 +7936,58 @@
 		})
 
 		describe('gotos',function(){
+			it('#addHours',function(){
+				var d0 = new Date('01/01/2015 02:00:00'),
+					d1 = ack.date(new Date(d0)).addHours(5),
+					diff = d1.dateHourDiff(d0)
+
+				assert.equal(diff,5,'added 5 hours but got '+diff)
+				assert.equal(ack.date().param().addHours(-40).dateHourDiff(), 40)
+			})
+
+			it('#addMinutes',function(){
+				var d0 = new Date('01/01/2015 02:00:00'),
+					d1 = ack.date(new Date(d0)).addMinutes(6),
+					diff = d1.dateMinuteDiff(d0)
+
+				assert.equal(diff, 6, 'added 6 minutes but got '+diff)
+				assert.equal(ack.date().param().addMinutes(-40).dateMinuteDiff(), 40)
+			})
+
+			it('#addSeconds',function(){
+				var d0, d1
+				d0 = d1 = new Date()
+
+				var	D1 = ack.date(d1).addSeconds(5),
+					diff = D1.dateSecondDiff(d0)
+				assert.equal(diff,5,'added 5 seconds but got '+diff)
+				assert.equal(ack.date().param().addSeconds(-40).dateSecondDiff(), 40)
+			})
+
+			describe('#nextYear',function(){
+				it('works',function(){
+					assert.equal(ack.date().now().nextYear().year(), new Date().getFullYear()+1)
+				})
+
+				it('#new',function(){
+					assert.equal(ack.date().now().nextYear().new().year(), new Date().getFullYear()+1)
+				})
+
+				it('backwards',function(){
+					assert.equal(ack.date().now().nextYear(-1).year(), new Date().getFullYear()-1)
+				})
+			})
+
+			describe('#priorYear',function(){
+				it('works',function(){
+					assert.equal(ack.date().now().priorYear().year(), new Date().getFullYear()-1)
+				})
+
+				it('#new',function(){
+					assert.equal(ack.date().now().priorYear().new().year(), new Date().getFullYear()-1)
+				})
+			})
+
 			it('#sod#gotoStartOfDate',function(){
 				var sod = ack.date('7/1/2015').gotoSod().date
 				assert.equal(sod.getHours(), 0)
@@ -7980,55 +8037,6 @@
 
 		it('#getDayAbbr',function(){
 			assert.equal( ack.date('06/16/2015').getDayAbbr(), 'Tue' )
-		})
-
-		it('#addHours',function(){
-			var d0 = new Date('01/01/2015 02:00:00'),
-				d1 = ack.date(new Date(d0)).addHours(5),
-				diff = d1.dateHourDiff(d0)
-
-			assert.equal(diff,5,'added 5 hours but got '+diff)
-		})
-
-		it('#addMinutes',function(){
-			var d0 = new Date('01/01/2015 02:00:00'),
-				d1 = ack.date(new Date(d0)).addMinutes(6),
-				diff = d1.dateMinuteDiff(d0)
-
-			assert.equal(diff, 6, 'added 6 minutes but got '+diff)
-		})
-
-		it('#addSeconds',function(){
-			var d0, d1
-			d0 = d1 = new Date()
-
-			var	D1 = ack.date(d1).addSeconds(5),
-				diff = D1.dateSecondDiff(d0)
-			assert.equal(diff,5,'added 5 seconds but got '+diff)
-		})
-
-		describe('#nextYear',function(){
-			it('works',function(){
-				assert.equal(ack.date().now().nextYear().year(), new Date().getFullYear()+1)
-			})
-
-			it('#new',function(){
-				assert.equal(ack.date().now().nextYear().new().year(), new Date().getFullYear()+1)
-			})
-
-			it('backwards',function(){
-				assert.equal(ack.date().now().nextYear(-1).year(), new Date().getFullYear()-1)
-			})
-		})
-
-		describe('#priorYear',function(){
-			it('works',function(){
-				assert.equal(ack.date().now().priorYear().year(), new Date().getFullYear()-1)
-			})
-
-			it('#new',function(){
-				assert.equal(ack.date().now().priorYear().new().year(), new Date().getFullYear()-1)
-			})
 		})
 
 		it('#dateMinuteDiff',function(){

@@ -5386,6 +5386,21 @@
 		return new Date(date.setMilliseconds(999))
 	}
 
+	ackDate.dateObjectBy = function(date){
+		if(date){
+			if(date.constructor == ackDate)
+				return date.date
+
+			if(date.constructor == Date)
+				return date
+
+			//if(['string','number'].indexOf(typeof(date)))
+			return new Date(date)//convert string to date object
+		}
+
+		return date || new Date()
+	}
+
 	ackDate.toDate = function(date){
 		return date!=null ? ackDate.dateObjectBy(date) : null
 	}
@@ -5413,21 +5428,6 @@
 		return ackDate.monthLcaseNameArray.indexOf(mon.toLowerCase())
 	}
 
-	ackDate.dateObjectBy = function(date){
-		if(date){
-			if(date.constructor == ackDate)
-				return date.date
-
-			if(date.constructor == Date)
-				return date
-
-			//if(['string','number'].indexOf(typeof(date)))
-			return new Date(date)//convert string to date object
-		}
-
-		return date || new Date()
-	}
-
 	ackDate.monthNameArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	ackDate.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
 	ackDate.monthAbbrArray = ['Jan','Feb','Mar','Apr','Ma','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
@@ -5445,6 +5445,10 @@
 
 	ackDate.prototype.now = function(){
 		this.date = new Date();return this;
+	}
+
+	ackDate.prototype.param = function(){
+		this.date = this.date||new Date();return this;
 	}
 
 	//returns years.months (32.11 is 32 years and 11 months && 32.1 is 32 years 1 month)
@@ -5671,6 +5675,7 @@
 		this.date = new Date(d)
 		return this
 	}
+	ackDate.prototype.priorDay = ackDate.prototype.prevDay//aka for naming consistency
 
 	ackDate.prototype.getDayName = function(){
 		return ackDate.dayNameArray[ this.date.getDay() ]
@@ -5855,19 +5860,20 @@
 
 	/** returns no negative numbers */
 	ackDate.prototype.dateHourDiff = function(date){
-		return Math.abs(this.date - ackDate.dateObjectBy(date)) / 36e5;
+		return Math.abs(this.date - ackDate.dateObjectBy(date||new Date())) / 36e5;
 	}
 
 	/** returns no negative numbers */
 	ackDate.prototype.dateSecondDiff = function(date){
-		var dif = this.date.getTime() - ackDate.dateObjectBy(date).getTime()
+		date = ackDate.dateObjectBy(date||new Date())
+		var dif = this.date.getTime() - date.getTime()
 		var Seconds_from_T1_to_T2 = dif / 1000;
 		return Math.abs(Seconds_from_T1_to_T2)
 	}
 
 	//no negative numbers
 	ackDate.prototype.dateMinuteDiff = function(date){
-		date = ackDate.toDate(date)
+		date = ackDate.toDate(date||new Date())
 		var diffMs = this.date - date
 		return Math.abs( Math.round(((diffMs % 86400000) % 3600000) / 60000) )
 	}
