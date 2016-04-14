@@ -204,6 +204,7 @@
 	ackExpose.prototype.month = function(){return ack.month(this.$var)}
 	ackExpose.prototype.year = function(){return ack.year(this.$var)}
 	ackExpose.prototype.date = function(){return ack.date(this.$var)}
+	ackExpose.prototype.time = function(){return ack.time(this.$var)}
 
 
 	ackExpose.prototype.getSimpleClone = function(){
