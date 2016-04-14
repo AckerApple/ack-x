@@ -6284,17 +6284,20 @@
 
 	//yyyy-mm-dd hh:nn:ss:l
 	ackDate.prototype.storageFormat = function(dateSep, spaceSep, timeSep, milsecSep){
+		if(!this.date)return '';
 		dateSep = dateSep || '-'
 		spaceSep = spaceSep || ' '
 		return this.date.getFullYear() + dateSep + this.mmdd(dateSep) + spaceSep + this.hhmmssl(timeSep, milsecSep)
 	}
 
 	ackDate.prototype.yyyymmdd = function(sep){
+		if(!this.date)return '';
 		sep = sep==null ? '' : sep
 		return this.year() + sep + this.mmdd(sep)
 	}
 
 	ackDate.prototype.mmddyyyy = function(sep){
+		if(!this.date)return '';
 		sep = sep==null ? '/' : sep
 		var d = this.date
 		return this.mmdd(sep)+ sep +d.getFullYear()
@@ -6307,27 +6310,32 @@
 	}
 
 	ackDate.prototype.mdyy = function(sep){
+		if(!this.date)return '';
 		sep = sep==null ? '/' : sep
 		var d = this.date
 		return this.md(sep)+ sep +this.yy()
 	}
 
 	ackDate.prototype.mmddyy = function(sep){
+		if(!this.date)return '';
 		var r = this.mmddyyyy()
 		return r.substring(0,r.length-4)+r.substring(r.length-2,r.length)
 	}
 
 	ackDate.prototype.yy = function(){
+		if(!this.date)return '';
 		return this.date.getFullYear().toString().substring(2,4)
 	}
 
 	ackDate.prototype.mmdd = function(sep){
+		if(!this.date)return '';
 		sep = sep==null ? '/' : sep
 		var d = this.date
 		return ackDate.twoDigit(d.getMonth()+1)+ sep + ackDate.twoDigit(d.getDate())
 	}
 
 	ackDate.prototype.md = function(sep){
+		if(!this.date)return '';
 		sep = sep==null ? '/' : sep
 		var d = this.date
 		return (d.getMonth()+1)+ sep + d.getDate()
@@ -7971,7 +7979,7 @@
 				assert.equal(ack.date().param().addMinutes(-40).dateMinuteDiff(), 40)
 			})
 
-			it.only('#addSeconds',function(done){
+			it('#addSeconds',function(done){
 				var d0, d1
 				d0 = d1 = new Date()
 
