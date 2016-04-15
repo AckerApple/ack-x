@@ -5890,8 +5890,13 @@
 	//no negative numbers
 	ackDate.prototype.dateMinuteDiff = function(date){
 		date = ackDate.toDate(date||new Date())
-		var diffMs = this.date - date
-		return Math.abs( Math.round(((diffMs % 86400000) % 3600000) / 60000) )
+		var hourDiff = date - this.date; //in ms
+		var secDiff = hourDiff / 1000; //in s
+		var minDiff = hourDiff / 60 / 1000; //in minutes
+		var hDiff = hourDiff / 3600 / 1000; //in hours
+		var hours = Math.floor(hDiff);
+		var mins = minDiff - 60 * hours
+		return Math.round( Math.abs( hours * 60 + mins ), 0);
 	}
 	ackDate.prototype.dateMinutesDiff = ackDate.prototype.dateMinuteDiff//alias
 
@@ -6171,8 +6176,11 @@
 					minute = minute.split(' ');
 					if(minute.length > 1){
 						tt = minute[1];
-						if(hour<=11 && tt.toLowerCase()=='pm'){
+						var isPm = tt.toLowerCase()=='pm'
+						if(hour<=11 && isPm){
 							hour = Number(hour) + 12;
+						}else if(hour==12 && !isPm){
+							hour = 0
 						}
 					}
 

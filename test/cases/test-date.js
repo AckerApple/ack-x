@@ -227,7 +227,7 @@ describe('ack.date',function(){
 		assert.equal( ack.date('06/16/2015').getDayAbbr(), 'Tue' )
 	})
 
-	it('#dateMinuteDiff',function(){
+	it('#dateYearDiff',function(){
 		var d0 = new Date(),
 			D0 = ack.date(d0),
 			D1 = ack.date(new Date(d0)).addYear(2),
@@ -237,15 +237,23 @@ describe('ack.date',function(){
 		assert.equal(diff2,2,'added 2 years but got '+diff2)
 	})
 
-	it('#dateMinuteDiff',function(){
-		var d0 = new Date(),
-			D0 = ack.date(d0),
-			D1 = ack.date(new Date(d0)).addSeconds(120),
-			diff = D1.dateMinuteDiff(d0),
-			diff2 = D0.dateMinuteDiff( D1.date )
+	describe('#dateMinuteDiff',function(){
+		it('2 mins',function(){
+			var d0 = new Date(),
+				D0 = ack.date(d0),
+				D1 = ack.date(new Date(d0)).addSeconds(120),
+				diff = D1.dateMinuteDiff(d0),
+				diff2 = D0.dateMinuteDiff( D1.date )
 
-		assert.equal(diff,2,'added 2 minutes but got '+diff)
-		assert.equal(diff2,2,'added 2 minutes but got '+diff2)
+			assert.equal(diff,2,'added 2 minutes but got '+diff)
+			assert.equal(diff2,2,'added 2 minutes but got '+diff2)
+		})
+
+		it('1 day',function(){
+			var d1 = ack.date('04/07/2016 04:00 PM')
+			var d2 = ack.date('04/08/2016 04:00 PM')
+			assert.equal(d1.dateMinuteDiff(d2), 1440)
+		})
 	})
 
 	it('#dateDayDiff',function(){

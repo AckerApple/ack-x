@@ -6214,8 +6214,13 @@
 	//no negative numbers
 	ackDate.prototype.dateMinuteDiff = function(date){
 		date = ackDate.toDate(date||new Date())
-		var diffMs = this.date - date
-		return Math.abs( Math.round(((diffMs % 86400000) % 3600000) / 60000) )
+		var hourDiff = date - this.date; //in ms
+		var secDiff = hourDiff / 1000; //in s
+		var minDiff = hourDiff / 60 / 1000; //in minutes
+		var hDiff = hourDiff / 3600 / 1000; //in hours
+		var hours = Math.floor(hDiff);
+		var mins = minDiff - 60 * hours
+		return Math.round( Math.abs( hours * 60 + mins ), 0);
 	}
 	ackDate.prototype.dateMinutesDiff = ackDate.prototype.dateMinuteDiff//alias
 
@@ -6495,8 +6500,11 @@
 					minute = minute.split(' ');
 					if(minute.length > 1){
 						tt = minute[1];
-						if(hour<=11 && tt.toLowerCase()=='pm'){
+						var isPm = tt.toLowerCase()=='pm'
+						if(hour<=11 && isPm){
 							hour = Number(hour) + 12;
+						}else if(hour==12 && !isPm){
+							hour = 0
 						}
 					}
 
@@ -8137,7 +8145,7 @@
 			assert.equal( ack.date('06/16/2015').getDayAbbr(), 'Tue' )
 		})
 
-		it('#dateMinuteDiff',function(){
+		it('#dateYearDiff',function(){
 			var d0 = new Date(),
 				D0 = ack.date(d0),
 				D1 = ack.date(new Date(d0)).addYear(2),
@@ -8147,15 +8155,23 @@
 			assert.equal(diff2,2,'added 2 years but got '+diff2)
 		})
 
-		it('#dateMinuteDiff',function(){
-			var d0 = new Date(),
-				D0 = ack.date(d0),
-				D1 = ack.date(new Date(d0)).addSeconds(120),
-				diff = D1.dateMinuteDiff(d0),
-				diff2 = D0.dateMinuteDiff( D1.date )
+		describe('#dateMinuteDiff',function(){
+			it('2 mins',function(){
+				var d0 = new Date(),
+					D0 = ack.date(d0),
+					D1 = ack.date(new Date(d0)).addSeconds(120),
+					diff = D1.dateMinuteDiff(d0),
+					diff2 = D0.dateMinuteDiff( D1.date )
 
-			assert.equal(diff,2,'added 2 minutes but got '+diff)
-			assert.equal(diff2,2,'added 2 minutes but got '+diff2)
+				assert.equal(diff,2,'added 2 minutes but got '+diff)
+				assert.equal(diff2,2,'added 2 minutes but got '+diff2)
+			})
+
+			it('1 day',function(){
+				var d1 = ack.date('04/07/2016 04:00 PM')
+				var d2 = ack.date('04/08/2016 04:00 PM')
+				assert.equal(d1.dateMinuteDiff(d2), 1440)
+			})
 		})
 
 		it('#dateDayDiff',function(){
@@ -8258,6 +8274,26 @@
 
 
 	describe('ack.time',function(){
+		it('12:59 pm',function(){
+			var ackDate = ack.time('12:00 pm');
+			assert.equal(ackDate.hhmmtt(), '12:00 PM');
+		})
+
+		it('12:00 am',function(){
+			var ackDate = ack.time('12:00 am');
+			assert.equal(ackDate.hhmmtt(), '12:00 AM');
+		})
+
+		it('12:59 am',function(){
+			var ackDate = ack.time('12:59 am');
+			assert.equal(ackDate.hhmmtt(), '12:59 AM');
+		})
+
+		it('12:00 pm',function(){
+			var ackDate = ack.time('12:00 pm');
+			assert.equal(ackDate.hhmmtt(), '12:00 PM');
+		})
+
 		it('01:30 AM',function(){
 			var ackDate = ack.time('1:30 am');
 			assert.equal(ackDate.hhmmtt(), '01:30 AM');
