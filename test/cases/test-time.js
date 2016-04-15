@@ -4,6 +4,26 @@ var ack = global.ack,//require('../ack-x-dy').ack,
 
 
 describe('ack.time',function(){
+	it('12:59 pm',function(){
+		var ackDate = ack.time('12:00 pm');
+		assert.equal(ackDate.hhmmtt(), '12:00 PM');
+	})
+
+	it('12:00 am',function(){
+		var ackDate = ack.time('12:00 am');
+		assert.equal(ackDate.hhmmtt(), '12:00 AM');
+	})
+
+	it('12:59 am',function(){
+		var ackDate = ack.time('12:59 am');
+		assert.equal(ackDate.hhmmtt(), '12:59 AM');
+	})
+
+	it('12:00 pm',function(){
+		var ackDate = ack.time('12:00 pm');
+		assert.equal(ackDate.hhmmtt(), '12:00 PM');
+	})
+
 	it('01:30 AM',function(){
 		var ackDate = ack.time('1:30 am');
 		assert.equal(ackDate.hhmmtt(), '01:30 AM');
