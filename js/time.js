@@ -17,28 +17,10 @@ ackTime.dateObjectBy = function(date){
 			return date
 
 		if(date.split){
-			var hour, minute, tt;
-			var tArray = date.split(':');
-			var hour = tArray[0];
+			var parsed = ackDate.parseTimeString(date)
 
-			if(tArray.length > 1){
-				minute = tArray[1];
-				minute = minute.split(' ');
-				if(minute.length > 1){
-					tt = minute[1];
-					var isPm = tt.toLowerCase()=='pm'
-					if(hour<=11 && isPm){
-						hour = Number(hour) + 12;
-					}else if(hour==12 && !isPm){
-						hour = 0
-					}
-				}
-
-				minute = minute[0];
-			}
-
-			var newDate = new Date().setHours(hour);
-			newDate = new Date(newDate).setMinutes(minute)
+			var newDate = new Date().setHours(parsed.hour);
+			newDate = new Date(newDate).setMinutes(parsed.minute)
 			date = new Date(newDate)
 		}
 

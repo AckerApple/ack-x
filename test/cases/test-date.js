@@ -152,6 +152,11 @@ describe('ack.date',function(){
 			/* end */
 		})
 
+		it('#setTimeByString',function(){
+			var string = ack.date('1/1/2012').setTimeByString('7:2 pm').mmddyyyyhhmmtt()
+			assert.equal(string, '01/01/2012 07:02 PM')
+		})
+
 		describe('#nextYear',function(){
 			it('works',function(){
 				assert.equal(ack.date().now().nextYear().year(), new Date().getFullYear()+1)
