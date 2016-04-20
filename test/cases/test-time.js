@@ -10,7 +10,8 @@ describe('ack.time',function(){
 
 	it('Mon Apr 18 2016 07:38:00 GMT-0400 (EDT)',function(){
 		var ackDate = ack.time('Mon Apr 18 2016 07:38:00 GMT-0400 (EDT)');
-		var d2 = ack.time('2016-04-18T21:48:00.000Z')
+		var clone = new Date(ackDate.date);
+		var d2 = ack.date(clone).setTimeByString('2016-04-18T21:48:00.000Z')
 		assert.equal(ackDate.dateMinuteDiff(d2.date), 610);
 	})
 
