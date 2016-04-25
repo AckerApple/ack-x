@@ -9,6 +9,48 @@ describe('ack.array',function(){
 		if(s.name[0] != 11 || s.test[2]!=33)throw 'array failed to be objectified';
 	})
 
+	describe('#distinct',function(){
+		it('simple',function(){
+			var sumArray = [0,1,2,3,4,4]
+			var jA = ack.array(sumArray)
+			var array = jA.distinct().array
+			assert.equal(array.length, 5)
+		})
+
+		it('dynamic',function(){
+			var sumArray = [{a:0},{a:1},{a:2},{a:3},{a:4},{a:4}]
+			var jA = ack.array(sumArray)
+			var array = jA.distinct(function(v){return v.a}).array
+			assert.equal(array.length, 5)
+		})
+	})
+
+	it('#each',function(){
+		var sumArray = [
+			{kid:0, teacher:0},
+			{kid:2, teacher:1},
+			{kid:2, teacher:1},
+			{kid:0, teacher:1},
+			{kid:0, teacher:0},
+			{kid:2, teacher:1}
+		]
+
+		var kidCount = 0
+		var staffCount = 0
+
+		var kidCounter = function(v){
+			kidCount = kidCount + v.kid
+		},
+		staffCounter = function(v){
+			staffCount = staffCount + v.teacher
+		}
+
+		ack.array(sumArray).each(kidCounter, staffCounter)
+
+		assert.equal(kidCount, 6)
+		assert.equal(staffCount, 4)
+	})
+
 	it('#sum',function(){
 		var sumArray = [0,1,2,3,4]
 		var jA = ack.array(sumArray)

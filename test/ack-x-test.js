@@ -5299,6 +5299,42 @@
 		return this
 	}
 
+	/**
+		Intended for high performance by looping an array only once but performing multiple actions.
+		Run multiple functions for each iteration of an array.
+
+		Example: array.each(countTeacher, countChild) instead of two loops array.each(countTeacher) + array.each(countChild)
+	*/
+	jXArray.prototype.each = function(method0, method1, method2, method3){
+		if(!this.array)return this;
+		for(var x=0; x < this.array.length; ++x){
+			for(var a=0; a < arguments.length; ++a){
+				arguments[a].call(null, this.array[x], x, this.array.length)
+			}
+			this.array[x]
+		}
+		return this;
+	}
+
+	jXArray.prototype.distinct = function(method){
+		if(!this.array)return this;
+		var distincts = []
+		for(var x=0; x < this.array.length; ++x){
+			var a0 = this.array[x]
+			var isDef = false
+			for(var xd=distincts.length-1; xd >= 0; --xd){
+				var item = distincts[xd]
+				if(item==a0 || method && method(a0)==method(item)){
+					isDef = true
+					break;
+				}
+			}
+			if(!isDef)distincts.push(a0)
+		}
+		this.array = distincts
+		return this
+	}
+
 	//pivets array of objects to object of arrays
 	jXArray.prototype.objectify = function(){
 		if(!this.array.length)return {}
@@ -7834,6 +7870,48 @@
 			var a = [{name:11,test:11},{name:22,test:22},{name:33,test:33}]
 			var s = ack.array(a).objectify()
 			if(s.name[0] != 11 || s.test[2]!=33)throw 'array failed to be objectified';
+		})
+
+		describe('#distinct',function(){
+			it('simple',function(){
+				var sumArray = [0,1,2,3,4,4]
+				var jA = ack.array(sumArray)
+				var array = jA.distinct().array
+				assert.equal(array.length, 5)
+			})
+
+			it('dynamic',function(){
+				var sumArray = [{a:0},{a:1},{a:2},{a:3},{a:4},{a:4}]
+				var jA = ack.array(sumArray)
+				var array = jA.distinct(function(v){return v.a}).array
+				assert.equal(array.length, 5)
+			})
+		})
+
+		it('#each',function(){
+			var sumArray = [
+				{kid:0, teacher:0},
+				{kid:2, teacher:1},
+				{kid:2, teacher:1},
+				{kid:0, teacher:1},
+				{kid:0, teacher:0},
+				{kid:2, teacher:1}
+			]
+
+			var kidCount = 0
+			var staffCount = 0
+
+			var kidCounter = function(v){
+				kidCount = kidCount + v.kid
+			},
+			staffCounter = function(v){
+				staffCount = staffCount + v.teacher
+			}
+
+			ack.array(sumArray).each(kidCounter, staffCounter)
+
+			assert.equal(kidCount, 6)
+			assert.equal(staffCount, 4)
 		})
 
 		it('#sum',function(){
