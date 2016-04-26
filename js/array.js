@@ -23,13 +23,16 @@ jXArray.prototype.each = function(method0, method1, method2, method3){
 
 jXArray.prototype.distinct = function(method){
 	if(!this.array)return this;
+
 	var distincts = []
+	method = method || function(v){return v}
+
 	for(var x=0; x < this.array.length; ++x){
 		var a0 = this.array[x]
 		var isDef = false
 		for(var xd=distincts.length-1; xd >= 0; --xd){
 			var item = distincts[xd]
-			if(item==a0 || method && method(a0)==method(item)){
+			if(method(a0)==method(item)){
 				isDef = true
 				break;
 			}
