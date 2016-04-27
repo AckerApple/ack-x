@@ -63,6 +63,7 @@ describe('ack.date',function(){
 		})
 
 		it('#mmmmdyyyy',function(){
+			assert.equal(ack.date().mmmmdyyyy(), '')
 			assert.equal(ack.date('2/24/2016').mmmmdyyyy(), 'February 24th 2016')
 		})
 
