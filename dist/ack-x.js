@@ -5972,6 +5972,7 @@
 
 	/** Febuary 24th 2016 */
 	ackDate.prototype.mmmmdyyyy = function(){
+	  if(!this.date)return ''
 	  return this.getMonthName()+' '+this.getMonthDateProperNumber() +' '+ this.date.getFullYear()
 	}
 

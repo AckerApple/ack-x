@@ -6296,6 +6296,7 @@
 
 	/** Febuary 24th 2016 */
 	ackDate.prototype.mmmmdyyyy = function(){
+	  if(!this.date)return ''
 	  return this.getMonthName()+' '+this.getMonthDateProperNumber() +' '+ this.date.getFullYear()
 	}
 
@@ -8111,6 +8112,7 @@
 			})
 
 			it('#mmmmdyyyy',function(){
+				assert.equal(ack.date().mmmmdyyyy(), '')
 				assert.equal(ack.date('2/24/2016').mmmmdyyyy(), 'February 24th 2016')
 			})
 
