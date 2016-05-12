@@ -84,6 +84,8 @@ describe('ack.date',function(){
 		})
 
 		it('hhmmtt',function(){
+			assert.equal(ack.date().hhmmtt(), '')
+
 			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
 			var val = jDate.hhmmtt()
 			assert.equal(val, '11:30 AM')

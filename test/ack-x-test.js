@@ -5186,6 +5186,10 @@
 		return this
 	}
 
+	jXMethod.prototype.runInMs = function(ms){
+		setTimeout(this.method, ms);return this
+	}
+
 	if(jXMethod.name && jXMethod.name==='jXMethod'){//device supports function.name
 		jXMethod.prototype.getName = function(){
 			return this.name || (this.method.name.length ? this.method.name : null)
@@ -8133,6 +8137,8 @@
 			})
 
 			it('hhmmtt',function(){
+				assert.equal(ack.date().hhmmtt(), '')
+
 				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
 				var val = jDate.hhmmtt()
 				assert.equal(val, '11:30 AM')

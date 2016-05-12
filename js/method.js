@@ -4,6 +4,10 @@ var jXMethod = function jXMethod(method, name){
 	return this
 }
 
+jXMethod.prototype.runInMs = function(ms){
+	setTimeout(this.method, ms);return this
+}
+
 if(jXMethod.name && jXMethod.name==='jXMethod'){//device supports function.name
 	jXMethod.prototype.getName = function(){
 		return this.name || (this.method.name.length ? this.method.name : null)
