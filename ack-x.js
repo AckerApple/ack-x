@@ -11,9 +11,10 @@ function ack($var){
 	return new ackExpose($var)
 }
 
+ack.object = require('./js/object')
 ack.Expose = ackExpose//Outsider's referense to expose factory
 
-/* MODULES */
+/* CORE MODULES */
 	ack.modules = new ackInjector(ack)
 
 	ack['class'] = function(cl, extendOrAccessors, accessors){
@@ -28,6 +29,7 @@ ack.Expose = ackExpose//Outsider's referense to expose factory
 		return new ackInjector($scope)
 	}
 
+
 	ack.promise = function(var0, var1, var2, var3){
 		var promise = partyModules.ackP.start()
 		return promise.set.apply(promise,arguments)
@@ -36,7 +38,10 @@ ack.Expose = ackExpose//Outsider's referense to expose factory
 	ack.Promise = function(resolver){
 		return new partyModules.ackP(resolver)
 	}
+/* end: CORE MODULES */
 
+/* end: MODULES */
+	//?maybe deprecated and unused
 	var indexSelector = require('./js/IndexSelector')
 	ack.indexSelector = function(){
 		var $scope = {}
@@ -46,7 +51,10 @@ ack.Expose = ackExpose//Outsider's referense to expose factory
 		return new indexSelector($scope)
 	}
 
-	/** Organized debug logging. See npm debug for more information */
+	/**
+		- Organized debug logging that can be viewed ondemand by types of debug logging
+		- See npm "debug" package for more information
+	*/
 	var ackDebugMap = {}//create storage of all loggers created
 	ack.debug = function debug(name, log0, log1, log2){
 		var logger = partyModules.debug(name)
@@ -114,7 +122,7 @@ ackExpose.prototype.number = function(){return ack.number(this.$var)}
 ackExpose.prototype.string = function(){return ack.string(this.$var)}
 ackExpose.prototype.binary = function(){return ack.binary(this.$var)}
 ackExpose.prototype.base64 = function(){return ack.base64(this.$var)}
-ackExpose.prototype.object = function(){return ack.object(this.$var)}
+ackExpose.prototype.object = function(){return new ackObject(this.$var)}
 ackExpose.prototype.method = function(){return ack.method(this.$var)}
 ackExpose.prototype['function'] = function(){return ack['function'](this.$var)}
 ackExpose.prototype.array = function(){return ack.array(this.$var)}

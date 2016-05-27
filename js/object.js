@@ -1,6 +1,39 @@
 "use strict";
-var jXObject = function jXObject(object){
+
+function xObject(ob){
+	return new jXObject(ob)
+}
+
+xObject.map = function(method){
+	return function(ob){
+		return map(ob,method)
+	}
+}
+
+xObject.forEach = function(method){
+	return function(ob){
+		return forEach(ob,method)
+	}
+}
+
+
+function jXObject(object){
 	this.object = object
+	return this
+}
+
+/** @method(item, index, object) */
+jXObject.prototype.forEach = function(method){
+	xObject.forEach(method)(this.object)
+	return this
+}
+
+/**
+	this.object will be the map result
+	@method(item, index, object)
+*/
+jXObject.prototype.map = function(method){
+	xObject.map(method)(this.object)
 	return this
 }
 
@@ -41,10 +74,30 @@ jXObject.prototype.toCookieString = function(){
 }
 
 
-var rtn = function(path){return new jXObject(path)}
-if(typeof(module)!='undefined' && module.exports){
-	rtn.Class = jXObject
-	module.exports = rtn
-}else if(typeof(jX)!='undefined'){
-	jX.modules.define('object', rtn)
+module.exports = xObject
+
+
+function map(ob, method){
+	if(ob.map){
+		return ob.map(method)
+	}
+
+	var res = {}
+	for(var x in ob){
+		res[x] = method(ob[x], x, ob)
+	}
+
+	return res
+}
+
+function forEach(ob, method){
+	if(ob.forEach){
+		ob.forEach(method)
+	}else{
+		for(var x in ob){
+			method(ob[x], x, ob)
+		}
+	}
+
+	return ob
 }
