@@ -10,31 +10,31 @@ Use this package at will, use with caution. PLEASE watch our version numbers as 
 
 ## Simple Example of Variable Exposing
 ```
-  var exactStartOfMonth = require('ack-x').date().now().gotoFirstDayOfMonth().gotoStartOfDate().date
+var exactStartOfMonth = require('ack-x').date().now().gotoFirstDayOfMonth().gotoStartOfDate().date
 ```
 
 ## Complex Example of Variable Exposing
 ```
-  var ack = require('ack-x')
-  var xDate = ack.date().now()//expose date as now
+var ack = require('ack-x')
+var xDate = ack.date().now()//expose date as now
 
-  ack.promise(
-    xDate.getNextYear(),//promise val0 is next year as number
-    xDate.nextYear(2).year(),//promise val1 is the year as number, in two year
-    xDate.getNextYear(3)//promise val2 is the year as number, in two year
-  )
-  .then(function(y0, y1, y2){
-    return y0 < y1 && y1 < y2
-  })
-  .if(false, function(){
-    return 'Time is going in reverse'
-  })
-  .if(true, function(){
-    return 'Time is going in working correctly'
-  })
-  .then( ack.string )//The promise string value, is injected into the string variable exposer
-  .call('toBase64')//The exposed string variable is casted to base64
-  .then( console.log )//log results
+ack.promise(
+  xDate.getNextYear(),//promise val0 is next year as number
+  xDate.nextYear(2).year(),//promise val1 is the year as number, in two year
+  xDate.getNextYear(3)//promise val2 is the year as number, in two year
+)
+.then(function(y0, y1, y2){
+  return y0 < y1 && y1 < y2
+})
+.if(false, function(){
+  return 'Time is going in reverse'
+})
+.if(true, function(){
+  return 'Time is going in working correctly'
+})
+.then( ack.string )//The promise string value, is injected into the string variable exposer
+.call('toBase64')//The exposed string variable is casted to base64
+.then( console.log )//log results
 ```
 
 ##Currently Supported Variable Exposing Modules
