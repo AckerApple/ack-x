@@ -4,15 +4,18 @@ var jXMethod = function jXMethod(method, name){
 	return this
 }
 
+/** sets a timeout and then runs set method in milsecs */
 jXMethod.prototype.runInMs = function(ms){
 	setTimeout(this.method, ms);return this
 }
 
 if(jXMethod.name && jXMethod.name==='jXMethod'){//device supports function.name
+	/** gets name of defined function */
 	jXMethod.prototype.getName = function(){
 		return this.name || (this.method.name.length ? this.method.name : null)
 	}
 }else{
+	/** gets name of defined function */
 	jXMethod.prototype.getName = function(){
 		var funcNameRegex = /function\s+(.{1,})\(/;
 		var results = (funcNameRegex).exec(this.method.toString())
@@ -20,6 +23,7 @@ if(jXMethod.name && jXMethod.name==='jXMethod'){//device supports function.name
 	}
 }
 
+/** returns array of argument names defined within set function */
 jXMethod.prototype.getArgNameArray = function(){
 	var string = this.getDefinition()
 	var argDef = /\(.+\)/.exec(string)[0]
@@ -29,6 +33,7 @@ jXMethod.prototype.getArgNameArray = function(){
 	return argDef.split(',')
 }
 
+/** get set functions inner definition */
 jXMethod.prototype.getDefinition = function(){
 	var funcNameRegex = /(.*function[^\)]+\))/;
 	var results = (funcNameRegex).exec(this.method.toString())
@@ -55,9 +60,11 @@ jXMethod.prototype.expect = function(nameOrMap, value, requiredOrType, type){
 	return this
 }
 
-/**
-	argument-name, argument-value, required, constructor
-	@requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
+/** Build argument validation for when set function is invoked.
+	@name - argument-name
+	@value - runtime value argument-value
+	@required
+	@type - requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
 */
 jXMethod.prototype.expectOne = function(name, value, requiredOrType, type){
 	var isReqDefined = requiredOrType!=null && requiredOrType.constructor==Boolean

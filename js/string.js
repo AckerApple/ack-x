@@ -6,6 +6,7 @@ var ExString = function ExString(string){
 
 ExString._keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
 
+/** test string against email regX */
 ExString.prototype.isEmail = function(){
 	return this.string.search(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)>=0
 }
@@ -24,6 +25,7 @@ ExString.prototype.htmlFormat = function(){
 	return v
 }
 
+/** string becomes really long */
 ExString.prototype.toBase64 = function(){
 	var e = this._utf8_encode();
 	var t="";var n,r,i,s,o,u,a;var f=0;
@@ -36,6 +38,7 @@ ExString.prototype.toBase64 = function(){
 	return t
 }
 
+//convert string to something more safely portable
 ExString.prototype._utf8_encode = function(){
 	var e = this.string.replace ? this.string : this.string.toString()
 	e=e.replace(/\r\n/g,"\n");var t="";

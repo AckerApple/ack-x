@@ -21,6 +21,9 @@ jXArray.prototype.each = function(method0, method1, method2, method3){
 	return this;
 }
 
+/** reduce array down to only distinct items
+	@method - optional, returned value is used to determine distinctness
+*/
 jXArray.prototype.distinct = function(method){
 	if(!this.array)return this;
 
@@ -90,6 +93,9 @@ jXArray.prototype.prependArray = function(){
 	return this
 }
 
+/** ads an array all up
+	@method - optional. Returned value is used to sum
+*/
 jXArray.prototype.sum = function(method){
 	var n=0,a = this.array
 	method = method || function(v,i){return v}
@@ -99,7 +105,10 @@ jXArray.prototype.sum = function(method){
 	return n
 }
 
-//grouptype = sequence || struct. WHEN isIndexValue=true THEN return array contains back reference to orginal array index
+/** break an array into buckets of arrays
+	@isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
+	@grouptype = sequence || struct. WHEN isIndexValue=true THEN return array contains back reference to orginal array index
+*/
 jXArray.prototype.group = function(method, isIndexValue, grouptype){
 	method = method ? method : function(v){return v}
 	grouptype = grouptype ? grouptype : 'sequence'
