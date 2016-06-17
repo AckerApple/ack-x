@@ -168,6 +168,14 @@ ack.error(e).isType(type)
 
 //TYPES OF ERRORS, use these errors to standardized error flow
 
+ack.error().types.notFound( message )
+ack.error().types.localNetworkRequired( message )
+ack.error().types.unauthorized( message )
+ack.error().types.badRequest( message )
+ack.error().types.methodNotAllowed( message )
+
+//TYPES OF ERRORS, Object Details
+
 ack.error().types.NotFound(message){
   this.status = 404;
   this.code = "not_found";
