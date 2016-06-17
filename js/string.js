@@ -18,7 +18,7 @@ ExString.prototype.repeat = function(num){
 	return s
 }
 
-//grouptype = sequence || struct
+//escapes html brackets
 ExString.prototype.htmlFormat = function(){
 	var v = this.string
 	v=v.replace(/</g,'&lt;').replace(/>/g,'&gt;')

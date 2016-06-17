@@ -107,7 +107,7 @@ jXArray.prototype.sum = function(method){
 
 /** break an array into buckets of arrays
 	@isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
-	@grouptype = sequence || struct. WHEN isIndexValue=true THEN return array contains back reference to orginal array index
+	@grouptype='sequence' - ('sequence'||'struct') . sequence, array of arrays = [ [],[],[] ] . struct = {value0:[buckets...], value1:[buckets...]}
 */
 jXArray.prototype.group = function(method, isIndexValue, grouptype){
 	method = method ? method : function(v){return v}

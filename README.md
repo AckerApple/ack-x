@@ -90,7 +90,7 @@ ack.array(a).sum(method)
 
 /** break an array into buckets of arrays
   @isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
-  @grouptype = sequence || struct. WHEN isIndexValue=true THEN return array contains back reference to orginal array index
+  @grouptype='sequence' - ('sequence'||'struct') . 'sequence', array of arrays = [ [],[],[] ] . 'struct' = {value0:[buckets...], value1:[buckets...]}
 */
 ack.array(a).group(method, isIndexValue, grouptype)
 ```
@@ -257,7 +257,7 @@ ack.string(s).isEmail()
 //Node.js doesnt have .repeat as of 2/11/15
 ack.string(s).repeat(num)
 
-//grouptype = sequence || struct
+//escapes html brackets
 ack.string(s).htmlFormat()
 
 /** string becomes really long */
