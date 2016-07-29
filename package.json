@@ -4,7 +4,8 @@
   "description": "Javascript variable exposing library",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./test/cases --recursive --watch",
+    "test": "mocha ./test/cases --recursive",
+    "test:watch": "mocha ./test/cases --recursive --watch",
     "start": "webpack-dev-server --content-base test/",
     "watch": "webpack --watch --progress",
     "build": "webpack --progress"
