@@ -1,6 +1,6 @@
 {
   "name": "ack-x",
-  "version": "1.2.11",
+  "version": "1.2.13",
   "description": "Javascript variable exposing library",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "author": "Acker Apple",
   "license": "ISC",
   "dependencies": {
-    "ack-p": "^1.0.1",
+    "ack-p": "^1.0.4",
     "debug": "^2.2.0"
   },
   "devDependencies": {
@@ -29,7 +29,11 @@
     "mocha-loader": "^0.7.1",
     "webpack": "^1.12.14"
   },
-  "jspm":{
-    "main": "index-browser"
+  "jspm": {
+    "main": "index-browser",
+    "dependencies": {
+      "ack-p": "npm:ack-p@^1.0.4",
+      "debug": "npm:debug@^2.2.0"
+    }
   }
 }
