@@ -93,9 +93,6 @@
 	}
 
 	ack.object = __webpack_require__(9)
-
-	console.log('ack.object',ack.object)
-
 	ack.Expose = ackExpose//Outsider's referense to expose factory
 
 	/* CORE MODULES */
@@ -878,6 +875,22 @@
 	  return new ackP()
 	}
 
+	/** Expects a function, where that function expects that it's last argument will be a callback. Returns wrapper of defined function, that when called, returns a promise of calling defined function */
+	ackPromise.promisify = function(method){
+	  return function(){
+	    var args = Array.prototype.slice.apply(arguments)
+	    
+	    return new ackPromise(function(res, rej){
+	      args.push(function(err){
+	        if(err)return rej(err)
+	        var args = Array.prototype.slice.apply(arguments)
+	        args.shift(args)//remove first
+	        res.apply(this, args)
+	      })
+	      method.apply(this, args)
+	    })
+	  }
+	}
 
 	ackPromise.method = function(method){
 	  return function(){
@@ -1315,29 +1328,31 @@
 	    return np
 	}
 
-	ackP.prototype.add = function(options){
-	  if(options.method==null){
-	    this['throw'].call(this,'promise task undefined')
-	    var e = new Error('promise task undefined')
-	    e.name = 'promise task undefined'
+	ackP.prototype.assertMethod = function(method){
+	  if(method==null){
+	    var msg = 'Promise thenable undefined. Most likely due to a Promise.then() that is an undefined variable.'
+	    this['throw'].call(this,msg)
+	    var e = new Error(msg)
+	    e.name = msg
 	    throw e
 	  }
+	}
 
+	ackP.prototype.add = function(options){
+	  this.assertMethod(options.method)
 	  this.paramData()
-	//???
+
 	  if( isPromiseLike(options.method) ){
-	  var nextp = options.method
-	  options.method = function(){
-	    return nextp
-	  }
-	    var newp = ackPromise.start().add(options)//.bind(this.data.context)
-	    return this.setNextPromise( newp )//options.method
+	    var nextp = options.method
+	    options.method = function(){return nextp}
+	    var newp = ackPromise.start().add(options)
+	    return this.setNextPromise( newp )
 	  }
 
 	  if(this.data.getNextPromise){
 	    return this.data.getNextPromise().add(options)
 	  }else if(this.data.task){
-	    var np = ackPromise.start()//.paramData()
+	    var np = ackPromise.start()
 	    this.setNextPromise(np)
 	    np.data.waiting = 1
 	    np.add(options)
@@ -1350,7 +1365,6 @@
 	  }
 
 	  this.data.task = options//first added task
-	  //this.data.context = this.nextContext
 
 	  if(this.data.waiting===0){//?already done process, put back into process
 	    this.processor.apply(this, this.values)
@@ -1512,7 +1526,7 @@
 	ackP.rejectedThen = function(method,scope){
 	  /* !extremely important! - This connects ackP promises with native promises */
 	  if(this._rejected && method.toString()==nativePromiseThen.toString() ){
-	    throw err//This will reject to the native promise. I have already been rejected and a native promise is trying to chain onto me
+	    throw this._rejected//This will reject to the native promise. I have already been rejected and a native promise is trying to chain onto me
 	  }
 
 	  return this.add({method:method, context:scope, isAsync:false})
@@ -1552,6 +1566,8 @@
 
 	//async-method aka promisify
 	ackP.prototype.callback = function(method,scope){
+	  this.assertMethod(method)//since an override method is provided, lets check the one we are recieving now instead of when we need it
+
 	  var fireMethod = function(){
 	    var bind = scope||this
 	    var prom = ackPromise.start()
@@ -2457,23 +2473,6 @@
 
 	"use strict";
 
-	function xObject(ob){
-		return new jXObject(ob)
-	}
-
-	xObject.map = function(method){
-		return function(ob){
-			return map(ob,method)
-		}
-	}
-
-	xObject.forEach = function(method){
-		return function(ob){
-			return forEach(ob,method)
-		}
-	}
-
-
 	function jXObject(object){
 		this.object = object
 		return this
@@ -2485,8 +2484,7 @@
 		return this
 	}
 
-	/**
-		this.object will be the map result
+	/** this.object will be the map result
 		@method(item, index, object)
 	*/
 	jXObject.prototype.map = function(method){
@@ -2494,6 +2492,7 @@
 		return this
 	}
 
+	/** tests Object for circular references */
 	jXObject.prototype.isCyclic = function() {
 		var seenObjects = [];
 
@@ -2516,6 +2515,7 @@
 		return detect(this.object);
 	}
 
+	/** like JSON.stringify but converts all to cookie definition */
 	jXObject.prototype.toCookieString = function(){
 		var cookies = this.object
 		var cookieNameArray = Object.keys(cookies)
@@ -2533,7 +2533,29 @@
 
 	module.exports = xObject
 
+	function xObject(ob){
+		return new jXObject(ob)
+	}
 
+	/** loop an object
+		@method(var, index, object)
+	*/
+	xObject.map = function(method){
+		return function(ob){
+			return map(ob,method)
+		}
+	}
+
+	/** loop an object
+		@method(var, index, object)
+	*/
+	xObject.forEach = function(method){
+		return function(ob){
+			return forEach(ob,method)
+		}
+	}
+
+	/** @method(var, index, object) */
 	function map(ob, method){
 		if(ob.map){
 			return ob.map(method)
@@ -2547,6 +2569,7 @@
 		return res
 	}
 
+	/** @method(var, index, object) */
 	function forEach(ob, method){
 		if(ob.forEach){
 			ob.forEach(method)
@@ -2697,6 +2720,7 @@
 	  this.errorObject = errorObject;return this;
 	}
 
+	/** returns all object keys of an error which is takes extra steps */
 	jError.prototype.getKeys = function(){
 	  return Object.getOwnPropertyNames(this.errorObject)
 	}
@@ -2719,6 +2743,7 @@
 	  return []
 	}
 
+	/** dig out just the stack trace from error */
 	jError.prototype.getTraceArray = function(amount){
 	  var stackArray = [];
 	  stackArray.push.apply(stackArray, this.getStackArray())
@@ -2731,6 +2756,7 @@
 	  return stackArray
 	}
 
+	/** dig out only just the first trace of errors stack trace */
 	jError.prototype.getFirstTrace = function(amount){
 	  var stackArray = this.getStackArray()
 	  if(!stackArray)return;
@@ -2766,26 +2792,31 @@
 	  return this
 	}
 
+	/** attempt to extract a line number from the error */
 	jError.prototype.getLineNum = function(){
 	  var string = this.getFirstTrace().split(':')[1]
 	  return Number(string)
 	}
 
+	/** attempt to extract a file path from the error */
 	jError.prototype.getFilePath = function(){
 	  var trace = this.getFirstTrace()
 	  return trace.split(':')[0].split('(').pop()
 	}
 
+	/** attempt to extract the error's name */
 	jError.prototype.getName = function(){
 	  if(this.errorObject.name)return this.errorObject.name
 	  return this.getFailingObjectName()
 	}
 
+	/** attempt to extract the named function or code that is running */
 	jError.prototype.getFailingObjectName = function(){
 	  var trace = this.getFirstTrace()
 	  return trace.split(/\(|@/)[0].trim()
 	}
 
+	/** get a message from the error even if it has no message */
 	jError.prototype.getMessage = function(){
 	  if(this.errorObject.message)return this.errorObject.message
 
@@ -2802,6 +2833,7 @@
 	  }
 	}
 
+	/** attempt to extract the error's type */
 	jError.prototype.getType = function(){
 	  var isNamed = this.errorObject.name && this.errorObject.name.toLowerCase!=null
 	  var isCode = this.errorObject.code && this.errorObject.code.toLowerCase!=null
@@ -2815,6 +2847,7 @@
 	  }
 	}
 
+	/** attempt to compare error with another error or another type of an error */
 	jError.prototype.isType = function(type){
 	  if(this.errorObject==null)return false
 
@@ -2915,6 +2948,7 @@
 		return this
 	}
 
+	/** @p - decimal places */
 	jXNumber.prototype.decimalFormat = function(p){
 	  p = p==null ? 2 : p
 	  var m=Math.pow(10,p)
@@ -2922,7 +2956,7 @@
 	  return (Math.round(n*m)/m).toFixed(p)
 	}
 
-	/**
+	/** convert set number into how many minutes into a date. Ex: 60 = new Date('2016-01-16 1:00:00.0')
 	  @options - {}
 	  @options.date - default=new Date()
 	*/
@@ -2931,11 +2965,10 @@
 	  var minute = this.number
 	  var iDate = options.date || new Date()
 	  var date = new Date(iDate.getFullYear(), iDate.getMonth(), iDate.getDate(), 0, minute)
-
 	  return date
 	}
 
-	/**
+	/** convert set number into how many minutes into a string date. Ex: 60 = 1:00 AM')
 	  @options = {}
 	  @options.timeDelim - default=':'
 	  @optiosn.dayPeriodDelim - default=' '
@@ -2981,6 +3014,7 @@
 
 	ExString._keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
 
+	/** test string against email regX */
 	ExString.prototype.isEmail = function(){
 		return this.string.search(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)>=0
 	}
@@ -2992,13 +3026,14 @@
 		return s
 	}
 
-	//grouptype = sequence || struct
+	//escapes html brackets
 	ExString.prototype.htmlFormat = function(){
 		var v = this.string
 		v=v.replace(/</g,'&lt;').replace(/>/g,'&gt;')
 		return v
 	}
 
+	/** string becomes really long */
 	ExString.prototype.toBase64 = function(){
 		var e = this._utf8_encode();
 		var t="";var n,r,i,s,o,u,a;var f=0;
@@ -3011,6 +3046,7 @@
 		return t
 	}
 
+	//convert string to something more safely portable
 	ExString.prototype._utf8_encode = function(){
 		var e = this.string.replace ? this.string : this.string.toString()
 		e=e.replace(/\r\n/g,"\n");var t="";
@@ -4925,15 +4961,18 @@
 		return this
 	}
 
+	/** sets a timeout and then runs set method in milsecs */
 	jXMethod.prototype.runInMs = function(ms){
 		setTimeout(this.method, ms);return this
 	}
 
 	if(jXMethod.name && jXMethod.name==='jXMethod'){//device supports function.name
+		/** gets name of defined function */
 		jXMethod.prototype.getName = function(){
 			return this.name || (this.method.name.length ? this.method.name : null)
 		}
 	}else{
+		/** gets name of defined function */
 		jXMethod.prototype.getName = function(){
 			var funcNameRegex = /function\s+(.{1,})\(/;
 			var results = (funcNameRegex).exec(this.method.toString())
@@ -4941,6 +4980,7 @@
 		}
 	}
 
+	/** returns array of argument names defined within set function */
 	jXMethod.prototype.getArgNameArray = function(){
 		var string = this.getDefinition()
 		var argDef = /\(.+\)/.exec(string)[0]
@@ -4950,6 +4990,7 @@
 		return argDef.split(',')
 	}
 
+	/** get set functions inner definition */
 	jXMethod.prototype.getDefinition = function(){
 		var funcNameRegex = /(.*function[^\)]+\))/;
 		var results = (funcNameRegex).exec(this.method.toString())
@@ -4976,9 +5017,11 @@
 		return this
 	}
 
-	/**
-		argument-name, argument-value, required, constructor
-		@requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
+	/** Build argument validation for when set function is invoked.
+		@name - argument-name
+		@value - runtime value argument-value
+		@required
+		@type - requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
 	*/
 	jXMethod.prototype.expectOne = function(name, value, requiredOrType, type){
 		var isReqDefined = requiredOrType!=null && requiredOrType.constructor==Boolean
@@ -5059,6 +5102,9 @@
 		return this;
 	}
 
+	/** reduce array down to only distinct items
+		@method - optional, returned value is used to determine distinctness
+	*/
 	jXArray.prototype.distinct = function(method){
 		if(!this.array)return this;
 
@@ -5128,6 +5174,9 @@
 		return this
 	}
 
+	/** ads an array all up
+		@method - optional. Returned value is used to sum
+	*/
 	jXArray.prototype.sum = function(method){
 		var n=0,a = this.array
 		method = method || function(v,i){return v}
@@ -5137,7 +5186,10 @@
 		return n
 	}
 
-	//grouptype = sequence || struct. WHEN isIndexValue=true THEN return array contains back reference to orginal array index
+	/** break an array into buckets of arrays
+		@isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
+		@grouptype='sequence' - ('sequence'||'struct') . sequence, array of arrays = [ [],[],[] ] . struct = {value0:[buckets...], value1:[buckets...]}
+	*/
 	jXArray.prototype.group = function(method, isIndexValue, grouptype){
 		method = method ? method : function(v){return v}
 		grouptype = grouptype ? grouptype : 'sequence'

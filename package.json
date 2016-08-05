@@ -1,6 +1,6 @@
 {
   "name": "ack-x",
-  "version": "1.2.14",
+  "version": "1.2.15",
   "description": "Javascript variable exposing library",
   "main": "index.js",
   "scripts": {
@@ -30,15 +30,6 @@
     "webpack": "^1.12.14"
   },
   "jspm": {
-    "main": "index-browser",
-    "dependencies": {
-      "ack-p": "npm:ack-p@^1.0.4",
-      "debug": "npm:debug@^2.2.0"
-    },
-    "devDependencies": {
-      "babel": "npm:babel-core@^5.8.24",
-      "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4"
-    }
+    "main": "dist/ack-x-min"
   }
 }

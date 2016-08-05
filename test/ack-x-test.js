@@ -47,7 +47,7 @@
 	__webpack_require__(1);
 	mocha.setup("bdd");
 	__webpack_require__(9)
-	__webpack_require__(63);
+	__webpack_require__(62);
 	if(false) {
 		module.hot.accept();
 		module.hot.dispose(function() {
@@ -83,8 +83,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/Acker/projects/ack-x/node_modules/css-loader/index.js!/Users/Acker/projects/ack-x/node_modules/mocha/mocha.css", function() {
-			var newContent = require("!!/Users/Acker/projects/ack-x/node_modules/css-loader/index.js!/Users/Acker/projects/ack-x/node_modules/mocha/mocha.css");
+		module.hot.accept("!!/Users/ackerapple/projects/Ack/ack-x/node_modules/css-loader/index.js!/Users/ackerapple/projects/Ack/ack-x/node_modules/mocha/mocha.css", function() {
+			var newContent = require("!!/Users/ackerapple/projects/Ack/ack-x/node_modules/css-loader/index.js!/Users/ackerapple/projects/Ack/ack-x/node_modules/mocha/mocha.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -349,6 +349,7 @@
 
 	/* WEBPACK VAR INJECTION */(function(global) {global.ack = __webpack_require__(10)
 	__webpack_require__(37)
+	__webpack_require__(43)
 	__webpack_require__(44)
 	__webpack_require__(45)
 	__webpack_require__(46)
@@ -357,7 +358,7 @@
 	__webpack_require__(49)
 	__webpack_require__(50)
 	__webpack_require__(51)
-	__webpack_require__(52)
+	__webpack_require__(53)
 	__webpack_require__(54)
 	__webpack_require__(55)
 	__webpack_require__(56)
@@ -366,7 +367,6 @@
 	__webpack_require__(59)
 	__webpack_require__(60)
 	__webpack_require__(61)
-	__webpack_require__(62)
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
@@ -417,9 +417,6 @@
 	}
 
 	ack.object = __webpack_require__(18)
-
-	console.log('ack.object',ack.object)
-
 	ack.Expose = ackExpose//Outsider's referense to expose factory
 
 	/* CORE MODULES */
@@ -1202,6 +1199,22 @@
 	  return new ackP()
 	}
 
+	/** Expects a function, where that function expects that it's last argument will be a callback. Returns wrapper of defined function, that when called, returns a promise of calling defined function */
+	ackPromise.promisify = function(method){
+	  return function(){
+	    var args = Array.prototype.slice.apply(arguments)
+	    
+	    return new ackPromise(function(res, rej){
+	      args.push(function(err){
+	        if(err)return rej(err)
+	        var args = Array.prototype.slice.apply(arguments)
+	        args.shift(args)//remove first
+	        res.apply(this, args)
+	      })
+	      method.apply(this, args)
+	    })
+	  }
+	}
 
 	ackPromise.method = function(method){
 	  return function(){
@@ -1639,29 +1652,31 @@
 	    return np
 	}
 
-	ackP.prototype.add = function(options){
-	  if(options.method==null){
-	    this['throw'].call(this,'promise task undefined')
-	    var e = new Error('promise task undefined')
-	    e.name = 'promise task undefined'
+	ackP.prototype.assertMethod = function(method){
+	  if(method==null){
+	    var msg = 'Promise thenable undefined. Most likely due to a Promise.then() that is an undefined variable.'
+	    this['throw'].call(this,msg)
+	    var e = new Error(msg)
+	    e.name = msg
 	    throw e
 	  }
+	}
 
+	ackP.prototype.add = function(options){
+	  this.assertMethod(options.method)
 	  this.paramData()
-	//???
+
 	  if( isPromiseLike(options.method) ){
-	  var nextp = options.method
-	  options.method = function(){
-	    return nextp
-	  }
-	    var newp = ackPromise.start().add(options)//.bind(this.data.context)
-	    return this.setNextPromise( newp )//options.method
+	    var nextp = options.method
+	    options.method = function(){return nextp}
+	    var newp = ackPromise.start().add(options)
+	    return this.setNextPromise( newp )
 	  }
 
 	  if(this.data.getNextPromise){
 	    return this.data.getNextPromise().add(options)
 	  }else if(this.data.task){
-	    var np = ackPromise.start()//.paramData()
+	    var np = ackPromise.start()
 	    this.setNextPromise(np)
 	    np.data.waiting = 1
 	    np.add(options)
@@ -1674,7 +1689,6 @@
 	  }
 
 	  this.data.task = options//first added task
-	  //this.data.context = this.nextContext
 
 	  if(this.data.waiting===0){//?already done process, put back into process
 	    this.processor.apply(this, this.values)
@@ -1836,7 +1850,7 @@
 	ackP.rejectedThen = function(method,scope){
 	  /* !extremely important! - This connects ackP promises with native promises */
 	  if(this._rejected && method.toString()==nativePromiseThen.toString() ){
-	    throw err//This will reject to the native promise. I have already been rejected and a native promise is trying to chain onto me
+	    throw this._rejected//This will reject to the native promise. I have already been rejected and a native promise is trying to chain onto me
 	  }
 
 	  return this.add({method:method, context:scope, isAsync:false})
@@ -1876,6 +1890,8 @@
 
 	//async-method aka promisify
 	ackP.prototype.callback = function(method,scope){
+	  this.assertMethod(method)//since an override method is provided, lets check the one we are recieving now instead of when we need it
+
 	  var fireMethod = function(){
 	    var bind = scope||this
 	    var prom = ackPromise.start()
@@ -2781,23 +2797,6 @@
 
 	"use strict";
 
-	function xObject(ob){
-		return new jXObject(ob)
-	}
-
-	xObject.map = function(method){
-		return function(ob){
-			return map(ob,method)
-		}
-	}
-
-	xObject.forEach = function(method){
-		return function(ob){
-			return forEach(ob,method)
-		}
-	}
-
-
 	function jXObject(object){
 		this.object = object
 		return this
@@ -2809,8 +2808,7 @@
 		return this
 	}
 
-	/**
-		this.object will be the map result
+	/** this.object will be the map result
 		@method(item, index, object)
 	*/
 	jXObject.prototype.map = function(method){
@@ -2818,6 +2816,7 @@
 		return this
 	}
 
+	/** tests Object for circular references */
 	jXObject.prototype.isCyclic = function() {
 		var seenObjects = [];
 
@@ -2840,6 +2839,7 @@
 		return detect(this.object);
 	}
 
+	/** like JSON.stringify but converts all to cookie definition */
 	jXObject.prototype.toCookieString = function(){
 		var cookies = this.object
 		var cookieNameArray = Object.keys(cookies)
@@ -2857,7 +2857,29 @@
 
 	module.exports = xObject
 
+	function xObject(ob){
+		return new jXObject(ob)
+	}
 
+	/** loop an object
+		@method(var, index, object)
+	*/
+	xObject.map = function(method){
+		return function(ob){
+			return map(ob,method)
+		}
+	}
+
+	/** loop an object
+		@method(var, index, object)
+	*/
+	xObject.forEach = function(method){
+		return function(ob){
+			return forEach(ob,method)
+		}
+	}
+
+	/** @method(var, index, object) */
 	function map(ob, method){
 		if(ob.map){
 			return ob.map(method)
@@ -2871,6 +2893,7 @@
 		return res
 	}
 
+	/** @method(var, index, object) */
 	function forEach(ob, method){
 		if(ob.forEach){
 			ob.forEach(method)
@@ -3021,6 +3044,7 @@
 	  this.errorObject = errorObject;return this;
 	}
 
+	/** returns all object keys of an error which is takes extra steps */
 	jError.prototype.getKeys = function(){
 	  return Object.getOwnPropertyNames(this.errorObject)
 	}
@@ -3043,6 +3067,7 @@
 	  return []
 	}
 
+	/** dig out just the stack trace from error */
 	jError.prototype.getTraceArray = function(amount){
 	  var stackArray = [];
 	  stackArray.push.apply(stackArray, this.getStackArray())
@@ -3055,6 +3080,7 @@
 	  return stackArray
 	}
 
+	/** dig out only just the first trace of errors stack trace */
 	jError.prototype.getFirstTrace = function(amount){
 	  var stackArray = this.getStackArray()
 	  if(!stackArray)return;
@@ -3090,26 +3116,31 @@
 	  return this
 	}
 
+	/** attempt to extract a line number from the error */
 	jError.prototype.getLineNum = function(){
 	  var string = this.getFirstTrace().split(':')[1]
 	  return Number(string)
 	}
 
+	/** attempt to extract a file path from the error */
 	jError.prototype.getFilePath = function(){
 	  var trace = this.getFirstTrace()
 	  return trace.split(':')[0].split('(').pop()
 	}
 
+	/** attempt to extract the error's name */
 	jError.prototype.getName = function(){
 	  if(this.errorObject.name)return this.errorObject.name
 	  return this.getFailingObjectName()
 	}
 
+	/** attempt to extract the named function or code that is running */
 	jError.prototype.getFailingObjectName = function(){
 	  var trace = this.getFirstTrace()
 	  return trace.split(/\(|@/)[0].trim()
 	}
 
+	/** get a message from the error even if it has no message */
 	jError.prototype.getMessage = function(){
 	  if(this.errorObject.message)return this.errorObject.message
 
@@ -3126,6 +3157,7 @@
 	  }
 	}
 
+	/** attempt to extract the error's type */
 	jError.prototype.getType = function(){
 	  var isNamed = this.errorObject.name && this.errorObject.name.toLowerCase!=null
 	  var isCode = this.errorObject.code && this.errorObject.code.toLowerCase!=null
@@ -3139,6 +3171,7 @@
 	  }
 	}
 
+	/** attempt to compare error with another error or another type of an error */
 	jError.prototype.isType = function(type){
 	  if(this.errorObject==null)return false
 
@@ -3239,6 +3272,7 @@
 		return this
 	}
 
+	/** @p - decimal places */
 	jXNumber.prototype.decimalFormat = function(p){
 	  p = p==null ? 2 : p
 	  var m=Math.pow(10,p)
@@ -3246,7 +3280,7 @@
 	  return (Math.round(n*m)/m).toFixed(p)
 	}
 
-	/**
+	/** convert set number into how many minutes into a date. Ex: 60 = new Date('2016-01-16 1:00:00.0')
 	  @options - {}
 	  @options.date - default=new Date()
 	*/
@@ -3255,11 +3289,10 @@
 	  var minute = this.number
 	  var iDate = options.date || new Date()
 	  var date = new Date(iDate.getFullYear(), iDate.getMonth(), iDate.getDate(), 0, minute)
-
 	  return date
 	}
 
-	/**
+	/** convert set number into how many minutes into a string date. Ex: 60 = 1:00 AM')
 	  @options = {}
 	  @options.timeDelim - default=':'
 	  @optiosn.dayPeriodDelim - default=' '
@@ -3305,6 +3338,7 @@
 
 	ExString._keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
 
+	/** test string against email regX */
 	ExString.prototype.isEmail = function(){
 		return this.string.search(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)>=0
 	}
@@ -3316,13 +3350,14 @@
 		return s
 	}
 
-	//grouptype = sequence || struct
+	//escapes html brackets
 	ExString.prototype.htmlFormat = function(){
 		var v = this.string
 		v=v.replace(/</g,'&lt;').replace(/>/g,'&gt;')
 		return v
 	}
 
+	/** string becomes really long */
 	ExString.prototype.toBase64 = function(){
 		var e = this._utf8_encode();
 		var t="";var n,r,i,s,o,u,a;var f=0;
@@ -3335,6 +3370,7 @@
 		return t
 	}
 
+	//convert string to something more safely portable
 	ExString.prototype._utf8_encode = function(){
 		var e = this.string.replace ? this.string : this.string.toString()
 		e=e.replace(/\r\n/g,"\n");var t="";
@@ -5249,15 +5285,18 @@
 		return this
 	}
 
+	/** sets a timeout and then runs set method in milsecs */
 	jXMethod.prototype.runInMs = function(ms){
 		setTimeout(this.method, ms);return this
 	}
 
 	if(jXMethod.name && jXMethod.name==='jXMethod'){//device supports function.name
+		/** gets name of defined function */
 		jXMethod.prototype.getName = function(){
 			return this.name || (this.method.name.length ? this.method.name : null)
 		}
 	}else{
+		/** gets name of defined function */
 		jXMethod.prototype.getName = function(){
 			var funcNameRegex = /function\s+(.{1,})\(/;
 			var results = (funcNameRegex).exec(this.method.toString())
@@ -5265,6 +5304,7 @@
 		}
 	}
 
+	/** returns array of argument names defined within set function */
 	jXMethod.prototype.getArgNameArray = function(){
 		var string = this.getDefinition()
 		var argDef = /\(.+\)/.exec(string)[0]
@@ -5274,6 +5314,7 @@
 		return argDef.split(',')
 	}
 
+	/** get set functions inner definition */
 	jXMethod.prototype.getDefinition = function(){
 		var funcNameRegex = /(.*function[^\)]+\))/;
 		var results = (funcNameRegex).exec(this.method.toString())
@@ -5300,9 +5341,11 @@
 		return this
 	}
 
-	/**
-		argument-name, argument-value, required, constructor
-		@requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
+	/** Build argument validation for when set function is invoked.
+		@name - argument-name
+		@value - runtime value argument-value
+		@required
+		@type - requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
 	*/
 	jXMethod.prototype.expectOne = function(name, value, requiredOrType, type){
 		var isReqDefined = requiredOrType!=null && requiredOrType.constructor==Boolean
@@ -5383,6 +5426,9 @@
 		return this;
 	}
 
+	/** reduce array down to only distinct items
+		@method - optional, returned value is used to determine distinctness
+	*/
 	jXArray.prototype.distinct = function(method){
 		if(!this.array)return this;
 
@@ -5452,6 +5498,9 @@
 		return this
 	}
 
+	/** ads an array all up
+		@method - optional. Returned value is used to sum
+	*/
 	jXArray.prototype.sum = function(method){
 		var n=0,a = this.array
 		method = method || function(v,i){return v}
@@ -5461,7 +5510,10 @@
 		return n
 	}
 
-	//grouptype = sequence || struct. WHEN isIndexValue=true THEN return array contains back reference to orginal array index
+	/** break an array into buckets of arrays
+		@isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
+		@grouptype='sequence' - ('sequence'||'struct') . sequence, array of arrays = [ [],[],[] ] . struct = {value0:[buckets...], value1:[buckets...]}
+	*/
 	jXArray.prototype.group = function(method, isIndexValue, grouptype){
 		method = method ? method : function(v){return v}
 		grouptype = grouptype ? grouptype : 'sequence'
@@ -6712,7 +6764,51 @@
 /* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {// http://wiki.commonjs.org/wiki/Unit_Testing/1.0
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+
+	// compare and isBuffer taken from https://github.com/feross/buffer/blob/680e9e5e488f22aac27599a57dc844a6315928dd/index.js
+	// original notice:
+
+	/*!
+	 * The buffer module from node.js, for the browser.
+	 *
+	 * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+	 * @license  MIT
+	 */
+	function compare(a, b) {
+	  if (a === b) {
+	    return 0;
+	  }
+
+	  var x = a.length;
+	  var y = b.length;
+
+	  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
+	    if (a[i] !== b[i]) {
+	      x = a[i];
+	      y = b[i];
+	      break;
+	    }
+	  }
+
+	  if (x < y) {
+	    return -1;
+	  }
+	  if (y < x) {
+	    return 1;
+	  }
+	  return 0;
+	}
+	function isBuffer(b) {
+	  if (global.Buffer && typeof global.Buffer.isBuffer === 'function') {
+	    return global.Buffer.isBuffer(b);
+	  }
+	  return !!(b != null && b._isBuffer);
+	}
+
+	// based on node assert, original notice:
+
+	// http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 	//
 	// THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
 	//
@@ -6736,30 +6832,7 @@
 	// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 	// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-	'use strict';
-
-	// UTILITY
-	function compare(bufa, bufb) {
-	  var cmpLen = Math.min(bufa, bufb);
-	  if (cmpLen <= 0) {
-	    return 0;
-	  }
-	  var i = -1;
-	  var a,b;
-	  while (++i < cmpLen) {
-	    a = bufa[i];
-	    b = bufb[i];
-	    if (a < b) {
-	      return -1;
-	    } else if (a > b) {
-	      return 1;
-	    }
-	  }
-	  return 0;
-	}
 	var util = __webpack_require__(39);
-	var Buffer = __webpack_require__(23).Buffer;
-	var BufferShim = __webpack_require__(43);
 	var hasOwn = Object.prototype.hasOwnProperty;
 	var pSlice = Array.prototype.slice;
 	var functionsHaveNames = (function () {
@@ -6769,6 +6842,9 @@
 	  return Object.prototype.toString.call(obj);
 	}
 	function isView(arrbuf) {
+	  if (isBuffer(arrbuf)) {
+	    return false;
+	  }
 	  if (typeof global.ArrayBuffer !== 'function') {
 	    return false;
 	  }
@@ -6824,25 +6900,25 @@
 	  }
 	  var stackStartFunction = options.stackStartFunction || fail;
 	  if (Error.captureStackTrace) {
-	   Error.captureStackTrace(this, stackStartFunction);
-	 } else {
-	   // non v8 browsers so we can have a stacktrace
-	   var err = new Error();
-	   if (err.stack) {
-	     var out = err.stack;
+	    Error.captureStackTrace(this, stackStartFunction);
+	  } else {
+	    // non v8 browsers so we can have a stacktrace
+	    var err = new Error();
+	    if (err.stack) {
+	      var out = err.stack;
 
-	     // try to strip useless frames
-	     var fn_name = getName(stackStartFunction);
-	     var idx = out.indexOf('\n' + fn_name);
-	     if (idx >= 0) {
-	       // once we have located the function frame
-	       // we need to strip out everything before it (and its line)
-	       var next_line = out.indexOf('\n', idx + 1);
-	       out = out.substring(next_line + 1);
-	     }
+	      // try to strip useless frames
+	      var fn_name = getName(stackStartFunction);
+	      var idx = out.indexOf('\n' + fn_name);
+	      if (idx >= 0) {
+	        // once we have located the function frame
+	        // we need to strip out everything before it (and its line)
+	        var next_line = out.indexOf('\n', idx + 1);
+	        out = out.substring(next_line + 1);
+	      }
 
-	     this.stack = out;
-	   }
+	      this.stack = out;
+	    }
 	  }
 	};
 
@@ -6942,7 +7018,7 @@
 	  // 7.1. All identical values are equivalent, as determined by ===.
 	  if (actual === expected) {
 	    return true;
-	  } else if (Buffer.isBuffer(actual) && Buffer.isBuffer(expected)) {
+	  } else if (isBuffer(actual) && isBuffer(expected)) {
 	    return compare(actual, expected) === 0;
 
 	  // 7.2. If the expected value is a Date object, the actual value is
@@ -6976,8 +7052,8 @@
 	             pToString(actual) === pToString(expected) &&
 	             !(actual instanceof Float32Array ||
 	               actual instanceof Float64Array)) {
-	    return compare(BufferShim.from(actual.buffer),
-	                   BufferShim.from(expected.buffer)) === 0;
+	    return compare(new Uint8Array(actual.buffer),
+	                   new Uint8Array(expected.buffer)) === 0;
 
 	  // 7.5 For all other Object pairs, including Array objects, equivalence is
 	  // determined by having the same number of owned properties (as verified
@@ -6985,6 +7061,8 @@
 	  // (although not necessarily the same order), equivalent values for every
 	  // corresponding key, and an identical 'prototype' property. Note: this
 	  // accounts for both named and indexed properties on Arrays.
+	  } else if (isBuffer(actual) !== isBuffer(expected)) {
+	    return false;
 	  } else {
 	    memos = memos || {actual: [], expected: []};
 
@@ -7779,6 +7857,31 @@
 	// shim for using process in browser
 
 	var process = module.exports = {};
+
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+
+	(function () {
+	  try {
+	    cachedSetTimeout = setTimeout;
+	  } catch (e) {
+	    cachedSetTimeout = function () {
+	      throw new Error('setTimeout is not defined');
+	    }
+	  }
+	  try {
+	    cachedClearTimeout = clearTimeout;
+	  } catch (e) {
+	    cachedClearTimeout = function () {
+	      throw new Error('clearTimeout is not defined');
+	    }
+	  }
+	} ())
 	var queue = [];
 	var draining = false;
 	var currentQueue;
@@ -7803,7 +7906,7 @@
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = setTimeout(cleanUpNextTick);
+	    var timeout = cachedSetTimeout.call(null, cleanUpNextTick);
 	    draining = true;
 
 	    var len = queue.length;
@@ -7820,7 +7923,7 @@
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    clearTimeout(timeout);
+	    cachedClearTimeout.call(null, timeout);
 	}
 
 	process.nextTick = function (fun) {
@@ -7832,7 +7935,7 @@
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        setTimeout(drainQueue, 0);
+	        cachedSetTimeout.call(null, drainQueue, 0);
 	    }
 	};
 
@@ -7914,121 +8017,6 @@
 
 /***/ },
 /* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
-
-	var buffer = __webpack_require__(23);
-	var Buffer = buffer.Buffer;
-	var SlowBuffer = buffer.SlowBuffer;
-	var MAX_LEN = buffer.kMaxLength || 2147483647;
-	exports.alloc = function alloc(size, fill, encoding) {
-	  if (typeof Buffer.alloc === 'function') {
-	    return Buffer.alloc(size, fill, encoding);
-	  }
-	  if (typeof encoding === 'number') {
-	    throw new TypeError('encoding must not be number');
-	  }
-	  if (typeof size !== 'number') {
-	    throw new TypeError('size must be a number');
-	  }
-	  if (size > MAX_LEN) {
-	    throw new RangeError('size is too large');
-	  }
-	  var enc = encoding;
-	  var _fill = fill;
-	  if (_fill === undefined) {
-	    enc = undefined;
-	    _fill = 0;
-	  }
-	  var buf = new Buffer(size);
-	  if (typeof _fill === 'string') {
-	    var fillBuf = new Buffer(_fill, enc);
-	    var flen = fillBuf.length;
-	    var i = -1;
-	    while (++i < size) {
-	      buf[i] = fillBuf[i % flen];
-	    }
-	  } else {
-	    buf.fill(_fill);
-	  }
-	  return buf;
-	}
-	exports.allocUnsafe = function allocUnsafe(size) {
-	  if (typeof Buffer.allocUnsafe === 'function') {
-	    return Buffer.allocUnsafe(size);
-	  }
-	  if (typeof size !== 'number') {
-	    throw new TypeError('size must be a number');
-	  }
-	  if (size > MAX_LEN) {
-	    throw new RangeError('size is too large');
-	  }
-	  return new Buffer(size);
-	}
-	exports.from = function from(value, encodingOrOffset, length) {
-	  if (typeof Buffer.from === 'function' && (!global.Uint8Array || Uint8Array.from !== Buffer.from)) {
-	    return Buffer.from(value, encodingOrOffset, length);
-	  }
-	  if (typeof value === 'number') {
-	    throw new TypeError('"value" argument must not be a number');
-	  }
-	  if (typeof value === 'string') {
-	    return new Buffer(value, encodingOrOffset);
-	  }
-	  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
-	    var offset = encodingOrOffset;
-	    if (arguments.length === 1) {
-	      return new Buffer(value);
-	    }
-	    if (typeof offset === 'undefined') {
-	      offset = 0;
-	    }
-	    var len = length;
-	    if (typeof len === 'undefined') {
-	      len = value.byteLength - offset;
-	    }
-	    if (offset >= value.byteLength) {
-	      throw new RangeError('\'offset\' is out of bounds');
-	    }
-	    if (len > value.byteLength - offset) {
-	      throw new RangeError('\'length\' is out of bounds');
-	    }
-	    return new Buffer(value.slice(offset, offset + len));
-	  }
-	  if (Buffer.isBuffer(value)) {
-	    var out = new Buffer(value.length);
-	    value.copy(out, 0, 0, value.length);
-	    return out;
-	  }
-	  if (value) {
-	    if (Array.isArray(value) || (typeof ArrayBuffer !== 'undefined' && value.buffer instanceof ArrayBuffer) || 'length' in value) {
-	      return new Buffer(value);
-	    }
-	    if (value.type === 'Buffer' && Array.isArray(value.data)) {
-	      return new Buffer(value.data);
-	    }
-	  }
-
-	  throw new TypeError('First argument must be a string, Buffer, ' + 'ArrayBuffer, Array, or array-like object.');
-	}
-	exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
-	  if (typeof Buffer.allocUnsafeSlow === 'function') {
-	    return Buffer.allocUnsafeSlow(size);
-	  }
-	  if (typeof size !== 'number') {
-	    throw new TypeError('size must be a number');
-	  }
-	  if (size >= MAX_LEN) {
-	    throw new RangeError('size is too large');
-	  }
-	  return new SlowBuffer(size);
-	}
-
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
-/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8153,7 +8141,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8268,7 +8256,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8286,7 +8274,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 47 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8309,7 +8297,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 48 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8335,7 +8323,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 49 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8700,7 +8688,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 50 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8758,7 +8746,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 51 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -8775,13 +8763,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 52 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, __dirname) {"use strict";
 	var ack = global.ack,
 		assert = __webpack_require__(38),
-		path = __webpack_require__(53)
+		path = __webpack_require__(52)
 
 	describe('ack.error',function(){
 		it('#getStackArray',function(){
@@ -8864,7 +8852,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), "/"))
 
 /***/ },
-/* 53 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -9095,7 +9083,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)))
 
 /***/ },
-/* 54 */
+/* 53 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -9182,7 +9170,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 55 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -9207,7 +9195,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -9285,7 +9273,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -9389,7 +9377,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 58 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -9421,7 +9409,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 59 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -9429,14 +9417,13 @@
 		assert = __webpack_require__(38)
 
 	describe('ack.object',function(){
-		it.only('map',function(done){
-			console.log('ack.object',ack.object)
-			Promise.resolve({a:1,b:3,c:3})
+		it('map',function(done){
+			Promise.resolve({a:1,b:2,c:3})
 			.then( ack.object.map(item=>item*10) )
 			.then( res=>{
-				assert.equal(res[0], 10)
-				assert.equal(res[1], 20)
-				assert.equal(res[2], 30)
+				assert.equal(res.a, 10)
+				assert.equal(res.b, 20)
+				assert.equal(res.c, 30)
 			})
 			.then(done).catch(done)
 		})
@@ -9462,7 +9449,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 60 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -9504,7 +9491,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 61 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -9559,7 +9546,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 62 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -9595,7 +9582,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 63 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {process.nextTick(function() {
