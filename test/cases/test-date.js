@@ -11,6 +11,12 @@ describe('ack.date',function(){
 		ndate = ack.date(new Date())
 	})
 
+	it('#isDate',function(){
+		assert.equal(ack.date().isDate(), false)
+		assert.equal(ack.date(null).isDate(), false)
+		assert.equal(ack.date(new Date()).isDate(), true)
+	})
+
 	it('#isDaylightSavings',function(){
 		assert.equal(ack.date('2/12/2013').isDaylightSavings(), false)
 		assert.equal(ack.date('6/1/2016').isDaylightSavings(), true)

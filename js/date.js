@@ -67,7 +67,9 @@ ackDate.twoDigit = function(n){
 }
 
 ackDate.isDate = function(date){
-  var isRawDate = date&&date.constructor==Date&&!isNaN(date.getTime())
+  if(!date)return false
+
+  var isRawDate = date.constructor==Date&&!isNaN(date.getTime())
   if(isRawDate)return true
 
   if(date.search)//string
