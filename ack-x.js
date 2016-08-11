@@ -142,7 +142,7 @@ ackExpose.prototype.getSimpleClone = function(){
 	return target;
 }
 
-//get at raw variable within target variable
+//get at raw variable within target variable with case insensativity
 ackExpose.prototype.get = function(name,def){
 	if(!name)return this.$var
 
