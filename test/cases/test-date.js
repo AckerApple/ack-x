@@ -17,6 +17,17 @@ describe('ack.date',function(){
 		assert.equal(ack.date(new Date()).isDate(), true)
 	})
 
+	it('#fromNow',function(){
+		assert.equal(ack.date().now().addMinutes(-15).fromNow(), '15 minutes ago')
+		assert.equal(ack.date().now().addMinutes(-15).fromNow(true), '15 minutes')
+	})
+
+	it('#from',function(){
+		var d = ack.date().now().addMinutes(-15).date
+		assert.equal(ack.date().now().from(d), '15 minutes ago')
+		assert.equal(ack.date().now().from(d, true), '15 minutes')
+	})
+
 	it('#isDaylightSavings',function(){
 		assert.equal(ack.date('2/12/2013').isDaylightSavings(), false)
 		assert.equal(ack.date('6/1/2016').isDaylightSavings(), true)

@@ -1,5 +1,7 @@
 "use strict";
 
+var moment = require('moment')
+
 /* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
 function ackDate(date){
   this.date = ackDate.toDate(date)
@@ -100,6 +102,16 @@ ackDate.dateYearDiff = function(d0, d1){
 /*
   PROTOTYPES
 */
+
+/** see moment#fromNow  */
+ackDate.prototype.fromNow = function(suffix){
+  return moment(this.date).fromNow(suffix)
+}
+
+/** see moment#from  */
+ackDate.prototype.from = function(d, suffix){
+  return moment(d).from(this.date, suffix)
+}
 
 ackDate.prototype.now = function(){
   this.date = new Date();return this;

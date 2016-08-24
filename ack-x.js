@@ -3,7 +3,8 @@
 var jc = require('./js/jc'),//old old old library for Classes and Accessors
 		ackInjector = require('./ackInjector'),
 		partyModules = {
-			ackP:require('ack-p'), debug:require('debug')
+			ackP:require('ack-p'),
+			debug:require('debug')
 		}
 
 /** calling ack() as function, will return a module to work with almost any object */
@@ -172,7 +173,7 @@ ackExpose.prototype['throw'] = function(msg, logTo){
 }
 
 ackExpose.prototype.dump = function(){
-	return JSON.stringify(this.$var)
+	return JSON.stringify(this.$var, null, 2)
 }
 
 /** negative numbers will be 0  */
