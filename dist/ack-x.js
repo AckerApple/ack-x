@@ -5853,6 +5853,18 @@
 	  PROTOTYPES
 	*/
 
+	ackDate.prototype.yearsFromNow = function(){
+	  return this.dateYearDiff( Date.now() )
+	}
+
+	ackDate.prototype.monthsFromNow = function(){
+	  return this.dateMonthDiff( Date.now() )
+	}
+
+	ackDate.prototype.daysFromNow = function(){
+	  return this.dateDayDiff( Date.now() )
+	}
+
 	/** see moment#fromNow  */
 	ackDate.prototype.fromNow = function(suffix){
 	  return moment(this.date).fromNow(suffix)
@@ -5993,6 +6005,7 @@
 	  return this
 	}
 	ackDate.prototype.addYear = ackDate.prototype.nextYear;
+	ackDate.prototype.addYears = ackDate.prototype.nextYear;
 
 	ackDate.prototype.dateYearDiff = function(date){
 	  date = ackDate.toDate(date)
@@ -6061,6 +6074,7 @@
 	  this.date = new Date(this.date.setMonth(this.date.getMonth()+amount))
 	  return this
 	}
+	ackDate.prototype.addMonths = ackDate.prototype.nextMonth
 
 	ackDate.prototype.getLastDateOfMonth = function(){
 	  var nd = new Date(this.date)
