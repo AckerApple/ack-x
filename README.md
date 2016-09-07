@@ -1,6 +1,10 @@
 # ack-x, the Acker Way of Fullfilling Our Everyday Javascript Needs
 Extra functional library to objectify & compartmentalize variables into wrappers that make invokation & injection processes, lighter & easier to implement.
 
+### Table of Contents
+
+- [ack.date](#ackdate)
+
 ## This is a Stable Project But is Developing & Maturing
 This code was born out of countless past production projects that were implemented and put together by Acker Apple. This code is used in existing production projects and is still primarly maintained by Acker Apple.
 
@@ -12,6 +16,13 @@ Use this package at will, use with caution. PLEASE watch our version numbers as 
 ```
 //get date object for the first hour, minute and second of the first day of month
 var exactStartOfMonth = require('ack-x').date().now().gotoFirstDayOfMonth().gotoStartOfDate().date
+```
+
+## ack.date()
+```
+ack.date().addYears(5).yearsFromNow()
+ack.date().addMonths(5).monthsFromNow()
+ack.date().addDays(5).daysFromNow()
 ```
 
 ## Complex Example of Variable Exposing

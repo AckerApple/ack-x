@@ -1,6 +1,14 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.2.19] - 2016-09-07
+### Added
+- date.yearsFromNow()
+- date.monthsFromNow()
+- date.daysFromNow()
+- date.addMonths()
+- date.addYears()
+
 ## [1.2.16] - 2016-08-11
 ### Fix
 - date.isDate() fix for when no date is supplied
