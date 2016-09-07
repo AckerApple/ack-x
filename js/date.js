@@ -103,6 +103,10 @@ ackDate.dateYearDiff = function(d0, d1){
   PROTOTYPES
 */
 
+ackDate.prototype.yearsFromNow = function(){
+  return this.dateYearDiff( Date.now() )
+}
+
 /** see moment#fromNow  */
 ackDate.prototype.fromNow = function(suffix){
   return moment(this.date).fromNow(suffix)

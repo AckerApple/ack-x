@@ -11,6 +11,10 @@ describe('ack.date',function(){
 		ndate = ack.date(new Date())
 	})
 
+	it('#yearsFromNow',function(){
+		assert.equal(ack.date().now().addYear(-5).yearsFromNow(), 5)
+	})
+
 	it('#isDate',function(){
 		assert.equal(ack.date().isDate(), false)
 		assert.equal(ack.date(null).isDate(), false)
