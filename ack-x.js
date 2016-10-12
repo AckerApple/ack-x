@@ -43,7 +43,7 @@ ack.Expose = ackExpose//Outsider's referense to expose factory
 
 /* end: MODULES */
 	//?maybe deprecated and unused
-	var indexSelector = require('./js/IndexSelector')
+	var indexSelector = require('./js/indexSelector')
 	ack.indexSelector = function(){
 		var $scope = {}
 		if(arguments.length){
