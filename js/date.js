@@ -44,16 +44,34 @@ ackDate.endOfDateDay = function(date){
   return new Date(date.setMilliseconds(999))
 }
 
+/** will auto detect yyyy-mm-dd and convert to mm-dd-yyyy */
+ackDate.dateStringToDate = function(date){
+  var isZoned = date.substring(date.length-1,date.length)=='Z'
+  var isFirstFourDigits = date.length>8 && !isNaN(date.substring(0, 4)) && !isZoned
+  var slash = date.substring(4, 5)
+
+  if(isFirstFourDigits && isNaN(slash)){
+    var dateSplit = date.split(slash)
+    var month = dateSplit[1]
+    var day = dateSplit[2]
+    var year = dateSplit[0]
+    dateSplit[0] = month
+    dateSplit[1] = day
+    dateSplit[2] = year
+    date = dateSplit.join(slash)
+  }
+
+  return new Date(date)
+}
+
 ackDate.dateObjectBy = function(date){
   if(date){
-    if(date.constructor == ackDate)
-      return date.date
-
-    if(date.constructor == Date)
-      return date
-
-    //if(['string','number'].indexOf(typeof(date)))
-    return new Date(date)//convert string to date object
+    switch(date.constructor){
+      case ackDate:return date.date
+      case Date:return date
+      case String:return ackDate.dateStringToDate(date)
+      default:return new Date(date)//convert string to date object
+    }
   }
 
   return date || new Date()
