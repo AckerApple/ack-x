@@ -55,6 +55,16 @@ ack.Expose = ackExpose//Outsider's referense to expose factory
 	/**
 		- Organized debug logging that can be viewed ondemand by types of debug logging
 		- See npm "debug" package for more information
+
+		Basic Use Example
+		```
+		ack.debug('my-app-name','item0','item1')
+		```
+
+		Functional Example
+		```
+		module.exports = ack.debug('my-app-name').debug
+		```
 	*/
 	var ackDebugMap = {}//create storage of all loggers created
 	ack.debug = function debug(name, log0, log1, log2){

@@ -3,7 +3,14 @@ Extra functional library to objectify & compartmentalize variables into wrappers
 
 ### Table of Contents
 
+- [Overview of All Modules](#overview-of-all-modules)
 - [ack.date](#ackdate)
+- [ack.array](#ackarray)
+- [ack.method](#ackmethod)
+- [ack.error](#ackerror)
+- [ack.number](#acknumber)
+- [ack.object](#ackobject)
+- [ack.string](#ackstring)
 
 ## This is a Stable Project But is Developing & Maturing
 This code was born out of countless past production projects that were implemented and put together by Acker Apple. This code is used in existing production projects and is still primarly maintained by Acker Apple.
@@ -18,14 +25,15 @@ Use this package at will, use with caution. PLEASE watch our version numbers as 
 var exactStartOfMonth = require('ack-x').date().now().gotoFirstDayOfMonth().gotoStartOfDate().date
 ```
 
-## ack.date()
+## ack.date
 ```
 ack.date().addYears(5).yearsFromNow()
 ack.date().addMonths(5).monthsFromNow()
 ack.date().addDays(5).daysFromNow()
 ```
 
-## Complex Example of Variable Exposing
+### Complex Example of Variable Exposing
+In the following example, many modules are used to manipulate variables
 ```
 var ack = require('ack-x')
 var xDate = ack.date().now()//expose date as now
@@ -52,23 +60,23 @@ ack.promise(
 })
 ```
 
-##Currently Supported Variable Exposing Modules
-- array (in-infancy, add-ons expected)
-- base64 (in-infancy, add-ons expected)
-- binary (unstable, most likely to be removed)
-- date (stable, more oganization to take place)
-- error (stable)
-- indexSelector (unstable, most likely to be removed)
-- method (experimental, future unsure)
-- month (mostly stable)
-- number (stable)
-- object (stable)
-- queryObject (upgrades expected)
-- string (stable)
-- week (mostly stable)
-- year (mostly stable)
+## Overview of All Modules
+- .array(in-infancy, add-ons expected)
+- .base64(in-infancy, add-ons expected)
+- .binary(unstable, most likely to be removed)
+- .date(stable, more oganization to take place)
+- .error(stable)
+- .indexSelector(unstable, most likely to be removed)
+- .method(experimental, future unsure)
+- .month(mostly stable)
+- .number(stable)
+- .object(stable)
+- .queryObject(upgrades expected)
+- .string(stable)
+- .week(mostly stable)
+- .year(mostly stable)
 
-## ack.array()
+## ack.array
 ```
 var a = []
 
@@ -79,114 +87,167 @@ var a = []
   Example: array.each(countTeacher, countChild) instead of two loops array.each(countTeacher) + array.each(countChild)
 */
 ack.array(a).each(method0, method1, method2, method3)
+```
 
-/** reduce array down to only distinct items
-  @method - optional, returned value is used to determine distinctness
-*/
+reduce array down to only distinct items
+- @method - optional, returned value is used to determine distinctness
+
+```
 ack.array(a).distinct(method)
+```
 
-//pivets array of objects to object of arrays
+pivets array of objects to object of arrays
+```
 ack.array(a).objectify()
+```
 
-//append an array's items onto the end of this array
+append an array's items onto the end of this array
+```
 ack.array(a).appendArray(array)
+```
 
-//prepend an array's items onto the front of this array
+prepend an array's items onto the front of this array
+```
 ack.array(a).prependArray(array)
+```
 
-/** ads an array all up
-  @method - optional. Returned value is used to sum
-*/
+ads an array all up
+- @method - optional. Returned value is used to sum
+
+```
 ack.array(a).sum(method)
+```
 
-/** break an array into buckets of arrays
-  @isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
-  @grouptype='sequence' - ('sequence'||'struct') . 'sequence', array of arrays = [ [],[],[] ] . 'struct' = {value0:[buckets...], value1:[buckets...]}
-*/
+break an array into buckets of arrays
+- @isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
+- @grouptype='sequence' - ('sequence'||'struct') . 'sequence', array of arrays = [ [],[],[] ] . 'struct' = {value0:[buckets...], value1:[buckets...]}
+
+```
 ack.array(a).group(method, isIndexValue, grouptype)
 ```
 
-## ack.method()
+## ack.method
+Holds a function in memory and offers convenient methods to invoke set method
+
+### Examples
+
+sets a timeout and then runs set method in milsecs
 ```
 var f = function(){}
 
-/** sets a timeout and then runs set method in milsecs */
 ack.method(f).runInMs(ms)
+```
 
-/** gets name of defined function */
+gets name of defined function
+```
 ack.method(f).getName()
+```
 
-/** returns array of argument names defined within set function */
+returns array of argument names defined within set function
+```
 ack.method(f).getArgNameArray()
+```
 
-/** get set functions inner definition */
+get set functions inner definition
+```
 ack.method(f).getDefinition()
+```
 
-/** This is an option enhanced version of expectOne */
+This is an option enhanced version of expectOne
+```
 ack.method(f).expect(nameOrMap, value, requiredOrType, type)
+```
 
-/** Build argument validation for when set function is invoked.
-  @name - argument-name
-  @value - runtime value argument-value
-  @required
-  @type - requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
-*/
+Build argument validation for when set function is invoked.
+- @name - argument-name
+- @value - runtime value argument-value
+- @required
+- @type - requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
+
+```
 ack.method(f).expectOne(name, value, requiredOrType, type)
 ```
 
-## ack.error() - great for standardizing error control
+## ack.error
+great for standardizing error control
+
+returns all object keys of an error which is takes extra steps
 ```
 var e = new Error()
 
-/** returns all object keys of an error which is takes extra steps */
 ack.error(e).getKeys()
+```
 
-/** converts error.stack into array via stack.split(' at ') */
+converts error.stack into array via stack.split(' at ')
+```
 ack.error(e).getStackArray(amount)
+```
 
-/** dig out just the stack trace from error */
+dig out just the stack trace from error
+```
 ack.error(e).getTraceArray(amount)
+```
 
-/** dig out only just the first trace of errors stack trace */
+dig out only just the first trace of errors stack trace
+```
 ack.error(e).getFirstTrace(amount)
+```
 
+```
 ack.error(e).setStackArray(stackArray)
+```
 
-/** analyzes stack to remove 1st trace (leaves error message in stack). Essentially calls .splice(1,1) on stack array  */
+analyzes stack to remove 1st trace (leaves error message in stack). Essentially calls .splice(1,1) on stack array
+```
 ack.error(e).cutFirstTrace()
+```
 
-/** attempt to extract a line number from the error */
+attempt to extract a line number from the error
+```
 ack.error(e).getLineNum()
+```
 
-/** attempt to extract a file path from the error */
+attempt to extract a file path from the error
+```
 ack.error(e).getFilePath()
+```
 
-/** attempt to extract the error's name */
+attempt to extract the error's name
+```
 ack.error(e).getName()
+```
 
-/** attempt to extract the named function or code that is running */
+attempt to extract the named function or code that is running
+```
 ack.error(e).getFailingObjectName()
+```
 
-/** get a message from the error even if it has no message */
+get a message from the error even if it has no message
+```
 ack.error(e).getMessage()
+```
 
-/** attempt to extract the error's type */
+attempt to extract the error's type
+```
 ack.error(e).getType()
+```
 
-/** attempt to compare error with another error or another type of an error */
+attempt to compare error with another error or another type of an error
+```
 ack.error(e).isType(type)
+```
 
-
-//TYPES OF ERRORS, use these errors to standardized error flow
-
+TYPES OF ERRORS, use these errors to standardized error flow
+```
 ack.error().types.notFound( message )
 ack.error().types.localNetworkRequired( message )
 ack.error().types.unauthorized( message )
 ack.error().types.badRequest( message )
 ack.error().types.methodNotAllowed( message )
+```
 
-//TYPES OF ERRORS, Object Details
-
+TYPES OF ERRORS, Object Details
+```
 ack.error().types.NotFound(message){
   this.status = 404;
   this.code = "not_found";
@@ -218,62 +279,86 @@ ack.error().types.MethodNotAllowed = function(message){
 }
 ```
 
-## ack.number()
+## ack.number
+Convenient methods to handle numbers
+
+decimalFormat
+- @p - decimal places
 ```
 var n = 10
 
-/** @p - decimal places */
 ack.number(n).decimalFormat(p)
+```
 
-/** convert set number into how many minutes into a date. Ex: 60 = new Date('2016-01-16 1:00:00.0')
-  @options - {}
-  @options.date - default=new Date()
-*/
+convert set number into how many minutes into a date. Ex: 60 = new Date('2016-01-16 1:00:00.0')
+- @options - {}
+- @options.date - default=new Date()
+
+```
 ack.number(n).asMinutesToDateTime(options)
+```
 
-/** convert set number into how many minutes into a string date. Ex: 60 = 1:00 AM')
-  @options = {}
-  @options.timeDelim - default=':'
-  @optiosn.dayPeriodDelim - default=' '
-*/
+convert set number into how many minutes into a string date. Ex: 60 = 1:00 AM')
+- @options = {}
+- @options.timeDelim - default=':'
+- @optiosn.dayPeriodDelim - default=' '
+
+```
 ack.number(n).asMinutesToTime(options)
 ```
 
-## ack.object()
+## ack.object
+
+forEach
+- @method(item, index, object)
+
 ```
 var o = {}
 
-/** @method(item, index, object) */
 ack.object(o).forEach(method)
+```
 
-/** this.object will be the map result
-  @method(item, index, object)
-*/
+this.object will be the map result
+- @method(item, index, object)
+
+```
 ack.object(o).map(method)
+```
 
-/** tests Object for circular references */
+tests Object for circular references
+```
 ack.object(o).isCyclic()
+```
 
-/** like JSON.stringify but converts all to cookie definition */
+like JSON.stringify but converts all to cookie definition
+```
 ack.object(o).toCookieString()
 ```
 
-## ack.string()
+## ack.string
+
+test string against email regX
 ```
 var s = 'String'
-
-/** test string against email regX */
 ack.string(s).isEmail()
+```
 
-//Node.js doesnt have .repeat as of 2/11/15
+Node.js doesnt have .repeat as of 2/11/15
+```
 ack.string(s).repeat(num)
+```
 
-//escapes html brackets
+escapes html brackets
+```
 ack.string(s).htmlFormat()
+```
 
-/** string becomes really long */
+string becomes really long
+```
 ack.string(s).toBase64()
+```
 
-//convert string to something more safely portable
+convert string to something more safely portable
+```
 ack.string(s)._utf8_encode()
 ```
