@@ -136,6 +136,16 @@
 		/**
 			- Organized debug logging that can be viewed ondemand by types of debug logging
 			- See npm "debug" package for more information
+
+			Basic Use Example
+			```
+			ack.debug('my-app-name','item0','item1')
+			```
+
+			Functional Example
+			```
+			module.exports = ack.debug('my-app-name').debug
+			```
 		*/
 		var ackDebugMap = {}//create storage of all loggers created
 		ack.debug = function debug(name, log0, log1, log2){
@@ -224,7 +234,7 @@
 		return target;
 	}
 
-	//get at raw variable within target variable with case insensativity
+	/** get at raw variable within target variable with case insensativity */
 	ackExpose.prototype.get = function(name,def){
 		if(!name)return this.$var
 
@@ -241,7 +251,7 @@
 		return def
 	}
 
-	//$var[name] returned as ack Object. When null, null returned
+	/** $var[name] returned as ack Object. When null, null returned */
 	ackExpose.prototype.byName = function(name){
 		var v = this.get(name)
 		if(v!=null)return ack(v)
@@ -253,9 +263,12 @@
 		return this
 	}
 
-	ackExpose.prototype.dump = function(){
-		return JSON.stringify(this.$var, null, 2)
+	/** JSON.stringify with default spacing=2 */
+	ackExpose.prototype.stringify = function(spacing){
+		spacing = spacing==null ? 2 : spacing
+		return JSON.stringify(this.$var, null, spacing)
 	}
+	ackExpose.prototype.dump = ackExpose.prototype.stringify
 
 	/** negative numbers will be 0  */
 	ackExpose.prototype.getBit = function(){
@@ -266,7 +279,6 @@
 		return b ? 1 : 0;
 	}
 
-	//!NON PROTOTYPED
 	ackExpose.prototype.nullsToEmptyString = function(){
 		for(var key in this.$var){
 			if(this.$var[key]==null){
@@ -5794,16 +5806,34 @@
 	  return new Date(date.setMilliseconds(999))
 	}
 
+	/** will auto detect yyyy-mm-dd and convert to mm-dd-yyyy */
+	ackDate.dateStringToDate = function(date){
+	  var isZoned = date.substring(date.length-1,date.length)=='Z'
+	  var isFirstFourDigits = date.length>8 && !isNaN(date.substring(0, 4)) && !isZoned
+	  var slash = date.substring(4, 5)
+
+	  if(isFirstFourDigits && isNaN(slash)){
+	    var dateSplit = date.split(slash)
+	    var month = dateSplit[1]
+	    var day = dateSplit[2]
+	    var year = dateSplit[0]
+	    dateSplit[0] = month
+	    dateSplit[1] = day
+	    dateSplit[2] = year
+	    date = dateSplit.join(slash)
+	  }
+
+	  return new Date(date)
+	}
+
 	ackDate.dateObjectBy = function(date){
 	  if(date){
-	    if(date.constructor == ackDate)
-	      return date.date
-
-	    if(date.constructor == Date)
-	      return date
-
-	    //if(['string','number'].indexOf(typeof(date)))
-	    return new Date(date)//convert string to date object
+	    switch(date.constructor){
+	      case ackDate:return date.date
+	      case Date:return date
+	      case String:return ackDate.dateStringToDate(date)
+	      default:return new Date(date)//convert string to date object
+	    }
 	  }
 
 	  return date || new Date()

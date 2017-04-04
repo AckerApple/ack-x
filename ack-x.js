@@ -153,7 +153,7 @@ ackExpose.prototype.getSimpleClone = function(){
 	return target;
 }
 
-//get at raw variable within target variable with case insensativity
+/** get at raw variable within target variable with case insensativity */
 ackExpose.prototype.get = function(name,def){
 	if(!name)return this.$var
 
@@ -170,7 +170,7 @@ ackExpose.prototype.get = function(name,def){
 	return def
 }
 
-//$var[name] returned as ack Object. When null, null returned
+/** $var[name] returned as ack Object. When null, null returned */
 ackExpose.prototype.byName = function(name){
 	var v = this.get(name)
 	if(v!=null)return ack(v)
@@ -182,9 +182,12 @@ ackExpose.prototype['throw'] = function(msg, logTo){
 	return this
 }
 
-ackExpose.prototype.dump = function(){
-	return JSON.stringify(this.$var, null, 2)
+/** JSON.stringify with default spacing=2 */
+ackExpose.prototype.stringify = function(spacing){
+	spacing = spacing==null ? 2 : spacing
+	return JSON.stringify(this.$var, null, spacing)
 }
+ackExpose.prototype.dump = ackExpose.prototype.stringify
 
 /** negative numbers will be 0  */
 ackExpose.prototype.getBit = function(){
@@ -195,7 +198,6 @@ ackExpose.prototype.getBit = function(){
 	return b ? 1 : 0;
 }
 
-//!NON PROTOTYPED
 ackExpose.prototype.nullsToEmptyString = function(){
 	for(var key in this.$var){
 		if(this.$var[key]==null){

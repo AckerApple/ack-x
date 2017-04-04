@@ -1,6 +1,10 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.2.23] - 2017-04-04
+### Added
+- .stringify
+
 ## [1.2.28] - 2016-12-28
 ### Enhanced
 - a string date of yyyy-mm-dd will be auto detected to mm-dd-yyyy

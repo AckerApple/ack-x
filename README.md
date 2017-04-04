@@ -1,9 +1,9 @@
-# ack-x, the Acker Way of Fullfilling Our Everyday Javascript Needs
+# ack-x
 Extra functional library to objectify & compartmentalize variables into wrappers that make invokation & injection processes, lighter & easier to implement.
 
 ### Table of Contents
 
-- [Overview of All Modules](#overview-of-all-modules)
+- [The ack Function](#the-ack-function)
 - [ack.date](#ackdate)
 - [ack.array](#ackarray)
 - [ack.method](#ackmethod)
@@ -11,73 +11,66 @@ Extra functional library to objectify & compartmentalize variables into wrappers
 - [ack.number](#acknumber)
 - [ack.object](#ackobject)
 - [ack.string](#ackstring)
+- [More Examples](#more-examples)
 
-## This is a Stable Project But is Developing & Maturing
-This code was born out of countless past production projects that were implemented and put together by Acker Apple. This code is used in existing production projects and is still primarly maintained by Acker Apple.
+## The ack Function
+Access to short-hand methods that can function with most all variable types
+```javascript
+var ack = require('ack-x')
 
-At this time, the documentation is just now evolving as this package is just now becoming a publically consumed piece of software. The demand for this code to be available for immediate use as a public package, has out weighed producing proper documentation.
-
-Use this package at will, use with caution. PLEASE watch our version numbers as this package upgrades. Breaking changes will always be illustrated in a major version number change (IE. v1.0.0 versus v1.1.0)
-
-## Simple Example of Variable Exposing
+ack( someVariable )
 ```
-//get date object for the first hour, minute and second of the first day of month
-var exactStartOfMonth = require('ack-x').date().now().gotoFirstDayOfMonth().gotoStartOfDate().date
+
+getBoolean - reduces variable to a true/false
+```javascript
+ack('y').getBoolean() == true
 ```
+
+isBooleanLike
+```javascript
+ack('y').isBooleanLike == true
+```
+
+nullsToEmptyString
+```javascript
+ack({x:null, y:null}).nullsToEmptyString == {x:'', y:''}
+```
+
+getBit - returns only 0 or 1. Negative numbers will be 0
+```javascript
+ack(-2).getBit() == 0
+```
+
+stringify - JSON.stringify with default spacing=2
+```javascript
+ack({x:22, y:33}).stringify() == {
+  "x":22,
+  "y":33
+}
+```
+
+get - case insensative object key search
+```javascript
+ack({XxX:22}).get('xXx') == 22
+```
+
+byName - Returns another ack class object based on case insensative object key search
+```javascript
+ack({XxX:{YyY:33}}).byName('xXx').get('yYy') == 33
+```
+
 
 ## ack.date
-```
-ack.date().addYears(5).yearsFromNow()
-ack.date().addMonths(5).monthsFromNow()
-ack.date().addDays(5).daysFromNow()
-```
+```javascript
+var aDate = ack.date().now()
 
-### Complex Example of Variable Exposing
-In the following example, many modules are used to manipulate variables
+aDate.addYears(5).yearsFromNow() == 5
+aDate.addMonths(5).monthsFromNow() == 5
+aDate.addDays(5).daysFromNow() == 5
 ```
-var ack = require('ack-x')
-var xDate = ack.date().now()//expose date as now
-
-ack.promise(
-  xDate.getNextYear(),//promise val0 is next year as number
-  xDate.nextYear(2).year(),//promise val1 is the year as number, in two years
-  xDate.getNextYear(3)//promise val2 is the year as number, in two years
-)
-.then(function(y0, y1, y2){
-  return y0 < y1 && y1 < y2
-})
-.if(false, function(){
-  return 'Time is going in reverse'
-})
-.if(true, function(){
-  return 'Time is going in correct direction'
-})
-.then( ack.string )//The promise string value, is injected into the string variable exposer
-.call('toBase64')//The exposed string variable is casted to base64
-.then( console.log )//log results of base64
-.catch(function(e){
-  console.log(e)
-})
-```
-
-## Overview of All Modules
-- .array(in-infancy, add-ons expected)
-- .base64(in-infancy, add-ons expected)
-- .binary(unstable, most likely to be removed)
-- .date(stable, more oganization to take place)
-- .error(stable)
-- .indexSelector(unstable, most likely to be removed)
-- .method(experimental, future unsure)
-- .month(mostly stable)
-- .number(stable)
-- .object(stable)
-- .queryObject(upgrades expected)
-- .string(stable)
-- .week(mostly stable)
-- .year(mostly stable)
 
 ## ack.array
-```
+```javascript
 var a = []
 
 /**
@@ -92,29 +85,29 @@ ack.array(a).each(method0, method1, method2, method3)
 reduce array down to only distinct items
 - @method - optional, returned value is used to determine distinctness
 
-```
+```javascript
 ack.array(a).distinct(method)
 ```
 
 pivets array of objects to object of arrays
-```
+```javascript
 ack.array(a).objectify()
 ```
 
 append an array's items onto the end of this array
-```
+```javascript
 ack.array(a).appendArray(array)
 ```
 
 prepend an array's items onto the front of this array
-```
+```javascript
 ack.array(a).prependArray(array)
 ```
 
 ads an array all up
 - @method - optional. Returned value is used to sum
 
-```
+```javascript
 ack.array(a).sum(method)
 ```
 
@@ -122,7 +115,7 @@ break an array into buckets of arrays
 - @isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
 - @grouptype='sequence' - ('sequence'||'struct') . 'sequence', array of arrays = [ [],[],[] ] . 'struct' = {value0:[buckets...], value1:[buckets...]}
 
-```
+```javascript
 ack.array(a).group(method, isIndexValue, grouptype)
 ```
 
@@ -132,29 +125,29 @@ Holds a function in memory and offers convenient methods to invoke set method
 ### Examples
 
 sets a timeout and then runs set method in milsecs
-```
+```javascript
 var f = function(){}
 
 ack.method(f).runInMs(ms)
 ```
 
 gets name of defined function
-```
+```javascript
 ack.method(f).getName()
 ```
 
 returns array of argument names defined within set function
-```
+```javascript
 ack.method(f).getArgNameArray()
 ```
 
 get set functions inner definition
-```
+```javascript
 ack.method(f).getDefinition()
 ```
 
 This is an option enhanced version of expectOne
-```
+```javascript
 ack.method(f).expect(nameOrMap, value, requiredOrType, type)
 ```
 
@@ -164,7 +157,7 @@ Build argument validation for when set function is invoked.
 - @required
 - @type - requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
 
-```
+```javascript
 ack.method(f).expectOne(name, value, requiredOrType, type)
 ```
 
@@ -172,73 +165,73 @@ ack.method(f).expectOne(name, value, requiredOrType, type)
 great for standardizing error control
 
 returns all object keys of an error which is takes extra steps
-```
+```javascript
 var e = new Error()
 
 ack.error(e).getKeys()
 ```
 
 converts error.stack into array via stack.split(' at ')
-```
+```javascript
 ack.error(e).getStackArray(amount)
 ```
 
 dig out just the stack trace from error
-```
+```javascript
 ack.error(e).getTraceArray(amount)
 ```
 
 dig out only just the first trace of errors stack trace
-```
+```javascript
 ack.error(e).getFirstTrace(amount)
 ```
 
-```
+```javascript
 ack.error(e).setStackArray(stackArray)
 ```
 
 analyzes stack to remove 1st trace (leaves error message in stack). Essentially calls .splice(1,1) on stack array
-```
+```javascript
 ack.error(e).cutFirstTrace()
 ```
 
 attempt to extract a line number from the error
-```
+```javascript
 ack.error(e).getLineNum()
 ```
 
 attempt to extract a file path from the error
-```
+```javascript
 ack.error(e).getFilePath()
 ```
 
 attempt to extract the error's name
-```
+```javascript
 ack.error(e).getName()
 ```
 
 attempt to extract the named function or code that is running
-```
+```javascript
 ack.error(e).getFailingObjectName()
 ```
 
 get a message from the error even if it has no message
-```
+```javascript
 ack.error(e).getMessage()
 ```
 
 attempt to extract the error's type
-```
+```javascript
 ack.error(e).getType()
 ```
 
 attempt to compare error with another error or another type of an error
-```
+```javascript
 ack.error(e).isType(type)
 ```
 
 TYPES OF ERRORS, use these errors to standardized error flow
-```
+```javascript
 ack.error().types.notFound( message )
 ack.error().types.localNetworkRequired( message )
 ack.error().types.unauthorized( message )
@@ -247,7 +240,7 @@ ack.error().types.methodNotAllowed( message )
 ```
 
 TYPES OF ERRORS, Object Details
-```
+```javascript
 ack.error().types.NotFound(message){
   this.status = 404;
   this.code = "not_found";
@@ -284,7 +277,7 @@ Convenient methods to handle numbers
 
 decimalFormat
 - @p - decimal places
-```
+```javascript
 var n = 10
 
 ack.number(n).decimalFormat(p)
@@ -294,7 +287,7 @@ convert set number into how many minutes into a date. Ex: 60 = new Date('2016-01
 - @options - {}
 - @options.date - default=new Date()
 
-```
+```javascript
 ack.number(n).asMinutesToDateTime(options)
 ```
 
@@ -303,7 +296,7 @@ convert set number into how many minutes into a string date. Ex: 60 = 1:00 AM')
 - @options.timeDelim - default=':'
 - @optiosn.dayPeriodDelim - default=' '
 
-```
+```javascript
 ack.number(n).asMinutesToTime(options)
 ```
 
@@ -312,7 +305,7 @@ ack.number(n).asMinutesToTime(options)
 forEach
 - @method(item, index, object)
 
-```
+```javascript
 var o = {}
 
 ack.object(o).forEach(method)
@@ -321,44 +314,85 @@ ack.object(o).forEach(method)
 this.object will be the map result
 - @method(item, index, object)
 
-```
+```javascript
 ack.object(o).map(method)
 ```
 
 tests Object for circular references
-```
+```javascript
 ack.object(o).isCyclic()
 ```
 
 like JSON.stringify but converts all to cookie definition
-```
+```javascript
 ack.object(o).toCookieString()
 ```
 
 ## ack.string
 
 test string against email regX
-```
+```javascript
 var s = 'String'
 ack.string(s).isEmail()
 ```
 
 Node.js doesnt have .repeat as of 2/11/15
-```
+```javascript
 ack.string(s).repeat(num)
 ```
 
 escapes html brackets
-```
+```javascript
 ack.string(s).htmlFormat()
 ```
 
 string becomes really long
-```
+```javascript
 ack.string(s).toBase64()
 ```
 
 convert string to something more safely portable
-```
+```javascript
 ack.string(s)._utf8_encode()
+```
+
+## More Examples
+
+## Simple Example of Variable Exposing
+```javascript
+//get date object for the first hour, minute and second of the first day of month
+var aDate = require('ack-x').date().now()
+var startOfDate = aDate.gotoFirstDayOfMonth().gotoStartOfDate()
+var monthStartsExactlyAt = startOfDate.date
+
+console.log( monthStartsExactlyAt )
+```
+
+
+### Complex Example of Variable Exposing
+In the following example, many modules are used to manipulate variables
+```javascript
+var ack = require('ack-x')
+var xDate = ack.date().now()//expose date as now
+
+ack.promise(
+  xDate.getNextYear(),//promise val0 is next year as number
+  xDate.nextYear(2).year(),//promise val1 is the year as number, in two years
+  xDate.getNextYear(3)//promise val2 is the year as number, in two years
+)
+.then(function(y0, y1, y2){
+  return y0 < y1 && y1 < y2
+})
+.if(false, function(){
+  return 'Time is going in reverse'
+})
+.if(true, function(){
+  return 'Time is going in correct direction'
+})
+.then( ack.string )//The promise string value, is injected into the string variable exposer
+.call('toBase64')//The exposed string variable is casted to base64
+.then( console.log )//log results of base64
+.catch(function(e){
+  console.log(e)
+})
 ```
