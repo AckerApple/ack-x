@@ -11,7 +11,7 @@ describe('ack.date',function(){
 		ndate = ack.date(new Date())
 	})
 
-	it('reformats',()=>{
+	it('reformats',function(){
 		var format = ack.date('2016-12-28').mmddyyyy('-')
 		assert.equal(format, '12-28-2016')
 	})

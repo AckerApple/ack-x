@@ -5,8 +5,8 @@ var ack = global.ack,
 describe('ack.object',function(){
 	it('map',function(done){
 		Promise.resolve({a:1,b:2,c:3})
-		.then( ack.object.map(item=>item*10) )
-		.then( res=>{
+		.then( ack.object.map(function(item){return item*10}) )
+		.then( function(res){
 			assert.equal(res.a, 10)
 			assert.equal(res.b, 20)
 			assert.equal(res.c, 30)

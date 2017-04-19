@@ -1,4 +1,8 @@
 # ack-x
+[![build status](https://travis-ci.org/AckerApple/ack-x.svg)](http://travis-ci.org/AckerApple/ack-x)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![NPM version](https://img.shields.io/npm/v/ack-x.svg?style=flat-square)](https://www.npmjs.com/package/ack-x)
+
 Extra functional library to objectify & compartmentalize variables into wrappers that make invokation & injection processes, lighter & easier to implement.
 
 ### Table of Contents
