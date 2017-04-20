@@ -44,6 +44,12 @@ describe('ack.date',function(){
 	it('#fromNow',function(){
 		assert.equal(ack.date().now().addMinutes(-15).fromNow(), '15 minutes ago')
 		assert.equal(ack.date().now().addMinutes(-15).fromNow(true), '15 minutes')
+
+		assert.equal(ack.date().now().addYears(-1).fromNow(), 'a year ago')
+		assert.equal(ack.date().now().from( new Date()-31536000000 ), 'a year ago')
+
+		assert.equal(ack.date().now().addYears(-1).fromNow(true), 'a year')
+		assert.equal(ack.date().now().from( new Date()-31536000000, true ), 'a year')
 	})
 
 	it('#from',function(){

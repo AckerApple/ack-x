@@ -133,14 +133,14 @@ ackDate.prototype.daysFromNow = function(){
   return this.dateDayDiff( Date.now() )
 }
 
-/** see moment#fromNow  */
-ackDate.prototype.fromNow = function(suffix){
-  return moment(this.date).fromNow(suffix)
+/** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
+ackDate.prototype.fromNow = function(hideSuffix){
+  return moment(this.date).fromNow(hideSuffix)
 }
 
-/** see moment#from  */
-ackDate.prototype.from = function(d, suffix){
-  return moment(d).from(this.date, suffix)
+/** see moment http://momentjs.com/docs/#/displaying/from/ */
+ackDate.prototype.from = function(d, hideSuffix){
+  return moment(d).from(this.date, hideSuffix)
 }
 
 ackDate.prototype.now = function(){
@@ -700,6 +700,21 @@ ackDate.prototype.hhmmtt = function(timeSep, ttSep){
   m=m<10?'0'+m:m;
   h=h>=12?(t='PM',h-12||12):h==0?12:h
   return ('0'+h).slice(-2) +timeSep+ m+ttSep+t
+}
+
+ackDate.prototype.hhmmsstt = function(timeSep, ttSep){
+  if(!this.date)return ''
+  var d = this.date,
+      timeSep = timeSep || ':',
+      ttSep = ttSep==null?' ':ttSep,
+      h=d.getHours(),
+      t='AM',
+      m=d.getMinutes();
+
+  m=m<10?'0'+m:m;
+  h=h>=12?(t='PM',h-12||12):h==0?12:h
+  var s = ('0'+d.getSeconds()).slice(-2)
+  return ('0'+h).slice(-2) +timeSep+ m +timeSep+ s + ttSep + t
 }
 
 //yyyy-mm-dd hh:nn:ss:l

@@ -66,11 +66,14 @@ ack({XxX:{YyY:33}}).byName('xXx').get('yYy') == 33
 
 ## ack.date
 ```javascript
-var aDate = ack.date().now()
+ack.date().now().addYears(5).yearsFromNow() == 5
+ack.date().now().addMonths(5).monthsFromNow() == 5
+ack.date().now().addDays(5).daysFromNow() == 5
 
-aDate.addYears(5).yearsFromNow() == 5
-aDate.addMonths(5).monthsFromNow() == 5
-aDate.addDays(5).daysFromNow() == 5
+ack.date().now().addYears(-1).fromNow(true) == 'a year'
+ack.date().now().addYears(-1).fromNow() == 'a year ago'
+
+ack.date().now().from( new Date()-31536000000 ) == 'a year ago'
 ```
 
 ## ack.array
