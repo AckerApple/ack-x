@@ -2,10 +2,12 @@
 var ack = global.ack,//require('../ack-x-dy').ack,
 	assert = require('assert')
 
+var offset = (new Date().getTimezoneOffset()-240) / 60
+
 describe('ack.time',function(){
 	it('2016-04-18T21:48:00.000Z',function(){
-		var ackDate = ack.time('2016-04-18T21:48:00.000Z');
-		assert.equal(ackDate.date.toString(), "Mon Apr 18 2016 17:48:00 GMT-0400 (EDT)");
+		var ackDate = ack.time('2016-04-18T21:48:00.000Z')
+		assert.equal(ackDate.date.getTime(), 1461016080000);
 	})
 
 	it('Mon Apr 18 2016 07:38:00 GMT-0400 (EDT)',function(){

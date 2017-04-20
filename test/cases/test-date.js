@@ -2,6 +2,7 @@
 var ack = global.ack,//require('../ack-x-dy').ack,
 	assert = require('assert')
 
+var offset = (new Date().getTimezoneOffset()-240) / 60
 
 describe('ack.date',function(){
 	var date,ndate
@@ -47,7 +48,7 @@ describe('ack.date',function(){
 	})
 
 	it('accepts-number',function(){
-		assert.equal(ack.date(1457471202852).date, 'Tue Mar 08 2016 16:06:42 GMT-0500 (EST)')
+		assert.equal(ack.date(1457471202852).date.getTime(), 1457471202852)
 	})
 
 	it('#getFullYear',function(){
@@ -116,35 +117,35 @@ describe('ack.date',function(){
 		it('hhmmtt',function(){
 			assert.equal(ack.date().hhmmtt(), '')
 
-			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
+			var jDate = ack.date('2016-03-01T16:30:51.000Z').addHours(offset)
 			var val = jDate.hhmmtt()
 			assert.equal(val, '11:30 AM')
 
-			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)')
+			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addHours(offset)
 			var val = jDate.hhmmtt()
 			assert.equal(val, '12:30 PM')
 
-			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)')
+			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addHours(offset)
 			var val = jDate.hhmmtt()
 			assert.equal(val, '01:30 PM')
 		})
 
 		it('hmmtt',function(){
-			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
+			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addHours(offset)
 			var val = jDate.hmmtt()
 			assert.equal(val, '11:30 AM')
 
-			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)')
+			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addHours(offset)
 			var val = jDate.hmmtt()
 			assert.equal(val, '12:30 PM')
 
-			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)')
+			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addHours(offset)
 			var val = jDate.hmmtt()
 			assert.equal(val, '1:30 PM')
 		})
 
 		it('#storageFormat',function(){
-			var nD = ack.date('Sun Jul 12 2015 15:58:28 GMT-0400 (EDT)')
+			var nD = ack.date('Sun Jul 12 2015 15:58:28 GMT-0400 (EDT)').addHours(offset)
 			assert.equal(nD.storageFormat(),'2015-07-12 15:58:28.0')
 		})
 	})
@@ -384,6 +385,7 @@ describe('ack.date',function(){
 
 	it('#getDateWeekStop',function(){
 		var jDate = ack.date('3/8/2016')
-		assert.equal(jDate.getDateWeekStop(), 'Sat Mar 12 2016 23:59:59 GMT-0500 (EST)');
+		var stopDate = jDate.getDateWeekStop().getTime()
+		assert.equal(ack.date(stopDate).mmddyyyyhhmmtt(), '03/12/2016 11:59 PM');
 	})
 })
