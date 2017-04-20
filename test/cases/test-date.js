@@ -2,7 +2,10 @@
 var ack = global.ack,//require('../ack-x-dy').ack,
 	assert = require('assert')
 
-var offset = (new Date().getTimezoneOffset()-240) / 60
+var ts = new Date().getTimezoneOffset()
+var offset = (ts-240) / 60
+
+console.log('offset ts',offset,ts)
 
 describe('ack.date',function(){
 	var date,ndate
