@@ -9,11 +9,10 @@ var wasDst2 = ack.date('6/1/2016').isDst()
 var bust = !isDst&&!wasDst2&&!wasDst2
 var ts = new Date().getTimezoneOffset()
 var diff = (ts-240)
-var offset = diff - (isDst&&wasDst2 ? 0 : 60) + ((isDst&&wasDst2) || (!isDst&&wasDst2) ? 0 : 60)
+var offset = diff + (isDst ? 0 : 60)
 if(bust)offset = offset - 60
 
 var dtsMatch = wasDst && !wasDst2
-
 
 describe('ack.date',function(){
 	var date,ndate
@@ -155,8 +154,11 @@ describe('ack.date',function(){
 		})
 
 		it('#storageFormat',function(){
-			var nD = ack.date('Sun Jul 12 2015 15:58:28 GMT-0400 (EDT)').addMinutes(offset)
-			assert.equal(nD.storageFormat(), '2015-07-12 15:58:28.0')
+			var addoffset = (isDst==true && wasDst==false && wasDst2==true) ? 120 : 0
+			var newoffset = offset + addoffset
+			//var newoffset = offset
+			var nD = ack.date(1492659305845).addMinutes(newoffset)
+			assert.equal(nD.storageFormat(), '2017-04-20 01:35:05.845')
 		})
 	})
 
