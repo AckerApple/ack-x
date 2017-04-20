@@ -151,15 +151,22 @@ ackDate.prototype.param = function(){
   this.date = this.date||new Date();return this;
 }
 
-var stdTimezoneOffset = function() {
-  var d = new Date()
+var stdTimezoneOffset = function(d) {
   var jan = new Date(d.getFullYear(), 0, 1);
   var jul = new Date(d.getFullYear(), 6, 1);
   return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-}()
+}
+
 ackDate.prototype.isDaylightSavings = function(){
   if(!this.date)return;
-  return this.date.getTimezoneOffset() < stdTimezoneOffset;
+  return this.date.getTimezoneOffset() < stdTimezoneOffset(this.date);
+}
+ackDate.prototype.isDst = ackDate.prototype.isDaylightSavings
+
+/** amount daylight savings */
+ackDate.prototype.daylightSavings = function(){
+  var d = new Date()
+  return (stdTimezoneOffset(d)-d.getTimezoneOffset()) / 60
 }
 
 //returns years.months (32.11 is 32 years and 11 months && 32.1 is 32 years 1 month)

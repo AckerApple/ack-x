@@ -2,7 +2,15 @@
 var ack = global.ack,//require('../ack-x-dy').ack,
 	assert = require('assert')
 
-var offset = (new Date().getTimezoneOffset()-240) / 60
+//test was built in eastern time during daylight savings, need offset to account for that
+var isDst = ack.date().now().isDst()
+var wasDst = ack.date('2/12/2013').isDst()
+var wasDst2 = ack.date('6/1/2016').isDst()
+var bust = !isDst&&!wasDst2&&!wasDst2
+var ts = new Date().getTimezoneOffset()
+var diff = (ts-240)
+var offset = diff - (isDst&&wasDst2 ? 0 : 60) + ((isDst&&wasDst2) || (!isDst&&wasDst2) ? 0 : 60)
+if(bust)offset = offset - 60
 
 describe('ack.time',function(){
 	it('2016-04-18T21:48:00.000Z',function(){
@@ -10,11 +18,11 @@ describe('ack.time',function(){
 		assert.equal(ackDate.date.getTime(), 1461016080000);
 	})
 
-	it('Mon Apr 18 2016 07:38:00 GMT-0400 (EDT)',function(){
-		var ackDate = ack.time('Mon Apr 18 2016 07:38:00 GMT-0400 (EDT)');
+	it('2016-04-19T07:58:00.000Z',function(){
+		var ackDate = ack.time('2016-04-19T07:58:00.000Z');
 		var clone = new Date(ackDate.date);
 		var d2 = ack.date(clone).setTimeByString('2016-04-18T21:48:00.000Z')
-		assert.equal(ackDate.dateMinuteDiff(d2.date), 610);
+		assert.equal(ackDate.dateMinuteDiff(d2.date), 830);
 	})
 
 	it('12:59 pm',function(){

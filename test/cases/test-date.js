@@ -2,10 +2,18 @@
 var ack = global.ack,//require('../ack-x-dy').ack,
 	assert = require('assert')
 
+//test was built in eastern time during daylight savings, need offset to account for that
+var isDst = ack.date().now().isDst()
+var wasDst = ack.date('2/12/2013').isDst()
+var wasDst2 = ack.date('6/1/2016').isDst()
+var bust = !isDst&&!wasDst2&&!wasDst2
 var ts = new Date().getTimezoneOffset()
-var offset = (ts-240) / 60
+var diff = (ts-240)
+var offset = diff - (isDst&&wasDst2 ? 0 : 60) + ((isDst&&wasDst2) || (!isDst&&wasDst2) ? 0 : 60)
+if(bust)offset = offset - 60
 
-console.log('offset ts',offset,ts)
+var dtsMatch = wasDst && !wasDst2
+
 
 describe('ack.date',function(){
 	var date,ndate
@@ -46,8 +54,8 @@ describe('ack.date',function(){
 	})
 
 	it('#isDaylightSavings',function(){
-		assert.equal(ack.date('2/12/2013').isDaylightSavings(), false)
-		assert.equal(ack.date('6/1/2016').isDaylightSavings(), true)
+		assert.equal(ack.date('2/12/2013').isDaylightSavings(), isDst && dtsMatch, '2/12/2013 is not daylight savings')
+		assert.equal(ack.date('6/1/2016').isDaylightSavings(), isDst && !dtsMatch, '6/1/2016 is not daylight savings')
 	})
 
 	it('accepts-number',function(){
@@ -119,37 +127,36 @@ describe('ack.date',function(){
 
 		it('hhmmtt',function(){
 			assert.equal(ack.date().hhmmtt(), '')
-
-			var jDate = ack.date('2016-03-01T16:30:51.000Z').addHours(offset)
+			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addMinutes(offset)
 			var val = jDate.hhmmtt()
 			assert.equal(val, '11:30 AM')
 
-			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addHours(offset)
+			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
 			var val = jDate.hhmmtt()
-			assert.equal(val, '12:30 PM')
+	 		assert.equal(val, '12:30 PM')
 
-			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addHours(offset)
+			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addMinutes(offset)
 			var val = jDate.hhmmtt()
 			assert.equal(val, '01:30 PM')
 		})
 
 		it('hmmtt',function(){
-			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addHours(offset)
+			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addMinutes(offset)
 			var val = jDate.hmmtt()
 			assert.equal(val, '11:30 AM')
 
-			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addHours(offset)
+			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
 			var val = jDate.hmmtt()
 			assert.equal(val, '12:30 PM')
 
-			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addHours(offset)
+			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addMinutes(offset)
 			var val = jDate.hmmtt()
 			assert.equal(val, '1:30 PM')
 		})
 
 		it('#storageFormat',function(){
-			var nD = ack.date('Sun Jul 12 2015 15:58:28 GMT-0400 (EDT)').addHours(offset)
-			assert.equal(nD.storageFormat(),'2015-07-12 15:58:28.0')
+			var nD = ack.date('Sun Jul 12 2015 15:58:28 GMT-0400 (EDT)').addMinutes(offset)
+			assert.equal(nD.storageFormat(), '2015-07-12 15:58:28.0')
 		})
 	})
 
