@@ -1,6 +1,6 @@
 {
   "name": "ack-x",
-  "version": "1.2.26",
+  "version": "1.2.27",
   "description": "Javascript variable exposing library",
   "main": "index.js",
   "scripts": {
