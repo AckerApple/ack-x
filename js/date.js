@@ -169,6 +169,16 @@ ackDate.prototype.daylightSavings = function(){
   return (stdTimezoneOffset(d)-d.getTimezoneOffset()) / 60
 }
 
+/** true/false if argument is greater than defined date */
+ackDate.prototype.greater = function(otherDate){
+  return new ackDate(otherDate).date > this.date ? true : false
+}
+
+/** true/false if argument is lesser than defined date */
+ackDate.prototype.lesser = function(otherDate){
+  return new ackDate(otherDate).date < this.date ? true : false
+}
+
 //returns years.months (32.11 is 32 years and 11 months && 32.1 is 32 years 1 month)
 ackDate.prototype.getAgeDisplay = function(){
   var d = this.date
@@ -180,7 +190,7 @@ ackDate.prototype.getAgeDisplay = function(){
   if(!local.isValBirthdate)return 0;
 
 
-  local.isBorn = d < toDate
+  local.isBorn = this.greater(toDate)
   if(local.isBorn){
     local.lesserDate = d
     local.greaterDate = toDate

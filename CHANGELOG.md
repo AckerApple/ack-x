@@ -1,6 +1,10 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.2.26] - 2017-07-11
+### Added
+- date.isGreaterThan()
+
 ## [1.2.23] - 2017-04-04
 ### Added
 - .stringify

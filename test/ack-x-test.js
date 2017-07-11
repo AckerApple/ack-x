@@ -3304,6 +3304,27 @@
 		return this
 	}
 
+	function suffixByNumber(i){
+	  if(!i)return ''
+
+	  var j = i % 10,
+	      k = i % 100;
+	  if (j == 1 && k != 11) {
+	      return "st";
+	  }
+	  if (j == 2 && k != 12) {
+	      return "nd";
+	  }
+	  if (j == 3 && k != 13) {
+	      return "rd";
+	  }
+	  return "th";
+	}
+
+	jXNumber.prototype.getSuffix = function(){
+	  return this.number == null ? '' : suffixByNumber( this.number )
+	}
+
 	/** @p - decimal places */
 	jXNumber.prototype.decimalFormat = function(p){
 	  p = p==null ? 2 : p
@@ -6219,14 +6240,14 @@
 	  return this.dateDayDiff( Date.now() )
 	}
 
-	/** see moment#fromNow  */
-	ackDate.prototype.fromNow = function(suffix){
-	  return moment(this.date).fromNow(suffix)
+	/** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
+	ackDate.prototype.fromNow = function(hideSuffix){
+	  return moment(this.date).fromNow(hideSuffix)
 	}
 
-	/** see moment#from  */
-	ackDate.prototype.from = function(d, suffix){
-	  return moment(d).from(this.date, suffix)
+	/** see moment http://momentjs.com/docs/#/displaying/from/ */
+	ackDate.prototype.from = function(d, hideSuffix){
+	  return moment(d).from(this.date, hideSuffix)
 	}
 
 	ackDate.prototype.now = function(){
@@ -6237,15 +6258,32 @@
 	  this.date = this.date||new Date();return this;
 	}
 
-	var stdTimezoneOffset = function() {
-	  var d = new Date()
+	var stdTimezoneOffset = function(d) {
 	  var jan = new Date(d.getFullYear(), 0, 1);
 	  var jul = new Date(d.getFullYear(), 6, 1);
 	  return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-	}()
+	}
+
 	ackDate.prototype.isDaylightSavings = function(){
 	  if(!this.date)return;
-	  return this.date.getTimezoneOffset() < stdTimezoneOffset;
+	  return this.date.getTimezoneOffset() < stdTimezoneOffset(this.date);
+	}
+	ackDate.prototype.isDst = ackDate.prototype.isDaylightSavings
+
+	/** amount daylight savings */
+	ackDate.prototype.daylightSavings = function(){
+	  var d = new Date()
+	  return (stdTimezoneOffset(d)-d.getTimezoneOffset()) / 60
+	}
+
+	/** true/false if argument is greater than defined date */
+	ackDate.prototype.greater = function(otherDate){
+	  return new ackDate(otherDate).date > this.date ? true : false
+	}
+
+	/** true/false if argument is lesser than defined date */
+	ackDate.prototype.lesser = function(otherDate){
+	  return new ackDate(otherDate).date < this.date ? true : false
 	}
 
 	//returns years.months (32.11 is 32 years and 11 months && 32.1 is 32 years 1 month)
@@ -6259,7 +6297,7 @@
 	  if(!local.isValBirthdate)return 0;
 
 
-	  local.isBorn = d < toDate
+	  local.isBorn = this.greater(toDate)
 	  if(local.isBorn){
 	    local.lesserDate = d
 	    local.greaterDate = toDate
@@ -6779,6 +6817,21 @@
 	  m=m<10?'0'+m:m;
 	  h=h>=12?(t='PM',h-12||12):h==0?12:h
 	  return ('0'+h).slice(-2) +timeSep+ m+ttSep+t
+	}
+
+	ackDate.prototype.hhmmsstt = function(timeSep, ttSep){
+	  if(!this.date)return ''
+	  var d = this.date,
+	      timeSep = timeSep || ':',
+	      ttSep = ttSep==null?' ':ttSep,
+	      h=d.getHours(),
+	      t='AM',
+	      m=d.getMinutes();
+
+	  m=m<10?'0'+m:m;
+	  h=h>=12?(t='PM',h-12||12):h==0?12:h
+	  var s = ('0'+d.getSeconds()).slice(-2)
+	  return ('0'+h).slice(-2) +timeSep+ m +timeSep+ s + ttSep + t
 	}
 
 	//yyyy-mm-dd hh:nn:ss:l
@@ -22737,6 +22790,17 @@
 	var ack = global.ack,//require('../ack-x-dy').ack,
 		assert = __webpack_require__(142)
 
+	//test was built in eastern time during daylight savings, need offset to account for that
+	var isDst = ack.date().now().isDst()
+	var wasDst = ack.date('2/12/2013').isDst()
+	var wasDst2 = ack.date('6/1/2016').isDst()
+	var bust = !isDst&&!wasDst2&&!wasDst2
+	var ts = new Date().getTimezoneOffset()
+	var diff = (ts-240)
+	var offset = diff + (isDst ? 0 : 60)
+	if(bust)offset = offset - 60
+
+	var dtsMatch = wasDst && !wasDst2
 
 	describe('ack.date',function(){
 		var date,ndate
@@ -22746,13 +22810,29 @@
 			ndate = ack.date(new Date())
 		})
 
-		it('reformats',()=>{
+		it('reformats',function(){
 			var format = ack.date('2016-12-28').mmddyyyy('-')
 			assert.equal(format, '12-28-2016')
 		})
 
 		it('#yearsFromNow',function(){
 			assert.equal(ack.date().now().addYear(-5).yearsFromNow(), 5)
+		})
+
+		it('#getAgeDisplay',function(){
+			assert.equal(ack.date().now().addYear(-5).getAgeDisplay(), 5)
+		})
+
+		it('#greater',function(){
+			assert.equal(ack.date().now().greater( Date.now() ), false)
+			assert.equal(ack.date().now().addYear(-5).greater( Date.now() ), true)
+			assert.equal(ack.date().now().addYear(5).greater( Date.now() ), false)
+		})
+
+		it('#lesser',function(){
+			assert.equal(ack.date().now().lesser( Date.now() ), false)
+			assert.equal(ack.date().now().addYear(-5).lesser( Date.now() ), false)
+			assert.equal(ack.date().now().addYear(5).lesser( Date.now() ), true)
 		})
 
 		it('#addYears',function(){
@@ -22768,6 +22848,12 @@
 		it('#fromNow',function(){
 			assert.equal(ack.date().now().addMinutes(-15).fromNow(), '15 minutes ago')
 			assert.equal(ack.date().now().addMinutes(-15).fromNow(true), '15 minutes')
+
+			assert.equal(ack.date().now().addYears(-1).fromNow(), 'a year ago')
+			assert.equal(ack.date().now().from( new Date()-31536000000 ), 'a year ago')
+
+			assert.equal(ack.date().now().addYears(-1).fromNow(true), 'a year')
+			assert.equal(ack.date().now().from( new Date()-31536000000, true ), 'a year')
 		})
 
 		it('#from',function(){
@@ -22777,12 +22863,12 @@
 		})
 
 		it('#isDaylightSavings',function(){
-			assert.equal(ack.date('2/12/2013').isDaylightSavings(), false)
-			assert.equal(ack.date('6/1/2016').isDaylightSavings(), true)
+			assert.equal(ack.date('2/12/2013').isDaylightSavings(), isDst && dtsMatch, '2/12/2013 is not daylight savings')
+			assert.equal(ack.date('6/1/2016').isDaylightSavings(), isDst && !dtsMatch, '6/1/2016 is not daylight savings')
 		})
 
 		it('accepts-number',function(){
-			assert.equal(ack.date(1457471202852).date, 'Tue Mar 08 2016 16:06:42 GMT-0500 (EST)')
+			assert.equal(ack.date(1457471202852).date.getTime(), 1457471202852)
 		})
 
 		it('#getFullYear',function(){
@@ -22850,37 +22936,39 @@
 
 			it('hhmmtt',function(){
 				assert.equal(ack.date().hhmmtt(), '')
-
-				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
+				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addMinutes(offset)
 				var val = jDate.hhmmtt()
 				assert.equal(val, '11:30 AM')
 
-				var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)')
+				var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
 				var val = jDate.hhmmtt()
-				assert.equal(val, '12:30 PM')
+		 		assert.equal(val, '12:30 PM')
 
-				var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)')
+				var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addMinutes(offset)
 				var val = jDate.hhmmtt()
 				assert.equal(val, '01:30 PM')
 			})
 
 			it('hmmtt',function(){
-				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
+				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addMinutes(offset)
 				var val = jDate.hmmtt()
 				assert.equal(val, '11:30 AM')
 
-				var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)')
+				var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
 				var val = jDate.hmmtt()
 				assert.equal(val, '12:30 PM')
 
-				var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)')
+				var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addMinutes(offset)
 				var val = jDate.hmmtt()
 				assert.equal(val, '1:30 PM')
 			})
 
 			it('#storageFormat',function(){
-				var nD = ack.date('Sun Jul 12 2015 15:58:28 GMT-0400 (EDT)')
-				assert.equal(nD.storageFormat(),'2015-07-12 15:58:28.0')
+				var addoffset = (isDst==true && wasDst==false && wasDst2==true) ? 120 : 0
+				var newoffset = offset + addoffset
+				//var newoffset = offset
+				var nD = ack.date(1492659305845).addMinutes(newoffset)
+				assert.equal(nD.storageFormat(), '2017-04-20 01:35:05.845')
 			})
 		})
 
@@ -23119,7 +23207,8 @@
 
 		it('#getDateWeekStop',function(){
 			var jDate = ack.date('3/8/2016')
-			assert.equal(jDate.getDateWeekStop(), 'Sat Mar 12 2016 23:59:59 GMT-0500 (EST)');
+			var stopDate = jDate.getDateWeekStop().getTime()
+			assert.equal(ack.date(stopDate).mmddyyyyhhmmtt(), '03/12/2016 11:59 PM');
 		})
 	})
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
@@ -23132,17 +23221,27 @@
 	var ack = global.ack,//require('../ack-x-dy').ack,
 		assert = __webpack_require__(142)
 
+	//test was built in eastern time during daylight savings, need offset to account for that
+	var isDst = ack.date().now().isDst()
+	var wasDst = ack.date('2/12/2013').isDst()
+	var wasDst2 = ack.date('6/1/2016').isDst()
+	var bust = !isDst&&!wasDst2&&!wasDst2
+	var ts = new Date().getTimezoneOffset()
+	var diff = (ts-240)
+	var offset = diff - (isDst&&wasDst2 ? 0 : 60) + ((isDst&&wasDst2) || (!isDst&&wasDst2) ? 0 : 60)
+	if(bust)offset = offset - 60
+
 	describe('ack.time',function(){
 		it('2016-04-18T21:48:00.000Z',function(){
-			var ackDate = ack.time('2016-04-18T21:48:00.000Z');
-			assert.equal(ackDate.date.toString(), "Mon Apr 18 2016 17:48:00 GMT-0400 (EDT)");
+			var ackDate = ack.time('2016-04-18T21:48:00.000Z')
+			assert.equal(ackDate.date.getTime(), 1461016080000);
 		})
 
-		it('Mon Apr 18 2016 07:38:00 GMT-0400 (EDT)',function(){
-			var ackDate = ack.time('Mon Apr 18 2016 07:38:00 GMT-0400 (EDT)');
+		it('2016-04-19T07:58:00.000Z',function(){
+			var ackDate = ack.time('2016-04-19T07:58:00.000Z');
 			var clone = new Date(ackDate.date);
 			var d2 = ack.date(clone).setTimeByString('2016-04-18T21:48:00.000Z')
-			assert.equal(ackDate.dateMinuteDiff(d2.date), 610);
+			assert.equal(ackDate.dateMinuteDiff(d2.date), 830);
 		})
 
 		it('12:59 pm',function(){
@@ -23856,8 +23955,8 @@
 	describe('ack.object',function(){
 		it('map',function(done){
 			Promise.resolve({a:1,b:2,c:3})
-			.then( ack.object.map(item=>item*10) )
-			.then( res=>{
+			.then( ack.object.map(function(item){return item*10}) )
+			.then( function(res){
 				assert.equal(res.a, 10)
 				assert.equal(res.b, 20)
 				assert.equal(res.c, 30)

@@ -98,9 +98,21 @@ ack.date().now().date.getMinutes() == new Date().getMinutes()
 ```javascript
 ack.date().now().addYears(5).date.getFullYear() == new Date().getFullYear()+5
 
-### ack.date.addYears
+### ack.date.yearsFromNow
 ```javascript
 ack.date().now().yearsFromNow() - new Date().getFullYear() == 0
+```
+
+### ack.date.greater
+Check if argument date is greater than defined date
+```javascript
+ack.date().now().greater( Date.now()+200 ) == true
+```
+
+### ack.date.lesser
+Check if argument date is lesser than defined date
+```javascript
+ack.date().now().lesser( Date.now()-200 ) == true
 ```
 
 ## ack.array

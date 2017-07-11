@@ -31,6 +31,22 @@ describe('ack.date',function(){
 		assert.equal(ack.date().now().addYear(-5).yearsFromNow(), 5)
 	})
 
+	it('#getAgeDisplay',function(){
+		assert.equal(ack.date().now().addYear(-5).getAgeDisplay(), 5)
+	})
+
+	it('#greater',function(){
+		assert.equal(ack.date().now().greater( Date.now() ), false)
+		assert.equal(ack.date().now().addYear(-5).greater( Date.now() ), true)
+		assert.equal(ack.date().now().addYear(5).greater( Date.now() ), false)
+	})
+
+	it('#lesser',function(){
+		assert.equal(ack.date().now().lesser( Date.now() ), false)
+		assert.equal(ack.date().now().addYear(-5).lesser( Date.now() ), false)
+		assert.equal(ack.date().now().addYear(5).lesser( Date.now() ), true)
+	})
+
 	it('#addYears',function(){
 		assert.equal(ack.date().now().addYears(5).yearsFromNow(), 5)
 	})
