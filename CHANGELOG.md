@@ -1,6 +1,9 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.2.28] - 2017- (UNRELEASE)
+- Fixed .setYear into .setFullYear for date objects
+
 ## [1.2.26] - 2017-07-11
 ### Added
 - date.isGreaterThan()

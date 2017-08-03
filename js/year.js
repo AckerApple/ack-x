@@ -12,7 +12,7 @@ ackYear.prototype.setStartDate = function(date){
 		isYear = isYearString || (!xDate(date).isDate() && !isNaN(date))
 
 	if(isYear){//just the year number?
-		date = new Date(new Date('1/1/2011').setYear(date))
+		date = new Date(new Date('1/1/2011').setFullYear(date))
 	}
 
 	this.date = date
@@ -74,7 +74,7 @@ ackYear.prototype.setYear = function(yyyy){
 		yyyy = ExYy.year()
 
 	var date = this.getStartDate()
-	date = new Date( date.setYear(yyyy) )
+	date = new Date( date.setFullYear(yyyy) )
 	this.setStartDate(date)
 
 	return this

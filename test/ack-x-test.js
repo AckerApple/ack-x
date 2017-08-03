@@ -6115,6 +6115,23 @@
 	  return this
 	}
 
+	ackDate.toDate = function(date){
+	  return date!=null ? ackDate.dateObjectBy(date) : null
+	}
+
+	ackDate.dateObjectBy = function(date){
+	  if(date){
+	    switch(date.constructor){
+	      case ackDate:return date.date
+	      case Date:return date
+	      case String:return ackDate.dateStringToDate(date)
+	      default:return new Date(date)//convert string to date object
+	    }
+	  }
+
+	  return date || new Date()
+	}
+
 	ackDate.suffixByNumber = function(i){
 	  var j = i % 10,
 	      k = i % 100;
@@ -6171,23 +6188,6 @@
 	  return new Date(date)
 	}
 
-	ackDate.dateObjectBy = function(date){
-	  if(date){
-	    switch(date.constructor){
-	      case ackDate:return date.date
-	      case Date:return date
-	      case String:return ackDate.dateStringToDate(date)
-	      default:return new Date(date)//convert string to date object
-	    }
-	  }
-
-	  return date || new Date()
-	}
-
-	ackDate.toDate = function(date){
-	  return date!=null ? ackDate.dateObjectBy(date) : null
-	}
-
 	//NON PROTOTYPE METHODS
 	ackDate.twoDigit = function(n){
 	  return ('0'+n).slice(-2)
@@ -6242,12 +6242,12 @@
 
 	/** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
 	ackDate.prototype.fromNow = function(hideSuffix){
-	  return moment(this.date).fromNow(hideSuffix)
+	  return moment( this.date ).fromNow(hideSuffix)
 	}
 
 	/** see moment http://momentjs.com/docs/#/displaying/from/ */
 	ackDate.prototype.from = function(d, hideSuffix){
-	  return moment(d).from(this.date, hideSuffix)
+	  return moment( ackDate.toDate(d) ).from(this.date, hideSuffix)
 	}
 
 	ackDate.prototype.now = function(){
@@ -6371,7 +6371,7 @@
 	ackDate.prototype.getYear = ackDate.prototype.year
 
 	ackDate.prototype.setYear = function(n){
-	  this.date.setYear(n)
+	  this.date.setFullYear(n)
 	  return this
 	}
 
@@ -21000,7 +21000,7 @@
 			isYear = isYearString || (!xDate(date).isDate() && !isNaN(date))
 
 		if(isYear){//just the year number?
-			date = new Date(new Date('1/1/2011').setYear(date))
+			date = new Date(new Date('1/1/2011').setFullYear(date))
 		}
 
 		this.date = date
@@ -21062,7 +21062,7 @@
 			yyyy = ExYy.year()
 
 		var date = this.getStartDate()
-		date = new Date( date.setYear(yyyy) )
+		date = new Date( date.setFullYear(yyyy) )
 		this.setStartDate(date)
 
 		return this
@@ -22860,6 +22860,7 @@
 			var d = ack.date().now().addMinutes(-15).date
 			assert.equal(ack.date().now().from(d), '15 minutes ago')
 			assert.equal(ack.date().now().from(d, true), '15 minutes')
+			assert.equal(ack.date('Tue Jul 25 2017 16:43:00 GMT-0400 (EDT)').from('Tue Jul 25 2017 16:44:00 GMT-0400 (EDT)', true), 'a minute')
 		})
 
 		it('#isDaylightSavings',function(){

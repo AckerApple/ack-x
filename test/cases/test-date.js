@@ -72,6 +72,7 @@ describe('ack.date',function(){
 		var d = ack.date().now().addMinutes(-15).date
 		assert.equal(ack.date().now().from(d), '15 minutes ago')
 		assert.equal(ack.date().now().from(d, true), '15 minutes')
+		assert.equal(ack.date('Tue Jul 25 2017 16:43:00 GMT-0400 (EDT)').from('Tue Jul 25 2017 16:44:00 GMT-0400 (EDT)', true), 'a minute')
 	})
 
 	it('#isDaylightSavings',function(){
