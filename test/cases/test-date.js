@@ -19,7 +19,8 @@ var ack = global.ack,//require('../ack-x-dy').ack,
 var dto = new Date().getTimezoneOffset();
 var ts = (dto>=0?"+":"-")+parseInt(dto/60)+":"+dto%60
 var correctTs = ts=="+4:0"
-
+var tsIt = correctTs ? it : it.skip
+console.info('Timezone',ts)
 if(!correctTs){
 	console.info('skipping timezone sensative tests')
 }
@@ -158,16 +159,16 @@ describe('ack.date',function(){
 		})
 
 		it('hhmmtt',function(){
-			assert.equal(ack.date().hhmmtt(), '')
-			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addMinutes(offset)
-			var val = jDate.hhmmtt()
-			assert.equal(val, '11:30 AM')
-
 			if( correctTs ){
-				var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
+				assert.equal(ack.date().hhmmtt(), '')
+				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addMinutes(offset)
 				var val = jDate.hhmmtt()
-		 		assert.equal(val, '12:30 PM')
+				assert.equal(val, '11:30 AM')
 			}
+
+			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
+			var val = jDate.hhmmtt()
+	 		assert.equal(val, '12:30 PM')
 
 			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addMinutes(offset)
 			var val = jDate.hhmmtt()
@@ -175,28 +176,26 @@ describe('ack.date',function(){
 		})
 
 		it('hmmtt',function(){
-			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addMinutes(offset)
-			var val = jDate.hmmtt()
-			assert.equal(val, '11:30 AM')
-
 			if( correctTs ){
-				var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
+				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addMinutes(offset)
 				var val = jDate.hmmtt()
-				assert.equal(val, '12:30 PM')
+				assert.equal(val, '11:30 AM')
 			}
+
+			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
+			var val = jDate.hmmtt()
+			assert.equal(val, '12:30 PM')
 
 			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addMinutes(offset)
 			var val = jDate.hmmtt()
 			assert.equal(val, '1:30 PM')
 		})
 
-		it('#storageFormat',function(){
-			if( correctTs ){
-				var addoffset = (isDst==true && wasDst==false && wasDst2==true) ? 120 : 0
-				var newoffset = offset + addoffset
-				var nD = ack.date(1492659305845).addMinutes(newoffset)
-				assert.equal(nD.storageFormat(), '2017-04-20 01:35:05.845')
-			}
+		tsIt('#storageFormat',function(){
+			var addoffset = (isDst==true && wasDst==false && wasDst2==true) ? 120 : 0
+			var newoffset = offset + addoffset
+			var nD = ack.date(1492659305845).addMinutes(newoffset)
+			assert.equal(nD.storageFormat(), '2017-04-20 01:35:05.845')
 
 			var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addMinutes(offset)
 			var val = jDate.storageFormat()
