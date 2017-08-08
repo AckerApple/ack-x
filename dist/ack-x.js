@@ -2833,7 +2833,10 @@
 	/** attempt to extract a file path from the error */
 	jError.prototype.getFilePath = function(){
 	  var trace = this.getFirstTrace()
-	  return trace.split(':')[0].split('(').pop()
+	  var pathArray = trace.split(':')
+	  pathArray.pop()
+	  pathArray.pop()
+	  return pathArray.join(':').split('(').pop()
 	}
 
 	/** attempt to extract the error's name */
@@ -2969,6 +2972,7 @@
 	jError.types.methodNotAllowed = function(message){
 	  return new jError.types.MethodNotAllowed(message)
 	}
+
 
 /***/ },
 /* 12 */
@@ -6421,6 +6425,10 @@
 
 
 	/* FORMATTING */
+	ackDate.prototype.format = function(format){
+	  return moment(this.date).format(format)
+	}
+
 	ackDate.prototype.getDayName = function(){
 	  if(!this.date)return ''
 	  return ackDate.dayNameArray[ this.date.getDay() ]

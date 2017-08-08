@@ -72,6 +72,7 @@ ack({XxX:{YyY:33}}).byName('xXx').get('yYy') == 33
 ## ack.date
 
 - [ack.date.now](#ackdatenow)
+- [ack.date.format](#ackdateformat)
 - [ack.date.storageFormat](#ackdatestorageFormat)
 - [ack.date.addYears](#ackdateaddYears)
 - [ack.date.yearsFromNow](#ackdateyearsFromNow)
@@ -92,6 +93,7 @@ ack.date().now().from( new Date()-31536000000 ) == 'a year ago'
 ```
 
 ### ack.date.date
+Example of getting at raw Date variable
 ```javascript
 const d = new Date()
 ack.date(d).date == d
@@ -100,6 +102,12 @@ ack.date(d).date == d
 ### ack.date.now
 ```javascript
 ack.date().now().date.getMinutes() == new Date().getMinutes()
+```
+
+### ack.date.format
+See [moment.js](https://momentjs.com/) format function
+```javascript
+ack.date().now().format('YYYY-MM-DD hh:mm:A') == '2017-08-08 01:40:PM'
 ```
 
 ### ack.date.storageFormat

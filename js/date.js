@@ -638,6 +638,10 @@ ackDate.prototype.dateMinutesDiff = ackDate.prototype.dateMinuteDiff//alias
 
 
 /* FORMATTING */
+ackDate.prototype.format = function(format){
+  return moment(this.date).format(format)
+}
+
 ackDate.prototype.getDayName = function(){
   if(!this.date)return ''
   return ackDate.dayNameArray[ this.date.getDay() ]
