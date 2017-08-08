@@ -164,11 +164,11 @@ describe('ack.date',function(){
 				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addMinutes(offset)
 				var val = jDate.hhmmtt()
 				assert.equal(val, '11:30 AM')
-			}
 
-			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
-			var val = jDate.hhmmtt()
-	 		assert.equal(val, '12:30 PM')
+				var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
+				var val = jDate.hhmmtt()
+		 		assert.equal(val, '12:30 PM')
+			}
 
 			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addMinutes(offset)
 			var val = jDate.hhmmtt()
@@ -180,11 +180,11 @@ describe('ack.date',function(){
 				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)').addMinutes(offset)
 				var val = jDate.hmmtt()
 				assert.equal(val, '11:30 AM')
-			}
 
-			var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
-			var val = jDate.hmmtt()
-			assert.equal(val, '12:30 PM')
+				var jDate = ack.date('Tue Mar 01 2016 12:30:51 GMT-0500 (EST)').addMinutes(offset)
+				var val = jDate.hmmtt()
+				assert.equal(val, '12:30 PM')
+			}
 
 			var jDate = ack.date('Tue Mar 01 2016 13:30:51 GMT-0500 (EST)').addMinutes(offset)
 			var val = jDate.hmmtt()
