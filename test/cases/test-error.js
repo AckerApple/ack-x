@@ -24,7 +24,7 @@ describe('ack.error',function(){
 
 	it('#getFilePath',function(){
 		var p = ack.error(new Error()).getFilePath()
-		assert(p==path.join(__dirname,'test-error.js') || p=='file')
+		assert.equal(p, path.join(__dirname,'test-error.js'))
 	})
 
 	it('#getFailingObjectName',function(){
