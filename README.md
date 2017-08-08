@@ -71,6 +71,14 @@ ack({XxX:{YyY:33}}).byName('xXx').get('yYy') == 33
 
 ## ack.date
 
+- [ack.date.now](#ackdatenow)
+- [ack.date.storageFormat](#ackdatestorageFormat)
+- [ack.date.addYears](#ackdateaddYears)
+- [ack.date.yearsFromNow](#ackdateyearsFromNow)
+- [ack.date.greater](#ackdategreater)
+- [ack.date.lesser](#ackdatelesser)
+
+
 ### Compound Example
 ```javascript
 ack.date().now().addYears(5).yearsFromNow() == 5
@@ -92,6 +100,12 @@ ack.date(d).date == d
 ### ack.date.now
 ```javascript
 ack.date().now().date.getMinutes() == new Date().getMinutes()
+```
+
+### ack.date.storageFormat
+yyyy-mm-dd hh:nn:ss:l
+```javascript
+ack.date().now().storageFormat() == '2017-04-20 01:35:05.845'
 ```
 
 ### ack.date.addYears
