@@ -132,7 +132,7 @@ describe('ack.date',function(){
 	})
 
 	describe('formatting',function(){
-		it('#format',function(){
+		tsIt('#format',function(){
 			assert.equal(ack.date('2017-08-08T17:40:13.947Z').format('YYYY-MM-DD hh:mm:A'), '2017-08-08 01:40:PM')
 		})
 
