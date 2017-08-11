@@ -39,8 +39,9 @@ describe('ack.date',function(){
 	})
 
 	it('#dayOfYear',function(){
-		var format = ack.date('2016-12-28').dayOfYear()
-		assert.equal(format, 362)
+		assert.equal(ack.date('2016-12-28').dayOfYear(), 363)
+		assert.equal(ack.date('2017-08-11').dayOfYear(), 223)
+		assert.equal(ack.date(Date.now()).dayOfYear(), 223)
 	})
 
 	it('#yearsFromNow',function(){
