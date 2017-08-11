@@ -6061,7 +6061,7 @@
 	}
 
 	ackDate.prototype.dayOfYear = function(){
-	  var d = this.date
+	  var d = new ackDate(this.date).gotoEod().date
 	  return Math.ceil((d - new Date(d.getFullYear(), 0, 1)) / 86400000)
 	}
 
