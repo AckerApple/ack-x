@@ -5925,6 +5925,11 @@
 	  return moment( this.date ).fromNow(hideSuffix)
 	}
 
+	/** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
+	ackDate.prototype.fromToday = function(hideSuffix){
+	  return moment( new ackDate(this.date).gotoSod().date ).from(new ackDate().now().gotoSod().date, hideSuffix)
+	}
+
 	/** see moment http://momentjs.com/docs/#/displaying/from/ */
 	ackDate.prototype.from = function(d, hideSuffix){
 	  return moment( ackDate.toDate(d) ).from(this.date, hideSuffix)

@@ -71,9 +71,9 @@ ack({XxX:{YyY:33}}).byName('xXx').get('yYy') == 33
 
 ## ack.date
 
-- [ack.date.dayOfYear](#ackdayofyear)
-- [ack.date.daysFromNow](#ackdayofdaysfromnow)
-- [ack.date.fromToday](#ackdayoffromtoday)
+- [ack.date.dayOfYear](#ackdateyear)
+- [ack.date.daysFromNow](#ackdatedaysfromnow)
+- [ack.date.fromToday](#ackdatefromtoday)
 - [ack.date.now](#ackdatenow)
 - [ack.date.format](#ackdateformat)
 - [ack.date.storageFormat](#ackdatestorageFormat)

@@ -6249,6 +6249,11 @@
 	  return moment( this.date ).fromNow(hideSuffix)
 	}
 
+	/** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
+	ackDate.prototype.fromToday = function(hideSuffix){
+	  return moment( new ackDate(this.date).gotoSod().date ).from(new ackDate().now().gotoSod().date, hideSuffix)
+	}
+
 	/** see moment http://momentjs.com/docs/#/displaying/from/ */
 	ackDate.prototype.from = function(d, hideSuffix){
 	  return moment( ackDate.toDate(d) ).from(this.date, hideSuffix)
@@ -22834,8 +22839,24 @@
 			assert.equal(format, '12-28-2016')
 		})
 
+		it('#dayOfYear',function(){
+			var format = ack.date('2016-12-28').dayOfYear()
+			assert.equal(format, 362)
+		})
+
 		it('#yearsFromNow',function(){
 			assert.equal(ack.date().now().addYear(-5).yearsFromNow(), 5)
+		})
+
+		it('#daysFromNow',function(){
+			assert.equal(ack.date().now().addDays(-2).daysFromNow(), 2)
+		})
+
+		it('#fromToday',function(){
+			assert.equal(ack.date().now().gotoSod().addDays(-2).fromToday(), '2 days ago')
+			assert.equal(ack.date().now().gotoSod().fromToday(), 'a few seconds ago')
+			assert.equal(ack.date().now().gotoSod().addDays(2).fromToday(), 'in 2 days')
+			assert.equal(ack.date().now().gotoSod().addDays(2).fromToday(true), '2 days')
 		})
 
 		it('#getAgeDisplay',function(){
@@ -22928,7 +22949,7 @@
 		})
 
 		describe('formatting',function(){
-			it('#format',function(){
+			tsIt('#format',function(){
 				assert.equal(ack.date('2017-08-08T17:40:13.947Z').format('YYYY-MM-DD hh:mm:A'), '2017-08-08 01:40:PM')
 			})
 
