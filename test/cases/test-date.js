@@ -38,8 +38,24 @@ describe('ack.date',function(){
 		assert.equal(format, '12-28-2016')
 	})
 
+	it('#dayOfYear',function(){
+		var format = ack.date('2016-12-28').dayOfYear()
+		assert.equal(format, 362)
+	})
+
 	it('#yearsFromNow',function(){
 		assert.equal(ack.date().now().addYear(-5).yearsFromNow(), 5)
+	})
+
+	it('#daysFromNow',function(){
+		assert.equal(ack.date().now().addDays(-2).daysFromNow(), 2)
+	})
+
+	it('#fromToday',function(){
+		assert.equal(ack.date().now().gotoSod().addDays(-2).fromToday(), '2 days ago')
+		assert.equal(ack.date().now().gotoSod().fromToday(), 'a few seconds ago')
+		assert.equal(ack.date().now().gotoSod().addDays(2).fromToday(), 'in 2 days')
+		assert.equal(ack.date().now().gotoSod().addDays(2).fromToday(true), '2 days')
 	})
 
 	it('#getAgeDisplay',function(){

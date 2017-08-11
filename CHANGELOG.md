@@ -1,8 +1,9 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
-## [1.2.28] - 2017- (UNRELEASE)
+## [1.2.32] - 2017-08-11
 - Fixed .setYear into .setFullYear for date objects
+- Added more date functionality
 
 ## [1.2.26] - 2017-07-11
 ### Added

@@ -71,6 +71,9 @@ ack({XxX:{YyY:33}}).byName('xXx').get('yYy') == 33
 
 ## ack.date
 
+- [ack.date.dayOfYear](#ackdayofyear)
+- [ack.date.daysFromNow](#ackdayofdaysfromnow)
+- [ack.date.fromToday](#ackdayoffromtoday)
 - [ack.date.now](#ackdatenow)
 - [ack.date.format](#ackdateformat)
 - [ack.date.storageFormat](#ackdatestorageFormat)
@@ -91,6 +94,23 @@ ack.date().now().addYears(-1).fromNow() == 'a year ago'
 
 ack.date().now().from( new Date()-31536000000 ) == 'a year ago'
 ```
+
+### ack.date.dayOfYear
+```javascript
+ack.date('2016-12-28').dayOfYear() == 362
+```
+
+### ack.date.daysFromNow
+```javascript
+ack.date().now().addDays(-2).daysFromNow() == 2
+```
+
+### ack.date.fromToday
+```javascript
+ack.date().now().gotoSod().addDays(-2).fromToday() == '2 days ago'
+ack.date().now().gotoSod().addDays(-2).fromToday(true) == '2 days'
+```
+
 
 ### ack.date.date
 Example of getting at raw Date variable
