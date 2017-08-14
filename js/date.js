@@ -13,6 +13,7 @@ ackDate.toDate = function(date){
 }
 
 ackDate.getTimezoneStamp = function(date, seperator){
+  date = date || new Date()
   var value = new Date(date).toString().match(/([-\+][0-9]+)\s/)[1]
   if(seperator){
     value = value.substring(0, value.length-2)+ seperator +value.substring(value.length-2, value.length)
