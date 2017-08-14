@@ -1,6 +1,9 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.2.36] - 2017-08-14
+- added getTimezoneStamp() and better tests
+
 ## [1.2.32] - 2017-08-11
 - Fixed .setYear into .setFullYear for date objects
 - Added more date functionality

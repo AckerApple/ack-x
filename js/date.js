@@ -12,6 +12,14 @@ ackDate.toDate = function(date){
   return date!=null ? ackDate.dateObjectBy(date) : null
 }
 
+ackDate.getTimezoneStamp = function(date, seperator){
+  var value = new Date(date).toString().match(/([-\+][0-9]+)\s/)[1]
+  if(seperator){
+    value = value.substring(0, value.length-2)+ seperator +value.substring(value.length-2, value.length)
+  }
+  return value
+}
+
 ackDate.dateObjectBy = function(date){
   if(date){
     switch(date.constructor){
@@ -120,6 +128,10 @@ ackDate.dateYearDiff = function(d0, d1){
 /*
   PROTOTYPES
 */
+
+ackDate.prototype.getTimezoneStamp = function(sep){
+  return ackDate.getTimezoneStamp( this.date, sep )
+}
 
 ackDate.prototype.yearsFromNow = function(){
   return this.dateYearDiff( Date.now() )
