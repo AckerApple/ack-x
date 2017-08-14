@@ -38,7 +38,7 @@ describe('ack.date',function(){
 	})
 
 	it('#daysFromNow',function(){
-		assert.equal(ack.date().now().addDays(-2).daysFromNow(), 2)
+		assert.equal(ack.date().now().addMinutes(1).addDays(-2).daysFromNow(), 2)
 	})
 
 	it('#fromToday',function(){
