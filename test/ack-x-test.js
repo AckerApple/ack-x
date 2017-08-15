@@ -23043,7 +23043,9 @@
 					diff = d1.dateHourDiff(d0)
 
 				assert.equal(diff,5,'added 5 hours but got '+diff)
-				assert.equal(ack.date().param().addHours(-40).dateHourDiff(), 40)
+
+				var d = ack.date().param().addHours(-40).dateHourDiff()
+				assert.equal(Math.floor(d), 40)
 			})
 
 			it('#addMinutes',function(){
