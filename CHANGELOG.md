@@ -1,6 +1,13 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.3.0] - 2017-08-15
+### Breaking Changes
+- Passing in 0 to ack.date is now zero hour instead of current date
+- Passing no arguments to ack.date is current date
+### Added
+- Passing null to ack.date sets date to null
+
 ## [1.2.36] - 2017-08-14
 - added getTimezoneStamp() and better tests
 

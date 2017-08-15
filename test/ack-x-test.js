@@ -6120,7 +6120,7 @@
 	}
 
 	ackDate.toDate = function(date){
-	  return date!=null ? ackDate.dateObjectBy(date) : null
+	  return date===null ? null : (date==null?new Date():ackDate.dateObjectBy(date))
 	}
 
 	ackDate.getTimezoneStamp = function(date, seperator){
@@ -6133,7 +6133,7 @@
 	}
 
 	ackDate.dateObjectBy = function(date){
-	  if(date){
+	  if( date!=null ){
 	    switch(date.constructor){
 	      case ackDate:return date.date
 	      case Date:return date
@@ -6141,7 +6141,6 @@
 	      default:return new Date(date)//convert string to date object
 	    }
 	  }
-
 	  return date || new Date()
 	}
 
@@ -22832,6 +22831,10 @@
 			ndate = ack.date(new Date())
 		})
 
+		it('zeroHour',function(){
+			assert.equal(ack.date(0).date.getMinutes(), new Date(0).getMinutes())
+		})
+
 		it('reformats',function(){
 			var format = ack.date('2016-12-28').mmddyyyy('-')
 			assert.equal(format, '12-28-2016')
@@ -22842,24 +22845,9 @@
 			assert.equal(ack.date('2017-08-11').dayOfYear(), 223)
 		})
 
-		it('#yearsFromNow',function(){
-			assert.equal(ack.date().now().addYear(-5).yearsFromNow(), 5)
-		})
-
 		it('#getTimezoneStamp',function(){
 			assert.equal(ack.date().getTimezoneStamp().length, 5)
 			assert.equal(ack.date().getTimezoneStamp(':').length, 6)
-		})
-
-		it('#daysFromNow',function(){
-			assert.equal(ack.date().now().addMinutes(1).addDays(-2).daysFromNow(), 2)
-		})
-
-		it('#fromToday',function(){
-			assert.equal(ack.date().now().gotoSod().addDays(-2).fromToday(), '2 days ago')
-			assert.equal(ack.date().now().gotoSod().fromToday(), 'a few seconds ago')
-			assert.equal(ack.date().now().gotoSod().addDays(2).fromToday(), 'in 2 days')
-			assert.equal(ack.date().now().gotoSod().addDays(2).fromToday(true), '2 days')
 		})
 
 		it('#getAgeDisplay',function(){
@@ -22883,9 +22871,24 @@
 		})
 
 		it('#isDate',function(){
-			assert.equal(ack.date().isDate(), false)
+			assert.equal(ack.date().isDate(), true)
 			assert.equal(ack.date(null).isDate(), false)
 			assert.equal(ack.date(new Date()).isDate(), true)
+		})
+
+		it('#yearsFromNow',function(){
+			assert.equal(ack.date().now().addYear(-5).yearsFromNow(), 5)
+		})
+
+		it('#daysFromNow',function(){
+			assert.equal(ack.date().now().addMinutes(1).addDays(-2).daysFromNow(), 2)
+		})
+
+		it('#fromToday',function(){
+			assert.equal(ack.date().now().gotoSod().addDays(-2).fromToday(), '2 days ago')
+			assert.equal(ack.date().now().gotoSod().fromToday(), 'a few seconds ago')
+			assert.equal(ack.date().now().gotoSod().addDays(2).fromToday(), 'in 2 days')
+			assert.equal(ack.date().now().gotoSod().addDays(2).fromToday(true), '2 days')
 		})
 
 		it('#fromNow',function(){
@@ -22904,6 +22907,7 @@
 			assert.equal(ack.date().now().from(d), '15 minutes ago')
 			assert.equal(ack.date().now().from(d, true), '15 minutes')
 			assert.equal(ack.date('Tue Jul 25 2017 16:43:00 GMT-0400 (EDT)').from('Tue Jul 25 2017 16:44:00 GMT-0400 (EDT)', true), 'a minute')
+			assert.equal(ack.date(0).from(900000, true), '15 minutes')
 		})
 
 		it('#isDaylightSavings',function(){
@@ -22962,7 +22966,7 @@
 			})
 
 			it('#mmmmdyyyy',function(){
-				assert.equal(ack.date().mmmmdyyyy(), '')
+				assert.equal(ack.date().mmmmdyyyy().split(' ').length, 3)
 				assert.equal(ack.date('2/24/2016').mmmmdyyyy(), 'February 24th 2016')
 			})
 
@@ -22982,8 +22986,10 @@
 				assert.equal(ack.date('2/24/2016').yy(), 16)
 			})
 
-			it('hhmmtt',function(){
-				assert.equal(ack.date().hhmmtt(), '')
+			it('#hhmmtt',function(){
+				//assert.equal(ack.date().hhmmtt(), '')
+				assert.equal(ack.date().hhmmtt().length, 8)
+				
 				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
 				var val = jDate.hhmmtt()
 				assert.equal(val.length, 8)
@@ -22997,7 +23003,7 @@
 				assert.equal(val.length, 8)
 			})
 
-			it('hmmtt',function(){
+			it('#hmmtt',function(){
 				var jDate = ack.date('Tue Mar 01 2016 11:30:51 GMT-0500 (EST)')
 				var val = jDate.hmmtt()
 				assert.equal(val.search(/[0-9]{1,2}:[0-9]{2} [a-z]{2}/i), 0)

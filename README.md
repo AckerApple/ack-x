@@ -73,6 +73,8 @@ ack({XxX:{YyY:33}}).byName('xXx').get('yYy') == 33
 
 - [ack.date.dayOfYear](#ackdatedayofyear)
 - [ack.date.daysFromNow](#ackdatedaysfromnow)
+- [ack.date.from](#ackdatefrom)
+- [ack.date.fromNow](#ackdatefromnow)
 - [ack.date.fromToday](#ackdatefromtoday)
 - [ack.date.now](#ackdatenow)
 - [ack.date.format](#ackdateformat)
@@ -103,6 +105,20 @@ ack.date('2016-12-28').dayOfYear() == 362
 ### ack.date.daysFromNow
 ```javascript
 ack.date().now().addDays(-2).daysFromNow() == 2
+```
+
+### ack.date.from
+```javascript
+var d = ack.date().now().addMinutes(-15).date
+
+ack.date().now().from(d) == '15 minutes ago'
+ack.date().now().from(d, true) == '15 minutes'
+```
+
+### ack.date.fromNow
+```javascript
+ack.date().now().addMinutes(-15).fromNow() == '15 minutes ago'
+ack.date().now().addMinutes(-15).fromNow(true) == '15 minutes'
 ```
 
 ### ack.date.fromToday

@@ -5796,7 +5796,7 @@
 	}
 
 	ackDate.toDate = function(date){
-	  return date!=null ? ackDate.dateObjectBy(date) : null
+	  return date===null ? null : (date==null?new Date():ackDate.dateObjectBy(date))
 	}
 
 	ackDate.getTimezoneStamp = function(date, seperator){
@@ -5809,7 +5809,7 @@
 	}
 
 	ackDate.dateObjectBy = function(date){
-	  if(date){
+	  if( date!=null ){
 	    switch(date.constructor){
 	      case ackDate:return date.date
 	      case Date:return date
@@ -5817,7 +5817,6 @@
 	      default:return new Date(date)//convert string to date object
 	    }
 	  }
-
 	  return date || new Date()
 	}
 
