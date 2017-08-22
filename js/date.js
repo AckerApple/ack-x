@@ -3,13 +3,13 @@
 var moment = require('moment')
 
 /* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
-function ackDate(date){
-  this.date = ackDate.toDate(date)
+function ackDate(date, format){
+  this.date = ackDate.toDate(date, format)
   return this
 }
 
-ackDate.toDate = function(date){
-  return date===null ? null : (date==null?new Date():ackDate.dateObjectBy(date))
+ackDate.toDate = function(date, format){
+  return date===null ? null : (date==null?new Date():ackDate.dateObjectBy(date,format))
 }
 
 ackDate.getTimezoneStamp = function(date, seperator){
@@ -21,12 +21,12 @@ ackDate.getTimezoneStamp = function(date, seperator){
   return value
 }
 
-ackDate.dateObjectBy = function(date){
+ackDate.dateObjectBy = function(date, format){
   if( date!=null ){
     switch(date.constructor){
       case ackDate:return date.date
       case Date:return date
-      case String:return ackDate.dateStringToDate(date)
+      case String:return ackDate.dateStringToDate(date, format)
       default:return new Date(date)//convert string to date object
     }
   }
@@ -69,8 +69,12 @@ ackDate.endOfDateDay = function(date){
   return new Date(date.setMilliseconds(999))
 }
 
-/** will auto detect yyyy-mm-dd and convert to mm-dd-yyyy */
-ackDate.dateStringToDate = function(date){
+/** Without format argument, auto detection is by placement of year */
+ackDate.dateStringToDate = function(date, format){
+  if(format){
+    return new Date( moment(date, format) )
+  }
+
   var isZoned = date.substring(date.length-1,date.length)=='Z'
   var isFirstFourDigits = date.length>8 && !isNaN(date.substring(0, 4)) && !isZoned
   var slash = date.substring(4, 5)
@@ -80,10 +84,22 @@ ackDate.dateStringToDate = function(date){
     var month = dateSplit[1]
     var day = dateSplit[2]
     var year = dateSplit[0]
-    dateSplit[0] = month
-    dateSplit[1] = day
-    dateSplit[2] = year
+    var dateOnly = dateSplit.length==3
+
+    dateSplit[0] = year
+    dateSplit[1] = month
+    dateSplit[2] = day
+    
+    
+    //fails on safari 10.1.2
+    //dateSplit[0] = month
+    //dateSplit[1] = day
+    //dateSplit[2] = year
+
     date = dateSplit.join(slash)
+    if( dateOnly ){
+      return new Date(year, month-1, day)
+    }
   }
 
   return new Date(date)
@@ -128,6 +144,10 @@ ackDate.dateYearDiff = function(d0, d1){
 /*
   PROTOTYPES
 */
+ackDate.prototype.setDateByString = function(date){
+  this.date = ackDate.dateStringToDate(date)
+  return this
+}
 
 ackDate.prototype.getTimezoneStamp = function(sep){
   return ackDate.getTimezoneStamp( this.date, sep )

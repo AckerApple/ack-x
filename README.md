@@ -1,5 +1,6 @@
 # ack-x
 [![build status](https://travis-ci.org/AckerApple/ack-x.svg)](http://travis-ci.org/AckerApple/ack-x)
+[![Build status](https://ci.appveyor.com/api/projects/status/r2dj2j87wspg1unk?svg=true)](https://ci.appveyor.com/project/AckerApple/ack-x)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![NPM version](https://img.shields.io/npm/v/ack-x.svg?style=flat-square)](https://www.npmjs.com/package/ack-x)
 

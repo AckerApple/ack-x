@@ -265,6 +265,19 @@ describe('ack.date',function(){
 			assert.equal(string, '01/01/2012 07:02 PM')
 		})
 
+		it('#dateStringToDate',function(){
+
+			var date = ack.date().setDateByString('2017-08-06').date
+			assert.equal(date.getMonth(), 7)
+			assert.equal(date.getFullYear(), 2017)
+			assert.equal(date.getDate(), 6)
+
+			var date3 = ack.date().setDateByString('08-06-2017').date
+			assert.equal(date3.getMonth(), 7)
+			assert.equal(date3.getFullYear(), 2017)
+			assert.equal(date3.getDate(), 6)
+		})
+
 		describe('#nextYear',function(){
 			it('works',function(){
 				assert.equal(ack.date().now().nextYear().year(), new Date().getFullYear()+1)
