@@ -1,6 +1,11 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.2.42] - 2017-10-04 (UNRELEASED)
+### Added
+- Documentation
+- ack.object().getTypeMap()
+
 ## [1.2.38] - 2017-08-15
 ### Added
 - Passing in 0 to ack.date is now zero hour instead of current date

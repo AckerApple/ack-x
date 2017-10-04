@@ -27,6 +27,14 @@ var ack = require('ack-x')
 ack( someVariable )
 ```
 
+- [getBoolean](#ackgetboolean)
+- [isBooleanLike](#ackisbooleanlike)
+- [nullsToEmptyString](#acknullstoemptystring)
+- [getBit](#ackgetbit)
+- [stringify](#ackstringify)
+- [get](#ackget)
+- [byName](#ackbyname)
+
 ### ack.getBoolean
 reduces variable to a true/false
 ```javascript
@@ -70,6 +78,7 @@ Returns another ack class object based on case insensative object key search
 ack({XxX:{YyY:33}}).byName('xXx').get('yYy') == 33
 ```
 
+[Back to Top](#table-of-contents)
 
 ## ack.date
 
@@ -129,6 +138,18 @@ ack.date().now().gotoSod().addDays(-2).fromToday() == '2 days ago'
 ack.date().now().gotoSod().addDays(-2).fromToday(true) == '2 days'
 ```
 
+### ack.date.gotoEod
+Goto End of Day
+```javascript
+ack.date().now().gotoEod().hhmmsstt() == '11:59:59 PM'
+```
+
+### ack.date.gotoSod
+Goto Start of Day
+```javascript
+ack.date().now().gotoSod().hhmmsstt() == '00:00:00 AM'
+```
+
 
 ### ack.date.date
 Example of getting at raw Date variable
@@ -142,10 +163,21 @@ ack.date(d).date == d
 ack.date().now().date.getMinutes() == new Date().getMinutes()
 ```
 
+
 ### ack.date.format
 See [moment.js](https://momentjs.com/) format function
 ```javascript
 ack.date().now().format('YYYY-MM-DD hh:mm:A') == '2017-08-08 01:40:PM'
+```
+
+### ack.date.hhmmsstt
+```javascript
+ack.date().now().hhmmsstt() == '01:40:00 PM'
+```
+
+### ack.date.hhmmssl
+```javascript
+ack.date().now().hhmmsstt() == '01:40:00.0'
 ```
 
 ### ack.date.storageFormat
@@ -175,7 +207,17 @@ Check if argument date is lesser than defined date
 ack.date().now().lesser( Date.now()-200 ) == true
 ```
 
+[Back to Top](#table-of-contents)
+
 ## ack.array
+
+- [distinct](#ackarraydistinct)
+- [objectify](#ackarrayobjectify)
+- [appendArray](#ackarrayappendArray)
+- [prependArray](#ackarrayprependArray)
+- [sum](#ackarraysum)
+- [group](#ackarraygroup)
+
 ```javascript
 var a = []
 
@@ -231,6 +273,8 @@ break an array into buckets of arrays
 ack.array(a).group(method, isIndexValue, grouptype)
 ```
 
+[Back to Top](#table-of-contents)
+
 ## ack.method
 Holds a function in memory and offers convenient methods to invoke set method
 
@@ -276,6 +320,8 @@ Build argument validation for when set function is invoked.
 ```javascript
 ack.method(f).expectOne(name, value, requiredOrType, type)
 ```
+
+[Back to Top](#table-of-contents)
 
 ## ack.error
 great for standardizing error control
@@ -402,8 +448,15 @@ ack.error().types.MethodNotAllowed = function(message){
 }
 ```
 
+[Back to Top](#table-of-contents)
+
 ## ack.number
 Convenient methods to handle numbers
+
+- [decimalFormat](#acknumberdecimalformat)
+- [asMinutesToDateTime](#acknumberasminutestodatetime)
+- [asMinutesToTime](#acknumberasminutestotime)
+
 
 ### ack.number.decimalFormat
 - @p - decimal places
@@ -432,9 +485,16 @@ convert set number into how many minutes into a string date. Ex: 60 = 1:00 AM')
 ack.number(n).asMinutesToTime(options)
 ```
 
+[Back to Top](#table-of-contents)
+
 ## ack.object
 
-### ack.object.forEach
+- [forEach](#ackobjectforeach)
+- [map](#ackobjectmap)
+- [getTypeMap](#ackobjectgettypemap)
+- [isCyclic](#ackobjectiscyclic)
+
+### ack.object.forEach()
 - @method(item, index, object)
 
 ```javascript
@@ -443,12 +503,38 @@ var o = {}
 ack.object(o).forEach(method)
 ```
 
-### ack.object.map
+### ack.object.map()
 this.object will be the map result
 - @method(item, index, object)
 
 ```javascript
 ack.object(o).map(method)
+```
+
+### ack.object.getTypeMap()
+Crawls any variable type to generate a map of types
+```javascript
+var v = {
+  a:1,b:2,
+  c:{
+    c0:0,
+    c1:'a string here'
+  },
+  agency:[{
+    name:'My Agency'
+  },{
+    name:'Toast',
+    email:'fake@aol.com',
+    active:0
+  }]
+}
+
+ack.object(v).getTypeMap() == {
+  a: 'number',
+  b: 'number',
+  c: { c0: 'number', c1: 'string' },
+  agency: [{ name: 'string', email: 'string', active: 'number' }]
+}
 ```
 
 ### ack.object.isCyclic
@@ -462,7 +548,15 @@ like JSON.stringify but converts all to cookie definition
 ack.object(o).toCookieString()
 ```
 
+[Back to Top](#table-of-contents)
+
 ## ack.string
+
+- [isEmail](#ackstringisemail)
+- [repeat](#ackstringrepeat)
+- [htmlFormat](#ackstringhtmlformat)
+- [toBase64](#ackstringtobase64)
+- [_utf8_encode](#ackstring_utf8_encode)
 
 ### ack.string.isEmail
 test string against email regX
@@ -491,9 +585,12 @@ ack.string(s).toBase64()
 
 ### ack.string._utf8_encode()
 convert string to something more safely portable
+
 ```javascript
 ack.string(s)._utf8_encode()
 ```
+
+[Back to Top](#table-of-contents)
 
 ## More Examples
 

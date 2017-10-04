@@ -1,12 +1,12 @@
 "use strict";
 var ack = require('./ack-x')
 
+//ack.modules.definePath('object','./js/object')
 ack.modules.definePath('error','./js/error')
 ack.modules.definePath('number','./js/number')
 ack.modules.definePath('string','./js/string')
 ack.modules.definePath('binary','./js/binary')
 ack.modules.definePath('base64','./js/base64')
-//ack.modules.definePath('object','./js/object')
 ack.modules.definePath('method','./js/method')
 ack.modules.definePath('array','./js/array')
 ack.modules.definePath('queryObject','./js/queryObject')

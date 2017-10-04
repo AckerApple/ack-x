@@ -605,6 +605,11 @@ ackDate.prototype.setTimeByString = function(string){
   return this;
 }
 
+//convenience of date as number
+ackDate.prototype.getTime = function(){
+  return this.date.getTime()
+}
+
 /** alters this.date and return this */
 ackDate.prototype.addHours = function(n){
   if(this.date)this.date.setHours( this.date.getHours()+n );
