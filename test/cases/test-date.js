@@ -1,5 +1,6 @@
 "use strict";
-var ack = global.ack,//require('../ack-x-dy').ack,
+var ack = global.ack,
+	AckDate = require('../../js/date').Class,
 	assert = require('assert')
 
 var isDst = ack.date().now().isDst()
@@ -20,6 +21,21 @@ describe('ack.date',function(){
 
 	it('zeroHour',function(){
 		assert.equal(ack.date(0).date.getMinutes(), new Date(0).getMinutes())
+	})
+
+	it('#utc',function(){
+		var format = ack.date('2016-12-28').utc()
+		assert.equal(typeof format, 'number')
+	})
+
+	it('#getUtcDate',function(){
+		var format = ack.date('2016-12-28').getUtcDate()
+		assert.equal(format.constructor, Date)
+	})
+
+	it('#toUtc',function(){
+		var format = ack.date('2016-12-28').toUtc()
+		assert.equal(format.constructor, AckDate)
 	})
 
 	it('reformats',function(){

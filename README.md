@@ -82,6 +82,7 @@ ack({XxX:{YyY:33}}).byName('xXx').get('yYy') == 33
 
 ## ack.date
 
+- [ack.date.addDays](#ackdateadddays)
 - [ack.date.dayOfYear](#ackdatedayofyear)
 - [ack.date.daysFromNow](#ackdatedaysfromnow)
 - [ack.date.from](#ackdatefrom)
@@ -94,6 +95,9 @@ ack({XxX:{YyY:33}}).byName('xXx').get('yYy') == 33
 - [ack.date.yearsFromNow](#ackdateyearsFromNow)
 - [ack.date.greater](#ackdategreater)
 - [ack.date.lesser](#ackdatelesser)
+- [ack.date.getUtcDate](#ackdategetutcdate)
+- [ack.date.utc](#ackdateutc)
+- [ack.date.toUtc](#ackdatetoutc)
 
 
 ### Compound Example
@@ -106,6 +110,11 @@ ack.date().now().addYears(-1).fromNow(true) == 'a year'
 ack.date().now().addYears(-1).fromNow() == 'a year ago'
 
 ack.date().now().from( new Date()-31536000000 ) == 'a year ago'
+```
+
+### ack.date.addDays
+```javascript
+ack.date('2016-12-28').addDays(-2).getDate() == 26
 ```
 
 ### ack.date.dayOfYear
@@ -206,6 +215,16 @@ Check if argument date is lesser than defined date
 ```javascript
 ack.date().now().lesser( Date.now()-200 ) == true
 ```
+
+### ack.date.getUtcDate
+Takes current Date and returns casted utc set Date object
+
+### ack.date.utc
+Takes current Date and returns casted utc set Date number
+
+### ack.date.toUtc
+Takes current Date and casts to utc set Date number. Returns this
+
 
 [Back to Top](#table-of-contents)
 

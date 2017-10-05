@@ -1,7 +1,13 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
-## [1.2.42] - 2017-10-04 (UNRELEASED)
+## [1.2.43] - 2017-10-05
+### Added
+- date.utc()
+- date.getUtcDate()
+- date.toUtc()
+
+## [1.2.42] - 2017-10-04
 ### Added
 - Documentation
 - ack.object().getTypeMap()

@@ -144,6 +144,30 @@ ackDate.dateYearDiff = function(d0, d1){
 /*
   PROTOTYPES
 */
+
+/** takes current Date and returns casted utc set Date object */
+ackDate.prototype.getUtcDate = function(){
+  return new Date(
+    this.date.getUTCFullYear(),
+    this.date.getUTCMonth(),
+    this.date.getUTCDate(),
+    this.date.getUTCHours(),
+    this.date.getUTCMinutes(),
+    this.date.getUTCSeconds()
+  )
+}
+
+/** takes current Date and returns casted utc set Date number */
+ackDate.prototype.utc = function(){
+  return this.getUtcDate().getTime()
+}
+
+/** takes current Date and casts to utc set Date number. Returns this */
+ackDate.prototype.toUtc = function(){
+  this.date = this.getUtcDate()
+  return this
+}
+
 ackDate.prototype.setDateByString = function(date){
   this.date = ackDate.dateStringToDate(date)
   return this

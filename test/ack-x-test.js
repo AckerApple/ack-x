@@ -6727,6 +6727,30 @@
 	/*
 	  PROTOTYPES
 	*/
+
+	/** takes current Date and returns casted utc set Date object */
+	ackDate.prototype.getUtcDate = function(){
+	  return new Date(
+	    this.date.getUTCFullYear(),
+	    this.date.getUTCMonth(),
+	    this.date.getUTCDate(),
+	    this.date.getUTCHours(),
+	    this.date.getUTCMinutes(),
+	    this.date.getUTCSeconds()
+	  )
+	}
+
+	/** takes current Date and returns casted utc set Date number */
+	ackDate.prototype.utc = function(){
+	  return this.getUtcDate().getTime()
+	}
+
+	/** takes current Date and casts to utc set Date number. Returns this */
+	ackDate.prototype.toUtc = function(){
+	  this.date = this.getUtcDate()
+	  return this
+	}
+
 	ackDate.prototype.setDateByString = function(date){
 	  this.date = ackDate.dateStringToDate(date)
 	  return this
@@ -24911,7 +24935,8 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
-	var ack = global.ack,//require('../ack-x-dy').ack,
+	var ack = global.ack,
+		AckDate = __webpack_require__(35).Class,
 		assert = __webpack_require__(157)
 
 	var isDst = ack.date().now().isDst()
@@ -24932,6 +24957,21 @@
 
 		it('zeroHour',function(){
 			assert.equal(ack.date(0).date.getMinutes(), new Date(0).getMinutes())
+		})
+
+		it('#utc',function(){
+			var format = ack.date('2016-12-28').utc()
+			assert.equal(typeof format, 'number')
+		})
+
+		it('#getUtcDate',function(){
+			var format = ack.date('2016-12-28').getUtcDate()
+			assert.equal(format.constructor, Date)
+		})
+
+		it('#toUtc',function(){
+			var format = ack.date('2016-12-28').toUtc()
+			assert.equal(format.constructor, AckDate)
 		})
 
 		it('reformats',function(){
