@@ -1,51 +1,48 @@
 "use strict";
-
-var ackDate = require('./date')
-
-function ackTime(date){
-  this.date = ackTime.toDate(date)
-  return this
-}
-
-ackTime.dateObjectBy = function(date){
-  if(date){
-    if(date.constructor == ackTime){
-      return date.date
+exports.__esModule = true;
+var date_1 = require("./date");
+var ackTime = /** @class */ (function () {
+    function ackTime(date) {
+        this.date = toDate(date);
+        return this;
     }
-
-    if(date.constructor == Date)
-      return date
-
-    if(date.split){
-      return stringToDate(date)
+    return ackTime;
+}());
+exports.ackTime = ackTime;
+function dateObjectBy(date) {
+    if (date) {
+        if (date.constructor == ackTime) {
+            return date.date;
+        }
+        if (date.constructor == Date)
+            return date;
+        if (date.split) {
+            return stringToDate(date);
+        }
+        return new Date(date); //convert string to date object
     }
-
-    return new Date(date)//convert string to date object
-  }
-
-  return date || new Date()
+    return date || new Date();
 }
-
-ackTime.toDate = function(date){
-  return date!=null ? ackTime.dateObjectBy(date) : null
+exports.dateObjectBy = dateObjectBy;
+function toDate(date) {
+    return date != null ? dateObjectBy(date) : null;
 }
-
-function stringToDate(date){
-  var dDate = new Date(date);
-  if(dDate!='Invalid Date'){
-    return date
-  }
-
-	var parsed = ackDate.parseTimeString(date);
-	var newDate = new Date().setHours(parsed.hour);
-	newDate = new Date(newDate).setMinutes(parsed.minute)
-	return new Date(newDate)
+exports.toDate = toDate;
+function stringToDate(date) {
+    var dDate = new Date(date);
+    if (dDate != 'Invalid Date') {
+        return date;
+    }
+    var parsed = date_1.parseTimeString(date);
+    var newDate = new Date().setHours(parsed.hour);
+    newDate = new Date(newDate).setMinutes(parsed.minute);
+    return new Date(newDate);
 }
-
-var eackTime = function(date){
-  var date = new ackTime(date).date
-  return ackDate(date)
+var eackTime = function (date) {
+    var date = new ackTime(date).date;
+    return new date_1.AckDate(date);
+};
+function method(d) {
+    return eackTime(d);
 }
-
-eackTime.Class = ackTime
-module.exports = eackTime
+exports.method = method;

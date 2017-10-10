@@ -1,1 +1,1 @@
-global.ack = require('../../index.js')
+global.ack = require('../../js/index.js')

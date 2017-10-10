@@ -74,10 +74,6 @@ describe('ack()',function(){
 		var week = ack.week(22)
 	})
 
-	it('#indexSelector',function(){
-		var indexSelector = ack.indexSelector(['a','b','c'])
-	})
-
 	it('#getSimpleClone',function(){
 		var scope = {a:1,b:2,c:3,d:null},
 			s2 = ack(scope).getSimpleClone()

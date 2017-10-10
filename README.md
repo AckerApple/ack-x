@@ -548,11 +548,39 @@ var v = {
   }]
 }
 
+//Example A
 ack.object(v).getTypeMap() == {
   a: 'number',
   b: 'number',
   c: { c0: 'number', c1: 'string' },
   agency: [{ name: 'string', email: 'string', active: 'number' }]
+}
+
+//Example B
+ack.object(v).getTypeMap(function(type, subs){
+  return {type:type, subs:subs}
+}) ==  {
+  "a": {
+    "type": "number"
+  },
+  "b": {
+    "type": "number"
+  },
+  "c": {
+    "type": "object",
+    "subs": {
+      "c0": "number",
+      "c1": "string"
+    }
+  },
+  "agency": {
+    "type": "array",
+    "subs": {
+      "name": "string",
+      "email": "string",
+      "active": "number"
+    }
+  }
 }
 ```
 

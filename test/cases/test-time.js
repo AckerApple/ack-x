@@ -10,6 +10,7 @@ var bust = !isDst&&!wasDst2&&!wasDst2
 var ts = new Date().getTimezoneOffset()
 var diff = (ts-240)
 var offset = diff - (isDst&&wasDst2 ? 0 : 60) + ((isDst&&wasDst2) || (!isDst&&wasDst2) ? 0 : 60)
+
 if(bust)offset = offset - 60
 
 describe('ack.time',function(){

@@ -1,6 +1,6 @@
 "use strict";
 var ack = global.ack,
-	AckDate = require('../../js/date').Class,
+	AckDate = require('../../js/date').AckDate,
 	assert = require('assert')
 
 var isDst = ack.date().now().isDst()
@@ -299,8 +299,8 @@ describe('ack.date',function(){
 				assert.equal(ack.date().now().nextYear().year(), new Date().getFullYear()+1)
 			})
 
-			it('#new',function(){
-				assert.equal(ack.date().now().nextYear().new().year(), new Date().getFullYear()+1)
+			it('#clone',function(){
+				assert.equal(ack.date().now().nextYear().clone().year(), new Date().getFullYear()+1)
 			})
 
 			it('backwards',function(){
@@ -314,7 +314,7 @@ describe('ack.date',function(){
 			})
 
 			it('#new',function(){
-				assert.equal(ack.date().now().priorYear().new().year(), new Date().getFullYear()-1)
+				assert.equal(ack.date().now().priorYear().clone().year(), new Date().getFullYear()-1)
 			})
 		})
 

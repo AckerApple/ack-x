@@ -47,7 +47,7 @@
 	__webpack_require__(1);
 	mocha.setup("bdd");
 	__webpack_require__(9)
-	__webpack_require__(180);
+	__webpack_require__(177);
 	if(false) {
 		module.hot.accept();
 		module.hot.dispose(function() {
@@ -348,25 +348,24 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {global.ack = __webpack_require__(10)
-	__webpack_require__(156)
+	__webpack_require__(155)
+	__webpack_require__(160)
 	__webpack_require__(161)
 	__webpack_require__(162)
 	__webpack_require__(163)
+	///require('./test/cases/test-class.js')
 	__webpack_require__(164)
 	__webpack_require__(165)
 	__webpack_require__(166)
 	__webpack_require__(167)
-	__webpack_require__(168)
 	__webpack_require__(169)
+	__webpack_require__(170)
 	__webpack_require__(171)
 	__webpack_require__(172)
 	__webpack_require__(173)
 	__webpack_require__(174)
 	__webpack_require__(175)
 	__webpack_require__(176)
-	__webpack_require__(177)
-	__webpack_require__(178)
-	__webpack_require__(179)
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
@@ -389,9 +388,9 @@
 	ack.queryObject = __webpack_require__(32)
 	ack.week = __webpack_require__(33)
 	ack.month = __webpack_require__(34)
-	ack.year = __webpack_require__(154)
+	ack.year = __webpack_require__(153)
 	ack.date = __webpack_require__(35)
-	ack.time = __webpack_require__(155)
+	ack.time = __webpack_require__(154)
 	/*
 	ack.function = require('./js/method')
 	*/
@@ -404,777 +403,481 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
-	var jc = __webpack_require__(12),//old old old library for Classes and Accessors
-			ackInjector = __webpack_require__(13),
-			partyModules = {
-				ackP:__webpack_require__(14),
-				debug:__webpack_require__(15)
-			}
-
-	/** calling ack() as function, will return a module to work with almost any object */
-	function ack($var){
-		return new ackExpose($var)
-	}
-
-	ack.object = __webpack_require__(19)
-	ack.Expose = ackExpose//Outsider's referense to expose factory
-
-	/* CORE MODULES */
-		ack.modules = new ackInjector(ack)
-
-		ack['class'] = function(cl, extendOrAccessors, accessors){
-			return new jc(cl, extendOrAccessors, accessors)
-		}
-
-		ack.accessors = function($scope){
-			return new jc.Vm($scope)
-		}
-
-		ack.injector = function($scope){
-			return new ackInjector($scope)
-		}
-
-
-		ack.promise = function(var0, var1, var2, var3){
-			var promise = partyModules.ackP.start()
-			return promise.set.apply(promise,arguments)
-		}
-
-		ack.Promise = function(resolver){
-			return new partyModules.ackP(resolver)
-		}
-	/* end: CORE MODULES */
-
-	/* end: MODULES */
-		//?maybe deprecated and unused
-		var indexSelector = __webpack_require__(20)
-		ack.indexSelector = function(){
-			var $scope = {}
-			if(arguments.length){
-				$scope.indexes = arguments[0]
-			}
-			return new indexSelector($scope)
-		}
-
-		/**
-			- Organized debug logging that can be viewed ondemand by types of debug logging
-			- See npm "debug" package for more information
-
-			Basic Use Example
-			```
-			ack.debug('my-app-name','item0','item1')
-			```
-
-			Functional Example
-			```
-			module.exports = ack.debug('my-app-name').debug
-			```
-		*/
-		var ackDebugMap = {}//create storage of all loggers created
-		ack.debug = function debug(name, log0, log1, log2){
-			var logger = partyModules.debug(name)
-			ack.debug.map[name] = logger//store memory of logger for meta referencing
-
-			if(arguments.length>1){//logging intended to go with
-				var args = Array.prototype.slice.call(arguments)
-				args.shift()//remove first
-				logger.apply(logger,args)
-			}
-
-			logger.debug = function(subname, log0, log1, log2){
-				arguments[0] = name+':'+subname
-				return ack.debug.apply(ack, arguments)
-			}
-			logger.sublog = logger.debug
-
-			return logger
-		}
-		ack.debug.map = ackDebugMap//latch onto storage
-	/* END MODULES */
-
-	ack.throwBy = function(ob, msg){
-		if(ob){
-			throw(ob)
-		}else if(msg){
-			throw new Error(msg)
-		}else{
-			throw new Error('An unexpected error has occured')
-		}
-	}
-
-	ack.logArrayTo = function(array, logTo){
-		logTo.apply(logTo, array)
-	}
-
-	ack.logError = function(err, msg, logTo){
-		logTo = logTo || console.log
-
-		var drray=[]
-
-		if(msg==null && err && err.stack){//?no message
-			msg = msg || err.stack.replace(/(\n|\t|\r)/g,'').split(/\s+at\s+/).shift()//error stack as message
-		}
-
-		if(msg!=null)drray.push(msg)
-		if(err!=null)drray.push(err)
-
-		ack.logErrorArray(drray, logTo)
-	}
-
-
-
-
-
-
-
-	function ackExpose($var){
-		this.$var = $var
-		return this
-	}
-
-	ackExpose.prototype.error = function(){return ack.error(this.$var)}
-	ackExpose.prototype.number = function(){return ack.number(this.$var)}
-	ackExpose.prototype.string = function(){return ack.string(this.$var)}
-	ackExpose.prototype.binary = function(){return ack.binary(this.$var)}
-	ackExpose.prototype.base64 = function(){return ack.base64(this.$var)}
-	//ackExpose.prototype.object = function(){return new ackObject(this.$var)}
-	ackExpose.prototype.method = function(){return ack.method(this.$var)}
-	ackExpose.prototype['function'] = function(){return ack['function'](this.$var)}
-	ackExpose.prototype.array = function(){return ack.array(this.$var)}
-	ackExpose.prototype.queryObject = function(){return ack.queryObject(this.$var)}
-	ackExpose.prototype.week = function(){return ack.week(this.$var)}
-	ackExpose.prototype.month = function(){return ack.month(this.$var)}
-	ackExpose.prototype.year = function(){return ack.year(this.$var)}
-	ackExpose.prototype.date = function(){return ack.date(this.$var)}
-	ackExpose.prototype.time = function(){return ack.time(this.$var)}
-
-
-	ackExpose.prototype.getSimpleClone = function(){
-		var target = {}
-		for (var i in this.$var){
-			target[i] = this.$var[i]
-		}
-		return target;
-	}
-
-	/** get at raw variable within target variable with case insensativity */
-	ackExpose.prototype.get = function(name,def){
-		if(!name)return this.$var
-
-		if(this.$var && this.$var[name]!=null)//try exact match first
-			return this.$var[name]
-
-		//case insensative search
-		var lcase = name.toLowerCase()
-		for(var key in this.$var){
-			if(lcase == key.toLowerCase())
-				return this.$var[key]
-		}
-
-		return def
-	}
-
-	/** $var[name] returned as ack Object. When null, null returned */
-	ackExpose.prototype.byName = function(name){
-		var v = this.get(name)
-		if(v!=null)return ack(v)
-	}
-
-	ackExpose.prototype['throw'] = function(msg, logTo){
-		ack.logError(this.$var, msg, logTo)
-		ack.throwBy(this.$var, msg)
-		return this
-	}
-
-	/** JSON.stringify with default spacing=2 */
-	ackExpose.prototype.stringify = function(spacing){
-		spacing = spacing==null ? 2 : spacing
-		return JSON.stringify(this.$var, null, spacing)
-	}
-	ackExpose.prototype.dump = ackExpose.prototype.stringify
-
-	/** negative numbers will be 0  */
-	ackExpose.prototype.getBit = function(){
-		var b = this.getBoolean()
-		if(b && b.constructor==Number && b < 0){
-			b=0
-		}
-		return b ? 1 : 0;
-	}
-
-	ackExpose.prototype.nullsToEmptyString = function(){
-		for(var key in this.$var){
-			if(this.$var[key]==null){
-				this.$var[key]='';
-			}
-		}
-		return this
-	}
-
-	/** reduces variable to a true/false */
-	ackExpose.prototype.getBoolean = function(){
-	  if(this.$var==null || !this.$var.constructor)return false
-
-	  var a = this.$var
-
-	  if(a.constructor==String){
-		a = a.toLowerCase()//makes TRUE:true and yes/no true
-		if(a==='y' || a==='yes'){
-			return true
-		}
-		if(a==='no' || a==='n'){
-			return false
-		}
-
-	    try{
-	      a = JSON.parse(a)
-	    }catch(e){
-	      return null
+	exports.__esModule = true;
+	var jc_1 = __webpack_require__(12);
+	//var jc = require('./js/jc'),//old old old library for Classes and Accessors
+	var ackInjector_1 = __webpack_require__(13);
+	var ackP = __webpack_require__(14);
+	var debug_1 = __webpack_require__(15);
+	var ackObject = __webpack_require__(19);
+	var ackExpose = /** @class */ (function () {
+	    function ackExpose($var) {
+	        //aka functions
+	        this.dump = ackExpose.prototype.stringify;
+	        /** $var[name] returned as ack Object. When null, null returned */
+	        this.byName = function (name) {
+	            var v = this.get(name);
+	            if (v != null)
+	                return exports.ack(v);
+	        };
+	        this.$var = $var;
+	        return this;
 	    }
-	  }
+	    ackExpose.prototype.error = function () { return exports.ack.error(this.$var); };
+	    ackExpose.prototype.number = function () { return exports.ack.number(this.$var); };
+	    ackExpose.prototype.string = function () { return exports.ack.string(this.$var); };
+	    ackExpose.prototype.binary = function () { return exports.ack.binary(this.$var); };
+	    ackExpose.prototype.base64 = function () { return exports.ack.base64(this.$var); };
+	    ackExpose.prototype.method = function () { return exports.ack.method(this.$var); };
+	    ackExpose.prototype.array = function () { return exports.ack.array(this.$var); };
+	    ackExpose.prototype.queryObject = function () { return exports.ack.queryObject(this.$var); };
+	    ackExpose.prototype.week = function () { return exports.ack.week(this.$var); };
+	    ackExpose.prototype.month = function () { return exports.ack.month(this.$var); };
+	    ackExpose.prototype.year = function () { return exports.ack.year(this.$var); };
+	    ackExpose.prototype.date = function () { return exports.ack.date(this.$var); };
+	    ackExpose.prototype.time = function () { return exports.ack.time(this.$var); };
+	    //deprecate
+	    ackExpose.prototype["function"] = function () {
+	        return exports.ack['function'](this.$var);
+	    };
+	    ackExpose.prototype.getSimpleClone = function () {
+	        var target = {};
+	        for (var i in this.$var) {
+	            target[i] = this.$var[i];
+	        }
+	        return target;
+	    };
+	    /** get at raw variable within target variable with case insensativity */
+	    ackExpose.prototype.get = function (name, def) {
+	        if (!name)
+	            return this.$var;
+	        if (this.$var && this.$var[name] != null)
+	            return this.$var[name];
+	        //case insensative search
+	        var lcase = name.toLowerCase();
+	        for (var key in this.$var) {
+	            if (lcase == key.toLowerCase())
+	                return this.$var[key];
+	        }
+	        return def;
+	    };
+	    //deprecate this
+	    ackExpose.prototype["throw"] = function (msg, logTo) {
+	        exports.ack.logError(this.$var, msg, logTo);
+	        exports.ack.throwBy(this.$var, msg);
+	        return this;
+	    };
+	    /** JSON.stringify with default spacing=2 */
+	    ackExpose.prototype.stringify = function (spacing) {
+	        spacing = spacing == null ? 2 : spacing;
+	        return JSON.stringify(this.$var, null, spacing);
+	    };
+	    /** negative numbers will be 0  */
+	    ackExpose.prototype.getBit = function () {
+	        var b = this.getBoolean();
+	        if (b && b.constructor == Number && b < 0) {
+	            b = 0;
+	        }
+	        return b ? 1 : 0;
+	    };
+	    ackExpose.prototype.nullsToEmptyString = function () {
+	        for (var key in this.$var) {
+	            if (this.$var[key] == null) {
+	                this.$var[key] = '';
+	            }
+	        }
+	        return this;
+	    };
+	    /** reduces variable to a true/false */
+	    ackExpose.prototype.getBoolean = function () {
+	        if (this.$var == null || !this.$var.constructor)
+	            return false;
+	        var a = this.$var;
+	        if (a.constructor == String) {
+	            a = a.toLowerCase(); //makes TRUE:true and yes/no true
+	            if (a === 'y' || a === 'yes') {
+	                return true;
+	            }
+	            if (a === 'no' || a === 'n') {
+	                return false;
+	            }
+	            try {
+	                a = JSON.parse(a);
+	            }
+	            catch (e) {
+	                return null;
+	            }
+	        }
+	        if (a != null && (a.constructor == Number || a.constructor == Boolean)) {
+	            return a;
+	        }
+	        return null;
+	    };
+	    ackExpose.prototype.isBooleanLike = function () {
+	        if (this.$var == null || !this.$var.constructor)
+	            return false;
+	        return this.getBoolean() !== null;
+	    };
+	    return ackExpose;
+	}());
+	exports.ackExpose = ackExpose;
+	var partyModules = {
+	    ackP: ackP,
+	    debug: debug_1.debug
+	};
+	/** calling ack() as function, will return a module to work with almost any object */
+	exports.ack = function ($var) {
+	    return new ackExpose($var);
+	};
+	exports.ack.object = ackObject;
+	exports.ack.Expose = ackExpose; //Outsider's referense to expose factory
+	/* CORE MODULES */
+	exports.ack.modules = new ackInjector_1.ackInjector(exports.ack);
+	/*ack['class'] = function(cl, extendOrAccessors, accessors){
+	    return new jC(cl, extendOrAccessors, accessors)
+	}*/
+	exports.ack.accessors = function ($scope) {
+	    return new jc_1.Vm($scope);
+	};
+	exports.ack.injector = function ($scope) {
+	    return new ackInjector_1.ackInjector($scope);
+	};
+	exports.ack.promise = function (var0, var1, var2, var3) {
+	    var promise = ackP.start();
+	    return promise.set.apply(promise, arguments);
+	};
+	exports.ack.Promise = function (resolver) {
+	    return new ackP(resolver);
+	};
+	/* end: CORE MODULES */
+	/* end: MODULES */
+	/**
+	    - Organized debug logging that can be viewed ondemand by types of debug logging
+	    - See npm "debug" package for more information
 
-	  if(a!=null && (a.constructor==Number || a.constructor==Boolean)){
-		return a
-	  }
+	    Basic Use Example
+	    ```
+	    ack.debug('my-app-name','item0','item1')
+	    ```
 
-	  return null
-	}
+	    Functional Example
+	    ```
+	    module.exports = ack.debug('my-app-name').debug
+	    ```
+	*/
+	var ackDebugMap = {}; //create storage of all loggers created
+	exports.ack.debug = function debug(name, log0, log1, log2) {
+	    var logger = partyModules.debug(name);
+	    exports.ack.debug.map[name] = logger; //store memory of logger for meta referencing
+	    if (arguments.length > 1) {
+	        var args = Array.prototype.slice.call(arguments);
+	        args.shift(); //remove first
+	        logger.apply(logger, args);
+	    }
+	    logger.debug = function (subname, log0, log1, log2) {
+	        arguments[0] = name + ':' + subname;
+	        return exports.ack.debug.apply(exports.ack, arguments);
+	    };
+	    logger.sublog = logger.debug;
+	    return logger;
+	};
+	exports.ack.debug.map = ackDebugMap; //latch onto storage
+	/* END MODULES */
+	exports.ack.throwBy = function (ob, msg) {
+	    if (ob) {
+	        throw (ob);
+	    }
+	    else if (msg) {
+	        throw new Error(msg);
+	    }
+	    else {
+	        throw new Error('An unexpected error has occured');
+	    }
+	};
+	exports.ack.logArrayTo = function (array, logTo) {
+	    logTo.apply(logTo, array);
+	};
+	exports.ack.logError = function (err, msg, logTo) {
+	    logTo = logTo || console.log;
+	    var drray = [];
+	    if (msg == null && err && err.stack) {
+	        msg = msg || err.stack.replace(/(\n|\t|\r)/g, '').split(/\s+at\s+/).shift(); //error stack as message
+	    }
+	    if (msg != null)
+	        drray.push(msg);
+	    if (err != null)
+	        drray.push(err);
+	    exports.ack.logErrorArray(drray, logTo);
+	};
 
-	ackExpose.prototype.isBooleanLike = function(){
-	  if(this.$var==null || !this.$var.constructor)return false
-	  return this.getBoolean()!==null
-	}
-
-
-	module.exports = ack
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(__dirname) {"use strict";
-
-	//Entry point to accessors framework
-	//argMap : 0:'init-function or accessor-map', 1:'extend-from or accessor-map', 2:'accessor-map'
-	//accessor-map: if-string:'property-name' if-array:array-of-accessor-maps if-object:{keyname:defaultMethod || keyName:property-map || keyName:simple-value-default}
-	//per-accessor-property-map:{preset:function-to-examine-a-set-call-to-return-what-to-actually-set, typeset:set-variable-must-be-constructor-of, default:funcForValue-or-value}
-	function jC(initOrStruct, parentOrStruct, struct){
-		initOrStruct = jC.$(initOrStruct, parentOrStruct, struct)
-		var f = function f(){//function to add more accessor definitions
-			initOrStruct.jC.prop.apply(initOrStruct.jC,arguments);
-			return f
-		}
-		return f
+	"use strict";
+	exports.__esModule = true;
+	function isF(f) {
+	    return typeof (f) == 'function';
 	}
-
-	//function controller for entry point
-	jC.$ = function(initOrStruct, parentOrStruct, struct){
-		//arg0 is struct
-		if(initOrStruct!=null && !jC.isF(initOrStruct)){
-			struct=initOrStruct;
-			initOrStruct=null
-		}
-
-		//arg1 is struct
-		if(parentOrStruct!=null && !jC.isF(parentOrStruct)){
-			struct=parentOrStruct;
-			parentOrStruct=null
-		}
-
-		if(initOrStruct==null)//provide constructor
-			initOrStruct = function($scope){
-				return jC.F.prototype.init.call(this,$scope)
-			}//DONT function initOrStruct(){} AND DONT var initOrStruct = function initOrStruct(){} for IE8
-
-		if(parentOrStruct==null)//provide parent constructor
-			parentOrStruct = function(){/*jC*/}//DONT function parentOrStruct(){} AND DONT var parentOrStruct = function parentOrStruct(){} for IE8
-
-		initOrStruct.jC = new jC.F(initOrStruct,parentOrStruct, struct)//return has jC reference
-
-		return initOrStruct
-	}
-
-	//very specific and tuned function to set variables using setMethods
-	jC.setByAccessor = function(nameOrInitStruct,value){//params data then sets a "set" method and calls it
-		if(typeof(nameOrInitStruct)=='string'){
-			if(this['set'+nameOrInitStruct]){//exact key case found
-				this['set'+nameOrInitStruct].call(this,value)
-				return this
-			}
-
-			/* look at all keys for set function */
-				var lCaseKey = nameOrInitStruct.toLowerCase()
-				var mySetKey = 'set'+lCaseKey
-				for(var key in this)
-					if(key.length==mySetKey.length && key.toLowerCase() == mySetKey){
-						this[key].call(this,value)
-						return this
-					}
-
-				//may require updating as they use implied scope (perhaps 3rd argument is $scope)
-				jC.F.paramdata.call(this)
-				this.data[nameOrInitStruct] = value
-				//this.data[lCaseKey] = value
-			/* end */
-		}else
-			jC.each(nameOrInitStruct,jC.setByAccessor,this)//arg1 is object||array
-
-		return this
-	}
-
-
-	//Accessors building framework
-	jC.F = function(C, parent , prop){//what is called to add accessors but ONCE AN OBJECT it becomes is the init and ONLY HAS 1 argument
-		this.init.call(this)
-		.setC(C)//set base Class aka main init method
-		.setParent(parent)//inheritance
-
-		//C.prototype = new parent//creates data scope and such cause it invokes init function
-		for(var x in parent.prototype)C.prototype[x] = parent.prototype[x]
-
-		//deprecate these, don't add methods to an object
-		/*
-		C.prototype.set = function(){//deprecated. Use self destructing init method
-			console.log('jC: this.set is deprecated. Use self destructing method this.init or if you need this.set, have your class extend jC.Vm',arguments.callee.caller)
-			return jC.setByAccessor.apply(this,arguments)
-		}
-		*/
-
-		C.prototype.init = jC.F.prototype.init
-		this.prop(prop)
-
-		return this
-	}
-
-	jC.F.prototype.init = function($scope){//main function that creates data scope
-		this.data = $scope==null ? {}:$scope
-		jC.setByAccessor.call(this, $scope)//convert keys to case
-		this.init = null;delete this.init//self destruct init method
-		return this
-	}
-
-	jC.F.paramdata = function(){
-		if(this.data==null)this.data={};return this
-	}
-
-	//assumptions: .data exists && keyName will be found in lowercase
-	jC.F.set = function(nameOrInitStruct,value){
-		if(typeof(nameOrInitStruct)=='string'){//is arg1 name
-			jC.F.paramdata.call(this)//ensure this.data is defined
-			var keyName = nameOrInitStruct//nameOrInitStruct.toLowerCase()
-			this.data[keyName] = value
-		}else{
-			jC.each(nameOrInitStruct, jC.F.set, this)//arg1 is object||array
-		}
-		return this
-	}
-
-	jC.F.get = function(name,def,stick,nullop){//!!!!TODO:This should no longer param and just get the value regardless of null or anything else
-		return jC.F.param.call(this,name,def,stick,nullop)
-	}
-
-	jC.F.param = function(name,def,stick,nullop){
-		this.data = this.data!=null ? this.data : {}//param data scope
-		if(typeof(this.data[name])=='undefined')
-			var r = nullop ? nullop.call(this,def,stick) : jC.F.runNullOp.call(this,name,def,stick)
-		else{
-			var r = this.data[name]
-		}
-
-		return r
-	}
-
-	//returns set closured function
-	jC.F.getSet = function(name,options){
-		var useArray = []
-			,keyName = options && options.as ? options.as : name
-			,fireSet = function(v){
-				jC.F.set.call(this,keyName,v);return this
-			}
-
-		if(options){
-			if(options.typeset){
-				useArray.push(function(v){
-					if(v && v.constructor === options.typeset)
-						return v
-
-					var etn = jC.getMethodName(options.typeset)
-						,oName = jC.getConName(this)
-						,oOwnName = jC.getMethodName(options.original.owner)
-						,msg = 'Invalid Constructor Passed to set'+options.original.name+'().'
-					msg += ' ExpectTypeName:'+etn+'. GotTypeName:'+jC.getConName(v)+'. OwnerName:'+oName+'.'//details
-					if(oName != oOwnName)//?original owner has changed?
-						msg += ' OriginalOwnerName:'+oOwnName
-					console.error(msg);
-					return v
-				})
-			}
-
-			if(options.preset)
-				useArray.push(function(v){
-					return options.preset.apply(this,arguments)
-				})
-
-			//options last action
-			if(useArray.length)
-				fireSet = function(v){
-					for(var x=0; x < useArray.length; ++x)
-						v = useArray[x].call(this,v)
-
-					jC.F.set.call(this,keyName,v);return this
-				}
-		}
-
-
-		return fireSet
-	}
-
-	//returns a get closured function
-	jC.F.getGet = function(name, defOrDefFunc){
-		var nullop = jC.F.getNullOp(name, defOrDefFunc)
-		return function(def,stick){//!!!TODO:This function shouldn't try to param, just get
-			var r = jC.F.get.call(this, name, def, stick, nullop);
-			return r
-		}
-	}
-
-	//returns function to call when no default avail
-	jC.F.getNullOp = function(name, defOrDefFunc){
-		return function(def,stick){
-			return jC.F.runNullOp.call(this,name,def,stick,defOrDefFunc)
-		}
-	}
-
-	//if name-value undefined, return value based on defaulting defintiion
-	jC.F.runNullOp = function(name,def,stick,dM){
-		if(dM==null)
-			var dm=function(){}//make dm reliable as always something
-		else if(jC.isF(dM))
-			var dm = dM//dm is already function
-		else
-			var dm = function(){return dM}//dm will return a static value
-
-		var r = def==null ? dm.call(this) : def
-
-		if((stick==null || stick) && (r!=null || this.data[name]!=null)){
-			jC.setByAccessor.call(this,name,r)//call this['set'+name] incase it has a preset
-			//this.data[name.toLowerCase()] = r//this wont call this['set'+name]
-		}
-
-		return r
-	}
-
-	jC.F.prototype.set = jC.F.set//?deprecated
-	jC.F.prototype.get = jC.F.get
-	jC.F.prototype.param = jC.F.param
-	jC.F.prototype.setC = jC.F.getSet('c')
-	jC.F.prototype.getC = jC.F.getGet('c')
-	jC.F.prototype.setParent = jC.F.getSet('parent')
-	jC.F.prototype.getParent = jC.F.getGet('parent')
-
-	jC.F.prototype.setter = function(name,config){
-		var isSubDef = config && config.constructor==Object && config.constructor!=Array,
-			method = jC.F.getSet(name, config),
-			Cls = this.getC()
-
-
-		name = name.substring(0, 1).toUpperCase()+name.substring(1, name.length)//first letter must be capital
-		Cls.prototype['set'+name] = method
-
-		if(isSubDef && config.setAka)
-			Cls.prototype[config.setAka] = method
-
-		return this
-	}
-
-	jC.F.prototype.getter = function(name, defOrDefFunc){
-		var isSubDef = defOrDefFunc!=null && defOrDefFunc.constructor==Object && defOrDefFunc.constructor!=Array
-			,def
-
-		if(isSubDef){
-			if(defOrDefFunc['default'] != null)
-				def = defOrDefFunc['default']
-		}else
-			def = defOrDefFunc
-
-		var keyName = defOrDefFunc && defOrDefFunc.as ? defOrDefFunc.as : name
-			,method = jC.F.getGet(keyName, def)//sequence sensative
-			,Cls=this.getC()
-
-		name = name.substring(0, 1).toUpperCase()+name.substring(1, name.length)//first letter must be capital
-		Cls.prototype['get'+name] = method
-
-		if(isSubDef && defOrDefFunc.getAka)
-			Cls.prototype[defOrDefFunc.getAka] = method
-
-		return this
-	}
-
-	jC.F.prototype.prop = function(naOrStOrAr, defOrDefFunc){
-		switch(typeof(naOrStOrAr)){
-			case 'string'://create a setter/getter just based on name alond
-				defOrDefFunc = defOrDefFunc==null ? {} : defOrDefFunc
-
-				var typ = typeof(defOrDefFunc), typArray = ['number','boolean','string'];
-				for(var x=typArray.length-1; x >= 0; --x){
-					if(typArray[x] == typ){
-						defOrDefFunc = {
-							'default':defOrDefFunc,
-							original:{owner:this.getC(), name:naOrStOrAr}//record Object metadata
-						}
-						break
-					}
-				}
-				//below breaks in ie8
-				//if(typArray.indexOf(typ) < 0)//ensure Object/Array/Function
-				//	defOrDefFunc.original = {owner:this.getC(), name:naOrStOrAr}//record Object metadata
-
-				return this.getter(naOrStOrAr, defOrDefFunc).setter(naOrStOrAr, defOrDefFunc)//name
-			case 'undefined':
-			case 'function':
-				return this
-		}
-
-		if(naOrStOrAr.constructor == Array){//array of definitions
-			for(var x=naOrStOrAr.length-1; x >= 0; --x)
-				this.prop(naOrStOrAr[x])
-		}else
-			jC.each(naOrStOrAr,this.prop,this)
-
-		return this
-	}
-
-
-
-
-	if(jC.name && jC.name==='jC')//device supports function.name
-		jC.getMethodName = function(method){
-			return method.name
-		}
-	else
-		jC.getMethodName = function(method){
-			var funcNameRegex = /function (.{1,})\(/;
-			var results = (funcNameRegex).exec(method.toString())
-			return (results && results.length > 1) ? results[1] : ""
-		}
-
-	if({}.constructor.name)//device supports new Function().constructor.name
-		jC.getConName = function(obj){
-			return obj.constructor.name
-		}
-	else
-		jC.getConName = function(obj){
-			return jC.getMethodName((obj).constructor)
-		}
-
-	jC.isF = function(f){
-		return typeof(f)=='function'
-	}
-
-	jC.clear = function(s){
-		for(var x in s)delete s[x]
-	}
-
-
+	exports.isF = isF;
 	//loops arrays(value,index,context) or objects(name,value,context)
-	jC.each = function(a,meth,context){
-		if(!a)return;//null abort
-		if(a.constructor==Array){
-			var m=(context==null) ? meth : function(v,i){meth.call(context,v,i)}
-			for(var x=0;x<a.length;++x)m(a[x],x)
-		}else{
-			var m=(context==null) ? meth : function(n,v){meth.call(context,n,v)}
-			for(var n in a)m(n,a[n])
-		}return a
+	function each(a, meth, context) {
+	    if (!a)
+	        return; //null abort
+	    if (a.constructor == Array) {
+	        var m = (context == null) ? meth : function (v, i) { meth.call(context, v, i); };
+	        for (var x = 0; x < a.length; ++x)
+	            m(a[x], x);
+	    }
+	    else {
+	        var m = (context == null) ? meth : function (n, v) { meth.call(context, n, v); };
+	        for (var n in a)
+	            m(n, a[n]);
+	    }
+	    return a;
 	}
-
-
-
-
-
-
-
-
+	exports.each = each;
+	function clear(s) {
+	    for (var x in s)
+	        delete s[x];
+	}
+	exports.clear = clear;
+	function paramdata() {
+	    if (this.data == null)
+	        this.data = {};
+	    return this;
+	}
+	exports.paramdata = paramdata;
+	//assumptions: .data exists && keyName will be found in lowercase
+	function set(nameOrInitStruct, value) {
+	    if (typeof (nameOrInitStruct) == 'string') {
+	        paramdata.call(this); //ensure this.data is defined
+	        var keyName = nameOrInitStruct; //nameOrInitStruct.toLowerCase()
+	        this.data[keyName] = value;
+	    }
+	    else {
+	        each(nameOrInitStruct, set, this); //arg1 is object||array
+	    }
+	    return this;
+	}
+	exports.set = set;
+	//very specific and tuned function to set variables using setMethods
+	function setByAccessor(nameOrInitStruct, value) {
+	    if (typeof (nameOrInitStruct) == 'string') {
+	        if (this['set' + nameOrInitStruct]) {
+	            this['set' + nameOrInitStruct].call(this, value);
+	            return this;
+	        }
+	        /* look at all keys for set function */
+	        var lCaseKey = nameOrInitStruct.toLowerCase();
+	        var mySetKey = 'set' + lCaseKey;
+	        for (var key in this)
+	            if (key.length == mySetKey.length && key.toLowerCase() == mySetKey) {
+	                this[key].call(this, value);
+	                return this;
+	            }
+	        //may require updating as they use implied scope (perhaps 3rd argument is $scope)
+	        paramdata.call(this);
+	        this.data[nameOrInitStruct] = value;
+	        //this.data[lCaseKey] = value
+	        /* end */
+	    }
+	    else
+	        each(nameOrInitStruct, setByAccessor, this); //arg1 is object||array
+	    return this;
+	}
+	exports.setByAccessor = setByAccessor;
+	function init($scope) {
+	    this.data = $scope == null ? {} : $scope;
+	    setByAccessor.call(this, $scope); //convert keys to case
+	    this.init = null;
+	    delete this.init; //self destruct init method
+	    return this;
+	}
+	exports.init = init;
+	//!!!!TODO:This should no longer param and just get the value regardless of null or anything else
+	function get(name, def, stick, nullop) {
+	    return param.call(this, name, def, stick, nullop);
+	}
+	exports.get = get;
+	function param(name, def, stick, nullop) {
+	    this.data = this.data != null ? this.data : {}; //param data scope
+	    if (typeof (this.data[name]) == 'undefined')
+	        var r = nullop ? nullop.call(this, def, stick) : runNullOp.call(this, name, def, stick);
+	    else {
+	        var r = this.data[name];
+	    }
+	    return r;
+	}
+	exports.param = param;
+	//if name-value undefined, return value based on defaulting defintiion
+	function runNullOp(name, def, stick, dM) {
+	    if (dM == null) {
+	        var dm = function () { }; //make dm reliable as always something
+	    }
+	    else if (isF(dM)) {
+	        var dm = dM; //dm is already function
+	    }
+	    else {
+	        var dm = function () { return dM; }; //dm will return a static value
+	    }
+	    var r = def == null ? dm["call"](this) : def;
+	    if ((stick == null || stick) && (r != null || this.data[name] != null)) {
+	        setByAccessor.call(this, name, r); //call this['set'+name] incase it has a preset
+	        //this.data[name.toLowerCase()] = r//this wont call this['set'+name]
+	    }
+	    return r;
+	}
+	exports.runNullOp = runNullOp;
 	//ValueMemory: Object for case-insensitive name/value pair management
-	jC.Vm = function Vm(a){
-		return this.init.apply(this,arguments)
-	}
-	jC(jC.Vm)//?maybe deprecated with no get/set/param methods
+	var Vm = /** @class */ (function () {
+	    function Vm(args) {
+	        this.set = setByAccessor;
+	        this.get = function (name) {
+	            var r = get.apply(this, arguments);
+	            if (r != null)
+	                return r;
+	            var eName = this.defined(name);
+	            return this.data[eName];
+	        };
+	        /** deprecated name alias */
+	        this.getExactName = this.defined;
+	        //removes all case-insensative matching keys
+	        this.remove = function (name) {
+	            var n = name.toLowerCase();
+	            for (var x in this.data) {
+	                if (x.toLowerCase() == n) {
+	                    this.data[x] = null;
+	                    delete this.data[x];
+	                }
+	            }
+	            return this;
+	        };
+	        this.clearVars = function () {
+	            clear(this.data);
+	            return this;
+	        };
+	        this.setNewData = function (value) {
+	            this.clearVars();
+	            set.call(this, value);
+	            return this;
+	        };
+	        return init.apply(this, arguments);
+	    }
+	    /** if name is defined, returns actual case sensative name */
+	    Vm.prototype.defined = function (name) {
+	        if (this.data[name] != null)
+	            return name;
+	        //get by lowercase keyname match
+	        var n = name.toLowerCase();
+	        for (var x in this.data) {
+	            if (x.toLowerCase() == n) {
+	                return x;
+	            }
+	        }
+	    };
+	    Vm.prototype.param = function (name, def) {
+	        var r = this.get(name);
+	        if (r != null)
+	            return r;
+	        return param.apply(this, arguments);
+	    };
+	    return Vm;
+	}());
+	exports.Vm = Vm;
 
-	jC.Vm.prototype.set = jC.setByAccessor
-	jC.Vm.prototype.get = function(name){
-		var r = jC.F.get.apply(this,arguments)
-		if(r!=null)return r
-
-		var eName = this.defined(name)
-		return this.data[eName]
-
-	}
-
-	/** if name is defined, returns actual case sensative name */
-	jC.Vm.prototype.defined = function(name){
-		if(this.data[name]!=null)return name
-
-		//get by lowercase keyname match
-		var n = name.toLowerCase()
-		for(var x in this.data){
-			if(x.toLowerCase()==n){
-				return x
-			}
-		}
-	}
-	/** deprecated name alias */
-	jC.Vm.prototype.getExactName = jC.Vm.prototype.defined
-
-	jC.Vm.prototype.param = function(name,def){
-		var r = this.get(name)
-		if(r!=null)return r
-		return jC.F.param.apply(this,arguments)
-	}
-
-	//removes all case-insensative matching keys
-	jC.Vm.prototype.remove = function(name){
-		var n = name.toLowerCase()
-		for(var x in this.data){
-			if(x.toLowerCase()==n){
-				this.data[x] = null;delete this.data[x];
-			}
-		}
-		return this
-	}
-
-	jC.Vm.prototype.clearVars = function(){
-		jC.clear(this.data);return this
-	}
-
-	jC.Vm.prototype.setNewData=function(value){
-		this.clearVars()
-		jC.F.set.call(this,value);return this
-	}
-
-
-
-
-
-
-
-
-
-
-	if(true){
-		module.exports=jC
-		module.exports.__dirname = __dirname
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
 	"use strict";
-
-	var ackInjector = function ackInjector($scope, $storage){
-	  this.$storage = $storage || {}
-	  this.$scope = $scope || this
-	  return this
-	}
-
-	ackInjector.prototype.define = function(name, $module, initInjectArray){
-	  var $this = this
-	  var method = function(){
-	    return $this.LoadModule(name, $module, arguments, initInjectArray)
-	  }
-
-	  this.$scope[name] = method//this.functionName . example: ack.mail()
-	  return this
-	}
-
-	ackInjector.prototype.definePath = function(name,path,initInjectArray){
-	  var $this = this
-	  var fetcher = function(){
-	    var $module = $this.getModule(name, path)
-	    return $this.LoadModule(name, $module, arguments, initInjectArray)
-	  }
-
-	  this.$scope[name] = fetcher//this.functionName . example: ack.mail()
-	  return this
-	}
-
-	ackInjector.prototype.LoadModule = function(name, $module, $args, injectArray){
-	  if($module.constructor!=Function){
-	    return $module
-	  }
-
-	  if(!injectArray){
-	    var r = $module.apply($module, $args)//no dependencies
-	    return r
-	  }
-
-	  var isInjectInit = typeof(injectArray)=='function',
-	    init = isInjectInit ? injectArray : injectArray[injectArray.length-1],
-	    args = []
-
-	  if(!isInjectInit){
-	    var tar
-	    for(var i=0; i < injectArray.length-1; ++i){//all but last, last was init
-	      switch(injectArray[i].toLowerCase()){
-	        case '$arg0':
-	          tar = $args[0]
-	          break;
-
-	        case '$injector':
-	          tar = this.$scope//this
-	          break;
-
-	        case '$module':
-	          tar = $module
-	          break;
-
-	        case '$args':
-	          tar = Array.prototype.slice.call($args)
-	          break;
-
-
-	        default:
-	          if(this.$scope[injectArray[i]]!=null){
-	            tar = this.$scope[injectArray[i]]
-	          }else if(this.$storage[injectArray[i]] != null){
-	            tar = this.$storage[injectArray[i]]
-	          }
-	      }
-	      args.push(tar)
+	exports.__esModule = true;
+	var ackInjector = /** @class */ (function () {
+	    function ackInjector($scope, $storage) {
+	        this.LoadModule = function (name, $module, $args, injectArray) {
+	            if ($module.constructor != Function) {
+	                return $module;
+	            }
+	            if (!injectArray) {
+	                var r = $module.apply($module, $args); //no dependencies
+	                return r;
+	            }
+	            var isInjectInit = typeof (injectArray) == 'function', init = isInjectInit ? injectArray : injectArray[injectArray.length - 1], args = [];
+	            if (!isInjectInit) {
+	                var tar;
+	                for (var i = 0; i < injectArray.length - 1; ++i) {
+	                    switch (injectArray[i].toLowerCase()) {
+	                        case '$arg0':
+	                            tar = $args[0];
+	                            break;
+	                        case '$injector':
+	                            tar = this.$scope; //this
+	                            break;
+	                        case '$module':
+	                            tar = $module;
+	                            break;
+	                        case '$args':
+	                            tar = Array.prototype.slice.call($args);
+	                            break;
+	                        default:
+	                            if (this.$scope[injectArray[i]] != null) {
+	                                tar = this.$scope[injectArray[i]];
+	                            }
+	                            else if (this.$storage[injectArray[i]] != null) {
+	                                tar = this.$storage[injectArray[i]];
+	                            }
+	                    }
+	                    args.push(tar);
+	                }
+	            }
+	            args = args.concat(Array.prototype.slice.call($args));
+	            if (typeof (init) == 'string') {
+	                switch (init) {
+	                    case '$module':
+	                        return $module.apply($module, args);
+	                    //break;
+	                    default:
+	                        throw 'should not get here. Last argument of injector was not a function NOR "$module"';
+	                }
+	            }
+	            return init.apply(init, args);
+	        };
+	        this.$storage = $storage || {};
+	        this.$scope = $scope || this;
+	        return this;
 	    }
-	  }
+	    ackInjector.prototype.define = function (name, $module, initInjectArray) {
+	        var $this = this;
+	        var method = function () {
+	            return $this.LoadModule(name, $module, arguments, initInjectArray);
+	        };
+	        this.$scope[name] = method; //this.functionName . example: ack.mail()
+	        return this;
+	    };
+	    ackInjector.prototype.definePath = function (name, path, initInjectArray) {
+	        var $this = this;
+	        var fetcher = function () {
+	            var $module = $this.getModule(name, path);
+	            return $this.LoadModule(name, $module, arguments, initInjectArray);
+	        };
+	        this.$scope[name] = fetcher; //this.functionName . example: ack.mail()
+	        return this;
+	    };
+	    ackInjector.prototype.getModule = function (name, path) {
+	        if (this.$storage[name])
+	            return this.$storage[name];
+	        throw new Error('Module not defined (' + name + '). Valid modules: "' + Object.keys(this.$storage).join(',') + '"');
+	    };
+	    ackInjector.prototype.newModule = function (name, path, arg) {
+	        var Module = this.getModule(name, path);
+	        return new Module(arg);
+	    };
+	    return ackInjector;
+	}());
+	exports.ackInjector = ackInjector;
 
-	  args = args.concat(Array.prototype.slice.call($args))
-
-	  if(typeof(init)=='string'){//last arg is module to return
-	    switch(init){
-	      case '$module':
-	        return $module.apply($module, args)
-	        break;
-
-	      default:
-	        throw 'should not get here. Last argument of injector was not a function NOR "$module"';
-	        return $module.apply(this.$scope[init], args)
-	    }
-	  }
-	  return init.apply(init, args)
-	}
-
-	ackInjector.prototype.getModule = function(name,path){
-	  if(this.$storage[name])return this.$storage[name]
-	  throw new Error('Module not defined ('+name+'). Valid modules: "'+ Object.keys(this.$storage).join(',')+'"')
-	}
-
-	ackInjector.prototype.newModule = function(name,path,arg){
-	  var Module = this.getModule(name,path)
-	  return new Module(arg)
-	}
-
-
-	module.exports = ackInjector
 
 /***/ }),
 /* 14 */
@@ -3193,341 +2896,205 @@
 
 /***/ }),
 /* 19 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+	exports.__esModule = true;
+	module['exports'] = function (ob) {
+	    return new jXObject(ob);
+	};
+	var jXObject = /** @class */ (function () {
+	    function jXObject(object) {
+	        /** like JSON.stringify but converts all to cookie definition */
+	        this.toCookieString = function () {
+	            var cookies = this.object;
+	            var cookieNameArray = Object.keys(cookies);
+	            if (cookieNameArray.length) {
+	                var cookieString = '';
+	                cookieNameArray.forEach(function (name, i) {
+	                    cookieString += '; ' + name + '=' + cookies[name];
+	                });
+	                cookieString = cookieString.substring(2, cookieString.length); //remove "; "
+	                return cookieString;
+	            }
+	            return '';
+	        };
+	        this.object = object;
+	        return this;
+	    }
+	    /** @method(item, index, object) */
+	    jXObject.prototype.forEach = function (method) {
+	        forEach(this.object, method);
+	        return this;
+	    };
+	    /** When object, returns similar object with key values as results of mapping
+	        map array or object @method(item, index, object)
 
-	function jXObject(object){
-		this.object = object
-		return this
-	}
-
-	/** @method(item, index, object) */
-	jXObject.prototype.forEach = function(method){
-		xObject.forEach(method)(this.object)
-		return this
-	}
-
-	/** When object, returns similar object with key values as results of mapping
-		map array or object @method(item, index, object)
-
-	*/
-	jXObject.prototype.map = function(method){
-		return xObject.map(method)(this.object)
-	}
-
-	jXObject.isArray = function(ob){
-		return isArray(ob)
-	}
-
-	jXObject.prototype.isArray = function(ob){
-		return isArray(this.object)
-	}
-
-	/**
-		@method(item, index, parentResult, depth)
-	*/
-	jXObject.prototype.getTypeMap = function(){
-		var type = typeof(this.object)
-		var isObject = type=='object'
-
-		if( !isObject )return type
-
-		var isArray = this.isArray()
-		var uniqueMap = isArray ? [] : {}
-
-		this.map(function(item, index, object){
-			if(item===null)return 'null'
-
-
-			var isSubOb = typeof(item) == 'object'
-			var isSubArray = isSubOb && jXObject.isArray(item)
-			var subKeyMap = new jXObject(item).getTypeMap()
-
-			if( isArray ){
-				if( isSubArray ){
-					uniqueMap[index] = subKeyMap
-				}else if( isSubOb ){
-					if( !uniqueMap[0] ){
-						uniqueMap[0] = subKeyMap
-					}else{
-						assign(uniqueMap[0], subKeyMap)
-					}
-				}
-			}else{
-				if( isObject && isSubOb ){
-					if( isSubArray ){
-						uniqueMap[index] = subKeyMap
-					}else{
-						uniqueMap[index] = uniqueMap[index] || {}
-						uniqueMap[index] = assign(uniqueMap[index], subKeyMap)
-					}
-				}else{
-					uniqueMap[index] = subKeyMap
-				}
-			}
-		})
-
-		return uniqueMap
-	}
-
-	/** tests Object for circular references */
-	jXObject.prototype.isCyclic = function() {
-		var seenObjects = [];
-
-		function detect (obj) {
-			if (obj && typeof obj === 'object') {
-				if (seenObjects.indexOf(obj) !== -1) {
-					return true;
-				}
-				seenObjects.push(obj);
-				for(var key in obj) {
-					if(obj.hasOwnProperty(key) && detect(obj[key])) {
-				//console.log(obj, 'cycle at ' + key);
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
-		return detect(this.object);
-	}
-
-	/** like JSON.stringify but converts all to cookie definition */
-	jXObject.prototype.toCookieString = function(){
-		var cookies = this.object
-		var cookieNameArray = Object.keys(cookies)
-		if(cookieNameArray.length){
-			var cookieString = '';
-			cookieNameArray.forEach(function(name,i){
-				cookieString += '; '+name+'='+cookies[name]
-			})
-			cookieString = cookieString.substring(2, cookieString.length)//remove "; "
-			return cookieString
-		}
-		return ''
-	}
-
-
-	module.exports = function(ob){
-		return new jXObject(ob)
-	}
-	//module.exports = xObject
-
-	function xObject(ob){
-		return new jXObject(ob)
-	}
-	//for(var x in xObject.prototype)xObject.prototype[x] = jXObject.prototype[x]
-
-	/** Returns function to loop an object/array
-		@method(var, index, object)
-	*/
-	xObject.map = function(method){
-		return function(ob){
-			return map(ob,method)
-		}
-	}
-
-	/** loop an object
-		@method(var, index, object)
-	*/
-	xObject.forEach = function(method){
-		return function(ob){
-			return forEach(ob,method)
-		}
-	}
-
+	    */
+	    jXObject.prototype.map = function (method) {
+	        return map(this.object, method);
+	    };
+	    jXObject.prototype.isArray = function () {
+	        return isArray(this.object);
+	    };
+	    /**
+	        @method(type, subs)
+	    */
+	    jXObject.prototype.getTypeMap = function (mapper) {
+	        var type = typeof (this.object);
+	        var isObject = type == 'object';
+	        mapper = mapper || function (type, subs) {
+	            if (subs) {
+	                if (type == 'array')
+	                    return [subs];
+	                return subs;
+	            }
+	            return type;
+	        };
+	        if (!isObject)
+	            return mapper(type);
+	        var isArray = this.isArray();
+	        var uniqueMap = isArray ? [] : {};
+	        this.map(function (item, index, object) {
+	            if (item === null)
+	                return 'null';
+	            var subType = typeof (item);
+	            var isSubOb = subType == 'object';
+	            var jxSub = new jXObject(item);
+	            var isSubArray = isSubOb && jxSub.isArray();
+	            var subs = jxSub.getTypeMap(); //get subs
+	            if (isArray) {
+	                if (isSubArray) {
+	                    subType = 'array';
+	                    uniqueMap[index] = mapper(subType, subs[0]);
+	                }
+	                else if (isSubOb) {
+	                    if (!uniqueMap[0]) {
+	                        uniqueMap[0] = mapper(subType, subs);
+	                    }
+	                    else {
+	                        assign(uniqueMap[0], mapper(subType, subs));
+	                    }
+	                }
+	            }
+	            else {
+	                if (isObject && isSubOb) {
+	                    if (isSubArray) {
+	                        subType = 'array';
+	                        uniqueMap[index] = mapper(subType, subs[0]);
+	                    }
+	                    else {
+	                        uniqueMap[index] = uniqueMap[index] || {};
+	                        uniqueMap[index] = assign(uniqueMap[index], mapper(subType, subs));
+	                    }
+	                }
+	                else {
+	                    uniqueMap[index] = mapper(subType);
+	                }
+	            }
+	        });
+	        return uniqueMap;
+	    };
+	    /** tests Object for circular references */
+	    jXObject.prototype.isCyclic = function () {
+	        var seenObjects = [];
+	        function detect(obj) {
+	            if (obj && typeof obj === 'object') {
+	                if (seenObjects.indexOf(obj) !== -1) {
+	                    return true;
+	                }
+	                seenObjects.push(obj);
+	                for (var key in obj) {
+	                    if (obj.hasOwnProperty(key) && detect(obj[key])) {
+	                        //console.log(obj, 'cycle at ' + key);
+	                        return true;
+	                    }
+	                }
+	            }
+	            return false;
+	        }
+	        return detect(this.object);
+	    };
+	    return jXObject;
+	}());
+	exports.jXObject = jXObject;
 	/** Loop an object or an array. Returns array of loop results
-		@method(var, index, object)
+	    @method(var, index, object)
 	*/
-	function map(ob, method){
-		if(ob.constructor && ob.contructor==Array){
-			return mapArray(ob, method)
-		}
-
-		var res = {}
-		for(var x in ob){
-			res[x] = method(ob[x], x, ob)
-		}
-
-		return res
+	function map(ob, method) {
+	    if (ob.constructor && ob.contructor == Array) {
+	        return mapArray(ob, method);
+	    }
+	    var res = {};
+	    for (var x in ob) {
+	        res[x] = method(ob[x], x, ob);
+	    }
+	    return res;
 	}
-
-	function mapArray(ob, method){
-		var res = []
-		for(var x=0; x < ob.length; ++x){
-			res[x] = method(ob[x], x, ob)
-		}
-
-		return res
+	function mapArray(ob, method) {
+	    var res = [];
+	    for (var x = 0; x < ob.length; ++x) {
+	        res[x] = method(ob[x], x, ob);
+	    }
+	    return res;
 	}
-
 	/** @method(var, index, object) */
-	function forEach(ob, method){
-		if(ob.forEach){
-			ob.forEach(method)
-		}else{
-			for(var x in ob){
-				method(ob[x], x, ob)
-			}
-		}
-
-		return ob
+	function forEach(ob, method) {
+	    if (ob.constructor == Array) {
+	        for (var x in ob) {
+	            method(ob[x], x, ob);
+	        }
+	    }
+	    else {
+	        for (var x_1 = 0; x_1 < ob.length; ++x_1) {
+	            method(ob[x_1], x_1, ob);
+	        }
+	    }
+	    return ob;
 	}
-
-	function isArray(ob){
-		return ob.constructor && ob.constructor==Array
+	function isArray(ob) {
+	    return ob.constructor && ob.constructor == Array;
 	}
-
 	//object.assign polyfill
 	function assign(target, firstSource) {
-	  if (target === undefined || target === null) {
-	    throw new TypeError('Cannot convert first argument to object');
-	  }
-
-	  var to = Object(target);
-	  for (var i = 1; i < arguments.length; i++) {
-	    var nextSource = arguments[i];
-	    if (nextSource === undefined || nextSource === null) {
-	      continue;
+	    if (target === undefined || target === null) {
+	        throw new TypeError('Cannot convert first argument to object');
 	    }
-
-	    var keysArray = Object.keys(Object(nextSource));
-	    for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
-	      var nextKey = keysArray[nextIndex];
-	      var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-	      if (desc !== undefined && desc.enumerable) {
-	        to[nextKey] = nextSource[nextKey];
-	      }
+	    var to = Object(target);
+	    for (var i = 1; i < arguments.length; i++) {
+	        var nextSource = arguments[i];
+	        if (nextSource === undefined || nextSource === null) {
+	            continue;
+	        }
+	        var keysArray = Object.keys(Object(nextSource));
+	        for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+	            var nextKey = keysArray[nextIndex];
+	            var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+	            if (desc !== undefined && desc.enumerable) {
+	                to[nextKey] = nextSource[nextKey];
+	            }
+	        }
 	    }
-	  }
-	  return to;
+	    return to;
 	}
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)(module)))
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-	"use strict";
-	//Helps in the goal of selecting and defining states of properties on indexable data (object & arrays). The indexable data is not to be polluted by the defined properties (data and states seperate)
-	function IndexSelector($scope){
-	  this.data = $scope||{}
-
-	  this.data.indexes = this.data.indexes || []//any object will do
-	  this.data.selected = this.data.selected || []
-	  this.data.states = this.data.states || []
-	  return this
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
 	}
 
-	IndexSelector.prototype.isIndexSelected = function(index){
-	  for(var i=this.data.states.length-1; i >= 0; --i){
-	    if(this.data.states[i].index==index)return true
-	  }
-	  return false
-	}
-
-	IndexSelector.prototype.selectByIndex = function(index){
-	  var selected = this.data.indexes[index]
-	  if(selected){
-	    this.data.states.push(this.newStateByIndex(index))
-	    this.data.selected.push(selected)
-	  }
-	  return this
-	}
-
-	IndexSelector.prototype.deselectByIndex = function(index){
-	  var i,state
-	  for(i=this.data.states.length-1; i >= 0; --i){
-	    var state = this.data.states[i]
-	    if(state.index==index){
-	      this.data.selected.splice(i, 1)
-	      this.data.states.splice(i, 1)
-	      break
-	    }
-	  }
-	  return this
-	}
-
-	IndexSelector.prototype.deselectState = function(state){
-	  this.deselectByIndex(state.index);return this
-	}
-
-	IndexSelector.prototype.deselectAll = function(){
-	    this.data.selected.length=0
-	    this.data.states.length=0
-	  return this
-	}
-
-	IndexSelector.prototype.selectAll = function(){
-	  if(!this.data.indexes)return this
-
-	  for(var i=0; i < this.data.indexes.length; ++i){
-	    this.selectByIndex(i)
-	  }
-
-	  return this
-	}
-
-	//getter/setter. Getter for determining if selected. Setter to set if selected or not
-	IndexSelector.prototype.selectorByIndex = function(index){
-	  var $this = this
-	  return function(yesNo){
-	      if(yesNo!=null){
-	        yesNo ? $this.selectByIndex(index) : $this.deselectByIndex(index)
-	        return yesNo
-	      }
-
-	      return $this.isIndexSelected(index)
-	    }
-	}
-
-	IndexSelector.prototype.newStateByIndex = function(index){
-	  var state={
-	    data:this.data.indexes[index],
-	    state:{},
-	    index:index
-	  }
-
-	  return state
-	}
-
-	IndexSelector.prototype.selectStateByIndex = function(index){
-	  var i = this.data.states.length
-	  this.selectByIndex(index)
-	  return this.data.states[i].state
-	}
-
-	IndexSelector.prototype.deselectOldest = function(){
-	  this.data.selected.splice(0, 1)
-	  this.data.states.splice(0, 1)
-	  return this
-	}
-
-	IndexSelector.prototype.getOldestIndex = function(){
-	  if(this.data.states.length)return this.data.states[0].index
-	}
-
-	//when IndexSelector has been init with selectives but no states, blank states can be built
-	IndexSelector.prototype.pairSelectedToState = function(){
-	  for(var i=0; i < this.data.states.length; ++i){
-	    var state = this.data.states[i]
-	    this.data.selected[i] = this.data.selected[i] || this.data.indexes[state.index]
-	  }
-	  return this
-	}
-
-	//when IndexSelector has been init with selectives but no states, blank states can be built
-	IndexSelector.prototype.pairStateToSelected = function(){
-	  for(var i=0; i < this.data.selected.length; ++i){
-	    var selected = this.data.selected[i]
-	    this.data.states[i] = this.data.states[i] || this.newStateByIndex(i)
-	  }
-	  return this
-	}
-
-
-	module.exports = IndexSelector
 
 /***/ }),
 /* 21 */
@@ -6457,1028 +6024,929 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var jc = __webpack_require__(12)
-		,xMonth = __webpack_require__(34)
-		,ExDate = __webpack_require__(35)
-
-
-	var Week = function Week(num){
-		if(num!=null)this.setStartDate(num)
-		return this
+	var __extends = (this && this.__extends) || (function () {
+	    var extendStatics = Object.setPrototypeOf ||
+	        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+	        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+	    return function (d, b) {
+	        extendStatics(d, b);
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	})();
+	exports.__esModule = true;
+	//import jc = require('./jc')
+	var month_1 = __webpack_require__(34);
+	var date_1 = __webpack_require__(35);
+	var Week = /** @class */ (function (_super) {
+	    __extends(Week, _super);
+	    function Week() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    Week.prototype.getEndDate = function () {
+	        if (this.endDate)
+	            return this.endDate;
+	        this.endDate = new Date(this.getStartDate().getDate() + 6);
+	        return this.endDate;
+	    };
+	    Week.prototype.setEndDate = function (date) {
+	        if (!date_1.method(date).isDate() && !isNaN(date))
+	            this.endDate = date_1.method(new Date()).setMonth(date).getLastDateOfMonth();
+	        else
+	            this.endDate = date;
+	        return this;
+	    };
+	    Week.prototype.setStartDate = function (date) {
+	        if (!isNaN(date) && date.constructor != Date)
+	            this.date = date_1.method(new Date()).gotoWeek(date).date;
+	        else
+	            this.date = date;
+	        return this;
+	    };
+	    Week.prototype.getStartDate = function () {
+	        if (!this.date)
+	            this.date = date_1.method(new Date()).getDateWeekStart();
+	        return this.date;
+	    };
+	    return Week;
+	}(month_1.Month));
+	exports.Week = Week;
+	function method(path) {
+	    return new Week(path);
 	}
+	exports.method = method;
 
-	jc(Week, xMonth.Class)
-
-	Week.prototype.getEndDate = function(){
-		if(this.endDate)return this.endDate
-		this.endDate = new Date(this.getStartDate().getDate() + 6)
-		return this.endDate
-	}
-
-	Week.prototype.setEndDate = function(date){
-		if(!ExDate(date).isDate() && !isNaN(date))//just the month number?
-			endDate = ExDate(new Date()).setMonth(date).getLastDateOfMonth()
-		else
-			this.endDate = date
-
-		return this
-	}
-
-	Week.prototype.setStartDate = function(date){
-		if(!isNaN(date) && date.constructor != Date)//just the month number?
-			this.date = ExDate(new Date()).gotoWeek(date).date
-		else
-			this.date = date
-		return this
-	}
-
-	Week.prototype.getStartDate = function(){
-		if(!this.date)
-			this.date = ExDate(new Date()).getDateWeekStart()
-		return this.date
-	}
-
-	var rtn = function(path){return new Week(path)}
-	rtn.Class = Week
-	module.exports = rtn
 
 /***/ }),
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var xDate = __webpack_require__(35)
-
-	var xMonth = function xMonth(num){
-		if(num!=null){
-			this.setStartDate(num)
-		}
-		return this
+	var __extends = (this && this.__extends) || (function () {
+	    var extendStatics = Object.setPrototypeOf ||
+	        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+	        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+	    return function (d, b) {
+	        extendStatics(d, b);
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	})();
+	exports.__esModule = true;
+	var date_1 = __webpack_require__(35);
+	var date_2 = __webpack_require__(35);
+	exports.AckDate = date_2.AckDate;
+	exports.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+	var Month = /** @class */ (function (_super) {
+	    __extends(Month, _super);
+	    function Month(num) {
+	        var _this = _super.call(this) || this;
+	        _this.monthLcaseNameArray = exports.monthLcaseNameArray;
+	        if (num != null) {
+	            _this.setStartDate(num);
+	        }
+	        return _this;
+	    }
+	    Month.prototype.setStartDate = function (date) {
+	        var jDate = date_1.method();
+	        if (!jDate.isDate(date)) {
+	            var num = Number(date);
+	            if (!isNaN(num)) {
+	                date = date_1.method().now().setDate(1).setMonth(date).date;
+	            }
+	            else {
+	                var i = this.getMonthIndexByString(date);
+	                date = date_1.method(new Date()).setDate(1).setMonth(i + 1).date;
+	            }
+	        }
+	        this.date = date;
+	        return this;
+	    };
+	    Month.prototype.getMonthIndexByString = function (mon) {
+	        return exports.monthLcaseNameArray.indexOf(mon.toLowerCase());
+	    };
+	    Month.prototype.StartDate = function (isClone) {
+	        var startDate = !isClone ? this.getStartDate() : this.getStartDate();
+	        return date_1.method(startDate);
+	    };
+	    Month.prototype.xDate = function () {
+	        return date_1.method(this.getStartDate());
+	    };
+	    Month.prototype.getStartDate = function () {
+	        if (this.date)
+	            return this.date;
+	        this.date = new Date(new Date().setDate(1));
+	        return this;
+	    };
+	    Month.prototype.setEndDate = function (date) {
+	        if (!date_1.method(date).isDate() && !isNaN(date))
+	            this.endDate = date_1.method(new Date()).setMonth(date).getLastDateOfMonth();
+	        else
+	            this.endDate = date;
+	        return this;
+	    };
+	    Month.prototype.getEndDate = function () {
+	        if (this.endDate)
+	            return this.endDate;
+	        var d = '12/31/' + this.getYear();
+	        this.endDate = new Date(d);
+	        return this.endDate;
+	    };
+	    return Month;
+	}(date_1.AckDate));
+	exports.Month = Month;
+	function method(num) {
+	    return new Month(num);
 	}
+	exports.method = method;
 
-	xMonth.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
-
-	xMonth.getMonthIndexByString = function(mon){
-		return xMonth.monthLcaseNameArray.indexOf(mon.toLowerCase())
-	}
-
-	xMonth.prototype.setStartDate = function(date){
-		var jDate = xDate()
-		if(!jDate.isDate(date)){
-			var num = Number(date)
-
-			if(!isNaN(num)){//just the month number?
-				date = xDate().now().setDate(1).setMonth(date).date
-			}else{
-				var i = xMonth.getMonthIndexByString(date)
-				date = xDate(new Date()).setDate(1).setMonth(i+1).date
-			}
-		}
-		this.date = date
-		return this
-	}
-
-	xMonth.prototype.StartDate = function(isClone){
-		var startDate = !isClone ?  this.getStartDate() : this.getStartDate()
-		return xDate(startDate)
-	}
-
-	xMonth.prototype.xDate = function(){
-		return xDate(this.getStartDate())
-	}
-
-	xMonth.prototype.getStartDate = function(){
-		if(this.date)return this.date
-		this.date = new Date(new Date().setDate(1))
-		return this
-	}
-
-	xMonth.prototype.setEndDate = function(date){
-		if(!xDate(v).isDate() && !isNaN(v))//just the month number?
-			this.endDate = xDate(new Date()).setMonth(date).getLastDateOfMonth()
-		else
-			this.endDate = date
-
-		return this
-	}
-
-	xMonth.prototype.getEndDate = function(){
-		if(this.endDate)return this.endDate
-		var d = '12/31/'+this.getYear()
-		this.endDate = new Date(d)
-		return this.endDate
-	}
-
-
-
-	var rtn = function(num){
-		return new xMonth(num)
-	}
-	rtn.Class = xMonth
-	module.exports = rtn
 
 /***/ }),
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
-	var moment = __webpack_require__(36)
-
+	exports.__esModule = true;
+	var moment = __webpack_require__(36);
 	/* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
-	function ackDate(date, format){
-	  this.date = ackDate.toDate(date, format)
-	  return this
-	}
-
-	ackDate.toDate = function(date, format){
-	  return date===null ? null : (date==null?new Date():ackDate.dateObjectBy(date,format))
-	}
-
-	ackDate.getTimezoneStamp = function(date, seperator){
-	  date = date || new Date()
-	  var value = new Date(date).toString().match(/([-\+][0-9]+)\s/)[1]
-	  if(seperator){
-	    value = value.substring(0, value.length-2)+ seperator +value.substring(value.length-2, value.length)
-	  }
-	  return value
-	}
-
-	ackDate.dateObjectBy = function(date, format){
-	  if( date!=null ){
-	    switch(date.constructor){
-	      case ackDate:return date.date
-	      case Date:return date
-	      case String:return ackDate.dateStringToDate(date, format)
-	      default:return new Date(date)//convert string to date object
+	var AckDate = /** @class */ (function () {
+	    function AckDate(date, format) {
+	        this.dateYearDiff = function (date) {
+	            date = toDate(date);
+	            return dateYearDiff(date, this.date);
+	        };
+	        this.dateHoursDiff = this.dateHourDiff; //alias
+	        this.isDst = this.isDaylightSavings; //alias
+	        /** true/false if argument is lesser than defined date */
+	        this.lesser = function (otherDate) {
+	            return new AckDate(otherDate).date < this.date ? true : false;
+	        };
+	        //return natural Date object
+	        this.getDate = function () {
+	            return this.date.getDate();
+	        };
+	        //sets day of month
+	        this.setDate = function (n) {
+	            var d = this.date;
+	            d = d.setDate(n);
+	            this.date = new Date(d);
+	            return this;
+	        };
+	        this.setDayOfMonth = this.setDate; //aka
+	        this.getYear = this.year;
+	        this.addYear = this.nextYear;
+	        this.addYears = this.nextYear;
+	        this.getMonth = this.month;
+	        this.addMonths = this.nextMonth;
+	        this.nextDay = this.addDays; //multi alias
+	        this.priorDay = this.prevDay; //aka for naming consistency
+	        this.getWeek = this.week;
+	        this.gotoFirstDayOfWeek = this.gotoSunday;
+	        this.gotoMondayOfWeek = this.gotoMonday;
+	        this.gotoFridayOfWeek = this.gotoFriday;
+	        this.gotoEndOfDate = this.gotoEod;
+	        this.gotoStartOfDate = this.gotoSod;
+	        this.dateSecondsDiff = this.dateSecondDiff; //alias
+	        this.dateMinutesDiff = this.dateMinuteDiff; //alias
+	        this.date = toDate(date, format);
+	        return this;
 	    }
-	  }
-	  return date || new Date()
+	    /** takes current Date and returns casted utc set Date object */
+	    AckDate.prototype.getUtcDate = function () {
+	        return new Date(this.date.getUTCFullYear(), this.date.getUTCMonth(), this.date.getUTCDate(), this.date.getUTCHours(), this.date.getUTCMinutes(), this.date.getUTCSeconds());
+	    };
+	    /** takes current Date and returns casted utc set Date number */
+	    AckDate.prototype.utc = function () {
+	        return this.getUtcDate().getTime();
+	    };
+	    /** takes current Date and casts to utc set Date number. Returns this */
+	    AckDate.prototype.toUtc = function () {
+	        this.date = this.getUtcDate();
+	        return this;
+	    };
+	    AckDate.prototype.setDateByString = function (date) {
+	        this.date = dateStringToDate(date);
+	        return this;
+	    };
+	    AckDate.prototype.getTimezoneStamp = function (sep) {
+	        return getTimezoneStamp(this.date, sep);
+	    };
+	    AckDate.prototype.yearsFromNow = function () {
+	        return this.dateYearDiff(Date.now());
+	    };
+	    AckDate.prototype.monthsFromNow = function () {
+	        return this.dateMonthDiff(Date.now());
+	    };
+	    AckDate.prototype.daysFromNow = function () {
+	        return this.dateDayDiff(Date.now());
+	    };
+	    /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
+	    AckDate.prototype.fromNow = function (hideSuffix) {
+	        return moment(this.date).fromNow(hideSuffix);
+	    };
+	    /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
+	    AckDate.prototype.fromToday = function (hideSuffix) {
+	        var fDate = new AckDate().now().gotoSod().date;
+	        var mDate = new AckDate(this.date).gotoSod().date;
+	        return moment(mDate).from(fDate, hideSuffix);
+	    };
+	    /** see moment http://momentjs.com/docs/#/displaying/from/ */
+	    AckDate.prototype.from = function (d, hideSuffix) {
+	        return moment(toDate(d)).from(this.date, hideSuffix);
+	    };
+	    AckDate.prototype.now = function () {
+	        this.date = new Date();
+	        return this;
+	    };
+	    AckDate.prototype.param = function () {
+	        this.date = this.date || new Date();
+	        return this;
+	    };
+	    AckDate.prototype.dateMonthDiff = function (date) {
+	        return dateMonthDiff(this.date, date);
+	    };
+	    /** always absolute number */
+	    AckDate.prototype.dateDayDiff = function (date) {
+	        //return Math.abs(parseInt((this.date - AckDate.toDate(date))/(24*3600*1000)))
+	        var dateCalc = this.date.getTime() - toDate(date).getTime();
+	        var calc = Math.floor((dateCalc) / 86400000);
+	        return Math.abs(calc);
+	    };
+	    /** returns no negative numbers */
+	    AckDate.prototype.dateHourDiff = function (date) {
+	        var calcDate = this.date.getTime() - dateObjectBy(date || new Date());
+	        return Math.abs(calcDate) / 36e5;
+	    };
+	    AckDate.prototype.isDaylightSavings = function () {
+	        if (!this.date)
+	            return;
+	        return this.date.getTimezoneOffset() < stdTimezoneOffset(this.date);
+	    };
+	    /** amount daylight savings */
+	    AckDate.prototype.daylightSavings = function () {
+	        var d = new Date();
+	        return (stdTimezoneOffset(d) - d.getTimezoneOffset()) / 60;
+	    };
+	    /** true/false if argument is greater than defined date */
+	    AckDate.prototype.greater = function (otherDate) {
+	        return new AckDate(otherDate).date > this.date ? true : false;
+	    };
+	    //returns years.months (32.11 is 32 years and 11 months && 32.1 is 32 years 1 month)
+	    AckDate.prototype.getAgeDisplay = function () {
+	        var d = this.date;
+	        var toDate = new Date();
+	        var local = {};
+	        local.isValBirthdate = d != null && isDate(d);
+	        if (!local.isValBirthdate)
+	            return 0;
+	        local.isBorn = this.greater(toDate);
+	        if (local.isBorn) {
+	            local.lesserDate = d;
+	            local.greaterDate = toDate;
+	        }
+	        else {
+	            local.lesserDate = toDate;
+	            local.greaterDate = d;
+	        }
+	        local.cYear = yearByDate(local.greaterDate);
+	        local.lastBirthdate = dateAddDay(local.lesserDate, -365);
+	        local.years = dateYearDiff(local.lesserDate, local.greaterDate);
+	        local.months = dateMonthDiff(local.lastBirthdate, local.greaterDate);
+	        if (local.months >= 12)
+	            local.months = local.months % 12;
+	        local.format = 1;
+	        if (local.months >= 10)
+	            local.format = 2;
+	        var rtnNum = Number(local.years + '.' + local.months);
+	        local.result = (function (n, p) {
+	            var m = Math.pow(10, p);
+	            return (Math.round(n * m) / m).toFixed(p);
+	        })(rtnNum, local.format);
+	        if (!local.isBorn)
+	            local.result = -local.result;
+	        return local.result;
+	    };
+	    AckDate.prototype.gt = function (date) {
+	        date = dateObjectBy(date);
+	        return this.date > date;
+	    };
+	    AckDate.prototype.lt = function (date) {
+	        date = dateObjectBy(date);
+	        return this.date < date;
+	    };
+	    AckDate.prototype.clone = function () {
+	        return new AckDate(new Date(this.date));
+	    };
+	    AckDate.prototype.isDate = function (date) {
+	        return isDate(date || this.date);
+	    };
+	    /* YEARS */
+	    AckDate.prototype.Year = function () {
+	        return this.year();
+	    };
+	    AckDate.prototype.year = function () {
+	        return yearByDate(this.date);
+	    };
+	    AckDate.prototype.setYear = function (n) {
+	        this.date.setFullYear(n);
+	        return this;
+	    };
+	    AckDate.prototype.dayOfYear = function () {
+	        var d = new AckDate(this.date).gotoEod().date;
+	        var compareDate = new Date(d.getFullYear(), 0, 1).getTime();
+	        return Math.ceil((d.getTime() - compareDate) / 86400000);
+	    };
+	    AckDate.prototype.getNextYear = function (y) {
+	        y = y == null ? 1 : Number(y);
+	        return this.year() + y;
+	    };
+	    AckDate.prototype.nextYear = function (y) {
+	        this.setYear(this.getNextYear(y));
+	        return this;
+	    };
+	    AckDate.prototype.getPriorYear = function (y) {
+	        y = y == null ? 1 : Number(y);
+	        return this.year() - Math.abs(y);
+	    };
+	    AckDate.prototype.priorYear = function (y) {
+	        this.setYear(this.getPriorYear(y));
+	        return this;
+	    };
+	    /* MONTHS */
+	    /** 1st 2nd 3rd of the month */
+	    AckDate.prototype.getMonthAbbr = function () {
+	        return exports.monthAbbrArray[this.date.getMonth()];
+	    };
+	    AckDate.prototype.getMonthDateProperNumber = function () {
+	        return suffixByNumber(this.date.getDate());
+	    };
+	    AckDate.prototype.fullWeeksLeftInMonth = function () {
+	        var eDate = this.getLastDateOfMonth();
+	        var diff = this.dateDayDiff(eDate);
+	        return Math.floor(diff / 7);
+	    };
+	    AckDate.prototype.weekInMonth = function () {
+	        var firstDay = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
+	        return Math.ceil((this.date.getDate() + firstDay) / 7);
+	    };
+	    AckDate.prototype.getMonthDayCount = function () {
+	        return new Date(this.year(), this.month(), 0).getDate();
+	    };
+	    AckDate.prototype.getMonthName = function () {
+	        return exports.monthNameArray[this.month() - 1];
+	    };
+	    AckDate.prototype.getMonthNameArray = function () {
+	        return exports.monthNameArray;
+	    };
+	    AckDate.prototype.month = function () {
+	        return this.date.getMonth() + 1;
+	    };
+	    AckDate.prototype.priorMonth = function (amount) {
+	        if (amount === void 0) { amount = 1; }
+	        return this.nextMonth(-Math.abs(amount));
+	    };
+	    AckDate.prototype.nextMonth = function (amount) {
+	        if (amount === void 0) { amount = 1; }
+	        this.date = new Date(this.date.setMonth(this.date.getMonth() + amount));
+	        return this;
+	    };
+	    AckDate.prototype.getLastDateOfMonth = function () {
+	        var nd = new Date(this.date);
+	        var EDate = new AckDate(nd);
+	        return EDate.nextMonth().gotoFirstDayOfMonth().prevDay().date;
+	    };
+	    AckDate.prototype.setMonth = function (n) {
+	        var d = this.date.setMonth(n - 1);
+	        this.date = new Date(d);
+	        return this;
+	    };
+	    AckDate.prototype.gotoFirstDayOfMonth = function () {
+	        this.prevDay(this.date.getDate() - 1);
+	        return this;
+	    };
+	    /* DAYS */
+	    AckDate.prototype.daysInMonth = function () {
+	        return new Date(this.year(), this.month(), 0).getDate();
+	    };
+	    AckDate.prototype.addDays = function (amount) {
+	        var nd = dateAddDay(this.date, amount);
+	        this.date = new Date(nd);
+	        return this;
+	    };
+	    AckDate.prototype.prevDay = function (amount) {
+	        if (amount === void 0) { amount = 1; }
+	        var d = new Date(this.date);
+	        this.date = new Date(d.setDate(d.getDate() - amount));
+	        return this;
+	    };
+	    /* WEEKS */
+	    AckDate.prototype.isWeekend = function () {
+	        return [1, 7].indexOf(this.dayOfWeek()) >= 0;
+	    };
+	    /** getWeekInYear */
+	    AckDate.prototype.week = function () {
+	        var d = new Date(this.date); //could be number
+	        var onejan = new Date(d.getFullYear(), 0, 1);
+	        var nowDate = new Date(d).getTime();
+	        var calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7;
+	        return Math.ceil(calc);
+	    };
+	    AckDate.prototype.dayOfWeek = function () {
+	        var d = this.date;
+	        return d.getDay() + 1;
+	    };
+	    AckDate.prototype.gotoSunday = function () {
+	        this.prevDay(this.dayOfWeek() - 1);
+	        return this;
+	    };
+	    AckDate.prototype.gotoMonday = function () {
+	        this.gotoFirstDayOfWeek().nextDay();
+	        return this;
+	    };
+	    AckDate.prototype.gotoFriday = function () {
+	        this.gotoFirstDayOfWeek().nextDay(5);
+	        return this;
+	    };
+	    AckDate.prototype.gotoWeek = function (week) {
+	        var thisWk = this.week();
+	        this.nextWeek(week - thisWk);
+	        return this;
+	    };
+	    AckDate.prototype.priorWeek = function (amount) {
+	        amount = amount == null ? 1 : amount;
+	        return this.nextWeek(-Math.abs(amount));
+	    };
+	    AckDate.prototype.nextWeek = function (amount) {
+	        amount = amount == null ? 1 : amount;
+	        this.nextDay(amount * 7);
+	        return this;
+	    };
+	    AckDate.prototype.getDateWeekStart = function () {
+	        var date = this.date;
+	        var dw = this.dayOfWeek() - 1;
+	        return new Date(date.setDate(date.getDate() - dw));
+	    };
+	    AckDate.prototype.getDateWeekStop = function () {
+	        var date = this.getDateWeekStart();
+	        date = date.setDate(date.getDate() + 6);
+	        return endOfDateDay(date);
+	    };
+	    /** goto end of day. Just sets time to 23:59:59.999 */
+	    AckDate.prototype.gotoEod = function () {
+	        this.date = endOfDateDay(this.date);
+	        return this;
+	    };
+	    /** goto start of day. Just sets time to 0:0:0.0 */
+	    AckDate.prototype.gotoSod = function () {
+	        this.date = startOfDateDay(this.date);
+	        return this;
+	    };
+	    AckDate.prototype.FirstWeekday = function () {
+	        var amount = -this.dayOfWeek() + 2, nd = this.date, nd = new Date(nd) //clone
+	        , Nd = new AckDate(nd).nextDay(amount);
+	        return Nd;
+	    };
+	    AckDate.prototype.getDateOfFirstWeekday = function () {
+	        return new Date(this.FirstWeekday().date);
+	    };
+	    /** method(weekNum, AckDate) */
+	    AckDate.prototype.eachWeekInYear = function (method) {
+	        var num = this.getWeeksInYear(), year = this.year();
+	        for (var x = 1; x <= num; ++x) {
+	            var ExD = new AckDate(this.date).setYear(year).gotoWeek(x);
+	            ExD.gotoFirstDayOfWeek();
+	            method(x, ExD);
+	        }
+	        return this;
+	    };
+	    AckDate.prototype.eachWeekWithMondayInYear = function (method) {
+	        this.eachWeekInYear(function (num, AckDate) {
+	            method(num, AckDate.gotoMondayOfWeek());
+	        });
+	        return this;
+	    };
+	    /** returns array of date exposed objects representing each week in a year */
+	    AckDate.prototype.getWeeksWithMondayInYearExposedArray = function () {
+	        var rtnArray = [];
+	        this.eachWeekWithMondayInYear(function (weekNum, AckDate) {
+	            rtnArray.push(AckDate);
+	        });
+	        return rtnArray;
+	    };
+	    /** returns array of date objects representing each week in a year */
+	    AckDate.prototype.getWeeksWithMondayInYearArray = function () {
+	        var rtnArray = [];
+	        this.eachWeekWithMondayInYear(function (weekNum, AckDate) {
+	            rtnArray.push(AckDate.date);
+	        });
+	        return rtnArray;
+	    };
+	    AckDate.prototype.getWeeksInYear = function (y) {
+	        y = y ? y : this.year();
+	        var d, isLeap;
+	        d = new Date(y, 0, 1);
+	        isLeap = new Date(y, 1, 29).getMonth() === 1;
+	        //check for a Jan 1 that's a Thursday or a leap year that has a
+	        //Wednesday jan 1. Otherwise it's 52
+	        return d.getDay() === 4 || isLeap && d.getDay() === 3 ? 53 : 52;
+	    };
+	    /* ! TIME METHODS ! */
+	    AckDate.prototype.setTimeByString = function (string) {
+	        if (!this.date || !string)
+	            return this;
+	        if (string.split) {
+	            var parsed = parseTimeString(string);
+	            var change = this.date.setHours(parsed.hour);
+	            change = new Date(change).setMinutes(parsed.minute);
+	            this.date = new Date(change);
+	        }
+	        return this;
+	    };
+	    //convenience of date as number
+	    AckDate.prototype.getTime = function () {
+	        return this.date.getTime();
+	    };
+	    /** alters this.date and return this */
+	    AckDate.prototype.addHours = function (n) {
+	        if (this.date)
+	            this.date.setHours(this.date.getHours() + n);
+	        return this;
+	    };
+	    /** alters this.date and return this */
+	    AckDate.prototype.addMinutes = function (n) {
+	        if (this.date)
+	            this.date = new Date(this.date.getTime() + n * 60000);
+	        return this;
+	    };
+	    AckDate.prototype.minuteOfDay = function () {
+	        return (60 * this.date.getHours()) + this.date.getMinutes();
+	    };
+	    /** alters this.date and return this */
+	    AckDate.prototype.addSeconds = function (n) {
+	        return this.addMilliseconds(n * 1000);
+	    };
+	    /** alters this.date and return this */
+	    AckDate.prototype.addMilliseconds = function (n) {
+	        if (this.date)
+	            this.date = new Date(this.date.getTime() + n);
+	        return this;
+	    };
+	    /** Does not return negative numbers.
+	      @date - not required, default = new Date()
+	      @decimals - not required, default = false (no decimals causes decimal rounding)
+	    */
+	    AckDate.prototype.dateSecondDiff = function (date, decimals) {
+	        date = dateObjectBy(date || new Date());
+	        var dif = this.date.getTime() - date.getTime();
+	        var Seconds_from_T1_to_T2 = dif / 1000;
+	        var rtn = Math.abs(Seconds_from_T1_to_T2);
+	        if (decimals) {
+	            decimals = Number(decimals) && !isNaN(decimals) ? decimals : 2;
+	            rtn = toDecimal(rtn, decimals);
+	        }
+	        else {
+	            rtn = Math.round(rtn);
+	        }
+	        return rtn;
+	    };
+	    //no negative numbers
+	    AckDate.prototype.dateMinuteDiff = function (date) {
+	        date = toDate(date || new Date());
+	        var hourDiff = date - this.date.getTime(); //in ms
+	        var secDiff = hourDiff / 1000; //in s
+	        var minDiff = hourDiff / 60 / 1000; //in minutes
+	        var hDiff = hourDiff / 3600 / 1000; //in hours
+	        var hours = Math.floor(hDiff);
+	        var mins = minDiff - 60 * hours;
+	        var calc = Math.abs(hours * 60 + mins);
+	        //return Math.round(calc, 0);
+	        return Math.round(calc);
+	    };
+	    /* FORMATTING */
+	    AckDate.prototype.format = function (format) {
+	        return moment(this.date).format(format);
+	    };
+	    AckDate.prototype.getDayName = function () {
+	        if (!this.date)
+	            return '';
+	        return exports.dayNameArray[this.date.getDay()];
+	    };
+	    AckDate.prototype.getDayAbbr = function () {
+	        if (!this.date)
+	            return '';
+	        return exports.dayAbbrArray[this.date.getDay()];
+	    };
+	    /** Febuary 24th 2016 */
+	    AckDate.prototype.mmmmdyyyy = function () {
+	        if (!this.date)
+	            return '';
+	        return this.getMonthName() + ' ' + this.getMonthDateProperNumber() + ' ' + this.date.getFullYear();
+	    };
+	    /** 01:20.220 */
+	    AckDate.prototype.hhmmssl = function (timeSep, milsecSep) {
+	        if (!this.date)
+	            return '';
+	        timeSep = timeSep || ':';
+	        milsecSep = milsecSep || '.';
+	        var d = this.date;
+	        var h = d.getHours();
+	        var m = d.getMinutes();
+	        m = m < 10 ? '0' + m : m;
+	        h = ('0' + h).slice(-2);
+	        var s = ('0' + d.getSeconds()).slice(-2);
+	        return h + timeSep + m + timeSep + s + milsecSep + d.getMilliseconds();
+	    };
+	    AckDate.prototype.hhmmsl = function (timeSep, milsecSep) {
+	        if (!this.date)
+	            return '';
+	        var d = this.date;
+	        var timeSep = timeSep || ':';
+	        var milsecSep = milsecSep || '.';
+	        var h = d.getHours();
+	        var m = d.getMinutes();
+	        m = m < 10 ? '0' + m : m;
+	        h = ('0' + h).slice(-2);
+	        return h + timeSep + m + timeSep + d.getSeconds() + milsecSep + d.getMilliseconds();
+	    };
+	    AckDate.prototype.hmmtt = function () {
+	        if (!this.date)
+	            return '';
+	        var d = this.date;
+	        var h = d.getHours();
+	        var t = 'AM';
+	        var m = d.getMinutes();
+	        m = m < 10 ? '0' + m : m;
+	        h = h >= 12 ? (t = 'PM', h - 12 || 12) : (h == 0 ? 12 : h);
+	        return h + ':' + m + ' ' + t;
+	    };
+	    AckDate.prototype.mmddyyyyhhmmtt = function (dateSep, spaceSep, timeSep, ttSep) {
+	        if (!this.date)
+	            return '';
+	        spaceSep = spaceSep == null ? ' ' : spaceSep;
+	        return this.mmddyyyy(dateSep) + spaceSep + this.hhmmtt(timeSep, ttSep);
+	    };
+	    AckDate.prototype.hhmmtt = function (timeSep, ttSep) {
+	        if (!this.date)
+	            return '';
+	        var d = this.date;
+	        var timeSep = timeSep || ':';
+	        var ttSep = ttSep == null ? ' ' : ttSep;
+	        var h = d.getHours();
+	        var t = 'AM';
+	        var m = d.getMinutes();
+	        m = m < 10 ? '0' + m : m;
+	        h = h >= 12 ? (t = 'PM', h - 12 || 12) : (h == 0 ? 12 : h);
+	        return ('0' + h).slice(-2) + timeSep + m + ttSep + t;
+	    };
+	    AckDate.prototype.hhmmsstt = function (timeSep, ttSep) {
+	        if (!this.date)
+	            return '';
+	        var d = this.date;
+	        var timeSep = timeSep || ':';
+	        var ttSep = ttSep == null ? ' ' : ttSep;
+	        var h = d.getHours();
+	        var t = 'AM';
+	        var m = d.getMinutes();
+	        m = m < 10 ? '0' + m : m;
+	        h = h >= 12 ? (t = 'PM', h - 12 || 12) : (h == 0 ? 12 : h);
+	        var s = ('0' + d.getSeconds()).slice(-2);
+	        return ('0' + h).slice(-2) + timeSep + m + timeSep + s + ttSep + t;
+	    };
+	    //yyyy-mm-dd hh:nn:ss:l aka serverFormat
+	    AckDate.prototype.storageFormat = function (dateSep, spaceSep, timeSep, milsecSep) {
+	        if (!this.date)
+	            return '';
+	        dateSep = dateSep || '-';
+	        spaceSep = spaceSep || ' ';
+	        return this.date.getFullYear() + dateSep + this.mmdd(dateSep) + spaceSep + this.hhmmssl(timeSep, milsecSep);
+	    };
+	    AckDate.prototype.yyyymmdd = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '' : sep;
+	        return this.year() + sep + this.mmdd(sep);
+	    };
+	    AckDate.prototype.mmddyyyy = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '/' : sep;
+	        var d = this.date;
+	        return this.mmdd(sep) + sep + d.getFullYear();
+	    };
+	    AckDate.prototype.mdyyyy = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '/' : sep;
+	        var d = this.date;
+	        return this.md(sep) + sep + d.getFullYear();
+	    };
+	    AckDate.prototype.mdyy = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '/' : sep;
+	        var d = this.date;
+	        return this.md(sep) + sep + this.yy();
+	    };
+	    AckDate.prototype.mmddyy = function (sep) {
+	        if (!this.date)
+	            return '';
+	        var r = this.mmddyyyy();
+	        return r.substring(0, r.length - 4) + r.substring(r.length - 2, r.length);
+	    };
+	    AckDate.prototype.yy = function () {
+	        if (!this.date)
+	            return '';
+	        return this.date.getFullYear().toString().substring(2, 4);
+	    };
+	    AckDate.prototype.mmdd = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '/' : sep;
+	        var d = this.date;
+	        return twoDigit(d.getMonth() + 1) + sep + twoDigit(d.getDate());
+	    };
+	    AckDate.prototype.md = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '/' : sep;
+	        var d = this.date;
+	        return (d.getMonth() + 1) + sep + d.getDate();
+	    };
+	    return AckDate;
+	}());
+	exports.AckDate = AckDate;
+	function dateObjectBy(date, format) {
+	    if (date != null) {
+	        switch (date.constructor) {
+	            case AckDate: return date.date;
+	            case Date: return date;
+	            case String: return dateStringToDate(date, format);
+	            default: return new Date(date); //convert string to date object
+	        }
+	    }
+	    return date || new Date();
 	}
-
-	ackDate.suffixByNumber = function(i){
-	  var j = i % 10,
-	      k = i % 100;
-	  if (j == 1 && k != 11) {
-	      return i + "st";
-	  }
-	  if (j == 2 && k != 12) {
-	      return i + "nd";
-	  }
-	  if (j == 3 && k != 13) {
-	      return i + "rd";
-	  }
-	  return i + "th";
+	exports.dateObjectBy = dateObjectBy;
+	function toDate(date, format) {
+	    return date === null ? null : (date == null ? new Date() : dateObjectBy(date, format));
 	}
-
-	ackDate.dateAddDay = function(d, amount){
-	  amount = amount==null ? 1 : amount
+	exports.toDate = toDate;
+	function getTimezoneStamp(date, seperator) {
+	    date = date || new Date();
+	    var value = new Date(date).toString().match(/([-\+][0-9]+)\s/)[1];
+	    if (seperator) {
+	        value = value.substring(0, value.length - 2) + seperator + value.substring(value.length - 2, value.length);
+	    }
+	    return value;
+	}
+	exports.getTimezoneStamp = getTimezoneStamp;
+	function suffixByNumber(i) {
+	    var j = i % 10, k = i % 100;
+	    if (j == 1 && k != 11) {
+	        return i + "st";
+	    }
+	    if (j == 2 && k != 12) {
+	        return i + "nd";
+	    }
+	    if (j == 3 && k != 13) {
+	        return i + "rd";
+	    }
+	    return i + "th";
+	}
+	exports.suffixByNumber = suffixByNumber;
+	function dateAddDay(d, amount) {
+	    if (amount === void 0) { amount = 1; }
 	    var dat = new Date(d);
 	    dat.setDate(dat.getDate() + amount);
 	    return dat;
 	}
-
-	ackDate.startOfDateDay = function(date){
-	  date = new Date(new Date(date).setHours(0))
-	  date = new Date(date.setMinutes(0))
-	  date = new Date(date.setSeconds(0))
-	  return new Date(date.setMilliseconds(0))
+	exports.dateAddDay = dateAddDay;
+	function startOfDateDay(date) {
+	    date = new Date(new Date(date).setHours(0));
+	    date = new Date(date.setMinutes(0));
+	    date = new Date(date.setSeconds(0));
+	    return new Date(date.setMilliseconds(0));
 	}
-
-	ackDate.endOfDateDay = function(date){
-	  date = new Date(new Date(date).setHours(23))
-	  date = new Date(date.setMinutes(59))
-	  date = new Date(date.setSeconds(59))
-	  return new Date(date.setMilliseconds(999))
+	exports.startOfDateDay = startOfDateDay;
+	function endOfDateDay(date) {
+	    date = new Date(new Date(date).setHours(23));
+	    date = new Date(date.setMinutes(59));
+	    date = new Date(date.setSeconds(59));
+	    return new Date(date.setMilliseconds(999));
 	}
-
+	exports.endOfDateDay = endOfDateDay;
 	/** Without format argument, auto detection is by placement of year */
-	ackDate.dateStringToDate = function(date, format){
-	  if(format){
-	    return new Date( moment(date, format) )
-	  }
-
-	  var isZoned = date.substring(date.length-1,date.length)=='Z'
-	  var isFirstFourDigits = date.length>8 && !isNaN(date.substring(0, 4)) && !isZoned
-	  var slash = date.substring(4, 5)
-
-	  if(isFirstFourDigits && isNaN(slash)){
-	    var dateSplit = date.split(slash)
-	    var month = dateSplit[1]
-	    var day = dateSplit[2]
-	    var year = dateSplit[0]
-	    var dateOnly = dateSplit.length==3
-
-	    dateSplit[0] = year
-	    dateSplit[1] = month
-	    dateSplit[2] = day
-	    
-	    
-	    //fails on safari 10.1.2
-	    //dateSplit[0] = month
-	    //dateSplit[1] = day
-	    //dateSplit[2] = year
-
-	    date = dateSplit.join(slash)
-	    if( dateOnly ){
-	      return new Date(year, month-1, day)
+	function dateStringToDate(date, format) {
+	    if (format) {
+	        return new Date(moment(date, format));
 	    }
-	  }
-
-	  return new Date(date)
+	    var isZoned = date.substring(date.length - 1, date.length) == 'Z';
+	    var isFirstFourDigits = date.length > 8 && !isNaN(date.substring(0, 4)) && !isZoned;
+	    var slash = date.substring(4, 5);
+	    if (isFirstFourDigits && isNaN(slash)) {
+	        var dateSplit = date.split(slash);
+	        var month = dateSplit[1];
+	        var day = dateSplit[2];
+	        var year = dateSplit[0];
+	        var dateOnly = dateSplit.length == 3;
+	        dateSplit[0] = year;
+	        dateSplit[1] = month;
+	        dateSplit[2] = day;
+	        //fails on safari 10.1.2
+	        //dateSplit[0] = month
+	        //dateSplit[1] = day
+	        //dateSplit[2] = year
+	        date = dateSplit.join(slash);
+	        if (dateOnly) {
+	            return new Date(year, month - 1, day);
+	        }
+	    }
+	    return new Date(date);
 	}
-
+	exports.dateStringToDate = dateStringToDate;
 	//NON PROTOTYPE METHODS
-	ackDate.twoDigit = function(n){
-	  return ('0'+n).slice(-2)
-	}
-
-	ackDate.isDate = function(date){
-	  if(!date)return false
-
-	  var isRawDate = date.constructor==Date&&!isNaN(date.getTime())
-	  if(isRawDate)return true
-
-	  if(date.search)//string
-	    return date.search(/^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4}|[0-9]{2})$/) >= 0
-
-	  return false
-	}
-
-	ackDate.yearByDate = function(d){
-	  return d.getFullYear()
-	}
-
-	ackDate.getMonthIndexByString = function(mon){
-	  return ackDate.monthLcaseNameArray.indexOf(mon.toLowerCase())
-	}
-
-	ackDate.monthNameArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-	ackDate.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
-	ackDate.monthAbbrArray = ['Jan','Feb','Mar','Apr','Ma','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
-	ackDate.dayNameArray = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
-	ackDate.dayAbbrArray = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
-
-
-	ackDate.dateYearDiff = function(d0, d1){
-	  return Math.abs(d0.getFullYear() - d1.getFullYear())
-	}
-
-	/*
-	  PROTOTYPES
-	*/
-
-	/** takes current Date and returns casted utc set Date object */
-	ackDate.prototype.getUtcDate = function(){
-	  return new Date(
-	    this.date.getUTCFullYear(),
-	    this.date.getUTCMonth(),
-	    this.date.getUTCDate(),
-	    this.date.getUTCHours(),
-	    this.date.getUTCMinutes(),
-	    this.date.getUTCSeconds()
-	  )
-	}
-
-	/** takes current Date and returns casted utc set Date number */
-	ackDate.prototype.utc = function(){
-	  return this.getUtcDate().getTime()
-	}
-
-	/** takes current Date and casts to utc set Date number. Returns this */
-	ackDate.prototype.toUtc = function(){
-	  this.date = this.getUtcDate()
-	  return this
-	}
-
-	ackDate.prototype.setDateByString = function(date){
-	  this.date = ackDate.dateStringToDate(date)
-	  return this
-	}
-
-	ackDate.prototype.getTimezoneStamp = function(sep){
-	  return ackDate.getTimezoneStamp( this.date, sep )
-	}
-
-	ackDate.prototype.yearsFromNow = function(){
-	  return this.dateYearDiff( Date.now() )
-	}
-
-	ackDate.prototype.monthsFromNow = function(){
-	  return this.dateMonthDiff( Date.now() )
-	}
-
-	ackDate.prototype.daysFromNow = function(){
-	  return this.dateDayDiff( Date.now() )
-	}
-
-	/** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
-	ackDate.prototype.fromNow = function(hideSuffix){
-	  return moment( this.date ).fromNow(hideSuffix)
-	}
-
-	/** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
-	ackDate.prototype.fromToday = function(hideSuffix){
-	  return moment( new ackDate(this.date).gotoSod().date ).from(new ackDate().now().gotoSod().date, hideSuffix)
-	}
-
-	/** see moment http://momentjs.com/docs/#/displaying/from/ */
-	ackDate.prototype.from = function(d, hideSuffix){
-	  return moment( ackDate.toDate(d) ).from(this.date, hideSuffix)
-	}
-
-	ackDate.prototype.now = function(){
-	  this.date = new Date();return this;
-	}
-
-	ackDate.prototype.param = function(){
-	  this.date = this.date||new Date();return this;
-	}
-
-	var stdTimezoneOffset = function(d) {
-	  var jan = new Date(d.getFullYear(), 0, 1);
-	  var jul = new Date(d.getFullYear(), 6, 1);
-	  return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-	}
-
-	ackDate.prototype.isDaylightSavings = function(){
-	  if(!this.date)return;
-	  return this.date.getTimezoneOffset() < stdTimezoneOffset(this.date);
-	}
-	ackDate.prototype.isDst = ackDate.prototype.isDaylightSavings
-
-	/** amount daylight savings */
-	ackDate.prototype.daylightSavings = function(){
-	  var d = new Date()
-	  return (stdTimezoneOffset(d)-d.getTimezoneOffset()) / 60
-	}
-
-	/** true/false if argument is greater than defined date */
-	ackDate.prototype.greater = function(otherDate){
-	  return new ackDate(otherDate).date > this.date ? true : false
-	}
-
-	/** true/false if argument is lesser than defined date */
-	ackDate.prototype.lesser = function(otherDate){
-	  return new ackDate(otherDate).date < this.date ? true : false
-	}
-
-	//returns years.months (32.11 is 32 years and 11 months && 32.1 is 32 years 1 month)
-	ackDate.prototype.getAgeDisplay = function(){
-	  var d = this.date
-	    ,toDate = new Date()
-	    ,local = {}
-
-	  local.isValBirthdate = d!=null && ackDate.isDate(d);
-
-	  if(!local.isValBirthdate)return 0;
-
-
-	  local.isBorn = this.greater(toDate)
-	  if(local.isBorn){
-	    local.lesserDate = d
-	    local.greaterDate = toDate
-	  }else{
-	    local.lesserDate = toDate
-	    local.greaterDate = d
-	  }
-
-	  local.cYear = ackDate.yearByDate(local.greaterDate)
-	  local.lastBirthdate = ackDate.dateAddDay(local.lesserDate, -365)
-	  local.years = ackDate.dateYearDiff(local.lesserDate, local.greaterDate)
-	  local.months = ackDate.dateMonthDiff(local.lastBirthdate, local.greaterDate)
-
-	  if(local.months >= 12)
-	    local.months = local.months % 12
-
-	  local.format = 1;
-	  if(local.months >= 10)
-	    local.format = 2
-
-	  var rtnNum = local.years +'.'+ local.months
-
-	  local.result = (function(n,p){var m=Math.pow(10,p);return (Math.round(n*m)/m).toFixed(p)})(rtnNum,local.format)
-
-	  if(!local.isBorn)local.result = -local.result;
-
-	  return local.result;
-	}
-
-	ackDate.prototype.gt = function(date){
-	  date = ackDate.dateObjectBy(date)
-	  return this.date > date
-	}
-
-	ackDate.prototype.lt = function(date){
-	  date = ackDate.dateObjectBy(date)
-	  return this.date < date
-	}
-
-	ackDate.prototype['new'] = function(){
-	  return new ackDate( new Date(this.date) )
-	}
-
-	ackDate.prototype.isDate = function(date){
-	  return ackDate.isDate(date||this.date)
-	}
-
-	//return natural Date object
-	ackDate.prototype.getDate = function(){
-	  return this.date.getDate()
-	}
-
-	//sets day of month
-	ackDate.prototype.setDate = function(n){
-	  var d = this.date
-	  d = d.setDate(n)
-	  this.date = new Date(d)
-	  return this
-	}
-	ackDate.prototype.setDayOfMonth = ackDate.prototype.setDate
-
-
-	/* YEARS */
-	ackDate.prototype.Year = function(){
-	  return ack.year(this.date)
-	}
-
-	ackDate.prototype.year = function(){
-	  return ackDate.yearByDate(this.date)
-	}
-	ackDate.prototype.getYear = ackDate.prototype.year
-
-	ackDate.prototype.setYear = function(n){
-	  this.date.setFullYear(n)
-	  return this
-	}
-
-	ackDate.prototype.dayOfYear = function(){
-	  var d = new ackDate(this.date).gotoEod().date
-	  return Math.ceil((d - new Date(d.getFullYear(), 0, 1)) / 86400000)
-	}
-
-	ackDate.prototype.getNextYear = function(y){
-	  y = y==null ? 1 : Number(y)
-	  return this.year()+y
-	}
-	ackDate.prototype.nextYear = function(y){
-	  this.setYear( this.getNextYear(y) )
-	  return this
-	}
-	ackDate.prototype.getPriorYear = function(y){
-	  y = y==null ? 1 : Number(y)
-	  return this.year()-Math.abs(y)
-	}
-	ackDate.prototype.priorYear = function(y){
-	  this.setYear( this.getPriorYear(y) )
-	  return this
-	}
-	ackDate.prototype.addYear = ackDate.prototype.nextYear;
-	ackDate.prototype.addYears = ackDate.prototype.nextYear;
-
-	ackDate.prototype.dateYearDiff = function(date){
-	  date = ackDate.toDate(date)
-	  return ackDate.dateYearDiff(date, this.date)
-	}
-
-
-
-
-	/* MONTHS */
-
-	/** 1st 2nd 3rd of the month */
-	ackDate.prototype.getMonthAbbr = function(){
-	  return ackDate.monthAbbrArray[this.date.getMonth()]
-	}
-
-	ackDate.prototype.getMonthDateProperNumber = function(){
-	  return ackDate.suffixByNumber( this.date.getDate() )
-	}
-
-	ackDate.prototype.fullWeeksLeftInMonth = function(){
-	  var eDate = this.getLastDateOfMonth()
-	  var diff = this.dateDayDiff(eDate)
-	  return Math.floor( diff / 7 )
-	}
-
-	ackDate.prototype.weekInMonth = function(){
-	  var firstDay = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
-	  return Math.ceil((this.date.getDate() + firstDay)/7)
-	}
-
-	ackDate.prototype.getMonthDayCount = function() {
-	    return new Date(this.year(), this.month(), 0).getDate();
-	}
-
-	ackDate.prototype.getMonthName = function(){
-	  return ackDate.monthNameArray[ this.month()-1 ]
-	}
-
-	ackDate.prototype.getMonthNameArray = function(){
-	  return ackDate.monthNameArray
-	}
-
-
-	ackDate.prototype.dateMonthDiff = function(date){
-	  return ackDate.dateMonthDiff(this.date, date)
-	}
-
-	ackDate.dateMonthDiff = function(date0, date1){
-	  date0 = new Date(date0);date1 = new Date(date1)
-	  return Math.abs( (date1.getMonth()+12*date1.getFullYear())-(date0.getMonth()+12*date0.getFullYear()) )
-	}
-
-	ackDate.prototype.month = function(){
-	  return this.date.getMonth()+1
-	}
-	ackDate.prototype.getMonth = ackDate.prototype.month
-
-	ackDate.prototype.priorMonth = function(amount){
-	  amount = amount || 1
-	  return this.nextMonth(-Math.abs(amount))
-	}
-
-	ackDate.prototype.nextMonth = function(amount){
-	  amount = amount || 1
-	  this.date = new Date(this.date.setMonth(this.date.getMonth()+amount))
-	  return this
-	}
-	ackDate.prototype.addMonths = ackDate.prototype.nextMonth
-
-	ackDate.prototype.getLastDateOfMonth = function(){
-	  var nd = new Date(this.date)
-	    ,EDate = new ackDate(nd)
-	  return EDate.nextMonth().gotoFirstDayOfMonth().prevDay().date
-	}
-
-	ackDate.prototype.setMonth = function(n){
-	  var d = this.date.setMonth(n-1)
-	  this.date = new Date(d)
-	  return this
-	}
-
-	ackDate.prototype.gotoFirstDayOfMonth = function(){
-	  this.prevDay( this.date.getDate()-1 );return this
-	}
-
-
-
-	/* DAYS */
-
-	/** always absolute number */
-	ackDate.prototype.dateDayDiff = function(date){
-	  //return Math.abs(parseInt((this.date - ackDate.toDate(date))/(24*3600*1000)))
-	  return Math.abs( Math.floor(( this.date - ackDate.toDate(date) ) / 86400000) )
-	}
-
-	ackDate.prototype.daysInMonth = function(){
-	  return new Date(this.year(), this.month(), 0).getDate()
-	}
-
-	ackDate.prototype.addDays = function(amount){
-	  var nd = ackDate.dateAddDay(this.date,amount)
-	  this.date = new Date(nd)
-	  return this
-	}
-	ackDate.prototype.nextDay = ackDate.prototype.addDays//multi alias
-
-	ackDate.prototype.prevDay = function(amount){
-	  amount = amount==null ? 1 : amount
-	  var d = new Date(this.date)
-	    ,d = d.setDate(d.getDate()-amount)
-	  this.date = new Date(d)
-	  return this
-	}
-	ackDate.prototype.priorDay = ackDate.prototype.prevDay//aka for naming consistency
-
-
-
-
-
-	/* WEEKS */
-
-	ackDate.prototype.isWeekend = function(){
-	  return [1,7].indexOf( this.dayOfWeek() ) >= 0
-	}
-
-	/** getWeekInYear */
-	ackDate.prototype.week = function(){
-	  var d = new Date(this.date)//could be number
-	  var onejan = new Date(d.getFullYear(),0,1)
-	  var nowDate = new Date(d)
-	  return Math.ceil((((nowDate - onejan) / 86400000) + onejan.getDay()+1)/7)
-	}
-	ackDate.prototype.getWeek = ackDate.prototype.week
-
-	ackDate.prototype.dayOfWeek = function(){
-	  var d = this.date
-	  return d.getDay()+1
-	}
-
-	ackDate.prototype.gotoSunday = function(){
-	  this.prevDay( this.dayOfWeek()-1 );return this
-	}
-	ackDate.prototype.gotoFirstDayOfWeek = ackDate.prototype.gotoSunday
-
-	ackDate.prototype.gotoMonday = function(){
-	  this.gotoFirstDayOfWeek().nextDay();return this
-	}
-	ackDate.prototype.gotoMondayOfWeek = ackDate.prototype.gotoMonday
-
-	ackDate.prototype.gotoFriday = function(){
-	  this.gotoFirstDayOfWeek().nextDay(5);return this
-	}
-	ackDate.prototype.gotoFridayOfWeek = ackDate.prototype.gotoFriday
-
-	ackDate.prototype.gotoWeek = function(week){
-	  var thisWk = this.week()
-	  this.nextWeek( week - thisWk )
-	  return this
-	}
-
-	ackDate.prototype.priorWeek = function(amount){
-	  amount = amount==null ? 1 : amount
-	  return this.nextWeek(-Math.abs(amount))
-	}
-
-	ackDate.prototype.nextWeek = function(amount){
-	  amount = amount==null ? 1 : amount
-	  this.nextDay(amount * 7)
-	  return this
-	}
-
-	ackDate.prototype.getDateWeekStart = function(){
-	  var date = this.date
-	    ,dw = this.dayOfWeek()-1;
-	  return new Date(date.setDate(date.getDate()-dw))
-	}
-
-	ackDate.prototype.getDateWeekStop = function(){
-	  var date = this.getDateWeekStart()
-	  date = date.setDate( date.getDate()+6 )
-	  return ackDate.endOfDateDay(date)
-	}
-
-	/** goto end of day. Just sets time to 23:59:59.999 */
-	ackDate.prototype.gotoEod = function(date){
-	  this.date = ackDate.endOfDateDay(date||this.date);return this
-	}
-	ackDate.prototype.gotoEndOfDate = ackDate.prototype.gotoEod
-
-	/** goto start of day. Just sets time to 0:0:0.0 */
-	ackDate.prototype.gotoSod = function(date){
-	  this.date = ackDate.startOfDateDay(date||this.date);return this
-	}
-	ackDate.prototype.gotoStartOfDate = ackDate.prototype.gotoSod
-
-
-	ackDate.prototype.FirstWeekday = function(){
-	  var amount = -this.dayOfWeek()+2
-	    ,nd = this.date
-	    ,nd = new Date(nd)//clone
-	    ,Nd = new ackDate(nd).nextDay(amount)
-	  return Nd
-	}
-
-	ackDate.prototype.getDateOfFirstWeekday = function(){
-	  return new Date( this.FirstWeekday().date )
-	}
-
-	/** method(weekNum, ackDate) */
-	ackDate.prototype.eachWeekInYear = function(method){
-	  var num = this.getWeeksInYear()
-	    ,year = this.year()
-
-	  for(var x=1; x <= num; ++x){
-	    var ExD = new ackDate(this.date).setYear(year).gotoWeek(x)
-	    ExD.gotoFirstDayOfWeek()
-	    method(x,ExD)
-	  }
-	  return this
-	}
-
-	ackDate.prototype.eachWeekWithMondayInYear = function(method){
-	  this.eachWeekInYear(function(num, ackDate){
-	    method(num, ackDate.gotoMondayOfWeek())
-	  })
-	  return this
-	}
-
-	/** returns array of date exposed objects representing each week in a year */
-	ackDate.prototype.getWeeksWithMondayInYearExposedArray = function(){
-	  var rtnArray = []
-	  this.eachWeekWithMondayInYear(function(weekNum, ackDate){
-	    rtnArray.push(ackDate)
-	  })
-	  return rtnArray
-	}
-
-	/** returns array of date objects representing each week in a year */
-	ackDate.prototype.getWeeksWithMondayInYearArray = function(){
-	  var rtnArray = []
-	  this.eachWeekWithMondayInYear(function(weekNum, ackDate){
-	    rtnArray.push(ackDate.date)
-	  })
-	  return rtnArray
-	}
-
-	ackDate.prototype.getWeeksInYear = function(y){
-	  y = y ? y : this.year()
-	  var d, isLeap;
-
-	  d = new Date(y, 0, 1);
-	  isLeap = new Date(y, 1, 29).getMonth() === 1;
-
-	  //check for a Jan 1 that's a Thursday or a leap year that has a
-	  //Wednesday jan 1. Otherwise it's 52
-	  return d.getDay() === 4 || isLeap && d.getDay() === 3 ? 53 : 52
-	}
-
-
-
-	/* ! TIME METHODS ! */
-
-	ackDate.prototype.setTimeByString = function(string){
-	  if(!this.date || !string)return this
-
-	  if(string.split){
-	    var parsed = eackDate.parseTimeString(string)
-	    this.date = this.date.setHours(parsed.hour);
-	    this.date = new Date(this.date)
-	    this.date = this.date.setMinutes(parsed.minute);
-	    this.date = new Date(this.date)
-	  }
-
-	  return this;
-	}
-
-	//convenience of date as number
-	ackDate.prototype.getTime = function(){
-	  return this.date.getTime()
-	}
-
-	/** alters this.date and return this */
-	ackDate.prototype.addHours = function(n){
-	  if(this.date)this.date.setHours( this.date.getHours()+n );
-	  return this
-	}
-
-	/** alters this.date and return this */
-	ackDate.prototype.addMinutes = function(n){
-	  if(this.date)this.date = new Date(this.date.getTime() + n*60000)
-	  return this
-	}
-
-	ackDate.prototype.minuteOfDay = function(){
-	  return (60 * this.date.getHours()) + this.date.getMinutes()
-	}
-
-	/** alters this.date and return this */
-	ackDate.prototype.addSeconds = function(n){
-	  return this.addMilliseconds(n*1000)
-	}
-
-	/** alters this.date and return this */
-	ackDate.prototype.addMilliseconds = function(n){
-	  if(this.date)this.date = new Date(this.date.getTime() + n)
-	  return this
-	}
-
-	/** returns no negative numbers */
-	ackDate.prototype.dateHourDiff = function(date){
-	  return Math.abs(this.date - ackDate.dateObjectBy(date||new Date())) / 36e5;
-	}
-	ackDate.prototype.dateHoursDiff = ackDate.prototype.dateHourDiff//alias
-
-	/** Does not return negative numbers.
-	  @date - not required, default = new Date()
-	  @decimals - not required, default = false (no decimals causes decimal rounding)
-	*/
-	ackDate.prototype.dateSecondDiff = function(date, decimals){
-	  date = ackDate.dateObjectBy(date||new Date())
-	  var dif = this.date.getTime() - date.getTime()
-	  var Seconds_from_T1_to_T2 = dif / 1000;
-	  var rtn = Math.abs(Seconds_from_T1_to_T2)
-
-	  if(decimals){
-	    decimals = Number(decimals) && !isNaN(decimals) ? decimals:2;
-	    rtn = toDecimal(rtn,decimals)
-	  }else{
-	    rtn = Math.round(rtn)
-	  }
-
-	  return rtn
-	}
-	ackDate.prototype.dateSecondsDiff = ackDate.prototype.dateSecondDiff//alias
-
-	//no negative numbers
-	ackDate.prototype.dateMinuteDiff = function(date){
-	  date = ackDate.toDate(date||new Date())
-	  var hourDiff = date - this.date; //in ms
-	  var secDiff = hourDiff / 1000; //in s
-	  var minDiff = hourDiff / 60 / 1000; //in minutes
-	  var hDiff = hourDiff / 3600 / 1000; //in hours
-	  var hours = Math.floor(hDiff);
-	  var mins = minDiff - 60 * hours
-	  return Math.round( Math.abs( hours * 60 + mins ), 0);
-	}
-	ackDate.prototype.dateMinutesDiff = ackDate.prototype.dateMinuteDiff//alias
-
-
-
-	/* FORMATTING */
-	ackDate.prototype.format = function(format){
-	  return moment(this.date).format(format)
-	}
-
-	ackDate.prototype.getDayName = function(){
-	  if(!this.date)return ''
-	  return ackDate.dayNameArray[ this.date.getDay() ]
-	}
-
-	ackDate.prototype.getDayAbbr = function(){
-	  if(!this.date)return ''
-	  return ackDate.dayAbbrArray[ this.date.getDay() ]
-	}
-
-	/** Febuary 24th 2016 */
-	ackDate.prototype.mmmmdyyyy = function(){
-	  if(!this.date)return ''
-	  return this.getMonthName()+' '+this.getMonthDateProperNumber() +' '+ this.date.getFullYear()
-	}
-
-	/** 01:20.220 */
-	ackDate.prototype.hhmmssl = function(timeSep, milsecSep){
-	  if(!this.date)return ''
-	  timeSep = timeSep || ':'
-	  milsecSep = milsecSep || '.'
-	  var d = this.date
-	    ,h=d.getHours()
-	    ,m=d.getMinutes()
-	  m=m<10?'0'+m:m
-	  h = ('0'+h).slice(-2)
-	  var s = ('0'+d.getSeconds()).slice(-2)
-	  return h+timeSep+m+timeSep+s+milsecSep+d.getMilliseconds()
-	}
-
-	ackDate.prototype.hhmmsl = function(timeSep, milsecSep){
-	  if(!this.date)return ''
-	  var  d = this.date,
-	      timeSep = timeSep || ':',
-	      milsecSep = milsecSep || '.',
-	      h=d.getHours(),
-	      m=d.getMinutes();
-	  m=m<10?'0'+m:m
-	  h = ('0'+h).slice(-2)
-	  return h+timeSep+m+timeSep+d.getSeconds()+milsecSep+d.getMilliseconds()
-	}
-
-	ackDate.prototype.hmmtt = function(){
-	  if(!this.date)return ''
-	  var d = this.date
-	    ,h=d.getHours()
-	    ,t='AM'
-	    ,m=d.getMinutes();
-
-	  m=m<10?'0'+m:m;
-	  h=h>=12?(t='PM',h-12||12):h==0?12:h
-	  return h+':'+m+' '+t
-	}
-
-	ackDate.prototype.mmddyyyyhhmmtt = function(dateSep, spaceSep, timeSep, ttSep){
-	  if(!this.date)return ''
-	  spaceSep = spaceSep==null?' ':spaceSep;
-	  return this.mmddyyyy(dateSep)+ spaceSep + this.hhmmtt(timeSep, ttSep)
-	}
-
-	ackDate.prototype.hhmmtt = function(timeSep, ttSep){
-	  if(!this.date)return ''
-	  var d = this.date,
-	      timeSep = timeSep || ':',
-	      ttSep = ttSep==null?' ':ttSep,
-	      h=d.getHours(),
-	      t='AM',
-	      m=d.getMinutes();
-
-	  m=m<10?'0'+m:m;
-	  h=h>=12?(t='PM',h-12||12):h==0?12:h
-	  return ('0'+h).slice(-2) +timeSep+ m+ttSep+t
-	}
-
-	ackDate.prototype.hhmmsstt = function(timeSep, ttSep){
-	  if(!this.date)return ''
-	  var d = this.date,
-	      timeSep = timeSep || ':',
-	      ttSep = ttSep==null?' ':ttSep,
-	      h=d.getHours(),
-	      t='AM',
-	      m=d.getMinutes();
-
-	  m=m<10?'0'+m:m;
-	  h=h>=12?(t='PM',h-12||12):h==0?12:h
-	  var s = ('0'+d.getSeconds()).slice(-2)
-	  return ('0'+h).slice(-2) +timeSep+ m +timeSep+ s + ttSep + t
-	}
-
-	//yyyy-mm-dd hh:nn:ss:l
-	ackDate.prototype.storageFormat = function(dateSep, spaceSep, timeSep, milsecSep){
-	  if(!this.date)return '';
-	  dateSep = dateSep || '-'
-	  spaceSep = spaceSep || ' '
-	  return this.date.getFullYear() + dateSep + this.mmdd(dateSep) + spaceSep + this.hhmmssl(timeSep, milsecSep)
-	}
-
-	ackDate.prototype.yyyymmdd = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '' : sep
-	  return this.year() + sep + this.mmdd(sep)
-	}
-
-	ackDate.prototype.mmddyyyy = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '/' : sep
-	  var d = this.date
-	  return this.mmdd(sep)+ sep +d.getFullYear()
-	}
-
-	ackDate.prototype.mdyyyy = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '/' : sep
-	  var d = this.date
-	  return this.md(sep)+ sep +d.getFullYear()
-	}
-
-	ackDate.prototype.mdyy = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '/' : sep
-	  var d = this.date
-	  return this.md(sep)+ sep +this.yy()
-	}
-
-	ackDate.prototype.mmddyy = function(sep){
-	  if(!this.date)return '';
-	  var r = this.mmddyyyy()
-	  return r.substring(0,r.length-4)+r.substring(r.length-2,r.length)
-	}
-
-	ackDate.prototype.yy = function(){
-	  if(!this.date)return '';
-	  return this.date.getFullYear().toString().substring(2,4)
-	}
-
-	ackDate.prototype.mmdd = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '/' : sep
-	  var d = this.date
-	  return ackDate.twoDigit(d.getMonth()+1)+ sep + ackDate.twoDigit(d.getDate())
-	}
-
-	ackDate.prototype.md = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '/' : sep
-	  var d = this.date
-	  return (d.getMonth()+1)+ sep + d.getDate()
-	}
-
-
-	var eackDate = function(date){
-	  return new ackDate(date)
-	}
-
-	eackDate.parseTimeString = function (date){
-	  var dDate = new Date(date);
-	  if(dDate!='Invalid Date'){
-	    return {hour:dDate.getHours(), minute:dDate.getMinutes()};
-	  }
-
-	  var hour, minute, tt;
-	  var tArray = date.split(':');
-	  var hour = tArray[0];
-
-	  if(tArray.length > 1){
-	    minute = tArray[1];
-	    minute = minute.split(' ');
-	    if(minute.length > 1){
-	      tt = minute[1];
-	      var isPm = tt.toLowerCase()=='pm'
-	      if(hour<=11 && isPm){
-	        hour = Number(hour) + 12;
-	      }else if(hour==12 && !isPm){
-	        hour = 0
-	      }
+	function twoDigit(n) {
+	    return ('0' + n).slice(-2);
+	}
+	exports.twoDigit = twoDigit;
+	function isDate(date) {
+	    if (!date)
+	        return false;
+	    var isRawDate = date.constructor == Date && !isNaN(date.getTime());
+	    if (isRawDate)
+	        return true;
+	    if (date.search)
+	        return date.search(/^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4}|[0-9]{2})$/) >= 0;
+	    return false;
+	}
+	exports.isDate = isDate;
+	function yearByDate(d) {
+	    return d.getFullYear();
+	}
+	exports.yearByDate = yearByDate;
+	function getMonthIndexByString(mon) {
+	    return exports.monthLcaseNameArray.indexOf(mon.toLowerCase());
+	}
+	exports.getMonthIndexByString = getMonthIndexByString;
+	exports.monthNameArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	exports.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+	exports.monthAbbrArray = ['Jan', 'Feb', 'Mar', 'Apr', 'Ma', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+	exports.dayNameArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	exports.dayAbbrArray = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+	function dateYearDiff(d0, d1) {
+	    return Math.abs(d0.getFullYear() - d1.getFullYear());
+	}
+	exports.dateYearDiff = dateYearDiff;
+	var stdTimezoneOffset = function (d) {
+	    var jan = new Date(d.getFullYear(), 0, 1);
+	    var jul = new Date(d.getFullYear(), 6, 1);
+	    return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+	};
+	function dateMonthDiff(date0, date1) {
+	    date0 = new Date(date0);
+	    date1 = new Date(date1);
+	    return Math.abs((date1.getMonth() + 12 * date1.getFullYear()) - (date0.getMonth() + 12 * date0.getFullYear()));
+	}
+	exports.dateMonthDiff = dateMonthDiff;
+	var eackDate = function (date) {
+	    return new AckDate(date);
+	};
+	function parseTimeString(date) {
+	    var dDate = new Date(date);
+	    if (dDate != 'Invalid Date') {
+	        return { hour: dDate.getHours(), minute: dDate.getMinutes() };
 	    }
-
-	    minute = Number(minute[0]);
-	  }
-
-	  return {hour:hour, minute:minute}
+	    var hour, minute, tt;
+	    var tArray = date.split(':');
+	    var hour = tArray[0];
+	    if (tArray.length > 1) {
+	        minute = tArray[1];
+	        minute = minute.split(' ');
+	        if (minute.length > 1) {
+	            tt = minute[1];
+	            var isPm = tt.toLowerCase() == 'pm';
+	            if (hour <= 11 && isPm) {
+	                hour = Number(hour) + 12;
+	            }
+	            else if (hour == 12 && !isPm) {
+	                hour = 0;
+	            }
+	        }
+	        minute = Number(minute[0]);
+	    }
+	    return { hour: hour, minute: minute };
 	}
+	exports.parseTimeString = parseTimeString;
+	function toDecimal(n, p) {
+	    var m = Math.pow(10, p);
+	    return (Math.round(n * m) / m).toFixed(p);
+	}
+	exports.toDecimal = toDecimal;
+	function method(d) {
+	    return new AckDate(d);
+	}
+	exports.method = method;
 
-
-	function toDecimal(n,p){var m=Math.pow(10,p);return (Math.round(n*m)/m).toFixed(p)}
-
-	eackDate.Class = ackDate
-	module.exports = eackDate
 
 /***/ }),
 /* 36 */
@@ -9313,7 +8781,7 @@
 	            module && module.exports) {
 	        try {
 	            oldLocale = globalLocale._abbr;
-	            __webpack_require__(38)("./" + name);
+	            __webpack_require__(37)("./" + name);
 	            // because defineLocale currently also sets the global locale, we
 	            // want to undo that for lazy loaded locales
 	            getSetGlobalLocale(oldLocale);
@@ -11948,259 +11416,243 @@
 
 	})));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)(module)))
 
 /***/ }),
 /* 37 */
-/***/ (function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
-
-/***/ }),
-/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 39,
-		"./af.js": 39,
-		"./ar": 40,
-		"./ar-dz": 41,
-		"./ar-dz.js": 41,
-		"./ar-kw": 42,
-		"./ar-kw.js": 42,
-		"./ar-ly": 43,
-		"./ar-ly.js": 43,
-		"./ar-ma": 44,
-		"./ar-ma.js": 44,
-		"./ar-sa": 45,
-		"./ar-sa.js": 45,
-		"./ar-tn": 46,
-		"./ar-tn.js": 46,
-		"./ar.js": 40,
-		"./az": 47,
-		"./az.js": 47,
-		"./be": 48,
-		"./be.js": 48,
-		"./bg": 49,
-		"./bg.js": 49,
-		"./bn": 50,
-		"./bn.js": 50,
-		"./bo": 51,
-		"./bo.js": 51,
-		"./br": 52,
-		"./br.js": 52,
-		"./bs": 53,
-		"./bs.js": 53,
-		"./ca": 54,
-		"./ca.js": 54,
-		"./cs": 55,
-		"./cs.js": 55,
-		"./cv": 56,
-		"./cv.js": 56,
-		"./cy": 57,
-		"./cy.js": 57,
-		"./da": 58,
-		"./da.js": 58,
-		"./de": 59,
-		"./de-at": 60,
-		"./de-at.js": 60,
-		"./de-ch": 61,
-		"./de-ch.js": 61,
-		"./de.js": 59,
-		"./dv": 62,
-		"./dv.js": 62,
-		"./el": 63,
-		"./el.js": 63,
-		"./en-au": 64,
-		"./en-au.js": 64,
-		"./en-ca": 65,
-		"./en-ca.js": 65,
-		"./en-gb": 66,
-		"./en-gb.js": 66,
-		"./en-ie": 67,
-		"./en-ie.js": 67,
-		"./en-nz": 68,
-		"./en-nz.js": 68,
-		"./eo": 69,
-		"./eo.js": 69,
-		"./es": 70,
-		"./es-do": 71,
-		"./es-do.js": 71,
-		"./es.js": 70,
-		"./et": 72,
-		"./et.js": 72,
-		"./eu": 73,
-		"./eu.js": 73,
-		"./fa": 74,
-		"./fa.js": 74,
-		"./fi": 75,
-		"./fi.js": 75,
-		"./fo": 76,
-		"./fo.js": 76,
-		"./fr": 77,
-		"./fr-ca": 78,
-		"./fr-ca.js": 78,
-		"./fr-ch": 79,
-		"./fr-ch.js": 79,
-		"./fr.js": 77,
-		"./fy": 80,
-		"./fy.js": 80,
-		"./gd": 81,
-		"./gd.js": 81,
-		"./gl": 82,
-		"./gl.js": 82,
-		"./gom-latn": 83,
-		"./gom-latn.js": 83,
-		"./he": 84,
-		"./he.js": 84,
-		"./hi": 85,
-		"./hi.js": 85,
-		"./hr": 86,
-		"./hr.js": 86,
-		"./hu": 87,
-		"./hu.js": 87,
-		"./hy-am": 88,
-		"./hy-am.js": 88,
-		"./id": 89,
-		"./id.js": 89,
-		"./is": 90,
-		"./is.js": 90,
-		"./it": 91,
-		"./it.js": 91,
-		"./ja": 92,
-		"./ja.js": 92,
-		"./jv": 93,
-		"./jv.js": 93,
-		"./ka": 94,
-		"./ka.js": 94,
-		"./kk": 95,
-		"./kk.js": 95,
-		"./km": 96,
-		"./km.js": 96,
-		"./kn": 97,
-		"./kn.js": 97,
-		"./ko": 98,
-		"./ko.js": 98,
-		"./ky": 99,
-		"./ky.js": 99,
-		"./lb": 100,
-		"./lb.js": 100,
-		"./lo": 101,
-		"./lo.js": 101,
-		"./lt": 102,
-		"./lt.js": 102,
-		"./lv": 103,
-		"./lv.js": 103,
-		"./me": 104,
-		"./me.js": 104,
-		"./mi": 105,
-		"./mi.js": 105,
-		"./mk": 106,
-		"./mk.js": 106,
-		"./ml": 107,
-		"./ml.js": 107,
-		"./mr": 108,
-		"./mr.js": 108,
-		"./ms": 109,
-		"./ms-my": 110,
-		"./ms-my.js": 110,
-		"./ms.js": 109,
-		"./my": 111,
-		"./my.js": 111,
-		"./nb": 112,
-		"./nb.js": 112,
-		"./ne": 113,
-		"./ne.js": 113,
-		"./nl": 114,
-		"./nl-be": 115,
-		"./nl-be.js": 115,
-		"./nl.js": 114,
-		"./nn": 116,
-		"./nn.js": 116,
-		"./pa-in": 117,
-		"./pa-in.js": 117,
-		"./pl": 118,
-		"./pl.js": 118,
-		"./pt": 119,
-		"./pt-br": 120,
-		"./pt-br.js": 120,
-		"./pt.js": 119,
-		"./ro": 121,
-		"./ro.js": 121,
-		"./ru": 122,
-		"./ru.js": 122,
-		"./sd": 123,
-		"./sd.js": 123,
-		"./se": 124,
-		"./se.js": 124,
-		"./si": 125,
-		"./si.js": 125,
-		"./sk": 126,
-		"./sk.js": 126,
-		"./sl": 127,
-		"./sl.js": 127,
-		"./sq": 128,
-		"./sq.js": 128,
-		"./sr": 129,
-		"./sr-cyrl": 130,
-		"./sr-cyrl.js": 130,
-		"./sr.js": 129,
-		"./ss": 131,
-		"./ss.js": 131,
-		"./sv": 132,
-		"./sv.js": 132,
-		"./sw": 133,
-		"./sw.js": 133,
-		"./ta": 134,
-		"./ta.js": 134,
-		"./te": 135,
-		"./te.js": 135,
-		"./tet": 136,
-		"./tet.js": 136,
-		"./th": 137,
-		"./th.js": 137,
-		"./tl-ph": 138,
-		"./tl-ph.js": 138,
-		"./tlh": 139,
-		"./tlh.js": 139,
-		"./tr": 140,
-		"./tr.js": 140,
-		"./tzl": 141,
-		"./tzl.js": 141,
-		"./tzm": 142,
-		"./tzm-latn": 143,
-		"./tzm-latn.js": 143,
-		"./tzm.js": 142,
-		"./uk": 144,
-		"./uk.js": 144,
-		"./ur": 145,
-		"./ur.js": 145,
-		"./uz": 146,
-		"./uz-latn": 147,
-		"./uz-latn.js": 147,
-		"./uz.js": 146,
-		"./vi": 148,
-		"./vi.js": 148,
-		"./x-pseudo": 149,
-		"./x-pseudo.js": 149,
-		"./yo": 150,
-		"./yo.js": 150,
-		"./zh-cn": 151,
-		"./zh-cn.js": 151,
-		"./zh-hk": 152,
-		"./zh-hk.js": 152,
-		"./zh-tw": 153,
-		"./zh-tw.js": 153
+		"./af": 38,
+		"./af.js": 38,
+		"./ar": 39,
+		"./ar-dz": 40,
+		"./ar-dz.js": 40,
+		"./ar-kw": 41,
+		"./ar-kw.js": 41,
+		"./ar-ly": 42,
+		"./ar-ly.js": 42,
+		"./ar-ma": 43,
+		"./ar-ma.js": 43,
+		"./ar-sa": 44,
+		"./ar-sa.js": 44,
+		"./ar-tn": 45,
+		"./ar-tn.js": 45,
+		"./ar.js": 39,
+		"./az": 46,
+		"./az.js": 46,
+		"./be": 47,
+		"./be.js": 47,
+		"./bg": 48,
+		"./bg.js": 48,
+		"./bn": 49,
+		"./bn.js": 49,
+		"./bo": 50,
+		"./bo.js": 50,
+		"./br": 51,
+		"./br.js": 51,
+		"./bs": 52,
+		"./bs.js": 52,
+		"./ca": 53,
+		"./ca.js": 53,
+		"./cs": 54,
+		"./cs.js": 54,
+		"./cv": 55,
+		"./cv.js": 55,
+		"./cy": 56,
+		"./cy.js": 56,
+		"./da": 57,
+		"./da.js": 57,
+		"./de": 58,
+		"./de-at": 59,
+		"./de-at.js": 59,
+		"./de-ch": 60,
+		"./de-ch.js": 60,
+		"./de.js": 58,
+		"./dv": 61,
+		"./dv.js": 61,
+		"./el": 62,
+		"./el.js": 62,
+		"./en-au": 63,
+		"./en-au.js": 63,
+		"./en-ca": 64,
+		"./en-ca.js": 64,
+		"./en-gb": 65,
+		"./en-gb.js": 65,
+		"./en-ie": 66,
+		"./en-ie.js": 66,
+		"./en-nz": 67,
+		"./en-nz.js": 67,
+		"./eo": 68,
+		"./eo.js": 68,
+		"./es": 69,
+		"./es-do": 70,
+		"./es-do.js": 70,
+		"./es.js": 69,
+		"./et": 71,
+		"./et.js": 71,
+		"./eu": 72,
+		"./eu.js": 72,
+		"./fa": 73,
+		"./fa.js": 73,
+		"./fi": 74,
+		"./fi.js": 74,
+		"./fo": 75,
+		"./fo.js": 75,
+		"./fr": 76,
+		"./fr-ca": 77,
+		"./fr-ca.js": 77,
+		"./fr-ch": 78,
+		"./fr-ch.js": 78,
+		"./fr.js": 76,
+		"./fy": 79,
+		"./fy.js": 79,
+		"./gd": 80,
+		"./gd.js": 80,
+		"./gl": 81,
+		"./gl.js": 81,
+		"./gom-latn": 82,
+		"./gom-latn.js": 82,
+		"./he": 83,
+		"./he.js": 83,
+		"./hi": 84,
+		"./hi.js": 84,
+		"./hr": 85,
+		"./hr.js": 85,
+		"./hu": 86,
+		"./hu.js": 86,
+		"./hy-am": 87,
+		"./hy-am.js": 87,
+		"./id": 88,
+		"./id.js": 88,
+		"./is": 89,
+		"./is.js": 89,
+		"./it": 90,
+		"./it.js": 90,
+		"./ja": 91,
+		"./ja.js": 91,
+		"./jv": 92,
+		"./jv.js": 92,
+		"./ka": 93,
+		"./ka.js": 93,
+		"./kk": 94,
+		"./kk.js": 94,
+		"./km": 95,
+		"./km.js": 95,
+		"./kn": 96,
+		"./kn.js": 96,
+		"./ko": 97,
+		"./ko.js": 97,
+		"./ky": 98,
+		"./ky.js": 98,
+		"./lb": 99,
+		"./lb.js": 99,
+		"./lo": 100,
+		"./lo.js": 100,
+		"./lt": 101,
+		"./lt.js": 101,
+		"./lv": 102,
+		"./lv.js": 102,
+		"./me": 103,
+		"./me.js": 103,
+		"./mi": 104,
+		"./mi.js": 104,
+		"./mk": 105,
+		"./mk.js": 105,
+		"./ml": 106,
+		"./ml.js": 106,
+		"./mr": 107,
+		"./mr.js": 107,
+		"./ms": 108,
+		"./ms-my": 109,
+		"./ms-my.js": 109,
+		"./ms.js": 108,
+		"./my": 110,
+		"./my.js": 110,
+		"./nb": 111,
+		"./nb.js": 111,
+		"./ne": 112,
+		"./ne.js": 112,
+		"./nl": 113,
+		"./nl-be": 114,
+		"./nl-be.js": 114,
+		"./nl.js": 113,
+		"./nn": 115,
+		"./nn.js": 115,
+		"./pa-in": 116,
+		"./pa-in.js": 116,
+		"./pl": 117,
+		"./pl.js": 117,
+		"./pt": 118,
+		"./pt-br": 119,
+		"./pt-br.js": 119,
+		"./pt.js": 118,
+		"./ro": 120,
+		"./ro.js": 120,
+		"./ru": 121,
+		"./ru.js": 121,
+		"./sd": 122,
+		"./sd.js": 122,
+		"./se": 123,
+		"./se.js": 123,
+		"./si": 124,
+		"./si.js": 124,
+		"./sk": 125,
+		"./sk.js": 125,
+		"./sl": 126,
+		"./sl.js": 126,
+		"./sq": 127,
+		"./sq.js": 127,
+		"./sr": 128,
+		"./sr-cyrl": 129,
+		"./sr-cyrl.js": 129,
+		"./sr.js": 128,
+		"./ss": 130,
+		"./ss.js": 130,
+		"./sv": 131,
+		"./sv.js": 131,
+		"./sw": 132,
+		"./sw.js": 132,
+		"./ta": 133,
+		"./ta.js": 133,
+		"./te": 134,
+		"./te.js": 134,
+		"./tet": 135,
+		"./tet.js": 135,
+		"./th": 136,
+		"./th.js": 136,
+		"./tl-ph": 137,
+		"./tl-ph.js": 137,
+		"./tlh": 138,
+		"./tlh.js": 138,
+		"./tr": 139,
+		"./tr.js": 139,
+		"./tzl": 140,
+		"./tzl.js": 140,
+		"./tzm": 141,
+		"./tzm-latn": 142,
+		"./tzm-latn.js": 142,
+		"./tzm.js": 141,
+		"./uk": 143,
+		"./uk.js": 143,
+		"./ur": 144,
+		"./ur.js": 144,
+		"./uz": 145,
+		"./uz-latn": 146,
+		"./uz-latn.js": 146,
+		"./uz.js": 145,
+		"./vi": 147,
+		"./vi.js": 147,
+		"./x-pseudo": 148,
+		"./x-pseudo.js": 148,
+		"./yo": 149,
+		"./yo.js": 149,
+		"./zh-cn": 150,
+		"./zh-cn.js": 150,
+		"./zh-hk": 151,
+		"./zh-hk.js": 151,
+		"./zh-tw": 152,
+		"./zh-tw.js": 152
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -12213,11 +11665,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 38;
+	webpackContext.id = 37;
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12295,7 +11747,7 @@
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12442,7 +11894,7 @@
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12506,7 +11958,7 @@
 
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12570,7 +12022,7 @@
 
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12701,7 +12153,7 @@
 
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12766,7 +12218,7 @@
 
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12876,7 +12328,7 @@
 
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12940,7 +12392,7 @@
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13050,7 +12502,7 @@
 
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13189,7 +12641,7 @@
 
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13284,7 +12736,7 @@
 
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13408,7 +12860,7 @@
 
 
 /***/ }),
-/* 51 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13532,7 +12984,7 @@
 
 
 /***/ }),
-/* 52 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13645,7 +13097,7 @@
 
 
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13793,7 +13245,7 @@
 
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13886,7 +13338,7 @@
 
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14063,7 +13515,7 @@
 
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14131,7 +13583,7 @@
 
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14217,7 +13669,7 @@
 
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14282,7 +13734,7 @@
 
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14365,7 +13817,7 @@
 
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14449,7 +13901,7 @@
 
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14532,7 +13984,7 @@
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14637,7 +14089,7 @@
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14742,7 +14194,7 @@
 
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14814,7 +14266,7 @@
 
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14882,7 +14334,7 @@
 
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14954,7 +14406,7 @@
 
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15026,7 +14478,7 @@
 
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15098,7 +14550,7 @@
 
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15176,7 +14628,7 @@
 
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15264,7 +14716,7 @@
 
 
 /***/ }),
-/* 71 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15351,7 +14803,7 @@
 
 
 /***/ }),
-/* 72 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15436,7 +14888,7 @@
 
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15507,7 +14959,7 @@
 
 
 /***/ }),
-/* 74 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15619,7 +15071,7 @@
 
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15731,7 +15183,7 @@
 
 
 /***/ }),
-/* 76 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15796,7 +15248,7 @@
 
 
 /***/ }),
-/* 77 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15884,7 +15336,7 @@
 
 
 /***/ }),
-/* 78 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15963,7 +15415,7 @@
 
 
 /***/ }),
-/* 79 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16046,7 +15498,7 @@
 
 
 /***/ }),
-/* 80 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16126,7 +15578,7 @@
 
 
 /***/ }),
-/* 81 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16207,7 +15659,7 @@
 
 
 /***/ }),
-/* 82 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16289,7 +15741,7 @@
 
 
 /***/ }),
-/* 83 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16416,7 +15868,7 @@
 
 
 /***/ }),
-/* 84 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16520,7 +15972,7 @@
 
 
 /***/ }),
-/* 85 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16649,7 +16101,7 @@
 
 
 /***/ }),
-/* 86 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16799,7 +16251,7 @@
 
 
 /***/ }),
-/* 87 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16913,7 +16365,7 @@
 
 
 /***/ }),
-/* 88 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17013,7 +16465,7 @@
 
 
 /***/ }),
-/* 89 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17101,7 +16553,7 @@
 
 
 /***/ }),
-/* 90 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17233,7 +16685,7 @@
 
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17308,7 +16760,7 @@
 
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17393,7 +16845,7 @@
 
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17481,7 +16933,7 @@
 
 
 /***/ }),
-/* 94 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17575,7 +17027,7 @@
 
 
 /***/ }),
-/* 95 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17667,7 +17119,7 @@
 
 
 /***/ }),
-/* 96 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17730,7 +17182,7 @@
 
 
 /***/ }),
-/* 97 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17861,7 +17313,7 @@
 
 
 /***/ }),
-/* 98 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17935,7 +17387,7 @@
 
 
 /***/ }),
-/* 99 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18028,7 +17480,7 @@
 
 
 /***/ }),
-/* 100 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18170,7 +17622,7 @@
 
 
 /***/ }),
-/* 101 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18245,7 +17697,7 @@
 
 
 /***/ }),
-/* 102 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18367,7 +17819,7 @@
 
 
 /***/ }),
-/* 103 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18469,7 +17921,7 @@
 
 
 /***/ }),
-/* 104 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18585,7 +18037,7 @@
 
 
 /***/ }),
-/* 105 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18654,7 +18106,7 @@
 
 
 /***/ }),
-/* 106 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18749,7 +18201,7 @@
 
 
 /***/ }),
-/* 107 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18835,7 +18287,7 @@
 
 
 /***/ }),
-/* 108 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18999,7 +18451,7 @@
 
 
 /***/ }),
-/* 109 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19086,7 +18538,7 @@
 
 
 /***/ }),
-/* 110 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19174,7 +18626,7 @@
 
 
 /***/ }),
-/* 111 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19275,7 +18727,7 @@
 
 
 /***/ }),
-/* 112 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19343,7 +18795,7 @@
 
 
 /***/ }),
-/* 113 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19471,7 +18923,7 @@
 
 
 /***/ }),
-/* 114 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19564,7 +19016,7 @@
 
 
 /***/ }),
-/* 115 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19657,7 +19109,7 @@
 
 
 /***/ }),
-/* 116 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19722,7 +19174,7 @@
 
 
 /***/ }),
-/* 117 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19851,7 +19303,7 @@
 
 
 /***/ }),
-/* 118 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19963,7 +19415,7 @@
 
 
 /***/ }),
-/* 119 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20033,7 +19485,7 @@
 
 
 /***/ }),
-/* 120 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20099,7 +19551,7 @@
 
 
 /***/ }),
-/* 121 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20179,7 +19631,7 @@
 
 
 /***/ }),
-/* 122 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20367,7 +19819,7 @@
 
 
 /***/ }),
-/* 123 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20470,7 +19922,7 @@
 
 
 /***/ }),
-/* 124 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20536,7 +19988,7 @@
 
 
 /***/ }),
-/* 125 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20612,7 +20064,7 @@
 
 
 /***/ }),
-/* 126 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20767,7 +20219,7 @@
 
 
 /***/ }),
-/* 127 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20934,7 +20386,7 @@
 
 
 /***/ }),
-/* 128 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21009,7 +20461,7 @@
 
 
 /***/ }),
-/* 129 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21124,7 +20576,7 @@
 
 
 /***/ }),
-/* 130 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21239,7 +20691,7 @@
 
 
 /***/ }),
-/* 131 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21333,7 +20785,7 @@
 
 
 /***/ }),
-/* 132 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21407,7 +20859,7 @@
 
 
 /***/ }),
-/* 133 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21471,7 +20923,7 @@
 
 
 /***/ }),
-/* 134 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21606,7 +21058,7 @@
 
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21700,7 +21152,7 @@
 
 
 /***/ }),
-/* 136 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21773,7 +21225,7 @@
 
 
 /***/ }),
-/* 137 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21845,7 +21297,7 @@
 
 
 /***/ }),
-/* 138 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21912,7 +21364,7 @@
 
 
 /***/ }),
-/* 139 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22037,7 +21489,7 @@
 
 
 /***/ }),
-/* 140 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22132,7 +21584,7 @@
 
 
 /***/ }),
-/* 141 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22228,7 +21680,7 @@
 
 
 /***/ }),
-/* 142 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22291,7 +21743,7 @@
 
 
 /***/ }),
-/* 143 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22354,7 +21806,7 @@
 
 
 /***/ }),
-/* 144 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22510,7 +21962,7 @@
 
 
 /***/ }),
-/* 145 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22614,7 +22066,7 @@
 
 
 /***/ }),
-/* 146 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22677,7 +22129,7 @@
 
 
 /***/ }),
-/* 147 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22740,7 +22192,7 @@
 
 
 /***/ }),
-/* 148 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22824,7 +22276,7 @@
 
 
 /***/ }),
-/* 149 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22897,7 +22349,7 @@
 
 
 /***/ }),
-/* 150 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22962,7 +22414,7 @@
 
 
 /***/ }),
-/* 151 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -23078,7 +22530,7 @@
 
 
 /***/ }),
-/* 152 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -23188,7 +22640,7 @@
 
 
 /***/ }),
-/* 153 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -23297,177 +22749,156 @@
 
 
 /***/ }),
+/* 153 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	exports.__esModule = true;
+	var date_1 = __webpack_require__(35);
+	//export * from "./date"
+	var ackYear = /** @class */ (function () {
+	    function ackYear(yyyy) {
+	        this.getMonth = this.month; //deprecated
+	        this.getWeek = this.week; //deprecated
+	        this.year = this.getYear;
+	        if (yyyy != null)
+	            this.setStartDate(yyyy);
+	        return this;
+	    }
+	    ackYear.prototype.setStartDate = function (date) {
+	        var isObject = typeof (date) == 'object', isYearString = !isObject && !isNaN(Number(date)), isYear = isYearString || (!date_1.method(date).isDate() && !isNaN(date));
+	        if (isYear) {
+	            date = new Date(new Date('1/1/2011').setFullYear(date));
+	        }
+	        this.date = date;
+	        return this;
+	    };
+	    ackYear.prototype.getStartDate = function () {
+	        if (this.date)
+	            return this.date;
+	        var d = '1/1/' + date_1.method(new Date()).year();
+	        this.date = new Date(d);
+	        return this.date;
+	    };
+	    ackYear.prototype.setEndDate = function (date) {
+	        if (!date_1.method(date).isDate() && !isNaN(date))
+	            this.date = new Date('12/31/' + date);
+	        else
+	            this.date = date;
+	        return this;
+	    };
+	    ackYear.prototype.getEndDate = function () {
+	        if (this.endDate)
+	            return this.endDate;
+	        var d = '12/31/' + this.getYear();
+	        this.endDate = new Date(d);
+	        return this.endDate;
+	    };
+	    ackYear.prototype.StartDate = function (isClone) {
+	        var startDate = !isClone ? this.getStartDate() : this.getStartDate();
+	        return date_1.method(startDate);
+	    };
+	    ackYear.prototype.xDate = function () {
+	        return date_1.method(this.getStartDate());
+	    };
+	    ackYear.prototype.month = function () {
+	        return this.StartDate().month();
+	    };
+	    ackYear.prototype.week = function () {
+	        return this.StartDate().week();
+	    };
+	    //?deprecated (duplicate of Date class)
+	    ackYear.prototype.getYear = function () {
+	        var d = this.getStartDate();
+	        return date_1.method(d).year();
+	    };
+	    //gets startdate and changes the year
+	    ackYear.prototype.setYear = function (yyyy) {
+	        var ExYy = date_1.method(yyyy);
+	        if (isNaN(yyyy) && ExYy.isDate())
+	            yyyy = ExYy.year();
+	        var date = this.getStartDate();
+	        date = new Date(date.setFullYear(yyyy));
+	        this.setStartDate(date);
+	        return this;
+	    };
+	    ackYear.prototype.getDateOfLastWeekday = function () {
+	        var d = this.getStartDate(), addAmount = -date_1.method(d).dayOfWeek() + 6, dateA = new Date(d.setDate(d.getDate() + addAmount));
+	        dateA = new Date(dateA.setHours(23));
+	        dateA = new Date(dateA.setMinutes(59));
+	        dateA = new Date(dateA.setSeconds(59));
+	        return dateA;
+	    };
+	    return ackYear;
+	}());
+	exports.ackYear = ackYear;
+	function method(path) {
+	    return new ackYear(path);
+	}
+	exports.method = method;
+
+
+/***/ }),
 /* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var xDate = __webpack_require__(35)
-
-	var ackYear = function ackYear(yyyy){
-		if(yyyy!=null)this.setStartDate(yyyy)
-		return this
+	exports.__esModule = true;
+	var date_1 = __webpack_require__(35);
+	var ackTime = /** @class */ (function () {
+	    function ackTime(date) {
+	        this.date = toDate(date);
+	        return this;
+	    }
+	    return ackTime;
+	}());
+	exports.ackTime = ackTime;
+	function dateObjectBy(date) {
+	    if (date) {
+	        if (date.constructor == ackTime) {
+	            return date.date;
+	        }
+	        if (date.constructor == Date)
+	            return date;
+	        if (date.split) {
+	            return stringToDate(date);
+	        }
+	        return new Date(date); //convert string to date object
+	    }
+	    return date || new Date();
 	}
-
-	ackYear.prototype.setStartDate = function(date){
-		var isObject = typeof(date) == 'object',
-			isYearString = !isObject && !isNaN(Number(date)),
-			isYear = isYearString || (!xDate(date).isDate() && !isNaN(date))
-
-		if(isYear){//just the year number?
-			date = new Date(new Date('1/1/2011').setFullYear(date))
-		}
-
-		this.date = date
-		return this
+	exports.dateObjectBy = dateObjectBy;
+	function toDate(date) {
+	    return date != null ? dateObjectBy(date) : null;
 	}
-
-	ackYear.prototype.getStartDate = function(){
-		if(this.date)return this.date
-		var d = '1/1/'+xDate(new Date()).year()
-		this.date = new Date(d)
-		return this.date
+	exports.toDate = toDate;
+	function stringToDate(date) {
+	    var dDate = new Date(date);
+	    if (dDate != 'Invalid Date') {
+	        return date;
+	    }
+	    var parsed = date_1.parseTimeString(date);
+	    var newDate = new Date().setHours(parsed.hour);
+	    newDate = new Date(newDate).setMinutes(parsed.minute);
+	    return new Date(newDate);
 	}
-
-	ackYear.prototype.setEndDate = function(date){
-		if(!xDate(date).isDate() && !isNaN(date))//just the year number?
-			this.date = new Date('12/31/'+date)
-		else
-			this.date = date
-		return this
+	var eackTime = function (date) {
+	    var date = new ackTime(date).date;
+	    return new date_1.AckDate(date);
+	};
+	function method(d) {
+	    return eackTime(d);
 	}
+	exports.method = method;
 
-	ackYear.prototype.getEndDate = function(){
-		if(this.endDate)return this.endDate
-		var d = '12/31/'+this.getYear()
-		this.endDate = new Date(d)
-		return this.endDate
-	}
-
-	ackYear.prototype.StartDate = function(isClone){
-		var startDate = !isClone ?  this.getStartDate() : this.getStartDate()
-		return xDate(startDate)
-	}
-
-	ackYear.prototype.xDate = function(){
-		return xDate(this.getStartDate())
-	}
-
-	ackYear.prototype.month = function(){
-		return this.StartDate().month()
-	}
-	ackYear.prototype.getMonth = ackYear.prototype.month//deprecated
-
-	ackYear.prototype.week = function(){
-		return this.StartDate().week()
-	}
-	ackYear.prototype.getWeek = ackYear.prototype.week//deprecated
-
-	//?deprecated (duplicate of Date class)
-	ackYear.prototype.getYear = function(){
-		var d = this.getStartDate()
-		return xDate(d).year()
-	}
-	ackYear.prototype.year = ackYear.prototype.getYear
-
-	//gets startdate and changes the year
-	ackYear.prototype.setYear = function(yyyy){
-		var ExYy = xDate(yyyy)
-		if(isNaN(yyyy) && ExYy.isDate())
-			yyyy = ExYy.year()
-
-		var date = this.getStartDate()
-		date = new Date( date.setFullYear(yyyy) )
-		this.setStartDate(date)
-
-		return this
-	}
-
-	ackYear.prototype.getDateOfLastWeekday = function(){
-		var d = getStartDate()
-			,addAmount = -xDate(d).dayOfWeek()+6
-			,dateA = new Date( d.setDate(d.getDate()+addAmount) )
-
-		dateA = new Date(dateA.setHours(23))
-		dateA = new Date(dateA.setMinutes(59))
-		dateA = new Date(dateA.setSeconds(59))
-
-		return dateA
-	}
-
-
-
-
-
-
-	var rtn = function(path){
-		return new ackYear(path)
-	}
-	rtn.Class = ackYear
-	module.exports = rtn
 
 /***/ }),
 /* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
-
-	var ackDate = __webpack_require__(35)
-
-	function ackTime(date){
-	  this.date = ackTime.toDate(date)
-	  return this
-	}
-
-	ackTime.dateObjectBy = function(date){
-	  if(date){
-	    if(date.constructor == ackTime){
-	      return date.date
-	    }
-
-	    if(date.constructor == Date)
-	      return date
-
-	    if(date.split){
-	      return stringToDate(date)
-	    }
-
-	    return new Date(date)//convert string to date object
-	  }
-
-	  return date || new Date()
-	}
-
-	ackTime.toDate = function(date){
-	  return date!=null ? ackTime.dateObjectBy(date) : null
-	}
-
-	function stringToDate(date){
-	  var dDate = new Date(date);
-	  if(dDate!='Invalid Date'){
-	    return date
-	  }
-
-		var parsed = ackDate.parseTimeString(date);
-		var newDate = new Date().setHours(parsed.hour);
-		newDate = new Date(newDate).setMinutes(parsed.minute)
-		return new Date(newDate)
-	}
-
-	var eackTime = function(date){
-	  var date = new ackTime(date).date
-	  return ackDate(date)
-	}
-
-	eackTime.Class = ackTime
-	module.exports = eackTime
-
-/***/ }),
-/* 156 */
-/***/ (function(module, exports, __webpack_require__) {
-
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.accessors',function(){
 		it('#objectify',function(){
@@ -23480,7 +22911,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 157 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -23551,7 +22982,7 @@
 	// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 	// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-	var util = __webpack_require__(158);
+	var util = __webpack_require__(157);
 	var hasOwn = Object.prototype.hasOwnProperty;
 	var pSlice = Array.prototype.slice;
 	var functionsHaveNames = (function () {
@@ -23977,7 +23408,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 158 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -24505,7 +23936,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 
-	exports.isBuffer = __webpack_require__(159);
+	exports.isBuffer = __webpack_require__(158);
 
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -24549,7 +23980,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(160);
+	exports.inherits = __webpack_require__(159);
 
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -24570,7 +24001,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(16)))
 
 /***/ }),
-/* 159 */
+/* 158 */
 /***/ (function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -24581,7 +24012,7 @@
 	}
 
 /***/ }),
-/* 160 */
+/* 159 */
 /***/ (function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -24610,12 +24041,12 @@
 
 
 /***/ }),
-/* 161 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack()',function(){
 		it('#throw',function(){
@@ -24689,10 +24120,6 @@
 			var week = ack.week(22)
 		})
 
-		it('#indexSelector',function(){
-			var indexSelector = ack.indexSelector(['a','b','c'])
-		})
-
 		it('#getSimpleClone',function(){
 			var scope = {a:1,b:2,c:3,d:null},
 				s2 = ack(scope).getSimpleClone()
@@ -24749,12 +24176,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 162 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.array',function(){
 		it('#objectify',function(){
@@ -24864,12 +24291,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 163 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.base64',function(){
 		it('#toString',function(){
@@ -24882,12 +24309,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 164 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 	/*
 	describe('ack.binary',function(){
 		it('#isBinary',function(){
@@ -24905,39 +24332,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 165 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
-
-	describe('ack.class',function(){
-		it('init',function(){
-			var c = function(){}
-
-			ack.class(c, {test:22, TEST:44})
-
-			var Class = new c()
-
-			assert.equal( typeof(Class.getTest), 'function')
-			assert.equal( typeof(Class.gettest), 'undefined')
-			assert.equal( typeof(Class.getTEST), 'function')
-
-			assert.equal(Class.getTest(),22)
-			assert.equal(Class.getTEST(),44)
-		})
-	})
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ }),
-/* 166 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
-	var ack = global.ack,
-		AckDate = __webpack_require__(35).Class,
-		assert = __webpack_require__(157)
+		AckDate = __webpack_require__(35).AckDate,
+		assert = __webpack_require__(156)
 
 	var isDst = ack.date().now().isDst()
 	var wasDst = ack.date('2/12/2013').isDst()
@@ -25235,8 +24636,8 @@
 					assert.equal(ack.date().now().nextYear().year(), new Date().getFullYear()+1)
 				})
 
-				it('#new',function(){
-					assert.equal(ack.date().now().nextYear().new().year(), new Date().getFullYear()+1)
+				it('#clone',function(){
+					assert.equal(ack.date().now().nextYear().clone().year(), new Date().getFullYear()+1)
 				})
 
 				it('backwards',function(){
@@ -25250,7 +24651,7 @@
 				})
 
 				it('#new',function(){
-					assert.equal(ack.date().now().priorYear().new().year(), new Date().getFullYear()-1)
+					assert.equal(ack.date().now().priorYear().clone().year(), new Date().getFullYear()-1)
 				})
 			})
 
@@ -25426,12 +24827,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 167 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,//require('../ack-x-dy').ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	//test was built in eastern time during daylight savings, need offset to account for that
 	var isDst = ack.date().now().isDst()
@@ -25441,6 +24842,7 @@
 	var ts = new Date().getTimezoneOffset()
 	var diff = (ts-240)
 	var offset = diff - (isDst&&wasDst2 ? 0 : 60) + ((isDst&&wasDst2) || (!isDst&&wasDst2) ? 0 : 60)
+
 	if(bust)offset = offset - 60
 
 	describe('ack.time',function(){
@@ -25494,12 +24896,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 168 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.debug',function(){
 		it('works',function(){
@@ -25511,13 +24913,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 169 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, __dirname) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157),
-		path = __webpack_require__(170)
+		assert = __webpack_require__(156),
+		path = __webpack_require__(168)
 
 	describe('ack.error',function(){
 		it('#getStackArray',function(){
@@ -25600,7 +25002,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), "/"))
 
 /***/ }),
-/* 170 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -25831,99 +25233,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
 
 /***/ }),
-/* 171 */
-/***/ (function(module, exports) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
-	var ack = global.ack
-
-	describe('ack.indexSelector',function(){
-		var arrSel, camServiceDataArray
-
-		beforeEach(function(){
-			camServiceDataArray = [
-				{title:'Infant A', imageUrl:'/img', id:686},
-				{title:'Infant B', imageUrl:'/img', id:585},
-				{title:'Playground', imageUrl:'/img', id:484}
-			]
-			arrSel = ack.indexSelector(camServiceDataArray)
-		})
-
-		it('inits',function(){
-			if(arrSel.data.selected.length!=0)
-				throw 'Exected 0 selected cameras. Got '+arrSel.data.selected.length
-			if(arrSel.data.indexes.length!=camServiceDataArray.length)
-				throw 'Exected '+camServiceDataArray.length+' cameras. Got '+arrSel.data.indexes.length
-		})
-
-		it('#selectAll',function(){
-			if(arrSel.data.selected.length!=0)
-				throw 'Exected 0 selected cameras. Got '+arrSel.data.selected.length
-			if(arrSel.data.indexes.length!=camServiceDataArray.length)
-				throw 'Exected '+camServiceDataArray.length+' cameras. Got '+arrSel.data.indexes.length
-
-			arrSel.selectAll()
-
-			var camCount = camServiceDataArray.length,
-				selCount = arrSel.data.selected.length
-
-			if(camCount != selCount)
-				throw 'Exected '+camCount+' selected cameras. Got '+selCount
-		})
-
-		it('#deselectAll',function(){
-			arrSel.deselectAll()
-
-			if(arrSel.data.selected.length!=0)
-				throw 'Expected 0 selected cameras. Got '+arrSel.data.selected.length
-		})
-
-		it('#selectByIndex',function(){
-			arrSel.selectByIndex(1)
-			if(!arrSel.data.selected || arrSel.data.selected.length!=1)
-				throw 'Exected one selected camera index. Got '+arrSel.data.selected.length
-
-			arrSel.selectByIndex(0)
-			if(!arrSel.data.selected || arrSel.data.selected.length!=2)
-				throw 'Exected two selected cameras. Got '+arrSel.data.selected.length
-
-			arrSel.deselectAll()
-			arrSel.selectByIndex(1)
-			if(!arrSel.data.states || arrSel.data.states.length!=1)
-				throw 'Exected one selected camera index. Got '+arrSel.data.states.length
-
-			arrSel.selectByIndex(0)
-			if(!arrSel.data.states || arrSel.data.states.length!=2)
-				throw 'Exected two selected cameras. Got '+arrSel.data.states.length
-		})
-
-		it('#deselectByIndex',function(){
-			arrSel.selectByIndex(1)
-			arrSel.selectByIndex(2)
-			arrSel.deselectByIndex(2)
-	//			arrSel.deselectAll()
-			if(!arrSel.data.selected || arrSel.data.selected.length!=1)
-				throw 'Exected one selected cameras. Got '+arrSel.data.selected.length
-
-			arrSel.deselectAll()
-			arrSel.selectByIndex(1)
-			arrSel.selectByIndex(2)
-			arrSel.deselectByIndex(2)
-			if(!arrSel.data.states || arrSel.data.states.length!=1)
-				throw 'Exected one selected cameras. Got '+arrSel.data.states.length
-
-		})
-	})
-
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ }),
-/* 172 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.injector',function(){
 		it('#define',function(){
@@ -25943,12 +25258,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 173 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.method',function(){
 		it('#getName',function(){
@@ -26021,12 +25336,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 174 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.month',function(){
 		describe('January',function(){
@@ -26125,12 +25440,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 175 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.number',function(){
 		it('#decimalFormat',function(){
@@ -26157,12 +25472,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 176 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.object',function(){
 		it('map',function(){
@@ -26171,8 +25486,8 @@
 			assert.equal(res.b, 20)
 			assert.equal(res.c, 30)
 		})
-
-		it('getTypeMap',function(){
+		
+		describe('#getTypeMap',function(){
 			var v = {
 				a:1,b:2,
 				c:{
@@ -26188,19 +25503,43 @@
 				}]
 			}
 
-			var res = ack.object(v).getTypeMap()
-			
-			assert.equal(res.a, 'number')
-			assert.equal(res.b, 'number')
-			assert.equal(res.c.constructor, Object)
-			assert.equal(res.c.c0, 'number')
-			assert.equal(res.c.c1, 'string')
-			assert.equal(res.agency.constructor, Array)
-			assert.equal(res.agency.length, 1)
-			assert.equal(res.agency[0].constructor, Object)
-			assert.equal(res.agency[0].name, 'string')
-			assert.equal(res.agency[0].email, 'string')
-			assert.equal(res.agency[0].active, 'number')
+			it('default',function(){
+				var res = ack.object(v).getTypeMap()
+				assert.equal(res.a, 'number')
+				assert.equal(res.b, 'number')
+				assert.equal(res.c.constructor, Object)
+				assert.equal(res.c.c0, 'number')
+				assert.equal(res.c.c1, 'string')
+				assert.equal(res.agency.constructor, Array)
+				assert.equal(res.agency.length, 1)
+				assert.equal(res.agency[0].constructor, Object)
+				assert.equal(res.agency[0].name, 'string')
+				assert.equal(res.agency[0].email, 'string')
+				assert.equal(res.agency[0].active, 'number')
+			})
+
+			it('mapped',function(){
+				var res = ack.object(v).getTypeMap(function(type,subs){
+					return {type:type,subs:subs}
+				})
+
+				assert.equal(typeof res.a, 'object')
+				assert.equal(res.a.type, 'number')
+				assert.equal(typeof res.b, 'object')
+				assert.equal(res.b.type, 'number')
+				assert.equal(typeof res.c, 'object')
+				assert.equal(res.c.constructor, Object)
+				assert.equal(typeof res.c.subs, 'object')
+				assert.equal(res.c.type, 'object')
+				assert.equal(res.c.subs.c0, 'number')
+				assert.equal(res.c.subs.c1, 'string')
+				assert.equal(res.agency.constructor, Object)
+				assert.equal(res.agency.type, 'array')
+				assert.equal(res.agency.subs.constructor, Object)
+				assert.equal(res.agency.subs.name, 'string')
+				assert.equal(res.agency.subs.email, 'string')
+				assert.equal(res.agency.subs.active, 'number')
+			})
 		})
 
 		describe('exposed',function(){
@@ -26224,12 +25563,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 177 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.queryObject',function(){
 		describe('#Csv.#toArray',function(){
@@ -26266,12 +25605,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 178 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.string',function(){
 		it('#htmlFormat',function(){
@@ -26321,12 +25660,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 179 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(157)
+		assert = __webpack_require__(156)
 
 	describe('ack.year',function(){
 		var t14
@@ -26357,7 +25696,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 180 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {process.nextTick(function() {

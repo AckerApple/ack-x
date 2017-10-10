@@ -1,6 +1,6 @@
 "use strict";
 
-var ack = require('./ack-x')
+var ack = require('./js/ack-x')
 
 ack.error = require('./js/error.js')
 ack.number = require('./js/number.js')

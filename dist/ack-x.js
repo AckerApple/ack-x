@@ -65,9 +65,9 @@
 	ack.queryObject = __webpack_require__(23)
 	ack.week = __webpack_require__(24)
 	ack.month = __webpack_require__(25)
-	ack.year = __webpack_require__(145)
+	ack.year = __webpack_require__(144)
 	ack.date = __webpack_require__(26)
-	ack.time = __webpack_require__(146)
+	ack.time = __webpack_require__(145)
 	/*
 	ack.function = require('./js/method')
 	*/
@@ -80,777 +80,481 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
-	var jc = __webpack_require__(3),//old old old library for Classes and Accessors
-			ackInjector = __webpack_require__(4),
-			partyModules = {
-				ackP:__webpack_require__(5),
-				debug:__webpack_require__(6)
-			}
-
-	/** calling ack() as function, will return a module to work with almost any object */
-	function ack($var){
-		return new ackExpose($var)
-	}
-
-	ack.object = __webpack_require__(10)
-	ack.Expose = ackExpose//Outsider's referense to expose factory
-
-	/* CORE MODULES */
-		ack.modules = new ackInjector(ack)
-
-		ack['class'] = function(cl, extendOrAccessors, accessors){
-			return new jc(cl, extendOrAccessors, accessors)
-		}
-
-		ack.accessors = function($scope){
-			return new jc.Vm($scope)
-		}
-
-		ack.injector = function($scope){
-			return new ackInjector($scope)
-		}
-
-
-		ack.promise = function(var0, var1, var2, var3){
-			var promise = partyModules.ackP.start()
-			return promise.set.apply(promise,arguments)
-		}
-
-		ack.Promise = function(resolver){
-			return new partyModules.ackP(resolver)
-		}
-	/* end: CORE MODULES */
-
-	/* end: MODULES */
-		//?maybe deprecated and unused
-		var indexSelector = __webpack_require__(11)
-		ack.indexSelector = function(){
-			var $scope = {}
-			if(arguments.length){
-				$scope.indexes = arguments[0]
-			}
-			return new indexSelector($scope)
-		}
-
-		/**
-			- Organized debug logging that can be viewed ondemand by types of debug logging
-			- See npm "debug" package for more information
-
-			Basic Use Example
-			```
-			ack.debug('my-app-name','item0','item1')
-			```
-
-			Functional Example
-			```
-			module.exports = ack.debug('my-app-name').debug
-			```
-		*/
-		var ackDebugMap = {}//create storage of all loggers created
-		ack.debug = function debug(name, log0, log1, log2){
-			var logger = partyModules.debug(name)
-			ack.debug.map[name] = logger//store memory of logger for meta referencing
-
-			if(arguments.length>1){//logging intended to go with
-				var args = Array.prototype.slice.call(arguments)
-				args.shift()//remove first
-				logger.apply(logger,args)
-			}
-
-			logger.debug = function(subname, log0, log1, log2){
-				arguments[0] = name+':'+subname
-				return ack.debug.apply(ack, arguments)
-			}
-			logger.sublog = logger.debug
-
-			return logger
-		}
-		ack.debug.map = ackDebugMap//latch onto storage
-	/* END MODULES */
-
-	ack.throwBy = function(ob, msg){
-		if(ob){
-			throw(ob)
-		}else if(msg){
-			throw new Error(msg)
-		}else{
-			throw new Error('An unexpected error has occured')
-		}
-	}
-
-	ack.logArrayTo = function(array, logTo){
-		logTo.apply(logTo, array)
-	}
-
-	ack.logError = function(err, msg, logTo){
-		logTo = logTo || console.log
-
-		var drray=[]
-
-		if(msg==null && err && err.stack){//?no message
-			msg = msg || err.stack.replace(/(\n|\t|\r)/g,'').split(/\s+at\s+/).shift()//error stack as message
-		}
-
-		if(msg!=null)drray.push(msg)
-		if(err!=null)drray.push(err)
-
-		ack.logErrorArray(drray, logTo)
-	}
-
-
-
-
-
-
-
-	function ackExpose($var){
-		this.$var = $var
-		return this
-	}
-
-	ackExpose.prototype.error = function(){return ack.error(this.$var)}
-	ackExpose.prototype.number = function(){return ack.number(this.$var)}
-	ackExpose.prototype.string = function(){return ack.string(this.$var)}
-	ackExpose.prototype.binary = function(){return ack.binary(this.$var)}
-	ackExpose.prototype.base64 = function(){return ack.base64(this.$var)}
-	//ackExpose.prototype.object = function(){return new ackObject(this.$var)}
-	ackExpose.prototype.method = function(){return ack.method(this.$var)}
-	ackExpose.prototype['function'] = function(){return ack['function'](this.$var)}
-	ackExpose.prototype.array = function(){return ack.array(this.$var)}
-	ackExpose.prototype.queryObject = function(){return ack.queryObject(this.$var)}
-	ackExpose.prototype.week = function(){return ack.week(this.$var)}
-	ackExpose.prototype.month = function(){return ack.month(this.$var)}
-	ackExpose.prototype.year = function(){return ack.year(this.$var)}
-	ackExpose.prototype.date = function(){return ack.date(this.$var)}
-	ackExpose.prototype.time = function(){return ack.time(this.$var)}
-
-
-	ackExpose.prototype.getSimpleClone = function(){
-		var target = {}
-		for (var i in this.$var){
-			target[i] = this.$var[i]
-		}
-		return target;
-	}
-
-	/** get at raw variable within target variable with case insensativity */
-	ackExpose.prototype.get = function(name,def){
-		if(!name)return this.$var
-
-		if(this.$var && this.$var[name]!=null)//try exact match first
-			return this.$var[name]
-
-		//case insensative search
-		var lcase = name.toLowerCase()
-		for(var key in this.$var){
-			if(lcase == key.toLowerCase())
-				return this.$var[key]
-		}
-
-		return def
-	}
-
-	/** $var[name] returned as ack Object. When null, null returned */
-	ackExpose.prototype.byName = function(name){
-		var v = this.get(name)
-		if(v!=null)return ack(v)
-	}
-
-	ackExpose.prototype['throw'] = function(msg, logTo){
-		ack.logError(this.$var, msg, logTo)
-		ack.throwBy(this.$var, msg)
-		return this
-	}
-
-	/** JSON.stringify with default spacing=2 */
-	ackExpose.prototype.stringify = function(spacing){
-		spacing = spacing==null ? 2 : spacing
-		return JSON.stringify(this.$var, null, spacing)
-	}
-	ackExpose.prototype.dump = ackExpose.prototype.stringify
-
-	/** negative numbers will be 0  */
-	ackExpose.prototype.getBit = function(){
-		var b = this.getBoolean()
-		if(b && b.constructor==Number && b < 0){
-			b=0
-		}
-		return b ? 1 : 0;
-	}
-
-	ackExpose.prototype.nullsToEmptyString = function(){
-		for(var key in this.$var){
-			if(this.$var[key]==null){
-				this.$var[key]='';
-			}
-		}
-		return this
-	}
-
-	/** reduces variable to a true/false */
-	ackExpose.prototype.getBoolean = function(){
-	  if(this.$var==null || !this.$var.constructor)return false
-
-	  var a = this.$var
-
-	  if(a.constructor==String){
-		a = a.toLowerCase()//makes TRUE:true and yes/no true
-		if(a==='y' || a==='yes'){
-			return true
-		}
-		if(a==='no' || a==='n'){
-			return false
-		}
-
-	    try{
-	      a = JSON.parse(a)
-	    }catch(e){
-	      return null
+	exports.__esModule = true;
+	var jc_1 = __webpack_require__(3);
+	//var jc = require('./js/jc'),//old old old library for Classes and Accessors
+	var ackInjector_1 = __webpack_require__(4);
+	var ackP = __webpack_require__(5);
+	var debug_1 = __webpack_require__(6);
+	var ackObject = __webpack_require__(10);
+	var ackExpose = /** @class */ (function () {
+	    function ackExpose($var) {
+	        //aka functions
+	        this.dump = ackExpose.prototype.stringify;
+	        /** $var[name] returned as ack Object. When null, null returned */
+	        this.byName = function (name) {
+	            var v = this.get(name);
+	            if (v != null)
+	                return exports.ack(v);
+	        };
+	        this.$var = $var;
+	        return this;
 	    }
-	  }
+	    ackExpose.prototype.error = function () { return exports.ack.error(this.$var); };
+	    ackExpose.prototype.number = function () { return exports.ack.number(this.$var); };
+	    ackExpose.prototype.string = function () { return exports.ack.string(this.$var); };
+	    ackExpose.prototype.binary = function () { return exports.ack.binary(this.$var); };
+	    ackExpose.prototype.base64 = function () { return exports.ack.base64(this.$var); };
+	    ackExpose.prototype.method = function () { return exports.ack.method(this.$var); };
+	    ackExpose.prototype.array = function () { return exports.ack.array(this.$var); };
+	    ackExpose.prototype.queryObject = function () { return exports.ack.queryObject(this.$var); };
+	    ackExpose.prototype.week = function () { return exports.ack.week(this.$var); };
+	    ackExpose.prototype.month = function () { return exports.ack.month(this.$var); };
+	    ackExpose.prototype.year = function () { return exports.ack.year(this.$var); };
+	    ackExpose.prototype.date = function () { return exports.ack.date(this.$var); };
+	    ackExpose.prototype.time = function () { return exports.ack.time(this.$var); };
+	    //deprecate
+	    ackExpose.prototype["function"] = function () {
+	        return exports.ack['function'](this.$var);
+	    };
+	    ackExpose.prototype.getSimpleClone = function () {
+	        var target = {};
+	        for (var i in this.$var) {
+	            target[i] = this.$var[i];
+	        }
+	        return target;
+	    };
+	    /** get at raw variable within target variable with case insensativity */
+	    ackExpose.prototype.get = function (name, def) {
+	        if (!name)
+	            return this.$var;
+	        if (this.$var && this.$var[name] != null)
+	            return this.$var[name];
+	        //case insensative search
+	        var lcase = name.toLowerCase();
+	        for (var key in this.$var) {
+	            if (lcase == key.toLowerCase())
+	                return this.$var[key];
+	        }
+	        return def;
+	    };
+	    //deprecate this
+	    ackExpose.prototype["throw"] = function (msg, logTo) {
+	        exports.ack.logError(this.$var, msg, logTo);
+	        exports.ack.throwBy(this.$var, msg);
+	        return this;
+	    };
+	    /** JSON.stringify with default spacing=2 */
+	    ackExpose.prototype.stringify = function (spacing) {
+	        spacing = spacing == null ? 2 : spacing;
+	        return JSON.stringify(this.$var, null, spacing);
+	    };
+	    /** negative numbers will be 0  */
+	    ackExpose.prototype.getBit = function () {
+	        var b = this.getBoolean();
+	        if (b && b.constructor == Number && b < 0) {
+	            b = 0;
+	        }
+	        return b ? 1 : 0;
+	    };
+	    ackExpose.prototype.nullsToEmptyString = function () {
+	        for (var key in this.$var) {
+	            if (this.$var[key] == null) {
+	                this.$var[key] = '';
+	            }
+	        }
+	        return this;
+	    };
+	    /** reduces variable to a true/false */
+	    ackExpose.prototype.getBoolean = function () {
+	        if (this.$var == null || !this.$var.constructor)
+	            return false;
+	        var a = this.$var;
+	        if (a.constructor == String) {
+	            a = a.toLowerCase(); //makes TRUE:true and yes/no true
+	            if (a === 'y' || a === 'yes') {
+	                return true;
+	            }
+	            if (a === 'no' || a === 'n') {
+	                return false;
+	            }
+	            try {
+	                a = JSON.parse(a);
+	            }
+	            catch (e) {
+	                return null;
+	            }
+	        }
+	        if (a != null && (a.constructor == Number || a.constructor == Boolean)) {
+	            return a;
+	        }
+	        return null;
+	    };
+	    ackExpose.prototype.isBooleanLike = function () {
+	        if (this.$var == null || !this.$var.constructor)
+	            return false;
+	        return this.getBoolean() !== null;
+	    };
+	    return ackExpose;
+	}());
+	exports.ackExpose = ackExpose;
+	var partyModules = {
+	    ackP: ackP,
+	    debug: debug_1.debug
+	};
+	/** calling ack() as function, will return a module to work with almost any object */
+	exports.ack = function ($var) {
+	    return new ackExpose($var);
+	};
+	exports.ack.object = ackObject;
+	exports.ack.Expose = ackExpose; //Outsider's referense to expose factory
+	/* CORE MODULES */
+	exports.ack.modules = new ackInjector_1.ackInjector(exports.ack);
+	/*ack['class'] = function(cl, extendOrAccessors, accessors){
+	    return new jC(cl, extendOrAccessors, accessors)
+	}*/
+	exports.ack.accessors = function ($scope) {
+	    return new jc_1.Vm($scope);
+	};
+	exports.ack.injector = function ($scope) {
+	    return new ackInjector_1.ackInjector($scope);
+	};
+	exports.ack.promise = function (var0, var1, var2, var3) {
+	    var promise = ackP.start();
+	    return promise.set.apply(promise, arguments);
+	};
+	exports.ack.Promise = function (resolver) {
+	    return new ackP(resolver);
+	};
+	/* end: CORE MODULES */
+	/* end: MODULES */
+	/**
+	    - Organized debug logging that can be viewed ondemand by types of debug logging
+	    - See npm "debug" package for more information
 
-	  if(a!=null && (a.constructor==Number || a.constructor==Boolean)){
-		return a
-	  }
+	    Basic Use Example
+	    ```
+	    ack.debug('my-app-name','item0','item1')
+	    ```
 
-	  return null
-	}
+	    Functional Example
+	    ```
+	    module.exports = ack.debug('my-app-name').debug
+	    ```
+	*/
+	var ackDebugMap = {}; //create storage of all loggers created
+	exports.ack.debug = function debug(name, log0, log1, log2) {
+	    var logger = partyModules.debug(name);
+	    exports.ack.debug.map[name] = logger; //store memory of logger for meta referencing
+	    if (arguments.length > 1) {
+	        var args = Array.prototype.slice.call(arguments);
+	        args.shift(); //remove first
+	        logger.apply(logger, args);
+	    }
+	    logger.debug = function (subname, log0, log1, log2) {
+	        arguments[0] = name + ':' + subname;
+	        return exports.ack.debug.apply(exports.ack, arguments);
+	    };
+	    logger.sublog = logger.debug;
+	    return logger;
+	};
+	exports.ack.debug.map = ackDebugMap; //latch onto storage
+	/* END MODULES */
+	exports.ack.throwBy = function (ob, msg) {
+	    if (ob) {
+	        throw (ob);
+	    }
+	    else if (msg) {
+	        throw new Error(msg);
+	    }
+	    else {
+	        throw new Error('An unexpected error has occured');
+	    }
+	};
+	exports.ack.logArrayTo = function (array, logTo) {
+	    logTo.apply(logTo, array);
+	};
+	exports.ack.logError = function (err, msg, logTo) {
+	    logTo = logTo || console.log;
+	    var drray = [];
+	    if (msg == null && err && err.stack) {
+	        msg = msg || err.stack.replace(/(\n|\t|\r)/g, '').split(/\s+at\s+/).shift(); //error stack as message
+	    }
+	    if (msg != null)
+	        drray.push(msg);
+	    if (err != null)
+	        drray.push(err);
+	    exports.ack.logErrorArray(drray, logTo);
+	};
 
-	ackExpose.prototype.isBooleanLike = function(){
-	  if(this.$var==null || !this.$var.constructor)return false
-	  return this.getBoolean()!==null
-	}
-
-
-	module.exports = ack
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(__dirname) {"use strict";
-
-	//Entry point to accessors framework
-	//argMap : 0:'init-function or accessor-map', 1:'extend-from or accessor-map', 2:'accessor-map'
-	//accessor-map: if-string:'property-name' if-array:array-of-accessor-maps if-object:{keyname:defaultMethod || keyName:property-map || keyName:simple-value-default}
-	//per-accessor-property-map:{preset:function-to-examine-a-set-call-to-return-what-to-actually-set, typeset:set-variable-must-be-constructor-of, default:funcForValue-or-value}
-	function jC(initOrStruct, parentOrStruct, struct){
-		initOrStruct = jC.$(initOrStruct, parentOrStruct, struct)
-		var f = function f(){//function to add more accessor definitions
-			initOrStruct.jC.prop.apply(initOrStruct.jC,arguments);
-			return f
-		}
-		return f
+	"use strict";
+	exports.__esModule = true;
+	function isF(f) {
+	    return typeof (f) == 'function';
 	}
-
-	//function controller for entry point
-	jC.$ = function(initOrStruct, parentOrStruct, struct){
-		//arg0 is struct
-		if(initOrStruct!=null && !jC.isF(initOrStruct)){
-			struct=initOrStruct;
-			initOrStruct=null
-		}
-
-		//arg1 is struct
-		if(parentOrStruct!=null && !jC.isF(parentOrStruct)){
-			struct=parentOrStruct;
-			parentOrStruct=null
-		}
-
-		if(initOrStruct==null)//provide constructor
-			initOrStruct = function($scope){
-				return jC.F.prototype.init.call(this,$scope)
-			}//DONT function initOrStruct(){} AND DONT var initOrStruct = function initOrStruct(){} for IE8
-
-		if(parentOrStruct==null)//provide parent constructor
-			parentOrStruct = function(){/*jC*/}//DONT function parentOrStruct(){} AND DONT var parentOrStruct = function parentOrStruct(){} for IE8
-
-		initOrStruct.jC = new jC.F(initOrStruct,parentOrStruct, struct)//return has jC reference
-
-		return initOrStruct
-	}
-
-	//very specific and tuned function to set variables using setMethods
-	jC.setByAccessor = function(nameOrInitStruct,value){//params data then sets a "set" method and calls it
-		if(typeof(nameOrInitStruct)=='string'){
-			if(this['set'+nameOrInitStruct]){//exact key case found
-				this['set'+nameOrInitStruct].call(this,value)
-				return this
-			}
-
-			/* look at all keys for set function */
-				var lCaseKey = nameOrInitStruct.toLowerCase()
-				var mySetKey = 'set'+lCaseKey
-				for(var key in this)
-					if(key.length==mySetKey.length && key.toLowerCase() == mySetKey){
-						this[key].call(this,value)
-						return this
-					}
-
-				//may require updating as they use implied scope (perhaps 3rd argument is $scope)
-				jC.F.paramdata.call(this)
-				this.data[nameOrInitStruct] = value
-				//this.data[lCaseKey] = value
-			/* end */
-		}else
-			jC.each(nameOrInitStruct,jC.setByAccessor,this)//arg1 is object||array
-
-		return this
-	}
-
-
-	//Accessors building framework
-	jC.F = function(C, parent , prop){//what is called to add accessors but ONCE AN OBJECT it becomes is the init and ONLY HAS 1 argument
-		this.init.call(this)
-		.setC(C)//set base Class aka main init method
-		.setParent(parent)//inheritance
-
-		//C.prototype = new parent//creates data scope and such cause it invokes init function
-		for(var x in parent.prototype)C.prototype[x] = parent.prototype[x]
-
-		//deprecate these, don't add methods to an object
-		/*
-		C.prototype.set = function(){//deprecated. Use self destructing init method
-			console.log('jC: this.set is deprecated. Use self destructing method this.init or if you need this.set, have your class extend jC.Vm',arguments.callee.caller)
-			return jC.setByAccessor.apply(this,arguments)
-		}
-		*/
-
-		C.prototype.init = jC.F.prototype.init
-		this.prop(prop)
-
-		return this
-	}
-
-	jC.F.prototype.init = function($scope){//main function that creates data scope
-		this.data = $scope==null ? {}:$scope
-		jC.setByAccessor.call(this, $scope)//convert keys to case
-		this.init = null;delete this.init//self destruct init method
-		return this
-	}
-
-	jC.F.paramdata = function(){
-		if(this.data==null)this.data={};return this
-	}
-
-	//assumptions: .data exists && keyName will be found in lowercase
-	jC.F.set = function(nameOrInitStruct,value){
-		if(typeof(nameOrInitStruct)=='string'){//is arg1 name
-			jC.F.paramdata.call(this)//ensure this.data is defined
-			var keyName = nameOrInitStruct//nameOrInitStruct.toLowerCase()
-			this.data[keyName] = value
-		}else{
-			jC.each(nameOrInitStruct, jC.F.set, this)//arg1 is object||array
-		}
-		return this
-	}
-
-	jC.F.get = function(name,def,stick,nullop){//!!!!TODO:This should no longer param and just get the value regardless of null or anything else
-		return jC.F.param.call(this,name,def,stick,nullop)
-	}
-
-	jC.F.param = function(name,def,stick,nullop){
-		this.data = this.data!=null ? this.data : {}//param data scope
-		if(typeof(this.data[name])=='undefined')
-			var r = nullop ? nullop.call(this,def,stick) : jC.F.runNullOp.call(this,name,def,stick)
-		else{
-			var r = this.data[name]
-		}
-
-		return r
-	}
-
-	//returns set closured function
-	jC.F.getSet = function(name,options){
-		var useArray = []
-			,keyName = options && options.as ? options.as : name
-			,fireSet = function(v){
-				jC.F.set.call(this,keyName,v);return this
-			}
-
-		if(options){
-			if(options.typeset){
-				useArray.push(function(v){
-					if(v && v.constructor === options.typeset)
-						return v
-
-					var etn = jC.getMethodName(options.typeset)
-						,oName = jC.getConName(this)
-						,oOwnName = jC.getMethodName(options.original.owner)
-						,msg = 'Invalid Constructor Passed to set'+options.original.name+'().'
-					msg += ' ExpectTypeName:'+etn+'. GotTypeName:'+jC.getConName(v)+'. OwnerName:'+oName+'.'//details
-					if(oName != oOwnName)//?original owner has changed?
-						msg += ' OriginalOwnerName:'+oOwnName
-					console.error(msg);
-					return v
-				})
-			}
-
-			if(options.preset)
-				useArray.push(function(v){
-					return options.preset.apply(this,arguments)
-				})
-
-			//options last action
-			if(useArray.length)
-				fireSet = function(v){
-					for(var x=0; x < useArray.length; ++x)
-						v = useArray[x].call(this,v)
-
-					jC.F.set.call(this,keyName,v);return this
-				}
-		}
-
-
-		return fireSet
-	}
-
-	//returns a get closured function
-	jC.F.getGet = function(name, defOrDefFunc){
-		var nullop = jC.F.getNullOp(name, defOrDefFunc)
-		return function(def,stick){//!!!TODO:This function shouldn't try to param, just get
-			var r = jC.F.get.call(this, name, def, stick, nullop);
-			return r
-		}
-	}
-
-	//returns function to call when no default avail
-	jC.F.getNullOp = function(name, defOrDefFunc){
-		return function(def,stick){
-			return jC.F.runNullOp.call(this,name,def,stick,defOrDefFunc)
-		}
-	}
-
-	//if name-value undefined, return value based on defaulting defintiion
-	jC.F.runNullOp = function(name,def,stick,dM){
-		if(dM==null)
-			var dm=function(){}//make dm reliable as always something
-		else if(jC.isF(dM))
-			var dm = dM//dm is already function
-		else
-			var dm = function(){return dM}//dm will return a static value
-
-		var r = def==null ? dm.call(this) : def
-
-		if((stick==null || stick) && (r!=null || this.data[name]!=null)){
-			jC.setByAccessor.call(this,name,r)//call this['set'+name] incase it has a preset
-			//this.data[name.toLowerCase()] = r//this wont call this['set'+name]
-		}
-
-		return r
-	}
-
-	jC.F.prototype.set = jC.F.set//?deprecated
-	jC.F.prototype.get = jC.F.get
-	jC.F.prototype.param = jC.F.param
-	jC.F.prototype.setC = jC.F.getSet('c')
-	jC.F.prototype.getC = jC.F.getGet('c')
-	jC.F.prototype.setParent = jC.F.getSet('parent')
-	jC.F.prototype.getParent = jC.F.getGet('parent')
-
-	jC.F.prototype.setter = function(name,config){
-		var isSubDef = config && config.constructor==Object && config.constructor!=Array,
-			method = jC.F.getSet(name, config),
-			Cls = this.getC()
-
-
-		name = name.substring(0, 1).toUpperCase()+name.substring(1, name.length)//first letter must be capital
-		Cls.prototype['set'+name] = method
-
-		if(isSubDef && config.setAka)
-			Cls.prototype[config.setAka] = method
-
-		return this
-	}
-
-	jC.F.prototype.getter = function(name, defOrDefFunc){
-		var isSubDef = defOrDefFunc!=null && defOrDefFunc.constructor==Object && defOrDefFunc.constructor!=Array
-			,def
-
-		if(isSubDef){
-			if(defOrDefFunc['default'] != null)
-				def = defOrDefFunc['default']
-		}else
-			def = defOrDefFunc
-
-		var keyName = defOrDefFunc && defOrDefFunc.as ? defOrDefFunc.as : name
-			,method = jC.F.getGet(keyName, def)//sequence sensative
-			,Cls=this.getC()
-
-		name = name.substring(0, 1).toUpperCase()+name.substring(1, name.length)//first letter must be capital
-		Cls.prototype['get'+name] = method
-
-		if(isSubDef && defOrDefFunc.getAka)
-			Cls.prototype[defOrDefFunc.getAka] = method
-
-		return this
-	}
-
-	jC.F.prototype.prop = function(naOrStOrAr, defOrDefFunc){
-		switch(typeof(naOrStOrAr)){
-			case 'string'://create a setter/getter just based on name alond
-				defOrDefFunc = defOrDefFunc==null ? {} : defOrDefFunc
-
-				var typ = typeof(defOrDefFunc), typArray = ['number','boolean','string'];
-				for(var x=typArray.length-1; x >= 0; --x){
-					if(typArray[x] == typ){
-						defOrDefFunc = {
-							'default':defOrDefFunc,
-							original:{owner:this.getC(), name:naOrStOrAr}//record Object metadata
-						}
-						break
-					}
-				}
-				//below breaks in ie8
-				//if(typArray.indexOf(typ) < 0)//ensure Object/Array/Function
-				//	defOrDefFunc.original = {owner:this.getC(), name:naOrStOrAr}//record Object metadata
-
-				return this.getter(naOrStOrAr, defOrDefFunc).setter(naOrStOrAr, defOrDefFunc)//name
-			case 'undefined':
-			case 'function':
-				return this
-		}
-
-		if(naOrStOrAr.constructor == Array){//array of definitions
-			for(var x=naOrStOrAr.length-1; x >= 0; --x)
-				this.prop(naOrStOrAr[x])
-		}else
-			jC.each(naOrStOrAr,this.prop,this)
-
-		return this
-	}
-
-
-
-
-	if(jC.name && jC.name==='jC')//device supports function.name
-		jC.getMethodName = function(method){
-			return method.name
-		}
-	else
-		jC.getMethodName = function(method){
-			var funcNameRegex = /function (.{1,})\(/;
-			var results = (funcNameRegex).exec(method.toString())
-			return (results && results.length > 1) ? results[1] : ""
-		}
-
-	if({}.constructor.name)//device supports new Function().constructor.name
-		jC.getConName = function(obj){
-			return obj.constructor.name
-		}
-	else
-		jC.getConName = function(obj){
-			return jC.getMethodName((obj).constructor)
-		}
-
-	jC.isF = function(f){
-		return typeof(f)=='function'
-	}
-
-	jC.clear = function(s){
-		for(var x in s)delete s[x]
-	}
-
-
+	exports.isF = isF;
 	//loops arrays(value,index,context) or objects(name,value,context)
-	jC.each = function(a,meth,context){
-		if(!a)return;//null abort
-		if(a.constructor==Array){
-			var m=(context==null) ? meth : function(v,i){meth.call(context,v,i)}
-			for(var x=0;x<a.length;++x)m(a[x],x)
-		}else{
-			var m=(context==null) ? meth : function(n,v){meth.call(context,n,v)}
-			for(var n in a)m(n,a[n])
-		}return a
+	function each(a, meth, context) {
+	    if (!a)
+	        return; //null abort
+	    if (a.constructor == Array) {
+	        var m = (context == null) ? meth : function (v, i) { meth.call(context, v, i); };
+	        for (var x = 0; x < a.length; ++x)
+	            m(a[x], x);
+	    }
+	    else {
+	        var m = (context == null) ? meth : function (n, v) { meth.call(context, n, v); };
+	        for (var n in a)
+	            m(n, a[n]);
+	    }
+	    return a;
 	}
-
-
-
-
-
-
-
-
+	exports.each = each;
+	function clear(s) {
+	    for (var x in s)
+	        delete s[x];
+	}
+	exports.clear = clear;
+	function paramdata() {
+	    if (this.data == null)
+	        this.data = {};
+	    return this;
+	}
+	exports.paramdata = paramdata;
+	//assumptions: .data exists && keyName will be found in lowercase
+	function set(nameOrInitStruct, value) {
+	    if (typeof (nameOrInitStruct) == 'string') {
+	        paramdata.call(this); //ensure this.data is defined
+	        var keyName = nameOrInitStruct; //nameOrInitStruct.toLowerCase()
+	        this.data[keyName] = value;
+	    }
+	    else {
+	        each(nameOrInitStruct, set, this); //arg1 is object||array
+	    }
+	    return this;
+	}
+	exports.set = set;
+	//very specific and tuned function to set variables using setMethods
+	function setByAccessor(nameOrInitStruct, value) {
+	    if (typeof (nameOrInitStruct) == 'string') {
+	        if (this['set' + nameOrInitStruct]) {
+	            this['set' + nameOrInitStruct].call(this, value);
+	            return this;
+	        }
+	        /* look at all keys for set function */
+	        var lCaseKey = nameOrInitStruct.toLowerCase();
+	        var mySetKey = 'set' + lCaseKey;
+	        for (var key in this)
+	            if (key.length == mySetKey.length && key.toLowerCase() == mySetKey) {
+	                this[key].call(this, value);
+	                return this;
+	            }
+	        //may require updating as they use implied scope (perhaps 3rd argument is $scope)
+	        paramdata.call(this);
+	        this.data[nameOrInitStruct] = value;
+	        //this.data[lCaseKey] = value
+	        /* end */
+	    }
+	    else
+	        each(nameOrInitStruct, setByAccessor, this); //arg1 is object||array
+	    return this;
+	}
+	exports.setByAccessor = setByAccessor;
+	function init($scope) {
+	    this.data = $scope == null ? {} : $scope;
+	    setByAccessor.call(this, $scope); //convert keys to case
+	    this.init = null;
+	    delete this.init; //self destruct init method
+	    return this;
+	}
+	exports.init = init;
+	//!!!!TODO:This should no longer param and just get the value regardless of null or anything else
+	function get(name, def, stick, nullop) {
+	    return param.call(this, name, def, stick, nullop);
+	}
+	exports.get = get;
+	function param(name, def, stick, nullop) {
+	    this.data = this.data != null ? this.data : {}; //param data scope
+	    if (typeof (this.data[name]) == 'undefined')
+	        var r = nullop ? nullop.call(this, def, stick) : runNullOp.call(this, name, def, stick);
+	    else {
+	        var r = this.data[name];
+	    }
+	    return r;
+	}
+	exports.param = param;
+	//if name-value undefined, return value based on defaulting defintiion
+	function runNullOp(name, def, stick, dM) {
+	    if (dM == null) {
+	        var dm = function () { }; //make dm reliable as always something
+	    }
+	    else if (isF(dM)) {
+	        var dm = dM; //dm is already function
+	    }
+	    else {
+	        var dm = function () { return dM; }; //dm will return a static value
+	    }
+	    var r = def == null ? dm["call"](this) : def;
+	    if ((stick == null || stick) && (r != null || this.data[name] != null)) {
+	        setByAccessor.call(this, name, r); //call this['set'+name] incase it has a preset
+	        //this.data[name.toLowerCase()] = r//this wont call this['set'+name]
+	    }
+	    return r;
+	}
+	exports.runNullOp = runNullOp;
 	//ValueMemory: Object for case-insensitive name/value pair management
-	jC.Vm = function Vm(a){
-		return this.init.apply(this,arguments)
-	}
-	jC(jC.Vm)//?maybe deprecated with no get/set/param methods
+	var Vm = /** @class */ (function () {
+	    function Vm(args) {
+	        this.set = setByAccessor;
+	        this.get = function (name) {
+	            var r = get.apply(this, arguments);
+	            if (r != null)
+	                return r;
+	            var eName = this.defined(name);
+	            return this.data[eName];
+	        };
+	        /** deprecated name alias */
+	        this.getExactName = this.defined;
+	        //removes all case-insensative matching keys
+	        this.remove = function (name) {
+	            var n = name.toLowerCase();
+	            for (var x in this.data) {
+	                if (x.toLowerCase() == n) {
+	                    this.data[x] = null;
+	                    delete this.data[x];
+	                }
+	            }
+	            return this;
+	        };
+	        this.clearVars = function () {
+	            clear(this.data);
+	            return this;
+	        };
+	        this.setNewData = function (value) {
+	            this.clearVars();
+	            set.call(this, value);
+	            return this;
+	        };
+	        return init.apply(this, arguments);
+	    }
+	    /** if name is defined, returns actual case sensative name */
+	    Vm.prototype.defined = function (name) {
+	        if (this.data[name] != null)
+	            return name;
+	        //get by lowercase keyname match
+	        var n = name.toLowerCase();
+	        for (var x in this.data) {
+	            if (x.toLowerCase() == n) {
+	                return x;
+	            }
+	        }
+	    };
+	    Vm.prototype.param = function (name, def) {
+	        var r = this.get(name);
+	        if (r != null)
+	            return r;
+	        return param.apply(this, arguments);
+	    };
+	    return Vm;
+	}());
+	exports.Vm = Vm;
 
-	jC.Vm.prototype.set = jC.setByAccessor
-	jC.Vm.prototype.get = function(name){
-		var r = jC.F.get.apply(this,arguments)
-		if(r!=null)return r
-
-		var eName = this.defined(name)
-		return this.data[eName]
-
-	}
-
-	/** if name is defined, returns actual case sensative name */
-	jC.Vm.prototype.defined = function(name){
-		if(this.data[name]!=null)return name
-
-		//get by lowercase keyname match
-		var n = name.toLowerCase()
-		for(var x in this.data){
-			if(x.toLowerCase()==n){
-				return x
-			}
-		}
-	}
-	/** deprecated name alias */
-	jC.Vm.prototype.getExactName = jC.Vm.prototype.defined
-
-	jC.Vm.prototype.param = function(name,def){
-		var r = this.get(name)
-		if(r!=null)return r
-		return jC.F.param.apply(this,arguments)
-	}
-
-	//removes all case-insensative matching keys
-	jC.Vm.prototype.remove = function(name){
-		var n = name.toLowerCase()
-		for(var x in this.data){
-			if(x.toLowerCase()==n){
-				this.data[x] = null;delete this.data[x];
-			}
-		}
-		return this
-	}
-
-	jC.Vm.prototype.clearVars = function(){
-		jC.clear(this.data);return this
-	}
-
-	jC.Vm.prototype.setNewData=function(value){
-		this.clearVars()
-		jC.F.set.call(this,value);return this
-	}
-
-
-
-
-
-
-
-
-
-
-	if(true){
-		module.exports=jC
-		module.exports.__dirname = __dirname
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
 	"use strict";
-
-	var ackInjector = function ackInjector($scope, $storage){
-	  this.$storage = $storage || {}
-	  this.$scope = $scope || this
-	  return this
-	}
-
-	ackInjector.prototype.define = function(name, $module, initInjectArray){
-	  var $this = this
-	  var method = function(){
-	    return $this.LoadModule(name, $module, arguments, initInjectArray)
-	  }
-
-	  this.$scope[name] = method//this.functionName . example: ack.mail()
-	  return this
-	}
-
-	ackInjector.prototype.definePath = function(name,path,initInjectArray){
-	  var $this = this
-	  var fetcher = function(){
-	    var $module = $this.getModule(name, path)
-	    return $this.LoadModule(name, $module, arguments, initInjectArray)
-	  }
-
-	  this.$scope[name] = fetcher//this.functionName . example: ack.mail()
-	  return this
-	}
-
-	ackInjector.prototype.LoadModule = function(name, $module, $args, injectArray){
-	  if($module.constructor!=Function){
-	    return $module
-	  }
-
-	  if(!injectArray){
-	    var r = $module.apply($module, $args)//no dependencies
-	    return r
-	  }
-
-	  var isInjectInit = typeof(injectArray)=='function',
-	    init = isInjectInit ? injectArray : injectArray[injectArray.length-1],
-	    args = []
-
-	  if(!isInjectInit){
-	    var tar
-	    for(var i=0; i < injectArray.length-1; ++i){//all but last, last was init
-	      switch(injectArray[i].toLowerCase()){
-	        case '$arg0':
-	          tar = $args[0]
-	          break;
-
-	        case '$injector':
-	          tar = this.$scope//this
-	          break;
-
-	        case '$module':
-	          tar = $module
-	          break;
-
-	        case '$args':
-	          tar = Array.prototype.slice.call($args)
-	          break;
-
-
-	        default:
-	          if(this.$scope[injectArray[i]]!=null){
-	            tar = this.$scope[injectArray[i]]
-	          }else if(this.$storage[injectArray[i]] != null){
-	            tar = this.$storage[injectArray[i]]
-	          }
-	      }
-	      args.push(tar)
+	exports.__esModule = true;
+	var ackInjector = /** @class */ (function () {
+	    function ackInjector($scope, $storage) {
+	        this.LoadModule = function (name, $module, $args, injectArray) {
+	            if ($module.constructor != Function) {
+	                return $module;
+	            }
+	            if (!injectArray) {
+	                var r = $module.apply($module, $args); //no dependencies
+	                return r;
+	            }
+	            var isInjectInit = typeof (injectArray) == 'function', init = isInjectInit ? injectArray : injectArray[injectArray.length - 1], args = [];
+	            if (!isInjectInit) {
+	                var tar;
+	                for (var i = 0; i < injectArray.length - 1; ++i) {
+	                    switch (injectArray[i].toLowerCase()) {
+	                        case '$arg0':
+	                            tar = $args[0];
+	                            break;
+	                        case '$injector':
+	                            tar = this.$scope; //this
+	                            break;
+	                        case '$module':
+	                            tar = $module;
+	                            break;
+	                        case '$args':
+	                            tar = Array.prototype.slice.call($args);
+	                            break;
+	                        default:
+	                            if (this.$scope[injectArray[i]] != null) {
+	                                tar = this.$scope[injectArray[i]];
+	                            }
+	                            else if (this.$storage[injectArray[i]] != null) {
+	                                tar = this.$storage[injectArray[i]];
+	                            }
+	                    }
+	                    args.push(tar);
+	                }
+	            }
+	            args = args.concat(Array.prototype.slice.call($args));
+	            if (typeof (init) == 'string') {
+	                switch (init) {
+	                    case '$module':
+	                        return $module.apply($module, args);
+	                    //break;
+	                    default:
+	                        throw 'should not get here. Last argument of injector was not a function NOR "$module"';
+	                }
+	            }
+	            return init.apply(init, args);
+	        };
+	        this.$storage = $storage || {};
+	        this.$scope = $scope || this;
+	        return this;
 	    }
-	  }
+	    ackInjector.prototype.define = function (name, $module, initInjectArray) {
+	        var $this = this;
+	        var method = function () {
+	            return $this.LoadModule(name, $module, arguments, initInjectArray);
+	        };
+	        this.$scope[name] = method; //this.functionName . example: ack.mail()
+	        return this;
+	    };
+	    ackInjector.prototype.definePath = function (name, path, initInjectArray) {
+	        var $this = this;
+	        var fetcher = function () {
+	            var $module = $this.getModule(name, path);
+	            return $this.LoadModule(name, $module, arguments, initInjectArray);
+	        };
+	        this.$scope[name] = fetcher; //this.functionName . example: ack.mail()
+	        return this;
+	    };
+	    ackInjector.prototype.getModule = function (name, path) {
+	        if (this.$storage[name])
+	            return this.$storage[name];
+	        throw new Error('Module not defined (' + name + '). Valid modules: "' + Object.keys(this.$storage).join(',') + '"');
+	    };
+	    ackInjector.prototype.newModule = function (name, path, arg) {
+	        var Module = this.getModule(name, path);
+	        return new Module(arg);
+	    };
+	    return ackInjector;
+	}());
+	exports.ackInjector = ackInjector;
 
-	  args = args.concat(Array.prototype.slice.call($args))
-
-	  if(typeof(init)=='string'){//last arg is module to return
-	    switch(init){
-	      case '$module':
-	        return $module.apply($module, args)
-	        break;
-
-	      default:
-	        throw 'should not get here. Last argument of injector was not a function NOR "$module"';
-	        return $module.apply(this.$scope[init], args)
-	    }
-	  }
-	  return init.apply(init, args)
-	}
-
-	ackInjector.prototype.getModule = function(name,path){
-	  if(this.$storage[name])return this.$storage[name]
-	  throw new Error('Module not defined ('+name+'). Valid modules: "'+ Object.keys(this.$storage).join(',')+'"')
-	}
-
-	ackInjector.prototype.newModule = function(name,path,arg){
-	  var Module = this.getModule(name,path)
-	  return new Module(arg)
-	}
-
-
-	module.exports = ackInjector
 
 /***/ }),
 /* 5 */
@@ -2869,341 +2573,205 @@
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+	exports.__esModule = true;
+	module['exports'] = function (ob) {
+	    return new jXObject(ob);
+	};
+	var jXObject = /** @class */ (function () {
+	    function jXObject(object) {
+	        /** like JSON.stringify but converts all to cookie definition */
+	        this.toCookieString = function () {
+	            var cookies = this.object;
+	            var cookieNameArray = Object.keys(cookies);
+	            if (cookieNameArray.length) {
+	                var cookieString = '';
+	                cookieNameArray.forEach(function (name, i) {
+	                    cookieString += '; ' + name + '=' + cookies[name];
+	                });
+	                cookieString = cookieString.substring(2, cookieString.length); //remove "; "
+	                return cookieString;
+	            }
+	            return '';
+	        };
+	        this.object = object;
+	        return this;
+	    }
+	    /** @method(item, index, object) */
+	    jXObject.prototype.forEach = function (method) {
+	        forEach(this.object, method);
+	        return this;
+	    };
+	    /** When object, returns similar object with key values as results of mapping
+	        map array or object @method(item, index, object)
 
-	function jXObject(object){
-		this.object = object
-		return this
-	}
-
-	/** @method(item, index, object) */
-	jXObject.prototype.forEach = function(method){
-		xObject.forEach(method)(this.object)
-		return this
-	}
-
-	/** When object, returns similar object with key values as results of mapping
-		map array or object @method(item, index, object)
-
-	*/
-	jXObject.prototype.map = function(method){
-		return xObject.map(method)(this.object)
-	}
-
-	jXObject.isArray = function(ob){
-		return isArray(ob)
-	}
-
-	jXObject.prototype.isArray = function(ob){
-		return isArray(this.object)
-	}
-
-	/**
-		@method(item, index, parentResult, depth)
-	*/
-	jXObject.prototype.getTypeMap = function(){
-		var type = typeof(this.object)
-		var isObject = type=='object'
-
-		if( !isObject )return type
-
-		var isArray = this.isArray()
-		var uniqueMap = isArray ? [] : {}
-
-		this.map(function(item, index, object){
-			if(item===null)return 'null'
-
-
-			var isSubOb = typeof(item) == 'object'
-			var isSubArray = isSubOb && jXObject.isArray(item)
-			var subKeyMap = new jXObject(item).getTypeMap()
-
-			if( isArray ){
-				if( isSubArray ){
-					uniqueMap[index] = subKeyMap
-				}else if( isSubOb ){
-					if( !uniqueMap[0] ){
-						uniqueMap[0] = subKeyMap
-					}else{
-						assign(uniqueMap[0], subKeyMap)
-					}
-				}
-			}else{
-				if( isObject && isSubOb ){
-					if( isSubArray ){
-						uniqueMap[index] = subKeyMap
-					}else{
-						uniqueMap[index] = uniqueMap[index] || {}
-						uniqueMap[index] = assign(uniqueMap[index], subKeyMap)
-					}
-				}else{
-					uniqueMap[index] = subKeyMap
-				}
-			}
-		})
-
-		return uniqueMap
-	}
-
-	/** tests Object for circular references */
-	jXObject.prototype.isCyclic = function() {
-		var seenObjects = [];
-
-		function detect (obj) {
-			if (obj && typeof obj === 'object') {
-				if (seenObjects.indexOf(obj) !== -1) {
-					return true;
-				}
-				seenObjects.push(obj);
-				for(var key in obj) {
-					if(obj.hasOwnProperty(key) && detect(obj[key])) {
-				//console.log(obj, 'cycle at ' + key);
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
-		return detect(this.object);
-	}
-
-	/** like JSON.stringify but converts all to cookie definition */
-	jXObject.prototype.toCookieString = function(){
-		var cookies = this.object
-		var cookieNameArray = Object.keys(cookies)
-		if(cookieNameArray.length){
-			var cookieString = '';
-			cookieNameArray.forEach(function(name,i){
-				cookieString += '; '+name+'='+cookies[name]
-			})
-			cookieString = cookieString.substring(2, cookieString.length)//remove "; "
-			return cookieString
-		}
-		return ''
-	}
-
-
-	module.exports = function(ob){
-		return new jXObject(ob)
-	}
-	//module.exports = xObject
-
-	function xObject(ob){
-		return new jXObject(ob)
-	}
-	//for(var x in xObject.prototype)xObject.prototype[x] = jXObject.prototype[x]
-
-	/** Returns function to loop an object/array
-		@method(var, index, object)
-	*/
-	xObject.map = function(method){
-		return function(ob){
-			return map(ob,method)
-		}
-	}
-
-	/** loop an object
-		@method(var, index, object)
-	*/
-	xObject.forEach = function(method){
-		return function(ob){
-			return forEach(ob,method)
-		}
-	}
-
+	    */
+	    jXObject.prototype.map = function (method) {
+	        return map(this.object, method);
+	    };
+	    jXObject.prototype.isArray = function () {
+	        return isArray(this.object);
+	    };
+	    /**
+	        @method(type, subs)
+	    */
+	    jXObject.prototype.getTypeMap = function (mapper) {
+	        var type = typeof (this.object);
+	        var isObject = type == 'object';
+	        mapper = mapper || function (type, subs) {
+	            if (subs) {
+	                if (type == 'array')
+	                    return [subs];
+	                return subs;
+	            }
+	            return type;
+	        };
+	        if (!isObject)
+	            return mapper(type);
+	        var isArray = this.isArray();
+	        var uniqueMap = isArray ? [] : {};
+	        this.map(function (item, index, object) {
+	            if (item === null)
+	                return 'null';
+	            var subType = typeof (item);
+	            var isSubOb = subType == 'object';
+	            var jxSub = new jXObject(item);
+	            var isSubArray = isSubOb && jxSub.isArray();
+	            var subs = jxSub.getTypeMap(); //get subs
+	            if (isArray) {
+	                if (isSubArray) {
+	                    subType = 'array';
+	                    uniqueMap[index] = mapper(subType, subs[0]);
+	                }
+	                else if (isSubOb) {
+	                    if (!uniqueMap[0]) {
+	                        uniqueMap[0] = mapper(subType, subs);
+	                    }
+	                    else {
+	                        assign(uniqueMap[0], mapper(subType, subs));
+	                    }
+	                }
+	            }
+	            else {
+	                if (isObject && isSubOb) {
+	                    if (isSubArray) {
+	                        subType = 'array';
+	                        uniqueMap[index] = mapper(subType, subs[0]);
+	                    }
+	                    else {
+	                        uniqueMap[index] = uniqueMap[index] || {};
+	                        uniqueMap[index] = assign(uniqueMap[index], mapper(subType, subs));
+	                    }
+	                }
+	                else {
+	                    uniqueMap[index] = mapper(subType);
+	                }
+	            }
+	        });
+	        return uniqueMap;
+	    };
+	    /** tests Object for circular references */
+	    jXObject.prototype.isCyclic = function () {
+	        var seenObjects = [];
+	        function detect(obj) {
+	            if (obj && typeof obj === 'object') {
+	                if (seenObjects.indexOf(obj) !== -1) {
+	                    return true;
+	                }
+	                seenObjects.push(obj);
+	                for (var key in obj) {
+	                    if (obj.hasOwnProperty(key) && detect(obj[key])) {
+	                        //console.log(obj, 'cycle at ' + key);
+	                        return true;
+	                    }
+	                }
+	            }
+	            return false;
+	        }
+	        return detect(this.object);
+	    };
+	    return jXObject;
+	}());
+	exports.jXObject = jXObject;
 	/** Loop an object or an array. Returns array of loop results
-		@method(var, index, object)
+	    @method(var, index, object)
 	*/
-	function map(ob, method){
-		if(ob.constructor && ob.contructor==Array){
-			return mapArray(ob, method)
-		}
-
-		var res = {}
-		for(var x in ob){
-			res[x] = method(ob[x], x, ob)
-		}
-
-		return res
+	function map(ob, method) {
+	    if (ob.constructor && ob.contructor == Array) {
+	        return mapArray(ob, method);
+	    }
+	    var res = {};
+	    for (var x in ob) {
+	        res[x] = method(ob[x], x, ob);
+	    }
+	    return res;
 	}
-
-	function mapArray(ob, method){
-		var res = []
-		for(var x=0; x < ob.length; ++x){
-			res[x] = method(ob[x], x, ob)
-		}
-
-		return res
+	function mapArray(ob, method) {
+	    var res = [];
+	    for (var x = 0; x < ob.length; ++x) {
+	        res[x] = method(ob[x], x, ob);
+	    }
+	    return res;
 	}
-
 	/** @method(var, index, object) */
-	function forEach(ob, method){
-		if(ob.forEach){
-			ob.forEach(method)
-		}else{
-			for(var x in ob){
-				method(ob[x], x, ob)
-			}
-		}
-
-		return ob
+	function forEach(ob, method) {
+	    if (ob.constructor == Array) {
+	        for (var x in ob) {
+	            method(ob[x], x, ob);
+	        }
+	    }
+	    else {
+	        for (var x_1 = 0; x_1 < ob.length; ++x_1) {
+	            method(ob[x_1], x_1, ob);
+	        }
+	    }
+	    return ob;
 	}
-
-	function isArray(ob){
-		return ob.constructor && ob.constructor==Array
+	function isArray(ob) {
+	    return ob.constructor && ob.constructor == Array;
 	}
-
 	//object.assign polyfill
 	function assign(target, firstSource) {
-	  if (target === undefined || target === null) {
-	    throw new TypeError('Cannot convert first argument to object');
-	  }
-
-	  var to = Object(target);
-	  for (var i = 1; i < arguments.length; i++) {
-	    var nextSource = arguments[i];
-	    if (nextSource === undefined || nextSource === null) {
-	      continue;
+	    if (target === undefined || target === null) {
+	        throw new TypeError('Cannot convert first argument to object');
 	    }
-
-	    var keysArray = Object.keys(Object(nextSource));
-	    for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
-	      var nextKey = keysArray[nextIndex];
-	      var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-	      if (desc !== undefined && desc.enumerable) {
-	        to[nextKey] = nextSource[nextKey];
-	      }
+	    var to = Object(target);
+	    for (var i = 1; i < arguments.length; i++) {
+	        var nextSource = arguments[i];
+	        if (nextSource === undefined || nextSource === null) {
+	            continue;
+	        }
+	        var keysArray = Object.keys(Object(nextSource));
+	        for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+	            var nextKey = keysArray[nextIndex];
+	            var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+	            if (desc !== undefined && desc.enumerable) {
+	                to[nextKey] = nextSource[nextKey];
+	            }
+	        }
 	    }
-	  }
-	  return to;
+	    return to;
 	}
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)(module)))
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-	"use strict";
-	//Helps in the goal of selecting and defining states of properties on indexable data (object & arrays). The indexable data is not to be polluted by the defined properties (data and states seperate)
-	function IndexSelector($scope){
-	  this.data = $scope||{}
-
-	  this.data.indexes = this.data.indexes || []//any object will do
-	  this.data.selected = this.data.selected || []
-	  this.data.states = this.data.states || []
-	  return this
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
 	}
 
-	IndexSelector.prototype.isIndexSelected = function(index){
-	  for(var i=this.data.states.length-1; i >= 0; --i){
-	    if(this.data.states[i].index==index)return true
-	  }
-	  return false
-	}
-
-	IndexSelector.prototype.selectByIndex = function(index){
-	  var selected = this.data.indexes[index]
-	  if(selected){
-	    this.data.states.push(this.newStateByIndex(index))
-	    this.data.selected.push(selected)
-	  }
-	  return this
-	}
-
-	IndexSelector.prototype.deselectByIndex = function(index){
-	  var i,state
-	  for(i=this.data.states.length-1; i >= 0; --i){
-	    var state = this.data.states[i]
-	    if(state.index==index){
-	      this.data.selected.splice(i, 1)
-	      this.data.states.splice(i, 1)
-	      break
-	    }
-	  }
-	  return this
-	}
-
-	IndexSelector.prototype.deselectState = function(state){
-	  this.deselectByIndex(state.index);return this
-	}
-
-	IndexSelector.prototype.deselectAll = function(){
-	    this.data.selected.length=0
-	    this.data.states.length=0
-	  return this
-	}
-
-	IndexSelector.prototype.selectAll = function(){
-	  if(!this.data.indexes)return this
-
-	  for(var i=0; i < this.data.indexes.length; ++i){
-	    this.selectByIndex(i)
-	  }
-
-	  return this
-	}
-
-	//getter/setter. Getter for determining if selected. Setter to set if selected or not
-	IndexSelector.prototype.selectorByIndex = function(index){
-	  var $this = this
-	  return function(yesNo){
-	      if(yesNo!=null){
-	        yesNo ? $this.selectByIndex(index) : $this.deselectByIndex(index)
-	        return yesNo
-	      }
-
-	      return $this.isIndexSelected(index)
-	    }
-	}
-
-	IndexSelector.prototype.newStateByIndex = function(index){
-	  var state={
-	    data:this.data.indexes[index],
-	    state:{},
-	    index:index
-	  }
-
-	  return state
-	}
-
-	IndexSelector.prototype.selectStateByIndex = function(index){
-	  var i = this.data.states.length
-	  this.selectByIndex(index)
-	  return this.data.states[i].state
-	}
-
-	IndexSelector.prototype.deselectOldest = function(){
-	  this.data.selected.splice(0, 1)
-	  this.data.states.splice(0, 1)
-	  return this
-	}
-
-	IndexSelector.prototype.getOldestIndex = function(){
-	  if(this.data.states.length)return this.data.states[0].index
-	}
-
-	//when IndexSelector has been init with selectives but no states, blank states can be built
-	IndexSelector.prototype.pairSelectedToState = function(){
-	  for(var i=0; i < this.data.states.length; ++i){
-	    var state = this.data.states[i]
-	    this.data.selected[i] = this.data.selected[i] || this.data.indexes[state.index]
-	  }
-	  return this
-	}
-
-	//when IndexSelector has been init with selectives but no states, blank states can be built
-	IndexSelector.prototype.pairStateToSelected = function(){
-	  for(var i=0; i < this.data.selected.length; ++i){
-	    var selected = this.data.selected[i]
-	    this.data.states[i] = this.data.states[i] || this.newStateByIndex(i)
-	  }
-	  return this
-	}
-
-
-	module.exports = IndexSelector
 
 /***/ }),
 /* 12 */
@@ -6133,1028 +5701,929 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var jc = __webpack_require__(3)
-		,xMonth = __webpack_require__(25)
-		,ExDate = __webpack_require__(26)
-
-
-	var Week = function Week(num){
-		if(num!=null)this.setStartDate(num)
-		return this
+	var __extends = (this && this.__extends) || (function () {
+	    var extendStatics = Object.setPrototypeOf ||
+	        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+	        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+	    return function (d, b) {
+	        extendStatics(d, b);
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	})();
+	exports.__esModule = true;
+	//import jc = require('./jc')
+	var month_1 = __webpack_require__(25);
+	var date_1 = __webpack_require__(26);
+	var Week = /** @class */ (function (_super) {
+	    __extends(Week, _super);
+	    function Week() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    Week.prototype.getEndDate = function () {
+	        if (this.endDate)
+	            return this.endDate;
+	        this.endDate = new Date(this.getStartDate().getDate() + 6);
+	        return this.endDate;
+	    };
+	    Week.prototype.setEndDate = function (date) {
+	        if (!date_1.method(date).isDate() && !isNaN(date))
+	            this.endDate = date_1.method(new Date()).setMonth(date).getLastDateOfMonth();
+	        else
+	            this.endDate = date;
+	        return this;
+	    };
+	    Week.prototype.setStartDate = function (date) {
+	        if (!isNaN(date) && date.constructor != Date)
+	            this.date = date_1.method(new Date()).gotoWeek(date).date;
+	        else
+	            this.date = date;
+	        return this;
+	    };
+	    Week.prototype.getStartDate = function () {
+	        if (!this.date)
+	            this.date = date_1.method(new Date()).getDateWeekStart();
+	        return this.date;
+	    };
+	    return Week;
+	}(month_1.Month));
+	exports.Week = Week;
+	function method(path) {
+	    return new Week(path);
 	}
+	exports.method = method;
 
-	jc(Week, xMonth.Class)
-
-	Week.prototype.getEndDate = function(){
-		if(this.endDate)return this.endDate
-		this.endDate = new Date(this.getStartDate().getDate() + 6)
-		return this.endDate
-	}
-
-	Week.prototype.setEndDate = function(date){
-		if(!ExDate(date).isDate() && !isNaN(date))//just the month number?
-			endDate = ExDate(new Date()).setMonth(date).getLastDateOfMonth()
-		else
-			this.endDate = date
-
-		return this
-	}
-
-	Week.prototype.setStartDate = function(date){
-		if(!isNaN(date) && date.constructor != Date)//just the month number?
-			this.date = ExDate(new Date()).gotoWeek(date).date
-		else
-			this.date = date
-		return this
-	}
-
-	Week.prototype.getStartDate = function(){
-		if(!this.date)
-			this.date = ExDate(new Date()).getDateWeekStart()
-		return this.date
-	}
-
-	var rtn = function(path){return new Week(path)}
-	rtn.Class = Week
-	module.exports = rtn
 
 /***/ }),
 /* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var xDate = __webpack_require__(26)
-
-	var xMonth = function xMonth(num){
-		if(num!=null){
-			this.setStartDate(num)
-		}
-		return this
+	var __extends = (this && this.__extends) || (function () {
+	    var extendStatics = Object.setPrototypeOf ||
+	        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+	        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+	    return function (d, b) {
+	        extendStatics(d, b);
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	})();
+	exports.__esModule = true;
+	var date_1 = __webpack_require__(26);
+	var date_2 = __webpack_require__(26);
+	exports.AckDate = date_2.AckDate;
+	exports.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+	var Month = /** @class */ (function (_super) {
+	    __extends(Month, _super);
+	    function Month(num) {
+	        var _this = _super.call(this) || this;
+	        _this.monthLcaseNameArray = exports.monthLcaseNameArray;
+	        if (num != null) {
+	            _this.setStartDate(num);
+	        }
+	        return _this;
+	    }
+	    Month.prototype.setStartDate = function (date) {
+	        var jDate = date_1.method();
+	        if (!jDate.isDate(date)) {
+	            var num = Number(date);
+	            if (!isNaN(num)) {
+	                date = date_1.method().now().setDate(1).setMonth(date).date;
+	            }
+	            else {
+	                var i = this.getMonthIndexByString(date);
+	                date = date_1.method(new Date()).setDate(1).setMonth(i + 1).date;
+	            }
+	        }
+	        this.date = date;
+	        return this;
+	    };
+	    Month.prototype.getMonthIndexByString = function (mon) {
+	        return exports.monthLcaseNameArray.indexOf(mon.toLowerCase());
+	    };
+	    Month.prototype.StartDate = function (isClone) {
+	        var startDate = !isClone ? this.getStartDate() : this.getStartDate();
+	        return date_1.method(startDate);
+	    };
+	    Month.prototype.xDate = function () {
+	        return date_1.method(this.getStartDate());
+	    };
+	    Month.prototype.getStartDate = function () {
+	        if (this.date)
+	            return this.date;
+	        this.date = new Date(new Date().setDate(1));
+	        return this;
+	    };
+	    Month.prototype.setEndDate = function (date) {
+	        if (!date_1.method(date).isDate() && !isNaN(date))
+	            this.endDate = date_1.method(new Date()).setMonth(date).getLastDateOfMonth();
+	        else
+	            this.endDate = date;
+	        return this;
+	    };
+	    Month.prototype.getEndDate = function () {
+	        if (this.endDate)
+	            return this.endDate;
+	        var d = '12/31/' + this.getYear();
+	        this.endDate = new Date(d);
+	        return this.endDate;
+	    };
+	    return Month;
+	}(date_1.AckDate));
+	exports.Month = Month;
+	function method(num) {
+	    return new Month(num);
 	}
+	exports.method = method;
 
-	xMonth.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
-
-	xMonth.getMonthIndexByString = function(mon){
-		return xMonth.monthLcaseNameArray.indexOf(mon.toLowerCase())
-	}
-
-	xMonth.prototype.setStartDate = function(date){
-		var jDate = xDate()
-		if(!jDate.isDate(date)){
-			var num = Number(date)
-
-			if(!isNaN(num)){//just the month number?
-				date = xDate().now().setDate(1).setMonth(date).date
-			}else{
-				var i = xMonth.getMonthIndexByString(date)
-				date = xDate(new Date()).setDate(1).setMonth(i+1).date
-			}
-		}
-		this.date = date
-		return this
-	}
-
-	xMonth.prototype.StartDate = function(isClone){
-		var startDate = !isClone ?  this.getStartDate() : this.getStartDate()
-		return xDate(startDate)
-	}
-
-	xMonth.prototype.xDate = function(){
-		return xDate(this.getStartDate())
-	}
-
-	xMonth.prototype.getStartDate = function(){
-		if(this.date)return this.date
-		this.date = new Date(new Date().setDate(1))
-		return this
-	}
-
-	xMonth.prototype.setEndDate = function(date){
-		if(!xDate(v).isDate() && !isNaN(v))//just the month number?
-			this.endDate = xDate(new Date()).setMonth(date).getLastDateOfMonth()
-		else
-			this.endDate = date
-
-		return this
-	}
-
-	xMonth.prototype.getEndDate = function(){
-		if(this.endDate)return this.endDate
-		var d = '12/31/'+this.getYear()
-		this.endDate = new Date(d)
-		return this.endDate
-	}
-
-
-
-	var rtn = function(num){
-		return new xMonth(num)
-	}
-	rtn.Class = xMonth
-	module.exports = rtn
 
 /***/ }),
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
-	var moment = __webpack_require__(27)
-
+	exports.__esModule = true;
+	var moment = __webpack_require__(27);
 	/* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
-	function ackDate(date, format){
-	  this.date = ackDate.toDate(date, format)
-	  return this
-	}
-
-	ackDate.toDate = function(date, format){
-	  return date===null ? null : (date==null?new Date():ackDate.dateObjectBy(date,format))
-	}
-
-	ackDate.getTimezoneStamp = function(date, seperator){
-	  date = date || new Date()
-	  var value = new Date(date).toString().match(/([-\+][0-9]+)\s/)[1]
-	  if(seperator){
-	    value = value.substring(0, value.length-2)+ seperator +value.substring(value.length-2, value.length)
-	  }
-	  return value
-	}
-
-	ackDate.dateObjectBy = function(date, format){
-	  if( date!=null ){
-	    switch(date.constructor){
-	      case ackDate:return date.date
-	      case Date:return date
-	      case String:return ackDate.dateStringToDate(date, format)
-	      default:return new Date(date)//convert string to date object
+	var AckDate = /** @class */ (function () {
+	    function AckDate(date, format) {
+	        this.dateYearDiff = function (date) {
+	            date = toDate(date);
+	            return dateYearDiff(date, this.date);
+	        };
+	        this.dateHoursDiff = this.dateHourDiff; //alias
+	        this.isDst = this.isDaylightSavings; //alias
+	        /** true/false if argument is lesser than defined date */
+	        this.lesser = function (otherDate) {
+	            return new AckDate(otherDate).date < this.date ? true : false;
+	        };
+	        //return natural Date object
+	        this.getDate = function () {
+	            return this.date.getDate();
+	        };
+	        //sets day of month
+	        this.setDate = function (n) {
+	            var d = this.date;
+	            d = d.setDate(n);
+	            this.date = new Date(d);
+	            return this;
+	        };
+	        this.setDayOfMonth = this.setDate; //aka
+	        this.getYear = this.year;
+	        this.addYear = this.nextYear;
+	        this.addYears = this.nextYear;
+	        this.getMonth = this.month;
+	        this.addMonths = this.nextMonth;
+	        this.nextDay = this.addDays; //multi alias
+	        this.priorDay = this.prevDay; //aka for naming consistency
+	        this.getWeek = this.week;
+	        this.gotoFirstDayOfWeek = this.gotoSunday;
+	        this.gotoMondayOfWeek = this.gotoMonday;
+	        this.gotoFridayOfWeek = this.gotoFriday;
+	        this.gotoEndOfDate = this.gotoEod;
+	        this.gotoStartOfDate = this.gotoSod;
+	        this.dateSecondsDiff = this.dateSecondDiff; //alias
+	        this.dateMinutesDiff = this.dateMinuteDiff; //alias
+	        this.date = toDate(date, format);
+	        return this;
 	    }
-	  }
-	  return date || new Date()
+	    /** takes current Date and returns casted utc set Date object */
+	    AckDate.prototype.getUtcDate = function () {
+	        return new Date(this.date.getUTCFullYear(), this.date.getUTCMonth(), this.date.getUTCDate(), this.date.getUTCHours(), this.date.getUTCMinutes(), this.date.getUTCSeconds());
+	    };
+	    /** takes current Date and returns casted utc set Date number */
+	    AckDate.prototype.utc = function () {
+	        return this.getUtcDate().getTime();
+	    };
+	    /** takes current Date and casts to utc set Date number. Returns this */
+	    AckDate.prototype.toUtc = function () {
+	        this.date = this.getUtcDate();
+	        return this;
+	    };
+	    AckDate.prototype.setDateByString = function (date) {
+	        this.date = dateStringToDate(date);
+	        return this;
+	    };
+	    AckDate.prototype.getTimezoneStamp = function (sep) {
+	        return getTimezoneStamp(this.date, sep);
+	    };
+	    AckDate.prototype.yearsFromNow = function () {
+	        return this.dateYearDiff(Date.now());
+	    };
+	    AckDate.prototype.monthsFromNow = function () {
+	        return this.dateMonthDiff(Date.now());
+	    };
+	    AckDate.prototype.daysFromNow = function () {
+	        return this.dateDayDiff(Date.now());
+	    };
+	    /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
+	    AckDate.prototype.fromNow = function (hideSuffix) {
+	        return moment(this.date).fromNow(hideSuffix);
+	    };
+	    /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
+	    AckDate.prototype.fromToday = function (hideSuffix) {
+	        var fDate = new AckDate().now().gotoSod().date;
+	        var mDate = new AckDate(this.date).gotoSod().date;
+	        return moment(mDate).from(fDate, hideSuffix);
+	    };
+	    /** see moment http://momentjs.com/docs/#/displaying/from/ */
+	    AckDate.prototype.from = function (d, hideSuffix) {
+	        return moment(toDate(d)).from(this.date, hideSuffix);
+	    };
+	    AckDate.prototype.now = function () {
+	        this.date = new Date();
+	        return this;
+	    };
+	    AckDate.prototype.param = function () {
+	        this.date = this.date || new Date();
+	        return this;
+	    };
+	    AckDate.prototype.dateMonthDiff = function (date) {
+	        return dateMonthDiff(this.date, date);
+	    };
+	    /** always absolute number */
+	    AckDate.prototype.dateDayDiff = function (date) {
+	        //return Math.abs(parseInt((this.date - AckDate.toDate(date))/(24*3600*1000)))
+	        var dateCalc = this.date.getTime() - toDate(date).getTime();
+	        var calc = Math.floor((dateCalc) / 86400000);
+	        return Math.abs(calc);
+	    };
+	    /** returns no negative numbers */
+	    AckDate.prototype.dateHourDiff = function (date) {
+	        var calcDate = this.date.getTime() - dateObjectBy(date || new Date());
+	        return Math.abs(calcDate) / 36e5;
+	    };
+	    AckDate.prototype.isDaylightSavings = function () {
+	        if (!this.date)
+	            return;
+	        return this.date.getTimezoneOffset() < stdTimezoneOffset(this.date);
+	    };
+	    /** amount daylight savings */
+	    AckDate.prototype.daylightSavings = function () {
+	        var d = new Date();
+	        return (stdTimezoneOffset(d) - d.getTimezoneOffset()) / 60;
+	    };
+	    /** true/false if argument is greater than defined date */
+	    AckDate.prototype.greater = function (otherDate) {
+	        return new AckDate(otherDate).date > this.date ? true : false;
+	    };
+	    //returns years.months (32.11 is 32 years and 11 months && 32.1 is 32 years 1 month)
+	    AckDate.prototype.getAgeDisplay = function () {
+	        var d = this.date;
+	        var toDate = new Date();
+	        var local = {};
+	        local.isValBirthdate = d != null && isDate(d);
+	        if (!local.isValBirthdate)
+	            return 0;
+	        local.isBorn = this.greater(toDate);
+	        if (local.isBorn) {
+	            local.lesserDate = d;
+	            local.greaterDate = toDate;
+	        }
+	        else {
+	            local.lesserDate = toDate;
+	            local.greaterDate = d;
+	        }
+	        local.cYear = yearByDate(local.greaterDate);
+	        local.lastBirthdate = dateAddDay(local.lesserDate, -365);
+	        local.years = dateYearDiff(local.lesserDate, local.greaterDate);
+	        local.months = dateMonthDiff(local.lastBirthdate, local.greaterDate);
+	        if (local.months >= 12)
+	            local.months = local.months % 12;
+	        local.format = 1;
+	        if (local.months >= 10)
+	            local.format = 2;
+	        var rtnNum = Number(local.years + '.' + local.months);
+	        local.result = (function (n, p) {
+	            var m = Math.pow(10, p);
+	            return (Math.round(n * m) / m).toFixed(p);
+	        })(rtnNum, local.format);
+	        if (!local.isBorn)
+	            local.result = -local.result;
+	        return local.result;
+	    };
+	    AckDate.prototype.gt = function (date) {
+	        date = dateObjectBy(date);
+	        return this.date > date;
+	    };
+	    AckDate.prototype.lt = function (date) {
+	        date = dateObjectBy(date);
+	        return this.date < date;
+	    };
+	    AckDate.prototype.clone = function () {
+	        return new AckDate(new Date(this.date));
+	    };
+	    AckDate.prototype.isDate = function (date) {
+	        return isDate(date || this.date);
+	    };
+	    /* YEARS */
+	    AckDate.prototype.Year = function () {
+	        return this.year();
+	    };
+	    AckDate.prototype.year = function () {
+	        return yearByDate(this.date);
+	    };
+	    AckDate.prototype.setYear = function (n) {
+	        this.date.setFullYear(n);
+	        return this;
+	    };
+	    AckDate.prototype.dayOfYear = function () {
+	        var d = new AckDate(this.date).gotoEod().date;
+	        var compareDate = new Date(d.getFullYear(), 0, 1).getTime();
+	        return Math.ceil((d.getTime() - compareDate) / 86400000);
+	    };
+	    AckDate.prototype.getNextYear = function (y) {
+	        y = y == null ? 1 : Number(y);
+	        return this.year() + y;
+	    };
+	    AckDate.prototype.nextYear = function (y) {
+	        this.setYear(this.getNextYear(y));
+	        return this;
+	    };
+	    AckDate.prototype.getPriorYear = function (y) {
+	        y = y == null ? 1 : Number(y);
+	        return this.year() - Math.abs(y);
+	    };
+	    AckDate.prototype.priorYear = function (y) {
+	        this.setYear(this.getPriorYear(y));
+	        return this;
+	    };
+	    /* MONTHS */
+	    /** 1st 2nd 3rd of the month */
+	    AckDate.prototype.getMonthAbbr = function () {
+	        return exports.monthAbbrArray[this.date.getMonth()];
+	    };
+	    AckDate.prototype.getMonthDateProperNumber = function () {
+	        return suffixByNumber(this.date.getDate());
+	    };
+	    AckDate.prototype.fullWeeksLeftInMonth = function () {
+	        var eDate = this.getLastDateOfMonth();
+	        var diff = this.dateDayDiff(eDate);
+	        return Math.floor(diff / 7);
+	    };
+	    AckDate.prototype.weekInMonth = function () {
+	        var firstDay = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
+	        return Math.ceil((this.date.getDate() + firstDay) / 7);
+	    };
+	    AckDate.prototype.getMonthDayCount = function () {
+	        return new Date(this.year(), this.month(), 0).getDate();
+	    };
+	    AckDate.prototype.getMonthName = function () {
+	        return exports.monthNameArray[this.month() - 1];
+	    };
+	    AckDate.prototype.getMonthNameArray = function () {
+	        return exports.monthNameArray;
+	    };
+	    AckDate.prototype.month = function () {
+	        return this.date.getMonth() + 1;
+	    };
+	    AckDate.prototype.priorMonth = function (amount) {
+	        if (amount === void 0) { amount = 1; }
+	        return this.nextMonth(-Math.abs(amount));
+	    };
+	    AckDate.prototype.nextMonth = function (amount) {
+	        if (amount === void 0) { amount = 1; }
+	        this.date = new Date(this.date.setMonth(this.date.getMonth() + amount));
+	        return this;
+	    };
+	    AckDate.prototype.getLastDateOfMonth = function () {
+	        var nd = new Date(this.date);
+	        var EDate = new AckDate(nd);
+	        return EDate.nextMonth().gotoFirstDayOfMonth().prevDay().date;
+	    };
+	    AckDate.prototype.setMonth = function (n) {
+	        var d = this.date.setMonth(n - 1);
+	        this.date = new Date(d);
+	        return this;
+	    };
+	    AckDate.prototype.gotoFirstDayOfMonth = function () {
+	        this.prevDay(this.date.getDate() - 1);
+	        return this;
+	    };
+	    /* DAYS */
+	    AckDate.prototype.daysInMonth = function () {
+	        return new Date(this.year(), this.month(), 0).getDate();
+	    };
+	    AckDate.prototype.addDays = function (amount) {
+	        var nd = dateAddDay(this.date, amount);
+	        this.date = new Date(nd);
+	        return this;
+	    };
+	    AckDate.prototype.prevDay = function (amount) {
+	        if (amount === void 0) { amount = 1; }
+	        var d = new Date(this.date);
+	        this.date = new Date(d.setDate(d.getDate() - amount));
+	        return this;
+	    };
+	    /* WEEKS */
+	    AckDate.prototype.isWeekend = function () {
+	        return [1, 7].indexOf(this.dayOfWeek()) >= 0;
+	    };
+	    /** getWeekInYear */
+	    AckDate.prototype.week = function () {
+	        var d = new Date(this.date); //could be number
+	        var onejan = new Date(d.getFullYear(), 0, 1);
+	        var nowDate = new Date(d).getTime();
+	        var calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7;
+	        return Math.ceil(calc);
+	    };
+	    AckDate.prototype.dayOfWeek = function () {
+	        var d = this.date;
+	        return d.getDay() + 1;
+	    };
+	    AckDate.prototype.gotoSunday = function () {
+	        this.prevDay(this.dayOfWeek() - 1);
+	        return this;
+	    };
+	    AckDate.prototype.gotoMonday = function () {
+	        this.gotoFirstDayOfWeek().nextDay();
+	        return this;
+	    };
+	    AckDate.prototype.gotoFriday = function () {
+	        this.gotoFirstDayOfWeek().nextDay(5);
+	        return this;
+	    };
+	    AckDate.prototype.gotoWeek = function (week) {
+	        var thisWk = this.week();
+	        this.nextWeek(week - thisWk);
+	        return this;
+	    };
+	    AckDate.prototype.priorWeek = function (amount) {
+	        amount = amount == null ? 1 : amount;
+	        return this.nextWeek(-Math.abs(amount));
+	    };
+	    AckDate.prototype.nextWeek = function (amount) {
+	        amount = amount == null ? 1 : amount;
+	        this.nextDay(amount * 7);
+	        return this;
+	    };
+	    AckDate.prototype.getDateWeekStart = function () {
+	        var date = this.date;
+	        var dw = this.dayOfWeek() - 1;
+	        return new Date(date.setDate(date.getDate() - dw));
+	    };
+	    AckDate.prototype.getDateWeekStop = function () {
+	        var date = this.getDateWeekStart();
+	        date = date.setDate(date.getDate() + 6);
+	        return endOfDateDay(date);
+	    };
+	    /** goto end of day. Just sets time to 23:59:59.999 */
+	    AckDate.prototype.gotoEod = function () {
+	        this.date = endOfDateDay(this.date);
+	        return this;
+	    };
+	    /** goto start of day. Just sets time to 0:0:0.0 */
+	    AckDate.prototype.gotoSod = function () {
+	        this.date = startOfDateDay(this.date);
+	        return this;
+	    };
+	    AckDate.prototype.FirstWeekday = function () {
+	        var amount = -this.dayOfWeek() + 2, nd = this.date, nd = new Date(nd) //clone
+	        , Nd = new AckDate(nd).nextDay(amount);
+	        return Nd;
+	    };
+	    AckDate.prototype.getDateOfFirstWeekday = function () {
+	        return new Date(this.FirstWeekday().date);
+	    };
+	    /** method(weekNum, AckDate) */
+	    AckDate.prototype.eachWeekInYear = function (method) {
+	        var num = this.getWeeksInYear(), year = this.year();
+	        for (var x = 1; x <= num; ++x) {
+	            var ExD = new AckDate(this.date).setYear(year).gotoWeek(x);
+	            ExD.gotoFirstDayOfWeek();
+	            method(x, ExD);
+	        }
+	        return this;
+	    };
+	    AckDate.prototype.eachWeekWithMondayInYear = function (method) {
+	        this.eachWeekInYear(function (num, AckDate) {
+	            method(num, AckDate.gotoMondayOfWeek());
+	        });
+	        return this;
+	    };
+	    /** returns array of date exposed objects representing each week in a year */
+	    AckDate.prototype.getWeeksWithMondayInYearExposedArray = function () {
+	        var rtnArray = [];
+	        this.eachWeekWithMondayInYear(function (weekNum, AckDate) {
+	            rtnArray.push(AckDate);
+	        });
+	        return rtnArray;
+	    };
+	    /** returns array of date objects representing each week in a year */
+	    AckDate.prototype.getWeeksWithMondayInYearArray = function () {
+	        var rtnArray = [];
+	        this.eachWeekWithMondayInYear(function (weekNum, AckDate) {
+	            rtnArray.push(AckDate.date);
+	        });
+	        return rtnArray;
+	    };
+	    AckDate.prototype.getWeeksInYear = function (y) {
+	        y = y ? y : this.year();
+	        var d, isLeap;
+	        d = new Date(y, 0, 1);
+	        isLeap = new Date(y, 1, 29).getMonth() === 1;
+	        //check for a Jan 1 that's a Thursday or a leap year that has a
+	        //Wednesday jan 1. Otherwise it's 52
+	        return d.getDay() === 4 || isLeap && d.getDay() === 3 ? 53 : 52;
+	    };
+	    /* ! TIME METHODS ! */
+	    AckDate.prototype.setTimeByString = function (string) {
+	        if (!this.date || !string)
+	            return this;
+	        if (string.split) {
+	            var parsed = parseTimeString(string);
+	            var change = this.date.setHours(parsed.hour);
+	            change = new Date(change).setMinutes(parsed.minute);
+	            this.date = new Date(change);
+	        }
+	        return this;
+	    };
+	    //convenience of date as number
+	    AckDate.prototype.getTime = function () {
+	        return this.date.getTime();
+	    };
+	    /** alters this.date and return this */
+	    AckDate.prototype.addHours = function (n) {
+	        if (this.date)
+	            this.date.setHours(this.date.getHours() + n);
+	        return this;
+	    };
+	    /** alters this.date and return this */
+	    AckDate.prototype.addMinutes = function (n) {
+	        if (this.date)
+	            this.date = new Date(this.date.getTime() + n * 60000);
+	        return this;
+	    };
+	    AckDate.prototype.minuteOfDay = function () {
+	        return (60 * this.date.getHours()) + this.date.getMinutes();
+	    };
+	    /** alters this.date and return this */
+	    AckDate.prototype.addSeconds = function (n) {
+	        return this.addMilliseconds(n * 1000);
+	    };
+	    /** alters this.date and return this */
+	    AckDate.prototype.addMilliseconds = function (n) {
+	        if (this.date)
+	            this.date = new Date(this.date.getTime() + n);
+	        return this;
+	    };
+	    /** Does not return negative numbers.
+	      @date - not required, default = new Date()
+	      @decimals - not required, default = false (no decimals causes decimal rounding)
+	    */
+	    AckDate.prototype.dateSecondDiff = function (date, decimals) {
+	        date = dateObjectBy(date || new Date());
+	        var dif = this.date.getTime() - date.getTime();
+	        var Seconds_from_T1_to_T2 = dif / 1000;
+	        var rtn = Math.abs(Seconds_from_T1_to_T2);
+	        if (decimals) {
+	            decimals = Number(decimals) && !isNaN(decimals) ? decimals : 2;
+	            rtn = toDecimal(rtn, decimals);
+	        }
+	        else {
+	            rtn = Math.round(rtn);
+	        }
+	        return rtn;
+	    };
+	    //no negative numbers
+	    AckDate.prototype.dateMinuteDiff = function (date) {
+	        date = toDate(date || new Date());
+	        var hourDiff = date - this.date.getTime(); //in ms
+	        var secDiff = hourDiff / 1000; //in s
+	        var minDiff = hourDiff / 60 / 1000; //in minutes
+	        var hDiff = hourDiff / 3600 / 1000; //in hours
+	        var hours = Math.floor(hDiff);
+	        var mins = minDiff - 60 * hours;
+	        var calc = Math.abs(hours * 60 + mins);
+	        //return Math.round(calc, 0);
+	        return Math.round(calc);
+	    };
+	    /* FORMATTING */
+	    AckDate.prototype.format = function (format) {
+	        return moment(this.date).format(format);
+	    };
+	    AckDate.prototype.getDayName = function () {
+	        if (!this.date)
+	            return '';
+	        return exports.dayNameArray[this.date.getDay()];
+	    };
+	    AckDate.prototype.getDayAbbr = function () {
+	        if (!this.date)
+	            return '';
+	        return exports.dayAbbrArray[this.date.getDay()];
+	    };
+	    /** Febuary 24th 2016 */
+	    AckDate.prototype.mmmmdyyyy = function () {
+	        if (!this.date)
+	            return '';
+	        return this.getMonthName() + ' ' + this.getMonthDateProperNumber() + ' ' + this.date.getFullYear();
+	    };
+	    /** 01:20.220 */
+	    AckDate.prototype.hhmmssl = function (timeSep, milsecSep) {
+	        if (!this.date)
+	            return '';
+	        timeSep = timeSep || ':';
+	        milsecSep = milsecSep || '.';
+	        var d = this.date;
+	        var h = d.getHours();
+	        var m = d.getMinutes();
+	        m = m < 10 ? '0' + m : m;
+	        h = ('0' + h).slice(-2);
+	        var s = ('0' + d.getSeconds()).slice(-2);
+	        return h + timeSep + m + timeSep + s + milsecSep + d.getMilliseconds();
+	    };
+	    AckDate.prototype.hhmmsl = function (timeSep, milsecSep) {
+	        if (!this.date)
+	            return '';
+	        var d = this.date;
+	        var timeSep = timeSep || ':';
+	        var milsecSep = milsecSep || '.';
+	        var h = d.getHours();
+	        var m = d.getMinutes();
+	        m = m < 10 ? '0' + m : m;
+	        h = ('0' + h).slice(-2);
+	        return h + timeSep + m + timeSep + d.getSeconds() + milsecSep + d.getMilliseconds();
+	    };
+	    AckDate.prototype.hmmtt = function () {
+	        if (!this.date)
+	            return '';
+	        var d = this.date;
+	        var h = d.getHours();
+	        var t = 'AM';
+	        var m = d.getMinutes();
+	        m = m < 10 ? '0' + m : m;
+	        h = h >= 12 ? (t = 'PM', h - 12 || 12) : (h == 0 ? 12 : h);
+	        return h + ':' + m + ' ' + t;
+	    };
+	    AckDate.prototype.mmddyyyyhhmmtt = function (dateSep, spaceSep, timeSep, ttSep) {
+	        if (!this.date)
+	            return '';
+	        spaceSep = spaceSep == null ? ' ' : spaceSep;
+	        return this.mmddyyyy(dateSep) + spaceSep + this.hhmmtt(timeSep, ttSep);
+	    };
+	    AckDate.prototype.hhmmtt = function (timeSep, ttSep) {
+	        if (!this.date)
+	            return '';
+	        var d = this.date;
+	        var timeSep = timeSep || ':';
+	        var ttSep = ttSep == null ? ' ' : ttSep;
+	        var h = d.getHours();
+	        var t = 'AM';
+	        var m = d.getMinutes();
+	        m = m < 10 ? '0' + m : m;
+	        h = h >= 12 ? (t = 'PM', h - 12 || 12) : (h == 0 ? 12 : h);
+	        return ('0' + h).slice(-2) + timeSep + m + ttSep + t;
+	    };
+	    AckDate.prototype.hhmmsstt = function (timeSep, ttSep) {
+	        if (!this.date)
+	            return '';
+	        var d = this.date;
+	        var timeSep = timeSep || ':';
+	        var ttSep = ttSep == null ? ' ' : ttSep;
+	        var h = d.getHours();
+	        var t = 'AM';
+	        var m = d.getMinutes();
+	        m = m < 10 ? '0' + m : m;
+	        h = h >= 12 ? (t = 'PM', h - 12 || 12) : (h == 0 ? 12 : h);
+	        var s = ('0' + d.getSeconds()).slice(-2);
+	        return ('0' + h).slice(-2) + timeSep + m + timeSep + s + ttSep + t;
+	    };
+	    //yyyy-mm-dd hh:nn:ss:l aka serverFormat
+	    AckDate.prototype.storageFormat = function (dateSep, spaceSep, timeSep, milsecSep) {
+	        if (!this.date)
+	            return '';
+	        dateSep = dateSep || '-';
+	        spaceSep = spaceSep || ' ';
+	        return this.date.getFullYear() + dateSep + this.mmdd(dateSep) + spaceSep + this.hhmmssl(timeSep, milsecSep);
+	    };
+	    AckDate.prototype.yyyymmdd = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '' : sep;
+	        return this.year() + sep + this.mmdd(sep);
+	    };
+	    AckDate.prototype.mmddyyyy = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '/' : sep;
+	        var d = this.date;
+	        return this.mmdd(sep) + sep + d.getFullYear();
+	    };
+	    AckDate.prototype.mdyyyy = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '/' : sep;
+	        var d = this.date;
+	        return this.md(sep) + sep + d.getFullYear();
+	    };
+	    AckDate.prototype.mdyy = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '/' : sep;
+	        var d = this.date;
+	        return this.md(sep) + sep + this.yy();
+	    };
+	    AckDate.prototype.mmddyy = function (sep) {
+	        if (!this.date)
+	            return '';
+	        var r = this.mmddyyyy();
+	        return r.substring(0, r.length - 4) + r.substring(r.length - 2, r.length);
+	    };
+	    AckDate.prototype.yy = function () {
+	        if (!this.date)
+	            return '';
+	        return this.date.getFullYear().toString().substring(2, 4);
+	    };
+	    AckDate.prototype.mmdd = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '/' : sep;
+	        var d = this.date;
+	        return twoDigit(d.getMonth() + 1) + sep + twoDigit(d.getDate());
+	    };
+	    AckDate.prototype.md = function (sep) {
+	        if (!this.date)
+	            return '';
+	        sep = sep == null ? '/' : sep;
+	        var d = this.date;
+	        return (d.getMonth() + 1) + sep + d.getDate();
+	    };
+	    return AckDate;
+	}());
+	exports.AckDate = AckDate;
+	function dateObjectBy(date, format) {
+	    if (date != null) {
+	        switch (date.constructor) {
+	            case AckDate: return date.date;
+	            case Date: return date;
+	            case String: return dateStringToDate(date, format);
+	            default: return new Date(date); //convert string to date object
+	        }
+	    }
+	    return date || new Date();
 	}
-
-	ackDate.suffixByNumber = function(i){
-	  var j = i % 10,
-	      k = i % 100;
-	  if (j == 1 && k != 11) {
-	      return i + "st";
-	  }
-	  if (j == 2 && k != 12) {
-	      return i + "nd";
-	  }
-	  if (j == 3 && k != 13) {
-	      return i + "rd";
-	  }
-	  return i + "th";
+	exports.dateObjectBy = dateObjectBy;
+	function toDate(date, format) {
+	    return date === null ? null : (date == null ? new Date() : dateObjectBy(date, format));
 	}
-
-	ackDate.dateAddDay = function(d, amount){
-	  amount = amount==null ? 1 : amount
+	exports.toDate = toDate;
+	function getTimezoneStamp(date, seperator) {
+	    date = date || new Date();
+	    var value = new Date(date).toString().match(/([-\+][0-9]+)\s/)[1];
+	    if (seperator) {
+	        value = value.substring(0, value.length - 2) + seperator + value.substring(value.length - 2, value.length);
+	    }
+	    return value;
+	}
+	exports.getTimezoneStamp = getTimezoneStamp;
+	function suffixByNumber(i) {
+	    var j = i % 10, k = i % 100;
+	    if (j == 1 && k != 11) {
+	        return i + "st";
+	    }
+	    if (j == 2 && k != 12) {
+	        return i + "nd";
+	    }
+	    if (j == 3 && k != 13) {
+	        return i + "rd";
+	    }
+	    return i + "th";
+	}
+	exports.suffixByNumber = suffixByNumber;
+	function dateAddDay(d, amount) {
+	    if (amount === void 0) { amount = 1; }
 	    var dat = new Date(d);
 	    dat.setDate(dat.getDate() + amount);
 	    return dat;
 	}
-
-	ackDate.startOfDateDay = function(date){
-	  date = new Date(new Date(date).setHours(0))
-	  date = new Date(date.setMinutes(0))
-	  date = new Date(date.setSeconds(0))
-	  return new Date(date.setMilliseconds(0))
+	exports.dateAddDay = dateAddDay;
+	function startOfDateDay(date) {
+	    date = new Date(new Date(date).setHours(0));
+	    date = new Date(date.setMinutes(0));
+	    date = new Date(date.setSeconds(0));
+	    return new Date(date.setMilliseconds(0));
 	}
-
-	ackDate.endOfDateDay = function(date){
-	  date = new Date(new Date(date).setHours(23))
-	  date = new Date(date.setMinutes(59))
-	  date = new Date(date.setSeconds(59))
-	  return new Date(date.setMilliseconds(999))
+	exports.startOfDateDay = startOfDateDay;
+	function endOfDateDay(date) {
+	    date = new Date(new Date(date).setHours(23));
+	    date = new Date(date.setMinutes(59));
+	    date = new Date(date.setSeconds(59));
+	    return new Date(date.setMilliseconds(999));
 	}
-
+	exports.endOfDateDay = endOfDateDay;
 	/** Without format argument, auto detection is by placement of year */
-	ackDate.dateStringToDate = function(date, format){
-	  if(format){
-	    return new Date( moment(date, format) )
-	  }
-
-	  var isZoned = date.substring(date.length-1,date.length)=='Z'
-	  var isFirstFourDigits = date.length>8 && !isNaN(date.substring(0, 4)) && !isZoned
-	  var slash = date.substring(4, 5)
-
-	  if(isFirstFourDigits && isNaN(slash)){
-	    var dateSplit = date.split(slash)
-	    var month = dateSplit[1]
-	    var day = dateSplit[2]
-	    var year = dateSplit[0]
-	    var dateOnly = dateSplit.length==3
-
-	    dateSplit[0] = year
-	    dateSplit[1] = month
-	    dateSplit[2] = day
-	    
-	    
-	    //fails on safari 10.1.2
-	    //dateSplit[0] = month
-	    //dateSplit[1] = day
-	    //dateSplit[2] = year
-
-	    date = dateSplit.join(slash)
-	    if( dateOnly ){
-	      return new Date(year, month-1, day)
+	function dateStringToDate(date, format) {
+	    if (format) {
+	        return new Date(moment(date, format));
 	    }
-	  }
-
-	  return new Date(date)
+	    var isZoned = date.substring(date.length - 1, date.length) == 'Z';
+	    var isFirstFourDigits = date.length > 8 && !isNaN(date.substring(0, 4)) && !isZoned;
+	    var slash = date.substring(4, 5);
+	    if (isFirstFourDigits && isNaN(slash)) {
+	        var dateSplit = date.split(slash);
+	        var month = dateSplit[1];
+	        var day = dateSplit[2];
+	        var year = dateSplit[0];
+	        var dateOnly = dateSplit.length == 3;
+	        dateSplit[0] = year;
+	        dateSplit[1] = month;
+	        dateSplit[2] = day;
+	        //fails on safari 10.1.2
+	        //dateSplit[0] = month
+	        //dateSplit[1] = day
+	        //dateSplit[2] = year
+	        date = dateSplit.join(slash);
+	        if (dateOnly) {
+	            return new Date(year, month - 1, day);
+	        }
+	    }
+	    return new Date(date);
 	}
-
+	exports.dateStringToDate = dateStringToDate;
 	//NON PROTOTYPE METHODS
-	ackDate.twoDigit = function(n){
-	  return ('0'+n).slice(-2)
-	}
-
-	ackDate.isDate = function(date){
-	  if(!date)return false
-
-	  var isRawDate = date.constructor==Date&&!isNaN(date.getTime())
-	  if(isRawDate)return true
-
-	  if(date.search)//string
-	    return date.search(/^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4}|[0-9]{2})$/) >= 0
-
-	  return false
-	}
-
-	ackDate.yearByDate = function(d){
-	  return d.getFullYear()
-	}
-
-	ackDate.getMonthIndexByString = function(mon){
-	  return ackDate.monthLcaseNameArray.indexOf(mon.toLowerCase())
-	}
-
-	ackDate.monthNameArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-	ackDate.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
-	ackDate.monthAbbrArray = ['Jan','Feb','Mar','Apr','Ma','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
-	ackDate.dayNameArray = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
-	ackDate.dayAbbrArray = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
-
-
-	ackDate.dateYearDiff = function(d0, d1){
-	  return Math.abs(d0.getFullYear() - d1.getFullYear())
-	}
-
-	/*
-	  PROTOTYPES
-	*/
-
-	/** takes current Date and returns casted utc set Date object */
-	ackDate.prototype.getUtcDate = function(){
-	  return new Date(
-	    this.date.getUTCFullYear(),
-	    this.date.getUTCMonth(),
-	    this.date.getUTCDate(),
-	    this.date.getUTCHours(),
-	    this.date.getUTCMinutes(),
-	    this.date.getUTCSeconds()
-	  )
-	}
-
-	/** takes current Date and returns casted utc set Date number */
-	ackDate.prototype.utc = function(){
-	  return this.getUtcDate().getTime()
-	}
-
-	/** takes current Date and casts to utc set Date number. Returns this */
-	ackDate.prototype.toUtc = function(){
-	  this.date = this.getUtcDate()
-	  return this
-	}
-
-	ackDate.prototype.setDateByString = function(date){
-	  this.date = ackDate.dateStringToDate(date)
-	  return this
-	}
-
-	ackDate.prototype.getTimezoneStamp = function(sep){
-	  return ackDate.getTimezoneStamp( this.date, sep )
-	}
-
-	ackDate.prototype.yearsFromNow = function(){
-	  return this.dateYearDiff( Date.now() )
-	}
-
-	ackDate.prototype.monthsFromNow = function(){
-	  return this.dateMonthDiff( Date.now() )
-	}
-
-	ackDate.prototype.daysFromNow = function(){
-	  return this.dateDayDiff( Date.now() )
-	}
-
-	/** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
-	ackDate.prototype.fromNow = function(hideSuffix){
-	  return moment( this.date ).fromNow(hideSuffix)
-	}
-
-	/** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
-	ackDate.prototype.fromToday = function(hideSuffix){
-	  return moment( new ackDate(this.date).gotoSod().date ).from(new ackDate().now().gotoSod().date, hideSuffix)
-	}
-
-	/** see moment http://momentjs.com/docs/#/displaying/from/ */
-	ackDate.prototype.from = function(d, hideSuffix){
-	  return moment( ackDate.toDate(d) ).from(this.date, hideSuffix)
-	}
-
-	ackDate.prototype.now = function(){
-	  this.date = new Date();return this;
-	}
-
-	ackDate.prototype.param = function(){
-	  this.date = this.date||new Date();return this;
-	}
-
-	var stdTimezoneOffset = function(d) {
-	  var jan = new Date(d.getFullYear(), 0, 1);
-	  var jul = new Date(d.getFullYear(), 6, 1);
-	  return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-	}
-
-	ackDate.prototype.isDaylightSavings = function(){
-	  if(!this.date)return;
-	  return this.date.getTimezoneOffset() < stdTimezoneOffset(this.date);
-	}
-	ackDate.prototype.isDst = ackDate.prototype.isDaylightSavings
-
-	/** amount daylight savings */
-	ackDate.prototype.daylightSavings = function(){
-	  var d = new Date()
-	  return (stdTimezoneOffset(d)-d.getTimezoneOffset()) / 60
-	}
-
-	/** true/false if argument is greater than defined date */
-	ackDate.prototype.greater = function(otherDate){
-	  return new ackDate(otherDate).date > this.date ? true : false
-	}
-
-	/** true/false if argument is lesser than defined date */
-	ackDate.prototype.lesser = function(otherDate){
-	  return new ackDate(otherDate).date < this.date ? true : false
-	}
-
-	//returns years.months (32.11 is 32 years and 11 months && 32.1 is 32 years 1 month)
-	ackDate.prototype.getAgeDisplay = function(){
-	  var d = this.date
-	    ,toDate = new Date()
-	    ,local = {}
-
-	  local.isValBirthdate = d!=null && ackDate.isDate(d);
-
-	  if(!local.isValBirthdate)return 0;
-
-
-	  local.isBorn = this.greater(toDate)
-	  if(local.isBorn){
-	    local.lesserDate = d
-	    local.greaterDate = toDate
-	  }else{
-	    local.lesserDate = toDate
-	    local.greaterDate = d
-	  }
-
-	  local.cYear = ackDate.yearByDate(local.greaterDate)
-	  local.lastBirthdate = ackDate.dateAddDay(local.lesserDate, -365)
-	  local.years = ackDate.dateYearDiff(local.lesserDate, local.greaterDate)
-	  local.months = ackDate.dateMonthDiff(local.lastBirthdate, local.greaterDate)
-
-	  if(local.months >= 12)
-	    local.months = local.months % 12
-
-	  local.format = 1;
-	  if(local.months >= 10)
-	    local.format = 2
-
-	  var rtnNum = local.years +'.'+ local.months
-
-	  local.result = (function(n,p){var m=Math.pow(10,p);return (Math.round(n*m)/m).toFixed(p)})(rtnNum,local.format)
-
-	  if(!local.isBorn)local.result = -local.result;
-
-	  return local.result;
-	}
-
-	ackDate.prototype.gt = function(date){
-	  date = ackDate.dateObjectBy(date)
-	  return this.date > date
-	}
-
-	ackDate.prototype.lt = function(date){
-	  date = ackDate.dateObjectBy(date)
-	  return this.date < date
-	}
-
-	ackDate.prototype['new'] = function(){
-	  return new ackDate( new Date(this.date) )
-	}
-
-	ackDate.prototype.isDate = function(date){
-	  return ackDate.isDate(date||this.date)
-	}
-
-	//return natural Date object
-	ackDate.prototype.getDate = function(){
-	  return this.date.getDate()
-	}
-
-	//sets day of month
-	ackDate.prototype.setDate = function(n){
-	  var d = this.date
-	  d = d.setDate(n)
-	  this.date = new Date(d)
-	  return this
-	}
-	ackDate.prototype.setDayOfMonth = ackDate.prototype.setDate
-
-
-	/* YEARS */
-	ackDate.prototype.Year = function(){
-	  return ack.year(this.date)
-	}
-
-	ackDate.prototype.year = function(){
-	  return ackDate.yearByDate(this.date)
-	}
-	ackDate.prototype.getYear = ackDate.prototype.year
-
-	ackDate.prototype.setYear = function(n){
-	  this.date.setFullYear(n)
-	  return this
-	}
-
-	ackDate.prototype.dayOfYear = function(){
-	  var d = new ackDate(this.date).gotoEod().date
-	  return Math.ceil((d - new Date(d.getFullYear(), 0, 1)) / 86400000)
-	}
-
-	ackDate.prototype.getNextYear = function(y){
-	  y = y==null ? 1 : Number(y)
-	  return this.year()+y
-	}
-	ackDate.prototype.nextYear = function(y){
-	  this.setYear( this.getNextYear(y) )
-	  return this
-	}
-	ackDate.prototype.getPriorYear = function(y){
-	  y = y==null ? 1 : Number(y)
-	  return this.year()-Math.abs(y)
-	}
-	ackDate.prototype.priorYear = function(y){
-	  this.setYear( this.getPriorYear(y) )
-	  return this
-	}
-	ackDate.prototype.addYear = ackDate.prototype.nextYear;
-	ackDate.prototype.addYears = ackDate.prototype.nextYear;
-
-	ackDate.prototype.dateYearDiff = function(date){
-	  date = ackDate.toDate(date)
-	  return ackDate.dateYearDiff(date, this.date)
-	}
-
-
-
-
-	/* MONTHS */
-
-	/** 1st 2nd 3rd of the month */
-	ackDate.prototype.getMonthAbbr = function(){
-	  return ackDate.monthAbbrArray[this.date.getMonth()]
-	}
-
-	ackDate.prototype.getMonthDateProperNumber = function(){
-	  return ackDate.suffixByNumber( this.date.getDate() )
-	}
-
-	ackDate.prototype.fullWeeksLeftInMonth = function(){
-	  var eDate = this.getLastDateOfMonth()
-	  var diff = this.dateDayDiff(eDate)
-	  return Math.floor( diff / 7 )
-	}
-
-	ackDate.prototype.weekInMonth = function(){
-	  var firstDay = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
-	  return Math.ceil((this.date.getDate() + firstDay)/7)
-	}
-
-	ackDate.prototype.getMonthDayCount = function() {
-	    return new Date(this.year(), this.month(), 0).getDate();
-	}
-
-	ackDate.prototype.getMonthName = function(){
-	  return ackDate.monthNameArray[ this.month()-1 ]
-	}
-
-	ackDate.prototype.getMonthNameArray = function(){
-	  return ackDate.monthNameArray
-	}
-
-
-	ackDate.prototype.dateMonthDiff = function(date){
-	  return ackDate.dateMonthDiff(this.date, date)
-	}
-
-	ackDate.dateMonthDiff = function(date0, date1){
-	  date0 = new Date(date0);date1 = new Date(date1)
-	  return Math.abs( (date1.getMonth()+12*date1.getFullYear())-(date0.getMonth()+12*date0.getFullYear()) )
-	}
-
-	ackDate.prototype.month = function(){
-	  return this.date.getMonth()+1
-	}
-	ackDate.prototype.getMonth = ackDate.prototype.month
-
-	ackDate.prototype.priorMonth = function(amount){
-	  amount = amount || 1
-	  return this.nextMonth(-Math.abs(amount))
-	}
-
-	ackDate.prototype.nextMonth = function(amount){
-	  amount = amount || 1
-	  this.date = new Date(this.date.setMonth(this.date.getMonth()+amount))
-	  return this
-	}
-	ackDate.prototype.addMonths = ackDate.prototype.nextMonth
-
-	ackDate.prototype.getLastDateOfMonth = function(){
-	  var nd = new Date(this.date)
-	    ,EDate = new ackDate(nd)
-	  return EDate.nextMonth().gotoFirstDayOfMonth().prevDay().date
-	}
-
-	ackDate.prototype.setMonth = function(n){
-	  var d = this.date.setMonth(n-1)
-	  this.date = new Date(d)
-	  return this
-	}
-
-	ackDate.prototype.gotoFirstDayOfMonth = function(){
-	  this.prevDay( this.date.getDate()-1 );return this
-	}
-
-
-
-	/* DAYS */
-
-	/** always absolute number */
-	ackDate.prototype.dateDayDiff = function(date){
-	  //return Math.abs(parseInt((this.date - ackDate.toDate(date))/(24*3600*1000)))
-	  return Math.abs( Math.floor(( this.date - ackDate.toDate(date) ) / 86400000) )
-	}
-
-	ackDate.prototype.daysInMonth = function(){
-	  return new Date(this.year(), this.month(), 0).getDate()
-	}
-
-	ackDate.prototype.addDays = function(amount){
-	  var nd = ackDate.dateAddDay(this.date,amount)
-	  this.date = new Date(nd)
-	  return this
-	}
-	ackDate.prototype.nextDay = ackDate.prototype.addDays//multi alias
-
-	ackDate.prototype.prevDay = function(amount){
-	  amount = amount==null ? 1 : amount
-	  var d = new Date(this.date)
-	    ,d = d.setDate(d.getDate()-amount)
-	  this.date = new Date(d)
-	  return this
-	}
-	ackDate.prototype.priorDay = ackDate.prototype.prevDay//aka for naming consistency
-
-
-
-
-
-	/* WEEKS */
-
-	ackDate.prototype.isWeekend = function(){
-	  return [1,7].indexOf( this.dayOfWeek() ) >= 0
-	}
-
-	/** getWeekInYear */
-	ackDate.prototype.week = function(){
-	  var d = new Date(this.date)//could be number
-	  var onejan = new Date(d.getFullYear(),0,1)
-	  var nowDate = new Date(d)
-	  return Math.ceil((((nowDate - onejan) / 86400000) + onejan.getDay()+1)/7)
-	}
-	ackDate.prototype.getWeek = ackDate.prototype.week
-
-	ackDate.prototype.dayOfWeek = function(){
-	  var d = this.date
-	  return d.getDay()+1
-	}
-
-	ackDate.prototype.gotoSunday = function(){
-	  this.prevDay( this.dayOfWeek()-1 );return this
-	}
-	ackDate.prototype.gotoFirstDayOfWeek = ackDate.prototype.gotoSunday
-
-	ackDate.prototype.gotoMonday = function(){
-	  this.gotoFirstDayOfWeek().nextDay();return this
-	}
-	ackDate.prototype.gotoMondayOfWeek = ackDate.prototype.gotoMonday
-
-	ackDate.prototype.gotoFriday = function(){
-	  this.gotoFirstDayOfWeek().nextDay(5);return this
-	}
-	ackDate.prototype.gotoFridayOfWeek = ackDate.prototype.gotoFriday
-
-	ackDate.prototype.gotoWeek = function(week){
-	  var thisWk = this.week()
-	  this.nextWeek( week - thisWk )
-	  return this
-	}
-
-	ackDate.prototype.priorWeek = function(amount){
-	  amount = amount==null ? 1 : amount
-	  return this.nextWeek(-Math.abs(amount))
-	}
-
-	ackDate.prototype.nextWeek = function(amount){
-	  amount = amount==null ? 1 : amount
-	  this.nextDay(amount * 7)
-	  return this
-	}
-
-	ackDate.prototype.getDateWeekStart = function(){
-	  var date = this.date
-	    ,dw = this.dayOfWeek()-1;
-	  return new Date(date.setDate(date.getDate()-dw))
-	}
-
-	ackDate.prototype.getDateWeekStop = function(){
-	  var date = this.getDateWeekStart()
-	  date = date.setDate( date.getDate()+6 )
-	  return ackDate.endOfDateDay(date)
-	}
-
-	/** goto end of day. Just sets time to 23:59:59.999 */
-	ackDate.prototype.gotoEod = function(date){
-	  this.date = ackDate.endOfDateDay(date||this.date);return this
-	}
-	ackDate.prototype.gotoEndOfDate = ackDate.prototype.gotoEod
-
-	/** goto start of day. Just sets time to 0:0:0.0 */
-	ackDate.prototype.gotoSod = function(date){
-	  this.date = ackDate.startOfDateDay(date||this.date);return this
-	}
-	ackDate.prototype.gotoStartOfDate = ackDate.prototype.gotoSod
-
-
-	ackDate.prototype.FirstWeekday = function(){
-	  var amount = -this.dayOfWeek()+2
-	    ,nd = this.date
-	    ,nd = new Date(nd)//clone
-	    ,Nd = new ackDate(nd).nextDay(amount)
-	  return Nd
-	}
-
-	ackDate.prototype.getDateOfFirstWeekday = function(){
-	  return new Date( this.FirstWeekday().date )
-	}
-
-	/** method(weekNum, ackDate) */
-	ackDate.prototype.eachWeekInYear = function(method){
-	  var num = this.getWeeksInYear()
-	    ,year = this.year()
-
-	  for(var x=1; x <= num; ++x){
-	    var ExD = new ackDate(this.date).setYear(year).gotoWeek(x)
-	    ExD.gotoFirstDayOfWeek()
-	    method(x,ExD)
-	  }
-	  return this
-	}
-
-	ackDate.prototype.eachWeekWithMondayInYear = function(method){
-	  this.eachWeekInYear(function(num, ackDate){
-	    method(num, ackDate.gotoMondayOfWeek())
-	  })
-	  return this
-	}
-
-	/** returns array of date exposed objects representing each week in a year */
-	ackDate.prototype.getWeeksWithMondayInYearExposedArray = function(){
-	  var rtnArray = []
-	  this.eachWeekWithMondayInYear(function(weekNum, ackDate){
-	    rtnArray.push(ackDate)
-	  })
-	  return rtnArray
-	}
-
-	/** returns array of date objects representing each week in a year */
-	ackDate.prototype.getWeeksWithMondayInYearArray = function(){
-	  var rtnArray = []
-	  this.eachWeekWithMondayInYear(function(weekNum, ackDate){
-	    rtnArray.push(ackDate.date)
-	  })
-	  return rtnArray
-	}
-
-	ackDate.prototype.getWeeksInYear = function(y){
-	  y = y ? y : this.year()
-	  var d, isLeap;
-
-	  d = new Date(y, 0, 1);
-	  isLeap = new Date(y, 1, 29).getMonth() === 1;
-
-	  //check for a Jan 1 that's a Thursday or a leap year that has a
-	  //Wednesday jan 1. Otherwise it's 52
-	  return d.getDay() === 4 || isLeap && d.getDay() === 3 ? 53 : 52
-	}
-
-
-
-	/* ! TIME METHODS ! */
-
-	ackDate.prototype.setTimeByString = function(string){
-	  if(!this.date || !string)return this
-
-	  if(string.split){
-	    var parsed = eackDate.parseTimeString(string)
-	    this.date = this.date.setHours(parsed.hour);
-	    this.date = new Date(this.date)
-	    this.date = this.date.setMinutes(parsed.minute);
-	    this.date = new Date(this.date)
-	  }
-
-	  return this;
-	}
-
-	//convenience of date as number
-	ackDate.prototype.getTime = function(){
-	  return this.date.getTime()
-	}
-
-	/** alters this.date and return this */
-	ackDate.prototype.addHours = function(n){
-	  if(this.date)this.date.setHours( this.date.getHours()+n );
-	  return this
-	}
-
-	/** alters this.date and return this */
-	ackDate.prototype.addMinutes = function(n){
-	  if(this.date)this.date = new Date(this.date.getTime() + n*60000)
-	  return this
-	}
-
-	ackDate.prototype.minuteOfDay = function(){
-	  return (60 * this.date.getHours()) + this.date.getMinutes()
-	}
-
-	/** alters this.date and return this */
-	ackDate.prototype.addSeconds = function(n){
-	  return this.addMilliseconds(n*1000)
-	}
-
-	/** alters this.date and return this */
-	ackDate.prototype.addMilliseconds = function(n){
-	  if(this.date)this.date = new Date(this.date.getTime() + n)
-	  return this
-	}
-
-	/** returns no negative numbers */
-	ackDate.prototype.dateHourDiff = function(date){
-	  return Math.abs(this.date - ackDate.dateObjectBy(date||new Date())) / 36e5;
-	}
-	ackDate.prototype.dateHoursDiff = ackDate.prototype.dateHourDiff//alias
-
-	/** Does not return negative numbers.
-	  @date - not required, default = new Date()
-	  @decimals - not required, default = false (no decimals causes decimal rounding)
-	*/
-	ackDate.prototype.dateSecondDiff = function(date, decimals){
-	  date = ackDate.dateObjectBy(date||new Date())
-	  var dif = this.date.getTime() - date.getTime()
-	  var Seconds_from_T1_to_T2 = dif / 1000;
-	  var rtn = Math.abs(Seconds_from_T1_to_T2)
-
-	  if(decimals){
-	    decimals = Number(decimals) && !isNaN(decimals) ? decimals:2;
-	    rtn = toDecimal(rtn,decimals)
-	  }else{
-	    rtn = Math.round(rtn)
-	  }
-
-	  return rtn
-	}
-	ackDate.prototype.dateSecondsDiff = ackDate.prototype.dateSecondDiff//alias
-
-	//no negative numbers
-	ackDate.prototype.dateMinuteDiff = function(date){
-	  date = ackDate.toDate(date||new Date())
-	  var hourDiff = date - this.date; //in ms
-	  var secDiff = hourDiff / 1000; //in s
-	  var minDiff = hourDiff / 60 / 1000; //in minutes
-	  var hDiff = hourDiff / 3600 / 1000; //in hours
-	  var hours = Math.floor(hDiff);
-	  var mins = minDiff - 60 * hours
-	  return Math.round( Math.abs( hours * 60 + mins ), 0);
-	}
-	ackDate.prototype.dateMinutesDiff = ackDate.prototype.dateMinuteDiff//alias
-
-
-
-	/* FORMATTING */
-	ackDate.prototype.format = function(format){
-	  return moment(this.date).format(format)
-	}
-
-	ackDate.prototype.getDayName = function(){
-	  if(!this.date)return ''
-	  return ackDate.dayNameArray[ this.date.getDay() ]
-	}
-
-	ackDate.prototype.getDayAbbr = function(){
-	  if(!this.date)return ''
-	  return ackDate.dayAbbrArray[ this.date.getDay() ]
-	}
-
-	/** Febuary 24th 2016 */
-	ackDate.prototype.mmmmdyyyy = function(){
-	  if(!this.date)return ''
-	  return this.getMonthName()+' '+this.getMonthDateProperNumber() +' '+ this.date.getFullYear()
-	}
-
-	/** 01:20.220 */
-	ackDate.prototype.hhmmssl = function(timeSep, milsecSep){
-	  if(!this.date)return ''
-	  timeSep = timeSep || ':'
-	  milsecSep = milsecSep || '.'
-	  var d = this.date
-	    ,h=d.getHours()
-	    ,m=d.getMinutes()
-	  m=m<10?'0'+m:m
-	  h = ('0'+h).slice(-2)
-	  var s = ('0'+d.getSeconds()).slice(-2)
-	  return h+timeSep+m+timeSep+s+milsecSep+d.getMilliseconds()
-	}
-
-	ackDate.prototype.hhmmsl = function(timeSep, milsecSep){
-	  if(!this.date)return ''
-	  var  d = this.date,
-	      timeSep = timeSep || ':',
-	      milsecSep = milsecSep || '.',
-	      h=d.getHours(),
-	      m=d.getMinutes();
-	  m=m<10?'0'+m:m
-	  h = ('0'+h).slice(-2)
-	  return h+timeSep+m+timeSep+d.getSeconds()+milsecSep+d.getMilliseconds()
-	}
-
-	ackDate.prototype.hmmtt = function(){
-	  if(!this.date)return ''
-	  var d = this.date
-	    ,h=d.getHours()
-	    ,t='AM'
-	    ,m=d.getMinutes();
-
-	  m=m<10?'0'+m:m;
-	  h=h>=12?(t='PM',h-12||12):h==0?12:h
-	  return h+':'+m+' '+t
-	}
-
-	ackDate.prototype.mmddyyyyhhmmtt = function(dateSep, spaceSep, timeSep, ttSep){
-	  if(!this.date)return ''
-	  spaceSep = spaceSep==null?' ':spaceSep;
-	  return this.mmddyyyy(dateSep)+ spaceSep + this.hhmmtt(timeSep, ttSep)
-	}
-
-	ackDate.prototype.hhmmtt = function(timeSep, ttSep){
-	  if(!this.date)return ''
-	  var d = this.date,
-	      timeSep = timeSep || ':',
-	      ttSep = ttSep==null?' ':ttSep,
-	      h=d.getHours(),
-	      t='AM',
-	      m=d.getMinutes();
-
-	  m=m<10?'0'+m:m;
-	  h=h>=12?(t='PM',h-12||12):h==0?12:h
-	  return ('0'+h).slice(-2) +timeSep+ m+ttSep+t
-	}
-
-	ackDate.prototype.hhmmsstt = function(timeSep, ttSep){
-	  if(!this.date)return ''
-	  var d = this.date,
-	      timeSep = timeSep || ':',
-	      ttSep = ttSep==null?' ':ttSep,
-	      h=d.getHours(),
-	      t='AM',
-	      m=d.getMinutes();
-
-	  m=m<10?'0'+m:m;
-	  h=h>=12?(t='PM',h-12||12):h==0?12:h
-	  var s = ('0'+d.getSeconds()).slice(-2)
-	  return ('0'+h).slice(-2) +timeSep+ m +timeSep+ s + ttSep + t
-	}
-
-	//yyyy-mm-dd hh:nn:ss:l
-	ackDate.prototype.storageFormat = function(dateSep, spaceSep, timeSep, milsecSep){
-	  if(!this.date)return '';
-	  dateSep = dateSep || '-'
-	  spaceSep = spaceSep || ' '
-	  return this.date.getFullYear() + dateSep + this.mmdd(dateSep) + spaceSep + this.hhmmssl(timeSep, milsecSep)
-	}
-
-	ackDate.prototype.yyyymmdd = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '' : sep
-	  return this.year() + sep + this.mmdd(sep)
-	}
-
-	ackDate.prototype.mmddyyyy = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '/' : sep
-	  var d = this.date
-	  return this.mmdd(sep)+ sep +d.getFullYear()
-	}
-
-	ackDate.prototype.mdyyyy = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '/' : sep
-	  var d = this.date
-	  return this.md(sep)+ sep +d.getFullYear()
-	}
-
-	ackDate.prototype.mdyy = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '/' : sep
-	  var d = this.date
-	  return this.md(sep)+ sep +this.yy()
-	}
-
-	ackDate.prototype.mmddyy = function(sep){
-	  if(!this.date)return '';
-	  var r = this.mmddyyyy()
-	  return r.substring(0,r.length-4)+r.substring(r.length-2,r.length)
-	}
-
-	ackDate.prototype.yy = function(){
-	  if(!this.date)return '';
-	  return this.date.getFullYear().toString().substring(2,4)
-	}
-
-	ackDate.prototype.mmdd = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '/' : sep
-	  var d = this.date
-	  return ackDate.twoDigit(d.getMonth()+1)+ sep + ackDate.twoDigit(d.getDate())
-	}
-
-	ackDate.prototype.md = function(sep){
-	  if(!this.date)return '';
-	  sep = sep==null ? '/' : sep
-	  var d = this.date
-	  return (d.getMonth()+1)+ sep + d.getDate()
-	}
-
-
-	var eackDate = function(date){
-	  return new ackDate(date)
-	}
-
-	eackDate.parseTimeString = function (date){
-	  var dDate = new Date(date);
-	  if(dDate!='Invalid Date'){
-	    return {hour:dDate.getHours(), minute:dDate.getMinutes()};
-	  }
-
-	  var hour, minute, tt;
-	  var tArray = date.split(':');
-	  var hour = tArray[0];
-
-	  if(tArray.length > 1){
-	    minute = tArray[1];
-	    minute = minute.split(' ');
-	    if(minute.length > 1){
-	      tt = minute[1];
-	      var isPm = tt.toLowerCase()=='pm'
-	      if(hour<=11 && isPm){
-	        hour = Number(hour) + 12;
-	      }else if(hour==12 && !isPm){
-	        hour = 0
-	      }
+	function twoDigit(n) {
+	    return ('0' + n).slice(-2);
+	}
+	exports.twoDigit = twoDigit;
+	function isDate(date) {
+	    if (!date)
+	        return false;
+	    var isRawDate = date.constructor == Date && !isNaN(date.getTime());
+	    if (isRawDate)
+	        return true;
+	    if (date.search)
+	        return date.search(/^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4}|[0-9]{2})$/) >= 0;
+	    return false;
+	}
+	exports.isDate = isDate;
+	function yearByDate(d) {
+	    return d.getFullYear();
+	}
+	exports.yearByDate = yearByDate;
+	function getMonthIndexByString(mon) {
+	    return exports.monthLcaseNameArray.indexOf(mon.toLowerCase());
+	}
+	exports.getMonthIndexByString = getMonthIndexByString;
+	exports.monthNameArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	exports.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+	exports.monthAbbrArray = ['Jan', 'Feb', 'Mar', 'Apr', 'Ma', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+	exports.dayNameArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	exports.dayAbbrArray = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+	function dateYearDiff(d0, d1) {
+	    return Math.abs(d0.getFullYear() - d1.getFullYear());
+	}
+	exports.dateYearDiff = dateYearDiff;
+	var stdTimezoneOffset = function (d) {
+	    var jan = new Date(d.getFullYear(), 0, 1);
+	    var jul = new Date(d.getFullYear(), 6, 1);
+	    return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+	};
+	function dateMonthDiff(date0, date1) {
+	    date0 = new Date(date0);
+	    date1 = new Date(date1);
+	    return Math.abs((date1.getMonth() + 12 * date1.getFullYear()) - (date0.getMonth() + 12 * date0.getFullYear()));
+	}
+	exports.dateMonthDiff = dateMonthDiff;
+	var eackDate = function (date) {
+	    return new AckDate(date);
+	};
+	function parseTimeString(date) {
+	    var dDate = new Date(date);
+	    if (dDate != 'Invalid Date') {
+	        return { hour: dDate.getHours(), minute: dDate.getMinutes() };
 	    }
-
-	    minute = Number(minute[0]);
-	  }
-
-	  return {hour:hour, minute:minute}
+	    var hour, minute, tt;
+	    var tArray = date.split(':');
+	    var hour = tArray[0];
+	    if (tArray.length > 1) {
+	        minute = tArray[1];
+	        minute = minute.split(' ');
+	        if (minute.length > 1) {
+	            tt = minute[1];
+	            var isPm = tt.toLowerCase() == 'pm';
+	            if (hour <= 11 && isPm) {
+	                hour = Number(hour) + 12;
+	            }
+	            else if (hour == 12 && !isPm) {
+	                hour = 0;
+	            }
+	        }
+	        minute = Number(minute[0]);
+	    }
+	    return { hour: hour, minute: minute };
 	}
+	exports.parseTimeString = parseTimeString;
+	function toDecimal(n, p) {
+	    var m = Math.pow(10, p);
+	    return (Math.round(n * m) / m).toFixed(p);
+	}
+	exports.toDecimal = toDecimal;
+	function method(d) {
+	    return new AckDate(d);
+	}
+	exports.method = method;
 
-
-	function toDecimal(n,p){var m=Math.pow(10,p);return (Math.round(n*m)/m).toFixed(p)}
-
-	eackDate.Class = ackDate
-	module.exports = eackDate
 
 /***/ }),
 /* 27 */
@@ -8989,7 +8458,7 @@
 	            module && module.exports) {
 	        try {
 	            oldLocale = globalLocale._abbr;
-	            __webpack_require__(29)("./" + name);
+	            __webpack_require__(28)("./" + name);
 	            // because defineLocale currently also sets the global locale, we
 	            // want to undo that for lazy loaded locales
 	            getSetGlobalLocale(oldLocale);
@@ -11624,259 +11093,243 @@
 
 	})));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)(module)))
 
 /***/ }),
 /* 28 */
-/***/ (function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
-
-/***/ }),
-/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 30,
-		"./af.js": 30,
-		"./ar": 31,
-		"./ar-dz": 32,
-		"./ar-dz.js": 32,
-		"./ar-kw": 33,
-		"./ar-kw.js": 33,
-		"./ar-ly": 34,
-		"./ar-ly.js": 34,
-		"./ar-ma": 35,
-		"./ar-ma.js": 35,
-		"./ar-sa": 36,
-		"./ar-sa.js": 36,
-		"./ar-tn": 37,
-		"./ar-tn.js": 37,
-		"./ar.js": 31,
-		"./az": 38,
-		"./az.js": 38,
-		"./be": 39,
-		"./be.js": 39,
-		"./bg": 40,
-		"./bg.js": 40,
-		"./bn": 41,
-		"./bn.js": 41,
-		"./bo": 42,
-		"./bo.js": 42,
-		"./br": 43,
-		"./br.js": 43,
-		"./bs": 44,
-		"./bs.js": 44,
-		"./ca": 45,
-		"./ca.js": 45,
-		"./cs": 46,
-		"./cs.js": 46,
-		"./cv": 47,
-		"./cv.js": 47,
-		"./cy": 48,
-		"./cy.js": 48,
-		"./da": 49,
-		"./da.js": 49,
-		"./de": 50,
-		"./de-at": 51,
-		"./de-at.js": 51,
-		"./de-ch": 52,
-		"./de-ch.js": 52,
-		"./de.js": 50,
-		"./dv": 53,
-		"./dv.js": 53,
-		"./el": 54,
-		"./el.js": 54,
-		"./en-au": 55,
-		"./en-au.js": 55,
-		"./en-ca": 56,
-		"./en-ca.js": 56,
-		"./en-gb": 57,
-		"./en-gb.js": 57,
-		"./en-ie": 58,
-		"./en-ie.js": 58,
-		"./en-nz": 59,
-		"./en-nz.js": 59,
-		"./eo": 60,
-		"./eo.js": 60,
-		"./es": 61,
-		"./es-do": 62,
-		"./es-do.js": 62,
-		"./es.js": 61,
-		"./et": 63,
-		"./et.js": 63,
-		"./eu": 64,
-		"./eu.js": 64,
-		"./fa": 65,
-		"./fa.js": 65,
-		"./fi": 66,
-		"./fi.js": 66,
-		"./fo": 67,
-		"./fo.js": 67,
-		"./fr": 68,
-		"./fr-ca": 69,
-		"./fr-ca.js": 69,
-		"./fr-ch": 70,
-		"./fr-ch.js": 70,
-		"./fr.js": 68,
-		"./fy": 71,
-		"./fy.js": 71,
-		"./gd": 72,
-		"./gd.js": 72,
-		"./gl": 73,
-		"./gl.js": 73,
-		"./gom-latn": 74,
-		"./gom-latn.js": 74,
-		"./he": 75,
-		"./he.js": 75,
-		"./hi": 76,
-		"./hi.js": 76,
-		"./hr": 77,
-		"./hr.js": 77,
-		"./hu": 78,
-		"./hu.js": 78,
-		"./hy-am": 79,
-		"./hy-am.js": 79,
-		"./id": 80,
-		"./id.js": 80,
-		"./is": 81,
-		"./is.js": 81,
-		"./it": 82,
-		"./it.js": 82,
-		"./ja": 83,
-		"./ja.js": 83,
-		"./jv": 84,
-		"./jv.js": 84,
-		"./ka": 85,
-		"./ka.js": 85,
-		"./kk": 86,
-		"./kk.js": 86,
-		"./km": 87,
-		"./km.js": 87,
-		"./kn": 88,
-		"./kn.js": 88,
-		"./ko": 89,
-		"./ko.js": 89,
-		"./ky": 90,
-		"./ky.js": 90,
-		"./lb": 91,
-		"./lb.js": 91,
-		"./lo": 92,
-		"./lo.js": 92,
-		"./lt": 93,
-		"./lt.js": 93,
-		"./lv": 94,
-		"./lv.js": 94,
-		"./me": 95,
-		"./me.js": 95,
-		"./mi": 96,
-		"./mi.js": 96,
-		"./mk": 97,
-		"./mk.js": 97,
-		"./ml": 98,
-		"./ml.js": 98,
-		"./mr": 99,
-		"./mr.js": 99,
-		"./ms": 100,
-		"./ms-my": 101,
-		"./ms-my.js": 101,
-		"./ms.js": 100,
-		"./my": 102,
-		"./my.js": 102,
-		"./nb": 103,
-		"./nb.js": 103,
-		"./ne": 104,
-		"./ne.js": 104,
-		"./nl": 105,
-		"./nl-be": 106,
-		"./nl-be.js": 106,
-		"./nl.js": 105,
-		"./nn": 107,
-		"./nn.js": 107,
-		"./pa-in": 108,
-		"./pa-in.js": 108,
-		"./pl": 109,
-		"./pl.js": 109,
-		"./pt": 110,
-		"./pt-br": 111,
-		"./pt-br.js": 111,
-		"./pt.js": 110,
-		"./ro": 112,
-		"./ro.js": 112,
-		"./ru": 113,
-		"./ru.js": 113,
-		"./sd": 114,
-		"./sd.js": 114,
-		"./se": 115,
-		"./se.js": 115,
-		"./si": 116,
-		"./si.js": 116,
-		"./sk": 117,
-		"./sk.js": 117,
-		"./sl": 118,
-		"./sl.js": 118,
-		"./sq": 119,
-		"./sq.js": 119,
-		"./sr": 120,
-		"./sr-cyrl": 121,
-		"./sr-cyrl.js": 121,
-		"./sr.js": 120,
-		"./ss": 122,
-		"./ss.js": 122,
-		"./sv": 123,
-		"./sv.js": 123,
-		"./sw": 124,
-		"./sw.js": 124,
-		"./ta": 125,
-		"./ta.js": 125,
-		"./te": 126,
-		"./te.js": 126,
-		"./tet": 127,
-		"./tet.js": 127,
-		"./th": 128,
-		"./th.js": 128,
-		"./tl-ph": 129,
-		"./tl-ph.js": 129,
-		"./tlh": 130,
-		"./tlh.js": 130,
-		"./tr": 131,
-		"./tr.js": 131,
-		"./tzl": 132,
-		"./tzl.js": 132,
-		"./tzm": 133,
-		"./tzm-latn": 134,
-		"./tzm-latn.js": 134,
-		"./tzm.js": 133,
-		"./uk": 135,
-		"./uk.js": 135,
-		"./ur": 136,
-		"./ur.js": 136,
-		"./uz": 137,
-		"./uz-latn": 138,
-		"./uz-latn.js": 138,
-		"./uz.js": 137,
-		"./vi": 139,
-		"./vi.js": 139,
-		"./x-pseudo": 140,
-		"./x-pseudo.js": 140,
-		"./yo": 141,
-		"./yo.js": 141,
-		"./zh-cn": 142,
-		"./zh-cn.js": 142,
-		"./zh-hk": 143,
-		"./zh-hk.js": 143,
-		"./zh-tw": 144,
-		"./zh-tw.js": 144
+		"./af": 29,
+		"./af.js": 29,
+		"./ar": 30,
+		"./ar-dz": 31,
+		"./ar-dz.js": 31,
+		"./ar-kw": 32,
+		"./ar-kw.js": 32,
+		"./ar-ly": 33,
+		"./ar-ly.js": 33,
+		"./ar-ma": 34,
+		"./ar-ma.js": 34,
+		"./ar-sa": 35,
+		"./ar-sa.js": 35,
+		"./ar-tn": 36,
+		"./ar-tn.js": 36,
+		"./ar.js": 30,
+		"./az": 37,
+		"./az.js": 37,
+		"./be": 38,
+		"./be.js": 38,
+		"./bg": 39,
+		"./bg.js": 39,
+		"./bn": 40,
+		"./bn.js": 40,
+		"./bo": 41,
+		"./bo.js": 41,
+		"./br": 42,
+		"./br.js": 42,
+		"./bs": 43,
+		"./bs.js": 43,
+		"./ca": 44,
+		"./ca.js": 44,
+		"./cs": 45,
+		"./cs.js": 45,
+		"./cv": 46,
+		"./cv.js": 46,
+		"./cy": 47,
+		"./cy.js": 47,
+		"./da": 48,
+		"./da.js": 48,
+		"./de": 49,
+		"./de-at": 50,
+		"./de-at.js": 50,
+		"./de-ch": 51,
+		"./de-ch.js": 51,
+		"./de.js": 49,
+		"./dv": 52,
+		"./dv.js": 52,
+		"./el": 53,
+		"./el.js": 53,
+		"./en-au": 54,
+		"./en-au.js": 54,
+		"./en-ca": 55,
+		"./en-ca.js": 55,
+		"./en-gb": 56,
+		"./en-gb.js": 56,
+		"./en-ie": 57,
+		"./en-ie.js": 57,
+		"./en-nz": 58,
+		"./en-nz.js": 58,
+		"./eo": 59,
+		"./eo.js": 59,
+		"./es": 60,
+		"./es-do": 61,
+		"./es-do.js": 61,
+		"./es.js": 60,
+		"./et": 62,
+		"./et.js": 62,
+		"./eu": 63,
+		"./eu.js": 63,
+		"./fa": 64,
+		"./fa.js": 64,
+		"./fi": 65,
+		"./fi.js": 65,
+		"./fo": 66,
+		"./fo.js": 66,
+		"./fr": 67,
+		"./fr-ca": 68,
+		"./fr-ca.js": 68,
+		"./fr-ch": 69,
+		"./fr-ch.js": 69,
+		"./fr.js": 67,
+		"./fy": 70,
+		"./fy.js": 70,
+		"./gd": 71,
+		"./gd.js": 71,
+		"./gl": 72,
+		"./gl.js": 72,
+		"./gom-latn": 73,
+		"./gom-latn.js": 73,
+		"./he": 74,
+		"./he.js": 74,
+		"./hi": 75,
+		"./hi.js": 75,
+		"./hr": 76,
+		"./hr.js": 76,
+		"./hu": 77,
+		"./hu.js": 77,
+		"./hy-am": 78,
+		"./hy-am.js": 78,
+		"./id": 79,
+		"./id.js": 79,
+		"./is": 80,
+		"./is.js": 80,
+		"./it": 81,
+		"./it.js": 81,
+		"./ja": 82,
+		"./ja.js": 82,
+		"./jv": 83,
+		"./jv.js": 83,
+		"./ka": 84,
+		"./ka.js": 84,
+		"./kk": 85,
+		"./kk.js": 85,
+		"./km": 86,
+		"./km.js": 86,
+		"./kn": 87,
+		"./kn.js": 87,
+		"./ko": 88,
+		"./ko.js": 88,
+		"./ky": 89,
+		"./ky.js": 89,
+		"./lb": 90,
+		"./lb.js": 90,
+		"./lo": 91,
+		"./lo.js": 91,
+		"./lt": 92,
+		"./lt.js": 92,
+		"./lv": 93,
+		"./lv.js": 93,
+		"./me": 94,
+		"./me.js": 94,
+		"./mi": 95,
+		"./mi.js": 95,
+		"./mk": 96,
+		"./mk.js": 96,
+		"./ml": 97,
+		"./ml.js": 97,
+		"./mr": 98,
+		"./mr.js": 98,
+		"./ms": 99,
+		"./ms-my": 100,
+		"./ms-my.js": 100,
+		"./ms.js": 99,
+		"./my": 101,
+		"./my.js": 101,
+		"./nb": 102,
+		"./nb.js": 102,
+		"./ne": 103,
+		"./ne.js": 103,
+		"./nl": 104,
+		"./nl-be": 105,
+		"./nl-be.js": 105,
+		"./nl.js": 104,
+		"./nn": 106,
+		"./nn.js": 106,
+		"./pa-in": 107,
+		"./pa-in.js": 107,
+		"./pl": 108,
+		"./pl.js": 108,
+		"./pt": 109,
+		"./pt-br": 110,
+		"./pt-br.js": 110,
+		"./pt.js": 109,
+		"./ro": 111,
+		"./ro.js": 111,
+		"./ru": 112,
+		"./ru.js": 112,
+		"./sd": 113,
+		"./sd.js": 113,
+		"./se": 114,
+		"./se.js": 114,
+		"./si": 115,
+		"./si.js": 115,
+		"./sk": 116,
+		"./sk.js": 116,
+		"./sl": 117,
+		"./sl.js": 117,
+		"./sq": 118,
+		"./sq.js": 118,
+		"./sr": 119,
+		"./sr-cyrl": 120,
+		"./sr-cyrl.js": 120,
+		"./sr.js": 119,
+		"./ss": 121,
+		"./ss.js": 121,
+		"./sv": 122,
+		"./sv.js": 122,
+		"./sw": 123,
+		"./sw.js": 123,
+		"./ta": 124,
+		"./ta.js": 124,
+		"./te": 125,
+		"./te.js": 125,
+		"./tet": 126,
+		"./tet.js": 126,
+		"./th": 127,
+		"./th.js": 127,
+		"./tl-ph": 128,
+		"./tl-ph.js": 128,
+		"./tlh": 129,
+		"./tlh.js": 129,
+		"./tr": 130,
+		"./tr.js": 130,
+		"./tzl": 131,
+		"./tzl.js": 131,
+		"./tzm": 132,
+		"./tzm-latn": 133,
+		"./tzm-latn.js": 133,
+		"./tzm.js": 132,
+		"./uk": 134,
+		"./uk.js": 134,
+		"./ur": 135,
+		"./ur.js": 135,
+		"./uz": 136,
+		"./uz-latn": 137,
+		"./uz-latn.js": 137,
+		"./uz.js": 136,
+		"./vi": 138,
+		"./vi.js": 138,
+		"./x-pseudo": 139,
+		"./x-pseudo.js": 139,
+		"./yo": 140,
+		"./yo.js": 140,
+		"./zh-cn": 141,
+		"./zh-cn.js": 141,
+		"./zh-hk": 142,
+		"./zh-hk.js": 142,
+		"./zh-tw": 143,
+		"./zh-tw.js": 143
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -11889,11 +11342,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 29;
+	webpackContext.id = 28;
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11971,7 +11424,7 @@
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12118,7 +11571,7 @@
 
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12182,7 +11635,7 @@
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12246,7 +11699,7 @@
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12377,7 +11830,7 @@
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12442,7 +11895,7 @@
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12552,7 +12005,7 @@
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12616,7 +12069,7 @@
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12726,7 +12179,7 @@
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12865,7 +12318,7 @@
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12960,7 +12413,7 @@
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13084,7 +12537,7 @@
 
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13208,7 +12661,7 @@
 
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13321,7 +12774,7 @@
 
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13469,7 +12922,7 @@
 
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13562,7 +13015,7 @@
 
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13739,7 +13192,7 @@
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13807,7 +13260,7 @@
 
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13893,7 +13346,7 @@
 
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13958,7 +13411,7 @@
 
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14041,7 +13494,7 @@
 
 
 /***/ }),
-/* 51 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14125,7 +13578,7 @@
 
 
 /***/ }),
-/* 52 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14208,7 +13661,7 @@
 
 
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14313,7 +13766,7 @@
 
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14418,7 +13871,7 @@
 
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14490,7 +13943,7 @@
 
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14558,7 +14011,7 @@
 
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14630,7 +14083,7 @@
 
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14702,7 +14155,7 @@
 
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14774,7 +14227,7 @@
 
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14852,7 +14305,7 @@
 
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14940,7 +14393,7 @@
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15027,7 +14480,7 @@
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15112,7 +14565,7 @@
 
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15183,7 +14636,7 @@
 
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15295,7 +14748,7 @@
 
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15407,7 +14860,7 @@
 
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15472,7 +14925,7 @@
 
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15560,7 +15013,7 @@
 
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15639,7 +15092,7 @@
 
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15722,7 +15175,7 @@
 
 
 /***/ }),
-/* 71 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15802,7 +15255,7 @@
 
 
 /***/ }),
-/* 72 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15883,7 +15336,7 @@
 
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15965,7 +15418,7 @@
 
 
 /***/ }),
-/* 74 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16092,7 +15545,7 @@
 
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16196,7 +15649,7 @@
 
 
 /***/ }),
-/* 76 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16325,7 +15778,7 @@
 
 
 /***/ }),
-/* 77 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16475,7 +15928,7 @@
 
 
 /***/ }),
-/* 78 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16589,7 +16042,7 @@
 
 
 /***/ }),
-/* 79 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16689,7 +16142,7 @@
 
 
 /***/ }),
-/* 80 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16777,7 +16230,7 @@
 
 
 /***/ }),
-/* 81 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16909,7 +16362,7 @@
 
 
 /***/ }),
-/* 82 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16984,7 +16437,7 @@
 
 
 /***/ }),
-/* 83 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17069,7 +16522,7 @@
 
 
 /***/ }),
-/* 84 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17157,7 +16610,7 @@
 
 
 /***/ }),
-/* 85 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17251,7 +16704,7 @@
 
 
 /***/ }),
-/* 86 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17343,7 +16796,7 @@
 
 
 /***/ }),
-/* 87 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17406,7 +16859,7 @@
 
 
 /***/ }),
-/* 88 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17537,7 +16990,7 @@
 
 
 /***/ }),
-/* 89 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17611,7 +17064,7 @@
 
 
 /***/ }),
-/* 90 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17704,7 +17157,7 @@
 
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17846,7 +17299,7 @@
 
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17921,7 +17374,7 @@
 
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18043,7 +17496,7 @@
 
 
 /***/ }),
-/* 94 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18145,7 +17598,7 @@
 
 
 /***/ }),
-/* 95 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18261,7 +17714,7 @@
 
 
 /***/ }),
-/* 96 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18330,7 +17783,7 @@
 
 
 /***/ }),
-/* 97 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18425,7 +17878,7 @@
 
 
 /***/ }),
-/* 98 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18511,7 +17964,7 @@
 
 
 /***/ }),
-/* 99 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18675,7 +18128,7 @@
 
 
 /***/ }),
-/* 100 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18762,7 +18215,7 @@
 
 
 /***/ }),
-/* 101 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18850,7 +18303,7 @@
 
 
 /***/ }),
-/* 102 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18951,7 +18404,7 @@
 
 
 /***/ }),
-/* 103 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19019,7 +18472,7 @@
 
 
 /***/ }),
-/* 104 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19147,7 +18600,7 @@
 
 
 /***/ }),
-/* 105 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19240,7 +18693,7 @@
 
 
 /***/ }),
-/* 106 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19333,7 +18786,7 @@
 
 
 /***/ }),
-/* 107 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19398,7 +18851,7 @@
 
 
 /***/ }),
-/* 108 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19527,7 +18980,7 @@
 
 
 /***/ }),
-/* 109 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19639,7 +19092,7 @@
 
 
 /***/ }),
-/* 110 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19709,7 +19162,7 @@
 
 
 /***/ }),
-/* 111 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19775,7 +19228,7 @@
 
 
 /***/ }),
-/* 112 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19855,7 +19308,7 @@
 
 
 /***/ }),
-/* 113 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20043,7 +19496,7 @@
 
 
 /***/ }),
-/* 114 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20146,7 +19599,7 @@
 
 
 /***/ }),
-/* 115 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20212,7 +19665,7 @@
 
 
 /***/ }),
-/* 116 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20288,7 +19741,7 @@
 
 
 /***/ }),
-/* 117 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20443,7 +19896,7 @@
 
 
 /***/ }),
-/* 118 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20610,7 +20063,7 @@
 
 
 /***/ }),
-/* 119 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20685,7 +20138,7 @@
 
 
 /***/ }),
-/* 120 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20800,7 +20253,7 @@
 
 
 /***/ }),
-/* 121 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20915,7 +20368,7 @@
 
 
 /***/ }),
-/* 122 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21009,7 +20462,7 @@
 
 
 /***/ }),
-/* 123 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21083,7 +20536,7 @@
 
 
 /***/ }),
-/* 124 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21147,7 +20600,7 @@
 
 
 /***/ }),
-/* 125 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21282,7 +20735,7 @@
 
 
 /***/ }),
-/* 126 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21376,7 +20829,7 @@
 
 
 /***/ }),
-/* 127 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21449,7 +20902,7 @@
 
 
 /***/ }),
-/* 128 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21521,7 +20974,7 @@
 
 
 /***/ }),
-/* 129 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21588,7 +21041,7 @@
 
 
 /***/ }),
-/* 130 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21713,7 +21166,7 @@
 
 
 /***/ }),
-/* 131 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21808,7 +21261,7 @@
 
 
 /***/ }),
-/* 132 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21904,7 +21357,7 @@
 
 
 /***/ }),
-/* 133 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -21967,7 +21420,7 @@
 
 
 /***/ }),
-/* 134 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22030,7 +21483,7 @@
 
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22186,7 +21639,7 @@
 
 
 /***/ }),
-/* 136 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22290,7 +21743,7 @@
 
 
 /***/ }),
-/* 137 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22353,7 +21806,7 @@
 
 
 /***/ }),
-/* 138 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22416,7 +21869,7 @@
 
 
 /***/ }),
-/* 139 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22500,7 +21953,7 @@
 
 
 /***/ }),
-/* 140 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22573,7 +22026,7 @@
 
 
 /***/ }),
-/* 141 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22638,7 +22091,7 @@
 
 
 /***/ }),
-/* 142 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22754,7 +22207,7 @@
 
 
 /***/ }),
-/* 143 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22864,7 +22317,7 @@
 
 
 /***/ }),
-/* 144 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -22973,169 +22426,148 @@
 
 
 /***/ }),
+/* 144 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	exports.__esModule = true;
+	var date_1 = __webpack_require__(26);
+	//export * from "./date"
+	var ackYear = /** @class */ (function () {
+	    function ackYear(yyyy) {
+	        this.getMonth = this.month; //deprecated
+	        this.getWeek = this.week; //deprecated
+	        this.year = this.getYear;
+	        if (yyyy != null)
+	            this.setStartDate(yyyy);
+	        return this;
+	    }
+	    ackYear.prototype.setStartDate = function (date) {
+	        var isObject = typeof (date) == 'object', isYearString = !isObject && !isNaN(Number(date)), isYear = isYearString || (!date_1.method(date).isDate() && !isNaN(date));
+	        if (isYear) {
+	            date = new Date(new Date('1/1/2011').setFullYear(date));
+	        }
+	        this.date = date;
+	        return this;
+	    };
+	    ackYear.prototype.getStartDate = function () {
+	        if (this.date)
+	            return this.date;
+	        var d = '1/1/' + date_1.method(new Date()).year();
+	        this.date = new Date(d);
+	        return this.date;
+	    };
+	    ackYear.prototype.setEndDate = function (date) {
+	        if (!date_1.method(date).isDate() && !isNaN(date))
+	            this.date = new Date('12/31/' + date);
+	        else
+	            this.date = date;
+	        return this;
+	    };
+	    ackYear.prototype.getEndDate = function () {
+	        if (this.endDate)
+	            return this.endDate;
+	        var d = '12/31/' + this.getYear();
+	        this.endDate = new Date(d);
+	        return this.endDate;
+	    };
+	    ackYear.prototype.StartDate = function (isClone) {
+	        var startDate = !isClone ? this.getStartDate() : this.getStartDate();
+	        return date_1.method(startDate);
+	    };
+	    ackYear.prototype.xDate = function () {
+	        return date_1.method(this.getStartDate());
+	    };
+	    ackYear.prototype.month = function () {
+	        return this.StartDate().month();
+	    };
+	    ackYear.prototype.week = function () {
+	        return this.StartDate().week();
+	    };
+	    //?deprecated (duplicate of Date class)
+	    ackYear.prototype.getYear = function () {
+	        var d = this.getStartDate();
+	        return date_1.method(d).year();
+	    };
+	    //gets startdate and changes the year
+	    ackYear.prototype.setYear = function (yyyy) {
+	        var ExYy = date_1.method(yyyy);
+	        if (isNaN(yyyy) && ExYy.isDate())
+	            yyyy = ExYy.year();
+	        var date = this.getStartDate();
+	        date = new Date(date.setFullYear(yyyy));
+	        this.setStartDate(date);
+	        return this;
+	    };
+	    ackYear.prototype.getDateOfLastWeekday = function () {
+	        var d = this.getStartDate(), addAmount = -date_1.method(d).dayOfWeek() + 6, dateA = new Date(d.setDate(d.getDate() + addAmount));
+	        dateA = new Date(dateA.setHours(23));
+	        dateA = new Date(dateA.setMinutes(59));
+	        dateA = new Date(dateA.setSeconds(59));
+	        return dateA;
+	    };
+	    return ackYear;
+	}());
+	exports.ackYear = ackYear;
+	function method(path) {
+	    return new ackYear(path);
+	}
+	exports.method = method;
+
+
+/***/ }),
 /* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var xDate = __webpack_require__(26)
-
-	var ackYear = function ackYear(yyyy){
-		if(yyyy!=null)this.setStartDate(yyyy)
-		return this
-	}
-
-	ackYear.prototype.setStartDate = function(date){
-		var isObject = typeof(date) == 'object',
-			isYearString = !isObject && !isNaN(Number(date)),
-			isYear = isYearString || (!xDate(date).isDate() && !isNaN(date))
-
-		if(isYear){//just the year number?
-			date = new Date(new Date('1/1/2011').setFullYear(date))
-		}
-
-		this.date = date
-		return this
-	}
-
-	ackYear.prototype.getStartDate = function(){
-		if(this.date)return this.date
-		var d = '1/1/'+xDate(new Date()).year()
-		this.date = new Date(d)
-		return this.date
-	}
-
-	ackYear.prototype.setEndDate = function(date){
-		if(!xDate(date).isDate() && !isNaN(date))//just the year number?
-			this.date = new Date('12/31/'+date)
-		else
-			this.date = date
-		return this
-	}
-
-	ackYear.prototype.getEndDate = function(){
-		if(this.endDate)return this.endDate
-		var d = '12/31/'+this.getYear()
-		this.endDate = new Date(d)
-		return this.endDate
-	}
-
-	ackYear.prototype.StartDate = function(isClone){
-		var startDate = !isClone ?  this.getStartDate() : this.getStartDate()
-		return xDate(startDate)
-	}
-
-	ackYear.prototype.xDate = function(){
-		return xDate(this.getStartDate())
-	}
-
-	ackYear.prototype.month = function(){
-		return this.StartDate().month()
-	}
-	ackYear.prototype.getMonth = ackYear.prototype.month//deprecated
-
-	ackYear.prototype.week = function(){
-		return this.StartDate().week()
-	}
-	ackYear.prototype.getWeek = ackYear.prototype.week//deprecated
-
-	//?deprecated (duplicate of Date class)
-	ackYear.prototype.getYear = function(){
-		var d = this.getStartDate()
-		return xDate(d).year()
-	}
-	ackYear.prototype.year = ackYear.prototype.getYear
-
-	//gets startdate and changes the year
-	ackYear.prototype.setYear = function(yyyy){
-		var ExYy = xDate(yyyy)
-		if(isNaN(yyyy) && ExYy.isDate())
-			yyyy = ExYy.year()
-
-		var date = this.getStartDate()
-		date = new Date( date.setFullYear(yyyy) )
-		this.setStartDate(date)
-
-		return this
-	}
-
-	ackYear.prototype.getDateOfLastWeekday = function(){
-		var d = getStartDate()
-			,addAmount = -xDate(d).dayOfWeek()+6
-			,dateA = new Date( d.setDate(d.getDate()+addAmount) )
-
-		dateA = new Date(dateA.setHours(23))
-		dateA = new Date(dateA.setMinutes(59))
-		dateA = new Date(dateA.setSeconds(59))
-
-		return dateA
-	}
-
-
-
-
-
-
-	var rtn = function(path){
-		return new ackYear(path)
-	}
-	rtn.Class = ackYear
-	module.exports = rtn
-
-/***/ }),
-/* 146 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var ackDate = __webpack_require__(26)
-
-	function ackTime(date){
-	  this.date = ackTime.toDate(date)
-	  return this
-	}
-
-	ackTime.dateObjectBy = function(date){
-	  if(date){
-	    if(date.constructor == ackTime){
-	      return date.date
+	exports.__esModule = true;
+	var date_1 = __webpack_require__(26);
+	var ackTime = /** @class */ (function () {
+	    function ackTime(date) {
+	        this.date = toDate(date);
+	        return this;
 	    }
-
-	    if(date.constructor == Date)
-	      return date
-
-	    if(date.split){
-	      return stringToDate(date)
+	    return ackTime;
+	}());
+	exports.ackTime = ackTime;
+	function dateObjectBy(date) {
+	    if (date) {
+	        if (date.constructor == ackTime) {
+	            return date.date;
+	        }
+	        if (date.constructor == Date)
+	            return date;
+	        if (date.split) {
+	            return stringToDate(date);
+	        }
+	        return new Date(date); //convert string to date object
 	    }
-
-	    return new Date(date)//convert string to date object
-	  }
-
-	  return date || new Date()
+	    return date || new Date();
 	}
-
-	ackTime.toDate = function(date){
-	  return date!=null ? ackTime.dateObjectBy(date) : null
+	exports.dateObjectBy = dateObjectBy;
+	function toDate(date) {
+	    return date != null ? dateObjectBy(date) : null;
 	}
-
-	function stringToDate(date){
-	  var dDate = new Date(date);
-	  if(dDate!='Invalid Date'){
-	    return date
-	  }
-
-		var parsed = ackDate.parseTimeString(date);
-		var newDate = new Date().setHours(parsed.hour);
-		newDate = new Date(newDate).setMinutes(parsed.minute)
-		return new Date(newDate)
+	exports.toDate = toDate;
+	function stringToDate(date) {
+	    var dDate = new Date(date);
+	    if (dDate != 'Invalid Date') {
+	        return date;
+	    }
+	    var parsed = date_1.parseTimeString(date);
+	    var newDate = new Date().setHours(parsed.hour);
+	    newDate = new Date(newDate).setMinutes(parsed.minute);
+	    return new Date(newDate);
 	}
-
-	var eackTime = function(date){
-	  var date = new ackTime(date).date
-	  return ackDate(date)
+	var eackTime = function (date) {
+	    var date = new ackTime(date).date;
+	    return new date_1.AckDate(date);
+	};
+	function method(d) {
+	    return eackTime(d);
 	}
+	exports.method = method;
 
-	eackTime.Class = ackTime
-	module.exports = eackTime
 
 /***/ })
 /******/ ]);

@@ -1,9 +1,20 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.3.0] - 2017-10-09 (unreleased)
+### Breaking Changes
+- index files moved around
+- removed indexSelector
+- ack.class() has been removed
+- ack.date().new() has been changed to ack.date().clone()
+- ack.date().gotoEod accepts no arguments now
+- ack.date().gotoSod accepts no arguments now
+### Added
+- Source files are now Typescript
+
 ## [1.2.43] - 2017-10-05
 ### Added
-- date.utc()
+- date.utc(])
 - date.getUtcDate()
 - date.toUtc()
 
