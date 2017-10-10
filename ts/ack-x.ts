@@ -11,6 +11,11 @@ import * as ackP from "ack-p"
 import { debug } from "debug"
 import * as ackObject from "./object"
 
+/** calling ack() as function, will return a module to work with almost any object */
+export const ack:any = function($var){
+  return new ackExpose($var)
+}
+
 export class ackExpose{
 	$var:any
 
@@ -23,29 +28,17 @@ export class ackExpose{
 	}
 	
 	error(){return ack.error(this.$var)}
-
 	number(){return ack.number(this.$var)}
-	
 	string(){return ack.string(this.$var)}
-	
 	binary(){return ack.binary(this.$var)}
-	
 	base64(){return ack.base64(this.$var)}
-	
 	method(){return ack.method(this.$var)}
-	
 	array(){return ack.array(this.$var)}
-	
 	queryObject(){return ack.queryObject(this.$var)}
-	
 	week(){return ack.week(this.$var)}
-	
 	month(){return ack.month(this.$var)}
-	
 	year(){return ack.year(this.$var)}
-	
 	date(){return ack.date(this.$var)}
-	
 	time(){return ack.time(this.$var)}
 	
 	//deprecate
@@ -62,7 +55,7 @@ export class ackExpose{
 	}
 
 	/** get at raw variable within target variable with case insensativity */
-	get(name,def){
+	get(name, def?){
 		if(!name)return this.$var
 
 		if(this.$var && this.$var[name]!=null)//try exact match first
@@ -79,9 +72,11 @@ export class ackExpose{
 	}
 	
 	/** $var[name] returned as ack Object. When null, null returned */
-	byName = function(name){
+	byName(name){
 		var v = this.get(name)
-		if(v!=null)return ack(v)
+		if( v!=null ){
+			return ack(v)
+		}
 	}
 
 	//deprecate this
@@ -155,16 +150,36 @@ var partyModules = {
 	debug:debug
 }
 
-/** calling ack() as function, will return a module to work with almost any object */
-export const ack:any = function($var){
-  return new ackExpose($var)
-}
-
 ack.object = ackObject
 ack.Expose = ackExpose//Outsider's referense to expose factory
 
 /* CORE MODULES */
 	ack.modules = new ackInjector(ack)
+	ack.modules.definePath('error','./error')
+	ack.modules.definePath('number','./number')
+	ack.modules.definePath('string','./string')
+	ack.modules.definePath('binary','./binary')
+	ack.modules.definePath('base64','./base64')
+	ack.modules.definePath('method','./method')
+	ack.modules.definePath('array','./array')
+	ack.modules.definePath('queryObject','./queryObject')
+	ack.modules.definePath('week','./week')
+	ack.modules.definePath('month','./month')
+	ack.modules.definePath('year','./year')
+	ack.modules.definePath('date','./date')
+	ack.modules.definePath('time','./time')
+	ack.modules.definePath('function','./function')
+
+	ack.modules.getModule = function(name,path){
+	  if(this.$storage[name])return this.$storage[name]
+	  const r = require(path)
+
+	  // TODO: remove "|| r" once all is moved to Typescript and defaults are removed
+	  this.$storage[name] = r.method || r
+
+	  return this.$storage[name]
+	}
+
 
 	/*ack['class'] = function(cl, extendOrAccessors, accessors){
 		return new jC(cl, extendOrAccessors, accessors)

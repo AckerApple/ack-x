@@ -6,16 +6,14 @@ var ackInjector_1 = require("./ackInjector");
 var ackP = require("ack-p");
 var debug_1 = require("debug");
 var ackObject = require("./object");
+/** calling ack() as function, will return a module to work with almost any object */
+exports.ack = function ($var) {
+    return new ackExpose($var);
+};
 var ackExpose = /** @class */ (function () {
     function ackExpose($var) {
         //aka functions
         this.dump = ackExpose.prototype.stringify;
-        /** $var[name] returned as ack Object. When null, null returned */
-        this.byName = function (name) {
-            var v = this.get(name);
-            if (v != null)
-                return exports.ack(v);
-        };
         this.$var = $var;
         return this;
     }
@@ -56,6 +54,13 @@ var ackExpose = /** @class */ (function () {
                 return this.$var[key];
         }
         return def;
+    };
+    /** $var[name] returned as ack Object. When null, null returned */
+    ackExpose.prototype.byName = function (name) {
+        var v = this.get(name);
+        if (v != null) {
+            return exports.ack(v);
+        }
     };
     //deprecate this
     ackExpose.prototype["throw"] = function (msg, logTo) {
@@ -121,14 +126,32 @@ var partyModules = {
     ackP: ackP,
     debug: debug_1.debug
 };
-/** calling ack() as function, will return a module to work with almost any object */
-exports.ack = function ($var) {
-    return new ackExpose($var);
-};
 exports.ack.object = ackObject;
 exports.ack.Expose = ackExpose; //Outsider's referense to expose factory
 /* CORE MODULES */
 exports.ack.modules = new ackInjector_1.ackInjector(exports.ack);
+exports.ack.modules.definePath('error', './error');
+exports.ack.modules.definePath('number', './number');
+exports.ack.modules.definePath('string', './string');
+exports.ack.modules.definePath('binary', './binary');
+exports.ack.modules.definePath('base64', './base64');
+exports.ack.modules.definePath('method', './method');
+exports.ack.modules.definePath('array', './array');
+exports.ack.modules.definePath('queryObject', './queryObject');
+exports.ack.modules.definePath('week', './week');
+exports.ack.modules.definePath('month', './month');
+exports.ack.modules.definePath('year', './year');
+exports.ack.modules.definePath('date', './date');
+exports.ack.modules.definePath('time', './time');
+exports.ack.modules.definePath('function', './function');
+exports.ack.modules.getModule = function (name, path) {
+    if (this.$storage[name])
+        return this.$storage[name];
+    var r = require(path);
+    // TODO: remove "|| r" once all is moved to Typescript and defaults are removed
+    this.$storage[name] = r.method || r;
+    return this.$storage[name];
+};
 /*ack['class'] = function(cl, extendOrAccessors, accessors){
     return new jC(cl, extendOrAccessors, accessors)
 }*/

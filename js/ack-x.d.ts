@@ -1,3 +1,5 @@
+/** calling ack() as function, will return a module to work with almost any object */
+export declare const ack: any;
 export declare class ackExpose {
     $var: any;
     dump: (spacing: any) => string;
@@ -18,9 +20,9 @@ export declare class ackExpose {
     function(): any;
     getSimpleClone(): {};
     /** get at raw variable within target variable with case insensativity */
-    get(name: any, def: any): any;
+    get(name: any, def?: any): any;
     /** $var[name] returned as ack Object. When null, null returned */
-    byName: (name: any) => any;
+    byName(name: any): any;
     throw(msg: any, logTo: any): this;
     /** JSON.stringify with default spacing=2 */
     stringify(spacing: any): string;
@@ -31,5 +33,3 @@ export declare class ackExpose {
     getBoolean(): any;
     isBooleanLike(): boolean;
 }
-/** calling ack() as function, will return a module to work with almost any object */
-export declare const ack: any;

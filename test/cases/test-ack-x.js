@@ -24,6 +24,11 @@ describe('ack()',function(){
 		assert.equal(object.get('TEST'),33)
 	})
 
+	it('#date',function(){
+		var date = ack().date().date
+		assert.equal(date.constructor, Date)
+	})
+
 	it('#stringify',function(){
 		var object = ack({test:11})
 		assert.equal(object.stringify(0),'{"test":11}')
@@ -71,7 +76,8 @@ describe('ack()',function(){
 	})
 
 	it('#week',function(){
-		var week = ack.week(22)
+		var week = ack.week(22).date
+		assert.equal(week.constructor, Date)
 	})
 
 	it('#getSimpleClone',function(){

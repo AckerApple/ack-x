@@ -22,4 +22,10 @@ describe('index-browser',function(){
     assert.equal(typeof indexBrowser.time, 'function')
     assert.equal(typeof indexBrowser.function, 'function')
   })
+
+  it('has-ack', function(){
+    var d = ack( 0 ).date().date
+    assert.equal(d.constructor, Date)
+    assert.equal(d.getFullYear(), 1969)
+  })
 })
