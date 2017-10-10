@@ -11,14 +11,14 @@ ack.base64 = require('./js/base64')
 ack.method = require('./js/method')
 ack.array = require('./js/array')
 ack.queryObject = require('./js/queryObject')
-ack.week = require('./js/week')
-ack.month = require('./js/month')
-ack.year = require('./js/year')
-ack.date = require('./js/date')
-ack.time = require('./js/time')
+ack.week = require('./js/week').method
+ack.month = require('./js/month').method
+ack.year = require('./js/year').method
+ack.date = require('./js/date').method
+ack.time = require('./js/time').method
 /*
 ack.function = require('./js/method')
 */
-ack['function'] = require('./js/method');
+ack['function'] = require('./js/method')
 
 module.exports = ack

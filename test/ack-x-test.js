@@ -386,15 +386,15 @@
 	ack.method = __webpack_require__(30)
 	ack.array = __webpack_require__(31)
 	ack.queryObject = __webpack_require__(32)
-	ack.week = __webpack_require__(33)
-	ack.month = __webpack_require__(34)
-	ack.year = __webpack_require__(153)
-	ack.date = __webpack_require__(35)
-	ack.time = __webpack_require__(154)
+	ack.week = __webpack_require__(33).method
+	ack.month = __webpack_require__(34).method
+	ack.year = __webpack_require__(153).method
+	ack.date = __webpack_require__(35).method
+	ack.time = __webpack_require__(154).method
 	/*
 	ack.function = require('./js/method')
 	*/
-	ack['function'] = __webpack_require__(30);
+	ack['function'] = __webpack_require__(30)
 
 	module.exports = ack
 
