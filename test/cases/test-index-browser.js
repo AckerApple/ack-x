@@ -1,8 +1,9 @@
 "use strict";
 
-var ack = global.ack,
-    assert = require('assert'),
-    indexBrowser = require('../../index-browser')
+var assert = require('assert'),
+    indexBrowser = require('../../js/index-browser')
+
+console.log('indexBrowser',indexBrowser)
 
 describe('index-browser',function(){
   it('has-functions',function(){
@@ -11,8 +12,7 @@ describe('index-browser',function(){
     assert.equal(typeof indexBrowser.string, 'function')
     assert.equal(typeof indexBrowser.binary, 'function')
     assert.equal(typeof indexBrowser.base64, 'function')
-    //assert.equal(typeof indexBrowser.object, 'function')
-    assert.equal(typeof indexBrowser.method, 'function')
+    assert.equal(typeof indexBrowser.object, 'function')
     assert.equal(typeof indexBrowser.array, 'function')
     assert.equal(typeof indexBrowser.queryObject, 'function')
     assert.equal(typeof indexBrowser.week, 'function')
@@ -20,11 +20,11 @@ describe('index-browser',function(){
     assert.equal(typeof indexBrowser.year, 'function')
     assert.equal(typeof indexBrowser.date, 'function')
     assert.equal(typeof indexBrowser.time, 'function')
-    assert.equal(typeof indexBrowser.function, 'function')
+    assert.equal(typeof indexBrowser.method, 'function')
   })
 
   it('has-ack', function(){
-    var d = ack( 0 ).date().date
+    var d = indexBrowser( 0 ).date().date
     assert.equal(d.constructor, Date)
     assert.equal(d.getFullYear(), 1969)
   })

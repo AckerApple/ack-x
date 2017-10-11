@@ -1,8 +1,6 @@
-declare var module: any;
-module['exports'] = function(ob){
+export function method(ob){
 	return new jXObject(ob)
 }
-
 
 export class jXObject{
 	object:any

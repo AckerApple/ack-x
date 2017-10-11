@@ -1,3 +1,4 @@
+export declare function method(ob: any): jXObject;
 export declare class jXObject {
     object: any;
     constructor(object: any);

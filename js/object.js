@@ -1,8 +1,9 @@
 "use strict";
 exports.__esModule = true;
-module['exports'] = function (ob) {
+function method(ob) {
     return new jXObject(ob);
-};
+}
+exports.method = method;
 var jXObject = /** @class */ (function () {
     function jXObject(object) {
         /** like JSON.stringify but converts all to cookie definition */
