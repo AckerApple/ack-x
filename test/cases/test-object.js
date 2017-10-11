@@ -18,11 +18,14 @@ describe('ack.object',function(){
 				c1:'a string here'
 			},
 			agency:[{
-				name:'My Agency'
+				name:'My Agency',
+				clock_in:1,
+				clock_out:2,
 			},{
 				name:'Toast',
 				email:'fake@aol.com',
-				active:0
+				active:0,
+				clock_in:1
 			}]
 		}
 
@@ -39,9 +42,11 @@ describe('ack.object',function(){
 			assert.equal(res.agency[0].name, 'string')
 			assert.equal(res.agency[0].email, 'string')
 			assert.equal(res.agency[0].active, 'number')
+			assert.equal(res.agency[0].clock_in, 'number')
+			assert.equal(res.agency[0].clock_out, 'number')
 		})
 
-		it.only('mapped',function(){
+		it('mapped',function(){
 			var res = ack.object(v).getTypeMap(function(type,subs){
 				return {type:type,subs:subs}
 			})
@@ -72,7 +77,6 @@ describe('ack.object',function(){
 			assert.equal(res.agency.subs.subs.email.type, 'string')
 			assert.equal(typeof res.agency.subs.subs.active, 'object')
 			assert.equal(res.agency.subs.subs.active.type, 'number')
-console.log(JSON.stringify(res, null, 2))
 		})
 	})
 
