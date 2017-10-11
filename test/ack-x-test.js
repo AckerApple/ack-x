@@ -47,7 +47,7 @@
 	__webpack_require__(1);
 	mocha.setup("bdd");
 	__webpack_require__(9)
-	__webpack_require__(189);
+	__webpack_require__(195);
 	if(false) {
 		module.hot.accept();
 		module.hot.dispose(function() {
@@ -348,24 +348,24 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {global.ack = __webpack_require__(10)
-	__webpack_require__(167)
-	__webpack_require__(172)
 	__webpack_require__(173)
-	__webpack_require__(174)
-	__webpack_require__(175)
-	///require('./test/cases/test-class.js')
-	__webpack_require__(176)
-	__webpack_require__(177)
 	__webpack_require__(178)
 	__webpack_require__(179)
+	__webpack_require__(180)
 	__webpack_require__(181)
+	///require('./test/cases/test-class.js')
 	__webpack_require__(182)
 	__webpack_require__(183)
 	__webpack_require__(184)
 	__webpack_require__(185)
-	__webpack_require__(186)
 	__webpack_require__(187)
 	__webpack_require__(188)
+	__webpack_require__(189)
+	__webpack_require__(190)
+	__webpack_require__(191)
+	__webpack_require__(192)
+	__webpack_require__(193)
+	__webpack_require__(194)
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
@@ -374,29 +374,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
-	var ack = __webpack_require__(11)
-
-	ack.error = __webpack_require__(146)
-	ack.number = __webpack_require__(153)
-	ack.string = __webpack_require__(156)
-	ack.binary = __webpack_require__(26)
-	ack.base64 = __webpack_require__(25)
-	//ack.object = require('./js/Object')
-	ack.method = __webpack_require__(150)
-	ack.array = __webpack_require__(24)
-	ack.queryObject = __webpack_require__(155)
-	ack.week = __webpack_require__(163).method
-	ack.month = __webpack_require__(151).method
-	ack.year = __webpack_require__(165).method
-	ack.date = __webpack_require__(27).method
-	ack.time = __webpack_require__(161).method
-	/*
-	ack.function = require('./js/method')
-	*/
-	ack['function'] = __webpack_require__(150)
-
-	module.exports = ack
+	modules.exports = __webpack_require__(11)
 
 /***/ }),
 /* 11 */
@@ -404,12 +382,50 @@
 
 	"use strict";
 	exports.__esModule = true;
-	var jc_1 = __webpack_require__(12);
+	var ack_x_1 = __webpack_require__(12);
+	var error_1 = __webpack_require__(150);
+	ack_x_1.ack.error = error_1.method;
+	var number_1 = __webpack_require__(160);
+	ack_x_1.ack.number = number_1.method;
+	var string_1 = __webpack_require__(165);
+	ack_x_1.ack.string = string_1.method;
+	var binary_1 = __webpack_require__(28);
+	ack_x_1.ack.binary = binary_1.method;
+	var base64_1 = __webpack_require__(26);
+	ack_x_1.ack.base64 = base64_1.method;
+	var object_1 = __webpack_require__(20);
+	ack_x_1.ack.object = object_1.method;
+	var array_1 = __webpack_require__(24);
+	ack_x_1.ack.array = array_1.method;
+	var queryObject_1 = __webpack_require__(163);
+	ack_x_1.ack.queryObject = queryObject_1.method;
+	var week_1 = __webpack_require__(169);
+	ack_x_1.ack.week = week_1.method;
+	var month_1 = __webpack_require__(158);
+	ack_x_1.ack.month = month_1.method;
+	var year_1 = __webpack_require__(171);
+	ack_x_1.ack.year = year_1.method;
+	var date_1 = __webpack_require__(30);
+	ack_x_1.ack.date = date_1.method;
+	var time_1 = __webpack_require__(167);
+	ack_x_1.ack.time = time_1.method;
+	var method_1 = __webpack_require__(156);
+	ack_x_1.ack.method = method_1.method;
+	module.exports = ack_x_1.ack;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	exports.__esModule = true;
+	var jc_1 = __webpack_require__(13);
 	//var jc = require('./js/jc'),//old old old library for Classes and Accessors
-	var ackInjector_1 = __webpack_require__(13);
-	var ackP = __webpack_require__(14);
-	var debug_1 = __webpack_require__(15);
-	var ackObject = __webpack_require__(19);
+	var ackInjector_1 = __webpack_require__(14);
+	var ackP = __webpack_require__(15);
+	var debug_1 = __webpack_require__(16);
+	var ackObject = __webpack_require__(20);
 	/** calling ack() as function, will return a module to work with almost any object */
 	exports.ack = function ($var) {
 	    return new ackExpose($var);
@@ -635,7 +651,7 @@
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -812,7 +828,7 @@
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -903,7 +919,7 @@
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2142,7 +2158,7 @@
 	}
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2151,7 +2167,7 @@
 	 * Expose `debug()` as the module.
 	 */
 
-	exports = module.exports = __webpack_require__(17);
+	exports = module.exports = __webpack_require__(18);
 	exports.log = log;
 	exports.formatArgs = formatArgs;
 	exports.save = save;
@@ -2336,10 +2352,10 @@
 	  } catch (e) {}
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 	// shim for using process in browser
@@ -2529,7 +2545,7 @@
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -2545,7 +2561,7 @@
 	exports.disable = disable;
 	exports.enable = enable;
 	exports.enabled = enabled;
-	exports.humanize = __webpack_require__(18);
+	exports.humanize = __webpack_require__(19);
 
 	/**
 	 * Active `debug` instances.
@@ -2760,7 +2776,7 @@
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 	/**
@@ -2918,14 +2934,15 @@
 
 
 /***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 20 */
+/***/ (function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+	"use strict";
 	exports.__esModule = true;
-	module['exports'] = function (ob) {
+	function method(ob) {
 	    return new jXObject(ob);
-	};
+	}
+	exports.method = method;
 	var jXObject = /** @class */ (function () {
 	    function jXObject(object) {
 	        /** like JSON.stringify but converts all to cookie definition */
@@ -3101,65 +3118,51 @@
 	    return to;
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)(module)))
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./ack-x": 11,
-		"./ack-x.js": 11,
-		"./ackInjector": 13,
-		"./ackInjector.js": 13,
+		"./ack-x": 12,
+		"./ack-x.js": 12,
+		"./ackInjector": 14,
+		"./ackInjector.js": 14,
 		"./array": 24,
 		"./array.js": 24,
-		"./base64": 25,
-		"./base64.js": 25,
-		"./binary": 26,
-		"./binary.js": 26,
-		"./date": 27,
-		"./date.js": 27,
-		"./error": 146,
-		"./error.js": 146,
-		"./index": 147,
-		"./index.js": 147,
-		"./jc": 12,
-		"./jc.js": 12,
-		"./method": 150,
-		"./method.js": 150,
-		"./month": 151,
-		"./month.js": 151,
-		"./number": 153,
-		"./number.js": 153,
-		"./object": 19,
-		"./object.js": 19,
-		"./queryObject": 155,
-		"./queryObject.js": 155,
-		"./string": 156,
-		"./string.js": 156,
-		"./time": 161,
-		"./time.js": 161,
-		"./week": 163,
-		"./week.js": 163,
-		"./year": 165,
-		"./year.js": 165
+		"./base64": 26,
+		"./base64.js": 26,
+		"./binary": 28,
+		"./binary.js": 28,
+		"./date": 30,
+		"./date.js": 30,
+		"./error": 150,
+		"./error.js": 150,
+		"./index": 152,
+		"./index-browser": 11,
+		"./index-browser.d.ts": 153,
+		"./index-browser.js": 11,
+		"./index.js": 152,
+		"./jc": 13,
+		"./jc.js": 13,
+		"./method": 156,
+		"./method.js": 156,
+		"./month": 158,
+		"./month.js": 158,
+		"./number": 160,
+		"./number.js": 160,
+		"./object": 20,
+		"./object.js": 20,
+		"./queryObject": 163,
+		"./queryObject.js": 163,
+		"./string": 165,
+		"./string.js": 165,
+		"./time": 167,
+		"./time.js": 167,
+		"./week": 169,
+		"./week.js": 169,
+		"./year": 171,
+		"./year.js": 171
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -3182,241 +3185,248 @@
 /***/ (function(module, exports) {
 
 	"use strict";
-	var jXArray = function jXArray(array){
-		this.array = array
-		return this
+	exports.__esModule = true;
+	var jXArray = /** @class */ (function () {
+	    function jXArray(array) {
+	        this.union = this.appendArray;
+	        this.array = array;
+	        return this;
+	    }
+	    /**
+	        Intended for high performance by looping an array only once but performing multiple actions.
+	        Run multiple functions for each iteration of an array.
+
+	        Example: array.each(countTeacher, countChild) instead of two loops array.each(countTeacher) + array.each(countChild)
+	    */
+	    jXArray.prototype.each = function (method0, method1, method2, method3) {
+	        if (!this.array)
+	            return this;
+	        for (var x = 0; x < this.array.length; ++x) {
+	            for (var a = 0; a < arguments.length; ++a) {
+	                arguments[a].call(null, this.array[x], x, this.array.length);
+	            }
+	            this.array[x];
+	        }
+	        return this;
+	    };
+	    /** reduce array down to only distinct items
+	        @method - optional, returned value is used to determine distinctness
+	    */
+	    jXArray.prototype.distinct = function (method) {
+	        if (!this.array)
+	            return this;
+	        var distincts = [];
+	        method = method || function (v) { return v; };
+	        for (var x = 0; x < this.array.length; ++x) {
+	            var a0 = this.array[x];
+	            var isDef = false;
+	            for (var xd = distincts.length - 1; xd >= 0; --xd) {
+	                var item = distincts[xd];
+	                if (method(a0) == method(item)) {
+	                    isDef = true;
+	                    break;
+	                }
+	            }
+	            if (!isDef)
+	                distincts.push(a0);
+	        }
+	        this.array = distincts;
+	        return this;
+	    };
+	    //pivets array of objects to object of arrays
+	    jXArray.prototype.objectify = function () {
+	        if (!this.array.length)
+	            return {};
+	        var x, n, s, r = {};
+	        s = this.array[0];
+	        for (n in s) {
+	            r[n] = [];
+	        }
+	        for (x = this.array.length - 1; x >= 0; --x) {
+	            s = this.array[x];
+	            for (n in s) {
+	                r[n].unshift(s[n]);
+	            }
+	        }
+	        return r;
+	    };
+	    //append an array's items onto the end of this array
+	    jXArray.prototype.appendArray = function () {
+	        //each argument maybe another array
+	        for (var argIn = 0; argIn < arguments.length; ++argIn) {
+	            var array = arguments[argIn];
+	            for (var aI = 0; aI < array.length; ++aI) {
+	                this.array.push(array[aI]);
+	            }
+	        }
+	        return this;
+	    };
+	    //prepend an array's items onto the front of this array
+	    jXArray.prototype.prependArray = function () {
+	        //each argument maybe another array
+	        for (var argIn = 0; argIn < arguments.length; ++argIn) {
+	            var array = arguments[argIn];
+	            for (var aI = array.length - 1; aI >= 0; --aI) {
+	                this.array.unshift(array[aI]);
+	            }
+	        }
+	        return this;
+	    };
+	    /** ads an array all up
+	        @method - optional. Returned value is used to sum
+	    */
+	    jXArray.prototype.sum = function (method) {
+	        var n = 0, a = this.array;
+	        method = method || function (v, i) { return v; };
+	        for (var i = a.length - 1; i >= 0; --i) {
+	            n = n + Number(method(a[i], i));
+	        }
+	        return n;
+	    };
+	    /** break an array into buckets of arrays
+	        @isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
+	        @grouptype='sequence' - ('sequence'||'struct') . sequence, array of arrays = [ [],[],[] ] . struct = {value0:[buckets...], value1:[buckets...]}
+	    */
+	    jXArray.prototype.group = function (method, isIndexValue, grouptype) {
+	        method = method ? method : function (v) { return v; };
+	        grouptype = grouptype ? grouptype : 'sequence';
+	        isIndexValue = isIndexValue == null ? 0 : isIndexValue;
+	        var array = this.array;
+	        if (grouptype == 'struct') {
+	            var struct = {};
+	            for (var x = 0; x < array.length; ++x) {
+	                var a = array[x];
+	                var v = method(a);
+	                if (struct[v] == null)
+	                    struct[v] = [];
+	                struct[v].push(isIndexValue ? x : a);
+	            }
+	            return struct;
+	        }
+	        var rArray = [[]];
+	        var cVal = 0;
+	        for (var x = 0; x < array.length; ++x) {
+	            var a = array[x];
+	            var v = method(a);
+	            if (cVal != v && x > 1)
+	                rArray.push([]);
+	            cVal = v;
+	            rArray[rArray.length - 1].push(isIndexValue ? x : a);
+	        }
+	        return rArray;
+	    };
+	    return jXArray;
+	}());
+	exports.jXArray = jXArray;
+	function method(path) {
+	    return new jXArray(path);
 	}
-
-	/**
-		Intended for high performance by looping an array only once but performing multiple actions.
-		Run multiple functions for each iteration of an array.
-
-		Example: array.each(countTeacher, countChild) instead of two loops array.each(countTeacher) + array.each(countChild)
-	*/
-	jXArray.prototype.each = function(method0, method1, method2, method3){
-		if(!this.array)return this;
-		for(var x=0; x < this.array.length; ++x){
-			for(var a=0; a < arguments.length; ++a){
-				arguments[a].call(null, this.array[x], x, this.array.length)
-			}
-			this.array[x]
-		}
-		return this;
-	}
-
-	/** reduce array down to only distinct items
-		@method - optional, returned value is used to determine distinctness
-	*/
-	jXArray.prototype.distinct = function(method){
-		if(!this.array)return this;
-
-		var distincts = []
-		method = method || function(v){return v}
-
-		for(var x=0; x < this.array.length; ++x){
-			var a0 = this.array[x]
-			var isDef = false
-			for(var xd=distincts.length-1; xd >= 0; --xd){
-				var item = distincts[xd]
-				if(method(a0)==method(item)){
-					isDef = true
-					break;
-				}
-			}
-			if(!isDef)distincts.push(a0)
-		}
-		this.array = distincts
-		return this
-	}
-
-	//pivets array of objects to object of arrays
-	jXArray.prototype.objectify = function(){
-		if(!this.array.length)return {}
-
-		var x,n,s,r={}
-
-		s = this.array[0]
-		for(n in s){
-			r[n] = []
-		}
-
-		for(x=this.array.length-1; x >= 0; --x){
-			s = this.array[x]
-			for(n in s){
-				r[n].unshift(s[n])
-			}
-		}
-		return r
-	}
-
-	//append an array's items onto the end of this array
-	jXArray.prototype.appendArray = function(){
-		//each argument maybe another array
-		for(var argIn=0; argIn < arguments.length; ++argIn){
-			var array = arguments[argIn]
-			for(var aI=0; aI < array.length; ++aI){
-				this.array.push(array[aI])
-			}
-		}
-
-		return this
-	}
-	jXArray.prototype.union = jXArray.prototype.appendArray
-
-	//prepend an array's items onto the front of this array
-	jXArray.prototype.prependArray = function(){
-		//each argument maybe another array
-		for(var argIn=0; argIn < arguments.length; ++argIn){
-			var array = arguments[argIn]
-			for(var aI=array.length-1; aI >= 0; --aI){
-				this.array.unshift(array[aI])
-			}
-		}
-
-		return this
-	}
-
-	/** ads an array all up
-		@method - optional. Returned value is used to sum
-	*/
-	jXArray.prototype.sum = function(method){
-		var n=0,a = this.array
-		method = method || function(v,i){return v}
-		for(var i=a.length-1; i >= 0; --i){
-			n = n + Number(method(a[i],i))
-		}
-		return n
-	}
-
-	/** break an array into buckets of arrays
-		@isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
-		@grouptype='sequence' - ('sequence'||'struct') . sequence, array of arrays = [ [],[],[] ] . struct = {value0:[buckets...], value1:[buckets...]}
-	*/
-	jXArray.prototype.group = function(method, isIndexValue, grouptype){
-		method = method ? method : function(v){return v}
-		grouptype = grouptype ? grouptype : 'sequence'
-		isIndexValue = isIndexValue==null ? 0 : isIndexValue
-
-		var array = this.array
-
-		if(grouptype == 'struct'){
-			var struct = {};
-			for(var x=0; x < array.length; ++x){
-				var a = array[x]
-				var v = method(a);
-				if(struct[v]==null)struct[v]=[];
-				struct[v].push(isIndexValue ? x : a);
-			}
-			return struct;
-		}
-
-		var rArray = [[]];
-		var cVal = 0;
-		for(var x=0; x < array.length; ++x){
-			var a = array[x];
-			var v = method(a);
-			if(cVal != v && x > 1)rArray.push([]);
-			cVal=v;
-			rArray[rArray.length-1].push(isIndexValue ? x : a);
-		}
-
-		return rArray;
-	}
-
-	var rtn = function(path){return new jXArray(path)}
-	if(typeof(module)!='undefined' && module.exports){
-		rtn.Class = jXArray
-		module.exports = rtn
-	}else if(typeof(jX)!='undefined'){
-		jX.modules.define('array', rtn)
-	}
+	exports.method = method;
 
 
 /***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-	"use strict";
-	var jXBase64 = function jXBase64(base64){
-		this.base64 = base64
-		return this
-	}
-
-	jXBase64._keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
-
-	jXBase64.prototype.toString = function(e){
-		var e = this.base64.replace(/[^A-Za-z0-9\+\/\=]/g,"");
-		var t="";var n,r,i;var s,o,u,a;var f=0;
-		while(f<e.length){
-			s=jXBase64._keyStr.indexOf(e.charAt(f++));
-			o=jXBase64._keyStr.indexOf(e.charAt(f++));
-			u=jXBase64._keyStr.indexOf(e.charAt(f++));
-			a=jXBase64._keyStr.indexOf(e.charAt(f++));
-			n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;
-			t=t+String.fromCharCode(n);
-			if(u!=64){t=t+String.fromCharCode(r)}
-			if(a!=64){t=t+String.fromCharCode(i)}
-		}
-		t = this._utf8_decode(t);
-		return t
-	}
-
-	jXBase64.prototype._utf8_decode = function(e){
-		var t="";var n=0;var r=0,c2=0;
-		while(n<e.length){
-			r=e.charCodeAt(n);
-			if(r<128){
-				t+=String.fromCharCode(r);n++
-			}else if(r>191&&r<224){
-				c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2
-			}else{
-				c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);
-				t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3
-			}
-		}
-		return t
-	}
-
-	var rtn = function(path){return new jXBase64(path)}
-	if(typeof(module)!='undefined' && module.exports){
-		rtn.Class = jXBase64
-		module.exports = rtn
-	}else if(typeof(jX)!='undefined'){
-		jX.modules.define('base64', rtn)
-	}
-
-
-/***/ }),
+/* 25 */,
 /* 26 */
 /***/ (function(module, exports) {
 
 	"use strict";
-	var jXBinary = function jXBinary(binary){
-		this.binary = binary
-		return this
+	exports.__esModule = true;
+	var jXBase64 = /** @class */ (function () {
+	    function jXBase64(base64) {
+	        this.base64 = base64;
+	        return this;
+	    }
+	    jXBase64.prototype.toString = function (e) {
+	        var e = this.base64.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+	        var t = "";
+	        var n, r, i;
+	        var s, o, u, a;
+	        var f = 0;
+	        while (f < e.length) {
+	            s = jXBase64._keyStr.indexOf(e.charAt(f++));
+	            o = jXBase64._keyStr.indexOf(e.charAt(f++));
+	            u = jXBase64._keyStr.indexOf(e.charAt(f++));
+	            a = jXBase64._keyStr.indexOf(e.charAt(f++));
+	            n = s << 2 | o >> 4;
+	            r = (o & 15) << 4 | u >> 2;
+	            i = (u & 3) << 6 | a;
+	            t = t + String.fromCharCode(n);
+	            if (u != 64) {
+	                t = t + String.fromCharCode(r);
+	            }
+	            if (a != 64) {
+	                t = t + String.fromCharCode(i);
+	            }
+	        }
+	        t = this._utf8_decode(t);
+	        return t;
+	    };
+	    jXBase64.prototype._utf8_decode = function (e) {
+	        var t = "";
+	        var n = 0;
+	        var r = 0, c2 = 0, c3 = 0;
+	        while (n < e.length) {
+	            r = e.charCodeAt(n);
+	            if (r < 128) {
+	                t += String.fromCharCode(r);
+	                n++;
+	            }
+	            else if (r > 191 && r < 224) {
+	                c2 = e.charCodeAt(n + 1);
+	                t += String.fromCharCode((r & 31) << 6 | c2 & 63);
+	                n += 2;
+	            }
+	            else {
+	                c2 = e.charCodeAt(n + 1);
+	                c3 = e.charCodeAt(n + 2);
+	                t += String.fromCharCode((r & 15) << 12 | (c2 & 63) << 6 | c3 & 63);
+	                n += 3;
+	            }
+	        }
+	        return t;
+	    };
+	    jXBase64._keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+	    return jXBase64;
+	}());
+	exports.jXBase64 = jXBase64;
+	function method(variable) {
+	    return new jXBase64(variable);
 	}
-
-	jXBinary.prototype.is = function(){
-		return /^[01]+$/.test(this.binary)
-	}
-
-
-	var rtn = function(path){return new jXBinary(path)}
-	if(typeof(module)!='undefined' && module.exports){
-		rtn.Class = jXBinary
-		module.exports = rtn
-	}else if(typeof(jX)!='undefined'){
-		jX.modules.define('binary', rtn)
-	}
+	exports.method = method;
 
 
 /***/ }),
-/* 27 */
+/* 27 */,
+/* 28 */
+/***/ (function(module, exports) {
+
+	"use strict";
+	exports.__esModule = true;
+	var jXBinary = /** @class */ (function () {
+	    function jXBinary(binary) {
+	        this.binary = binary;
+	        return this;
+	    }
+	    jXBinary.prototype.is = function () {
+	        return /^[01]+$/.test(this.binary);
+	    };
+	    return jXBinary;
+	}());
+	exports.jXBinary = jXBinary;
+	function method(path) {
+	    return new jXBinary(path);
+	}
+	exports.method = method;
+
+
+/***/ }),
+/* 29 */,
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	exports.__esModule = true;
-	var moment = __webpack_require__(28);
+	var moment = __webpack_require__(31);
 	/* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
 	var AckDate = /** @class */ (function () {
 	    function AckDate(date, format) {
@@ -3868,7 +3878,6 @@
 	        var hours = Math.floor(hDiff);
 	        var mins = minDiff - 60 * hours;
 	        var calc = Math.abs(hours * 60 + mins);
-	        //return Math.round(calc, 0);
 	        return Math.round(calc);
 	    };
 	    /* FORMATTING */
@@ -4198,7 +4207,7 @@
 
 
 /***/ }),
-/* 28 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
@@ -6030,7 +6039,7 @@
 	            module && module.exports) {
 	        try {
 	            oldLocale = globalLocale._abbr;
-	            __webpack_require__(29)("./" + name);
+	            __webpack_require__(33)("./" + name);
 	            // because defineLocale currently also sets the global locale, we
 	            // want to undo that for lazy loaded locales
 	            getSetGlobalLocale(oldLocale);
@@ -8665,243 +8674,259 @@
 
 	})));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)(module)))
 
 /***/ }),
-/* 29 */
+/* 32 */
+/***/ (function(module, exports) {
+
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ }),
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 30,
-		"./af.js": 30,
-		"./ar": 31,
-		"./ar-dz": 32,
-		"./ar-dz.js": 32,
-		"./ar-kw": 33,
-		"./ar-kw.js": 33,
-		"./ar-ly": 34,
-		"./ar-ly.js": 34,
-		"./ar-ma": 35,
-		"./ar-ma.js": 35,
-		"./ar-sa": 36,
-		"./ar-sa.js": 36,
-		"./ar-tn": 37,
-		"./ar-tn.js": 37,
-		"./ar.js": 31,
-		"./az": 38,
-		"./az.js": 38,
-		"./be": 39,
-		"./be.js": 39,
-		"./bg": 40,
-		"./bg.js": 40,
-		"./bn": 41,
-		"./bn.js": 41,
-		"./bo": 42,
-		"./bo.js": 42,
-		"./br": 43,
-		"./br.js": 43,
-		"./bs": 44,
-		"./bs.js": 44,
-		"./ca": 45,
-		"./ca.js": 45,
-		"./cs": 46,
-		"./cs.js": 46,
-		"./cv": 47,
-		"./cv.js": 47,
-		"./cy": 48,
-		"./cy.js": 48,
-		"./da": 49,
-		"./da.js": 49,
-		"./de": 50,
-		"./de-at": 51,
-		"./de-at.js": 51,
-		"./de-ch": 52,
-		"./de-ch.js": 52,
-		"./de.js": 50,
-		"./dv": 53,
-		"./dv.js": 53,
-		"./el": 54,
-		"./el.js": 54,
-		"./en-au": 55,
-		"./en-au.js": 55,
-		"./en-ca": 56,
-		"./en-ca.js": 56,
-		"./en-gb": 57,
-		"./en-gb.js": 57,
-		"./en-ie": 58,
-		"./en-ie.js": 58,
-		"./en-nz": 59,
-		"./en-nz.js": 59,
-		"./eo": 60,
-		"./eo.js": 60,
-		"./es": 61,
-		"./es-do": 62,
-		"./es-do.js": 62,
-		"./es.js": 61,
-		"./et": 63,
-		"./et.js": 63,
-		"./eu": 64,
-		"./eu.js": 64,
-		"./fa": 65,
-		"./fa.js": 65,
-		"./fi": 66,
-		"./fi.js": 66,
-		"./fo": 67,
-		"./fo.js": 67,
-		"./fr": 68,
-		"./fr-ca": 69,
-		"./fr-ca.js": 69,
-		"./fr-ch": 70,
-		"./fr-ch.js": 70,
-		"./fr.js": 68,
-		"./fy": 71,
-		"./fy.js": 71,
-		"./gd": 72,
-		"./gd.js": 72,
-		"./gl": 73,
-		"./gl.js": 73,
-		"./gom-latn": 74,
-		"./gom-latn.js": 74,
-		"./he": 75,
-		"./he.js": 75,
-		"./hi": 76,
-		"./hi.js": 76,
-		"./hr": 77,
-		"./hr.js": 77,
-		"./hu": 78,
-		"./hu.js": 78,
-		"./hy-am": 79,
-		"./hy-am.js": 79,
-		"./id": 80,
-		"./id.js": 80,
-		"./is": 81,
-		"./is.js": 81,
-		"./it": 82,
-		"./it.js": 82,
-		"./ja": 83,
-		"./ja.js": 83,
-		"./jv": 84,
-		"./jv.js": 84,
-		"./ka": 85,
-		"./ka.js": 85,
-		"./kk": 86,
-		"./kk.js": 86,
-		"./km": 87,
-		"./km.js": 87,
-		"./kn": 88,
-		"./kn.js": 88,
-		"./ko": 89,
-		"./ko.js": 89,
-		"./ky": 90,
-		"./ky.js": 90,
-		"./lb": 91,
-		"./lb.js": 91,
-		"./lo": 92,
-		"./lo.js": 92,
-		"./lt": 93,
-		"./lt.js": 93,
-		"./lv": 94,
-		"./lv.js": 94,
-		"./me": 95,
-		"./me.js": 95,
-		"./mi": 96,
-		"./mi.js": 96,
-		"./mk": 97,
-		"./mk.js": 97,
-		"./ml": 98,
-		"./ml.js": 98,
-		"./mr": 99,
-		"./mr.js": 99,
-		"./ms": 100,
-		"./ms-my": 101,
-		"./ms-my.js": 101,
-		"./ms.js": 100,
-		"./my": 102,
-		"./my.js": 102,
-		"./nb": 103,
-		"./nb.js": 103,
-		"./ne": 104,
-		"./ne.js": 104,
-		"./nl": 105,
-		"./nl-be": 106,
-		"./nl-be.js": 106,
-		"./nl.js": 105,
-		"./nn": 107,
-		"./nn.js": 107,
-		"./pa-in": 108,
-		"./pa-in.js": 108,
-		"./pl": 109,
-		"./pl.js": 109,
-		"./pt": 110,
-		"./pt-br": 111,
-		"./pt-br.js": 111,
-		"./pt.js": 110,
-		"./ro": 112,
-		"./ro.js": 112,
-		"./ru": 113,
-		"./ru.js": 113,
-		"./sd": 114,
-		"./sd.js": 114,
-		"./se": 115,
-		"./se.js": 115,
-		"./si": 116,
-		"./si.js": 116,
-		"./sk": 117,
-		"./sk.js": 117,
-		"./sl": 118,
-		"./sl.js": 118,
-		"./sq": 119,
-		"./sq.js": 119,
-		"./sr": 120,
-		"./sr-cyrl": 121,
-		"./sr-cyrl.js": 121,
-		"./sr.js": 120,
-		"./ss": 122,
-		"./ss.js": 122,
-		"./sv": 123,
-		"./sv.js": 123,
-		"./sw": 124,
-		"./sw.js": 124,
-		"./ta": 125,
-		"./ta.js": 125,
-		"./te": 126,
-		"./te.js": 126,
-		"./tet": 127,
-		"./tet.js": 127,
-		"./th": 128,
-		"./th.js": 128,
-		"./tl-ph": 129,
-		"./tl-ph.js": 129,
-		"./tlh": 130,
-		"./tlh.js": 130,
-		"./tr": 131,
-		"./tr.js": 131,
-		"./tzl": 132,
-		"./tzl.js": 132,
-		"./tzm": 133,
-		"./tzm-latn": 134,
-		"./tzm-latn.js": 134,
-		"./tzm.js": 133,
-		"./uk": 135,
-		"./uk.js": 135,
-		"./ur": 136,
-		"./ur.js": 136,
-		"./uz": 137,
-		"./uz-latn": 138,
-		"./uz-latn.js": 138,
-		"./uz.js": 137,
-		"./vi": 139,
-		"./vi.js": 139,
-		"./x-pseudo": 140,
-		"./x-pseudo.js": 140,
-		"./yo": 141,
-		"./yo.js": 141,
-		"./zh-cn": 142,
-		"./zh-cn.js": 142,
-		"./zh-hk": 143,
-		"./zh-hk.js": 143,
-		"./zh-tw": 144,
-		"./zh-tw.js": 144
+		"./af": 34,
+		"./af.js": 34,
+		"./ar": 35,
+		"./ar-dz": 36,
+		"./ar-dz.js": 36,
+		"./ar-kw": 37,
+		"./ar-kw.js": 37,
+		"./ar-ly": 38,
+		"./ar-ly.js": 38,
+		"./ar-ma": 39,
+		"./ar-ma.js": 39,
+		"./ar-sa": 40,
+		"./ar-sa.js": 40,
+		"./ar-tn": 41,
+		"./ar-tn.js": 41,
+		"./ar.js": 35,
+		"./az": 42,
+		"./az.js": 42,
+		"./be": 43,
+		"./be.js": 43,
+		"./bg": 44,
+		"./bg.js": 44,
+		"./bn": 45,
+		"./bn.js": 45,
+		"./bo": 46,
+		"./bo.js": 46,
+		"./br": 47,
+		"./br.js": 47,
+		"./bs": 48,
+		"./bs.js": 48,
+		"./ca": 49,
+		"./ca.js": 49,
+		"./cs": 50,
+		"./cs.js": 50,
+		"./cv": 51,
+		"./cv.js": 51,
+		"./cy": 52,
+		"./cy.js": 52,
+		"./da": 53,
+		"./da.js": 53,
+		"./de": 54,
+		"./de-at": 55,
+		"./de-at.js": 55,
+		"./de-ch": 56,
+		"./de-ch.js": 56,
+		"./de.js": 54,
+		"./dv": 57,
+		"./dv.js": 57,
+		"./el": 58,
+		"./el.js": 58,
+		"./en-au": 59,
+		"./en-au.js": 59,
+		"./en-ca": 60,
+		"./en-ca.js": 60,
+		"./en-gb": 61,
+		"./en-gb.js": 61,
+		"./en-ie": 62,
+		"./en-ie.js": 62,
+		"./en-nz": 63,
+		"./en-nz.js": 63,
+		"./eo": 64,
+		"./eo.js": 64,
+		"./es": 65,
+		"./es-do": 66,
+		"./es-do.js": 66,
+		"./es.js": 65,
+		"./et": 67,
+		"./et.js": 67,
+		"./eu": 68,
+		"./eu.js": 68,
+		"./fa": 69,
+		"./fa.js": 69,
+		"./fi": 70,
+		"./fi.js": 70,
+		"./fo": 71,
+		"./fo.js": 71,
+		"./fr": 72,
+		"./fr-ca": 73,
+		"./fr-ca.js": 73,
+		"./fr-ch": 74,
+		"./fr-ch.js": 74,
+		"./fr.js": 72,
+		"./fy": 75,
+		"./fy.js": 75,
+		"./gd": 76,
+		"./gd.js": 76,
+		"./gl": 77,
+		"./gl.js": 77,
+		"./gom-latn": 78,
+		"./gom-latn.js": 78,
+		"./he": 79,
+		"./he.js": 79,
+		"./hi": 80,
+		"./hi.js": 80,
+		"./hr": 81,
+		"./hr.js": 81,
+		"./hu": 82,
+		"./hu.js": 82,
+		"./hy-am": 83,
+		"./hy-am.js": 83,
+		"./id": 84,
+		"./id.js": 84,
+		"./is": 85,
+		"./is.js": 85,
+		"./it": 86,
+		"./it.js": 86,
+		"./ja": 87,
+		"./ja.js": 87,
+		"./jv": 88,
+		"./jv.js": 88,
+		"./ka": 89,
+		"./ka.js": 89,
+		"./kk": 90,
+		"./kk.js": 90,
+		"./km": 91,
+		"./km.js": 91,
+		"./kn": 92,
+		"./kn.js": 92,
+		"./ko": 93,
+		"./ko.js": 93,
+		"./ky": 94,
+		"./ky.js": 94,
+		"./lb": 95,
+		"./lb.js": 95,
+		"./lo": 96,
+		"./lo.js": 96,
+		"./lt": 97,
+		"./lt.js": 97,
+		"./lv": 98,
+		"./lv.js": 98,
+		"./me": 99,
+		"./me.js": 99,
+		"./mi": 100,
+		"./mi.js": 100,
+		"./mk": 101,
+		"./mk.js": 101,
+		"./ml": 102,
+		"./ml.js": 102,
+		"./mr": 103,
+		"./mr.js": 103,
+		"./ms": 104,
+		"./ms-my": 105,
+		"./ms-my.js": 105,
+		"./ms.js": 104,
+		"./my": 106,
+		"./my.js": 106,
+		"./nb": 107,
+		"./nb.js": 107,
+		"./ne": 108,
+		"./ne.js": 108,
+		"./nl": 109,
+		"./nl-be": 110,
+		"./nl-be.js": 110,
+		"./nl.js": 109,
+		"./nn": 111,
+		"./nn.js": 111,
+		"./pa-in": 112,
+		"./pa-in.js": 112,
+		"./pl": 113,
+		"./pl.js": 113,
+		"./pt": 114,
+		"./pt-br": 115,
+		"./pt-br.js": 115,
+		"./pt.js": 114,
+		"./ro": 116,
+		"./ro.js": 116,
+		"./ru": 117,
+		"./ru.js": 117,
+		"./sd": 118,
+		"./sd.js": 118,
+		"./se": 119,
+		"./se.js": 119,
+		"./si": 120,
+		"./si.js": 120,
+		"./sk": 121,
+		"./sk.js": 121,
+		"./sl": 122,
+		"./sl.js": 122,
+		"./sq": 123,
+		"./sq.js": 123,
+		"./sr": 124,
+		"./sr-cyrl": 125,
+		"./sr-cyrl.js": 125,
+		"./sr.js": 124,
+		"./ss": 126,
+		"./ss.js": 126,
+		"./sv": 127,
+		"./sv.js": 127,
+		"./sw": 128,
+		"./sw.js": 128,
+		"./ta": 129,
+		"./ta.js": 129,
+		"./te": 130,
+		"./te.js": 130,
+		"./tet": 131,
+		"./tet.js": 131,
+		"./th": 132,
+		"./th.js": 132,
+		"./tl-ph": 133,
+		"./tl-ph.js": 133,
+		"./tlh": 134,
+		"./tlh.js": 134,
+		"./tr": 135,
+		"./tr.js": 135,
+		"./tzl": 136,
+		"./tzl.js": 136,
+		"./tzm": 137,
+		"./tzm-latn": 138,
+		"./tzm-latn.js": 138,
+		"./tzm.js": 137,
+		"./uk": 139,
+		"./uk.js": 139,
+		"./ur": 140,
+		"./ur.js": 140,
+		"./uz": 141,
+		"./uz-latn": 142,
+		"./uz-latn.js": 142,
+		"./uz.js": 141,
+		"./vi": 143,
+		"./vi.js": 143,
+		"./x-pseudo": 144,
+		"./x-pseudo.js": 144,
+		"./yo": 145,
+		"./yo.js": 145,
+		"./zh-cn": 146,
+		"./zh-cn.js": 146,
+		"./zh-hk": 147,
+		"./zh-hk.js": 147,
+		"./zh-tw": 148,
+		"./zh-tw.js": 148
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -8914,11 +8939,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 29;
+	webpackContext.id = 33;
 
 
 /***/ }),
-/* 30 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -8926,7 +8951,7 @@
 	//! author : Werner Mollentze : https://github.com/wernerm
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -8996,7 +9021,7 @@
 
 
 /***/ }),
-/* 31 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9006,7 +9031,7 @@
 	//! author : forabi https://github.com/forabi
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -9143,7 +9168,7 @@
 
 
 /***/ }),
-/* 32 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9151,7 +9176,7 @@
 	//! author : Noureddine LOUAHEDJ : https://github.com/noureddineme
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -9207,7 +9232,7 @@
 
 
 /***/ }),
-/* 33 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9215,7 +9240,7 @@
 	//! author : Nusret Parlak: https://github.com/nusretparlak
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -9271,7 +9296,7 @@
 
 
 /***/ }),
-/* 34 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9279,7 +9304,7 @@
 	//! author : Ali Hmer: https://github.com/kikoanis
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -9402,7 +9427,7 @@
 
 
 /***/ }),
-/* 35 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9411,7 +9436,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -9467,7 +9492,7 @@
 
 
 /***/ }),
-/* 36 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9475,7 +9500,7 @@
 	//! author : Suhail Alkowaileet : https://github.com/xsoh
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -9577,7 +9602,7 @@
 
 
 /***/ }),
-/* 37 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9585,7 +9610,7 @@
 	//! author : Nader Toukabri : https://github.com/naderio
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -9641,7 +9666,7 @@
 
 
 /***/ }),
-/* 38 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9649,7 +9674,7 @@
 	//! author : topchiyev : https://github.com/topchiyev
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -9751,7 +9776,7 @@
 
 
 /***/ }),
-/* 39 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9761,7 +9786,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -9890,7 +9915,7 @@
 
 
 /***/ }),
-/* 40 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9898,7 +9923,7 @@
 	//! author : Krasen Borisov : https://github.com/kraz
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -9985,7 +10010,7 @@
 
 
 /***/ }),
-/* 41 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9993,7 +10018,7 @@
 	//! author : Kaushik Gandhi : https://github.com/kaushikgandhi
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10109,7 +10134,7 @@
 
 
 /***/ }),
-/* 42 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10117,7 +10142,7 @@
 	//! author : Thupten N. Chakrishar : https://github.com/vajradog
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10233,7 +10258,7 @@
 
 
 /***/ }),
-/* 43 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10241,7 +10266,7 @@
 	//! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10346,7 +10371,7 @@
 
 
 /***/ }),
-/* 44 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10355,7 +10380,7 @@
 	//! based on (hr) translation by Bojan Marković
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10494,7 +10519,7 @@
 
 
 /***/ }),
-/* 45 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10502,7 +10527,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10587,7 +10612,7 @@
 
 
 /***/ }),
-/* 46 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10595,7 +10620,7 @@
 	//! author : petrbela : https://github.com/petrbela
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10764,7 +10789,7 @@
 
 
 /***/ }),
-/* 47 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10772,7 +10797,7 @@
 	//! author : Anatoly Mironov : https://github.com/mirontoli
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10832,7 +10857,7 @@
 
 
 /***/ }),
-/* 48 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10841,7 +10866,7 @@
 	//! author : https://github.com/ryangreaves
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10918,7 +10943,7 @@
 
 
 /***/ }),
-/* 49 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10926,7 +10951,7 @@
 	//! author : Ulrik Nielsen : https://github.com/mrbase
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10983,7 +11008,7 @@
 
 
 /***/ }),
-/* 50 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10993,7 +11018,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11066,7 +11091,7 @@
 
 
 /***/ }),
-/* 51 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11077,7 +11102,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11150,7 +11175,7 @@
 
 
 /***/ }),
-/* 52 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11158,7 +11183,7 @@
 	//! author : sschueller : https://github.com/sschueller
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11233,7 +11258,7 @@
 
 
 /***/ }),
-/* 53 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11241,7 +11266,7 @@
 	//! author : Jawish Hameed : https://github.com/jawish
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11338,7 +11363,7 @@
 
 
 /***/ }),
-/* 54 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11346,7 +11371,7 @@
 	//! author : Aggelos Karalias : https://github.com/mehiel
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11443,7 +11468,7 @@
 
 
 /***/ }),
-/* 55 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11451,7 +11476,7 @@
 	//! author : Jared Morse : https://github.com/jarcoal
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11515,7 +11540,7 @@
 
 
 /***/ }),
-/* 56 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11523,7 +11548,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11583,7 +11608,7 @@
 
 
 /***/ }),
-/* 57 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11591,7 +11616,7 @@
 	//! author : Chris Gedrim : https://github.com/chrisgedrim
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11655,7 +11680,7 @@
 
 
 /***/ }),
-/* 58 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11663,7 +11688,7 @@
 	//! author : Chris Cartlidge : https://github.com/chriscartlidge
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11727,7 +11752,7 @@
 
 
 /***/ }),
-/* 59 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11735,7 +11760,7 @@
 	//! author : Luke McGregor : https://github.com/lukemcgregor
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11799,7 +11824,7 @@
 
 
 /***/ }),
-/* 60 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11809,7 +11834,7 @@
 	//! comment : miestasmia corrected the translation by colindean
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11877,7 +11902,7 @@
 
 
 /***/ }),
-/* 61 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11885,7 +11910,7 @@
 	//! author : Julio Napurí : https://github.com/julionc
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11965,14 +11990,14 @@
 
 
 /***/ }),
-/* 62 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale : Spanish (Dominican Republic) [es-do]
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12052,7 +12077,7 @@
 
 
 /***/ }),
-/* 63 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12061,7 +12086,7 @@
 	//! improvements : Illimar Tambek : https://github.com/ragulka
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12137,7 +12162,7 @@
 
 
 /***/ }),
-/* 64 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12145,7 +12170,7 @@
 	//! author : Eneko Illarramendi : https://github.com/eillarra
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12208,7 +12233,7 @@
 
 
 /***/ }),
-/* 65 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12216,7 +12241,7 @@
 	//! author : Ebrahim Byagowi : https://github.com/ebraminio
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12320,7 +12345,7 @@
 
 
 /***/ }),
-/* 66 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12328,7 +12353,7 @@
 	//! author : Tarmo Aidantausta : https://github.com/bleadof
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12432,7 +12457,7 @@
 
 
 /***/ }),
-/* 67 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12440,7 +12465,7 @@
 	//! author : Ragnar Johannesen : https://github.com/ragnar123
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12497,7 +12522,7 @@
 
 
 /***/ }),
-/* 68 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12505,7 +12530,7 @@
 	//! author : John Fischer : https://github.com/jfroffice
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12585,7 +12610,7 @@
 
 
 /***/ }),
-/* 69 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12593,7 +12618,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12664,7 +12689,7 @@
 
 
 /***/ }),
-/* 70 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12672,7 +12697,7 @@
 	//! author : Gaspard Bucher : https://github.com/gaspard
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12747,7 +12772,7 @@
 
 
 /***/ }),
-/* 71 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12755,7 +12780,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12827,7 +12852,7 @@
 
 
 /***/ }),
-/* 72 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12835,7 +12860,7 @@
 	//! author : Jon Ashdown : https://github.com/jonashdown
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12908,7 +12933,7 @@
 
 
 /***/ }),
-/* 73 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12916,7 +12941,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12990,7 +13015,7 @@
 
 
 /***/ }),
-/* 74 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12998,7 +13023,7 @@
 	//! author : The Discoverer : https://github.com/WikiDiscoverer
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13117,7 +13142,7 @@
 
 
 /***/ }),
-/* 75 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13127,7 +13152,7 @@
 	//! author : Tal Ater : https://github.com/TalAter
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13221,7 +13246,7 @@
 
 
 /***/ }),
-/* 76 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13229,7 +13254,7 @@
 	//! author : Mayank Singhal : https://github.com/mayanksinghal
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13350,7 +13375,7 @@
 
 
 /***/ }),
-/* 77 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13358,7 +13383,7 @@
 	//! author : Bojan Marković : https://github.com/bmarkovic
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13500,7 +13525,7 @@
 
 
 /***/ }),
-/* 78 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13508,7 +13533,7 @@
 	//! author : Adam Brunner : https://github.com/adambrunner
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13614,7 +13639,7 @@
 
 
 /***/ }),
-/* 79 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13622,7 +13647,7 @@
 	//! author : Armendarabyan : https://github.com/armendarabyan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13714,7 +13739,7 @@
 
 
 /***/ }),
-/* 80 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13723,7 +13748,7 @@
 	//! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13802,7 +13827,7 @@
 
 
 /***/ }),
-/* 81 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13810,7 +13835,7 @@
 	//! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13934,7 +13959,7 @@
 
 
 /***/ }),
-/* 82 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13943,7 +13968,7 @@
 	//! author: Mattia Larentis: https://github.com/nostalgiaz
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14009,7 +14034,7 @@
 
 
 /***/ }),
-/* 83 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14017,7 +14042,7 @@
 	//! author : LI Long : https://github.com/baryon
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14094,7 +14119,7 @@
 
 
 /***/ }),
-/* 84 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14103,7 +14128,7 @@
 	//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14182,7 +14207,7 @@
 
 
 /***/ }),
-/* 85 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14190,7 +14215,7 @@
 	//! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14276,7 +14301,7 @@
 
 
 /***/ }),
-/* 86 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14284,7 +14309,7 @@
 	//! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14368,7 +14393,7 @@
 
 
 /***/ }),
-/* 87 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14376,7 +14401,7 @@
 	//! author : Kruy Vanna : https://github.com/kruyvanna
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14431,7 +14456,7 @@
 
 
 /***/ }),
-/* 88 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14439,7 +14464,7 @@
 	//! author : Rajeev Naik : https://github.com/rajeevnaikte
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14562,7 +14587,7 @@
 
 
 /***/ }),
-/* 89 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14571,7 +14596,7 @@
 	//! author : Jeeeyul Lee <jeeeyul@gmail.com>
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14636,7 +14661,7 @@
 
 
 /***/ }),
-/* 90 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14644,7 +14669,7 @@
 	//! author : Chyngyz Arystan uulu : https://github.com/chyngyz
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14729,7 +14754,7 @@
 
 
 /***/ }),
-/* 91 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14738,7 +14763,7 @@
 	//! author : David Raison : https://github.com/kwisatz
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14871,7 +14896,7 @@
 
 
 /***/ }),
-/* 92 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14879,7 +14904,7 @@
 	//! author : Ryan Hart : https://github.com/ryanhart2
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14946,7 +14971,7 @@
 
 
 /***/ }),
-/* 93 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14954,7 +14979,7 @@
 	//! author : Mindaugas Mozūras : https://github.com/mmozuras
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15068,7 +15093,7 @@
 
 
 /***/ }),
-/* 94 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15077,7 +15102,7 @@
 	//! author : Jānis Elmeris : https://github.com/JanisE
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15170,7 +15195,7 @@
 
 
 /***/ }),
-/* 95 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15178,7 +15203,7 @@
 	//! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15286,7 +15311,7 @@
 
 
 /***/ }),
-/* 96 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15294,7 +15319,7 @@
 	//! author : John Corrigan <robbiecloset@gmail.com> : https://github.com/johnideal
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15355,7 +15380,7 @@
 
 
 /***/ }),
-/* 97 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15363,7 +15388,7 @@
 	//! author : Borislav Mickov : https://github.com/B0k0
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15450,7 +15475,7 @@
 
 
 /***/ }),
-/* 98 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15458,7 +15483,7 @@
 	//! author : Floyd Pink : https://github.com/floydpink
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15536,7 +15561,7 @@
 
 
 /***/ }),
-/* 99 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15545,7 +15570,7 @@
 	//! author : Vivek Athalye : https://github.com/vnathalye
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15700,7 +15725,7 @@
 
 
 /***/ }),
-/* 100 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15708,7 +15733,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15787,7 +15812,7 @@
 
 
 /***/ }),
-/* 101 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15796,7 +15821,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15875,7 +15900,7 @@
 
 
 /***/ }),
-/* 102 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15885,7 +15910,7 @@
 	//! author : Tin Aung Lin : https://github.com/thanyawzinmin
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15976,7 +16001,7 @@
 
 
 /***/ }),
-/* 103 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15985,7 +16010,7 @@
 	//!           Sigurd Gartmann : https://github.com/sigurdga
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16044,7 +16069,7 @@
 
 
 /***/ }),
-/* 104 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16052,7 +16077,7 @@
 	//! author : suvash : https://github.com/suvash
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16172,7 +16197,7 @@
 
 
 /***/ }),
-/* 105 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16181,7 +16206,7 @@
 	//! author : Jacob Middag : https://github.com/middagj
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16265,7 +16290,7 @@
 
 
 /***/ }),
-/* 106 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16274,7 +16299,7 @@
 	//! author : Jacob Middag : https://github.com/middagj
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16358,7 +16383,7 @@
 
 
 /***/ }),
-/* 107 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16366,7 +16391,7 @@
 	//! author : https://github.com/mechuwind
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16423,7 +16448,7 @@
 
 
 /***/ }),
-/* 108 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16431,7 +16456,7 @@
 	//! author : Harpreet Singh : https://github.com/harpreetkhalsagtbit
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16552,7 +16577,7 @@
 
 
 /***/ }),
-/* 109 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16560,7 +16585,7 @@
 	//! author : Rafal Hirsz : https://github.com/evoL
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16664,7 +16689,7 @@
 
 
 /***/ }),
-/* 110 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16672,7 +16697,7 @@
 	//! author : Jefferson : https://github.com/jalex79
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16734,7 +16759,7 @@
 
 
 /***/ }),
-/* 111 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16742,7 +16767,7 @@
 	//! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16800,7 +16825,7 @@
 
 
 /***/ }),
-/* 112 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16809,7 +16834,7 @@
 	//! author : Valentin Agachi : https://github.com/avaly
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16880,7 +16905,7 @@
 
 
 /***/ }),
-/* 113 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16890,7 +16915,7 @@
 	//! author : Коренберг Марк : https://github.com/socketpair
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17068,7 +17093,7 @@
 
 
 /***/ }),
-/* 114 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17076,7 +17101,7 @@
 	//! author : Narain Sagar : https://github.com/narainsagar
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17171,7 +17196,7 @@
 
 
 /***/ }),
-/* 115 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17179,7 +17204,7 @@
 	//! authors : Bård Rolstad Henriksen : https://github.com/karamell
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17237,7 +17262,7 @@
 
 
 /***/ }),
-/* 116 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17245,7 +17270,7 @@
 	//! author : Sampath Sitinamaluwa : https://github.com/sampathsris
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17313,7 +17338,7 @@
 
 
 /***/ }),
-/* 117 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17322,7 +17347,7 @@
 	//! based on work of petrbela : https://github.com/petrbela
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17468,7 +17493,7 @@
 
 
 /***/ }),
-/* 118 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17476,7 +17501,7 @@
 	//! author : Robert Sedovšek : https://github.com/sedovsek
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17635,7 +17660,7 @@
 
 
 /***/ }),
-/* 119 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17645,7 +17670,7 @@
 	//! author : Oerd Cukalla : https://github.com/oerd
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17710,7 +17735,7 @@
 
 
 /***/ }),
-/* 120 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17718,7 +17743,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17825,7 +17850,7 @@
 
 
 /***/ }),
-/* 121 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17833,7 +17858,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17940,7 +17965,7 @@
 
 
 /***/ }),
-/* 122 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17948,7 +17973,7 @@
 	//! author : Nicolai Davies<mail@nicolai.io> : https://github.com/nicolaidavies
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18034,7 +18059,7 @@
 
 
 /***/ }),
-/* 123 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18042,7 +18067,7 @@
 	//! author : Jens Alm : https://github.com/ulmus
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18108,7 +18133,7 @@
 
 
 /***/ }),
-/* 124 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18116,7 +18141,7 @@
 	//! author : Fahad Kassim : https://github.com/fadsel
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18172,7 +18197,7 @@
 
 
 /***/ }),
-/* 125 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18180,7 +18205,7 @@
 	//! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18307,7 +18332,7 @@
 
 
 /***/ }),
-/* 126 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18315,7 +18340,7 @@
 	//! author : Krishna Chaitanya Thota : https://github.com/kcthota
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18401,7 +18426,7 @@
 
 
 /***/ }),
-/* 127 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18410,7 +18435,7 @@
 	//! author : Onorio De J. Afonso : https://github.com/marobo
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18474,7 +18499,7 @@
 
 
 /***/ }),
-/* 128 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18482,7 +18507,7 @@
 	//! author : Kridsada Thanabulpong : https://github.com/sirn
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18546,7 +18571,7 @@
 
 
 /***/ }),
-/* 129 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18554,7 +18579,7 @@
 	//! author : Dan Hagman : https://github.com/hagmandan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18613,7 +18638,7 @@
 
 
 /***/ }),
-/* 130 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18621,7 +18646,7 @@
 	//! author : Dominika Kruk : https://github.com/amaranthrose
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18738,7 +18763,7 @@
 
 
 /***/ }),
-/* 131 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18747,7 +18772,7 @@
 	//!           Burak Yiğit Kaya: https://github.com/BYK
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18833,7 +18858,7 @@
 
 
 /***/ }),
-/* 132 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18842,7 +18867,7 @@
 	//! author : Iustì Canun
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18929,7 +18954,7 @@
 
 
 /***/ }),
-/* 133 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18937,7 +18962,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18992,7 +19017,7 @@
 
 
 /***/ }),
-/* 134 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19000,7 +19025,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19055,7 +19080,7 @@
 
 
 /***/ }),
-/* 135 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19064,7 +19089,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19211,7 +19236,7 @@
 
 
 /***/ }),
-/* 136 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19220,7 +19245,7 @@
 	//! author : Zack : https://github.com/ZackVision
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19315,7 +19340,7 @@
 
 
 /***/ }),
-/* 137 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19323,7 +19348,7 @@
 	//! author : Sardor Muminov : https://github.com/muminoff
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19378,7 +19403,7 @@
 
 
 /***/ }),
-/* 138 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19386,7 +19411,7 @@
 	//! author : Rasulbek Mirzayev : github.com/Rasulbeeek
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19441,7 +19466,7 @@
 
 
 /***/ }),
-/* 139 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19449,7 +19474,7 @@
 	//! author : Bang Nguyen : https://github.com/bangnk
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19525,7 +19550,7 @@
 
 
 /***/ }),
-/* 140 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19533,7 +19558,7 @@
 	//! author : Andrew Hood : https://github.com/andrewhood125
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19598,7 +19623,7 @@
 
 
 /***/ }),
-/* 141 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19606,7 +19631,7 @@
 	//! author : Atolagbe Abisoye : https://github.com/andela-batolagbe
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19663,7 +19688,7 @@
 
 
 /***/ }),
-/* 142 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19672,7 +19697,7 @@
 	//! author : Zeno Zeng : https://github.com/zenozeng
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19779,7 +19804,7 @@
 
 
 /***/ }),
-/* 143 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19789,7 +19814,7 @@
 	//! author : Konstantin : https://github.com/skfd
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19889,7 +19914,7 @@
 
 
 /***/ }),
-/* 144 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19898,7 +19923,7 @@
 	//! author : Chris Lam : https://github.com/hehachris
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(28)) :
+	    true ? factory(__webpack_require__(31)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19998,381 +20023,344 @@
 
 
 /***/ }),
-/* 145 */,
-/* 146 */
-/***/ (function(module, exports) {
-
-	"use strict";
-	module.exports = function(errorObject){
-	  return new jError(errorObject)
-	}
-
-	var jError = function jError(errorObject){
-	  this.types = jError.types
-	  this.errorObject = errorObject;return this;
-	}
-
-	/** returns all object keys of an error which is takes extra steps */
-	jError.prototype.getKeys = function(){
-	  return Object.getOwnPropertyNames(this.errorObject)
-	}
-
-	/** converts error.stack into array via stack.split(' at ') */
-	jError.prototype.getStackArray = function(amount){
-	  if(this.stackArray){
-	    return this.stackArray
-	  }
-
-	  if(this.errorObject.stack){
-	    if(this.errorObject.stack.split){
-	      this.stackArray = this.errorObject.stack.split(' at ');
-	    }else if(this.errorObject.stack.splice){//?already an array?
-	      this.stackArray = this.errorObject.stack;
-	    }
-	    return this.stackArray;
-	  }
-
-	  return []
-	}
-
-	/** dig out just the stack trace from error */
-	jError.prototype.getTraceArray = function(amount){
-	  var stackArray = [];
-	  stackArray.push.apply(stackArray, this.getStackArray())
-	  stackArray.shift();
-
-	  if(amount){
-	    stackArray.splice(amount, stackArray.length)
-	  }
-
-	  return stackArray
-	}
-
-	/** dig out only just the first trace of errors stack trace */
-	jError.prototype.getFirstTrace = function(amount){
-	  var stackArray = this.getStackArray()
-	  if(!stackArray)return;
-
-	  amount = amount || 1
-
-	  if(stackArray.length==1){
-	    var rtn = [stackArray[0]]
-	  }else{
-	    var rtn = []
-	    for(var i=1; i <= stackArray.length && i <= amount; ++i){
-	      rtn.push( stackArray[i] )
-	    }
-	  }
-
-	  return rtn.join(' at ')
-	}
-
-	jError.prototype.setStackArray = function(stackArray){
-	  this.errorObject.stack = stackArray.join(' at ')
-	  this.stackArray = stackArray
-	  return this
-	}
-
-	/** analyzes stack to remove 1st trace (leaves error message in stack). Essentially calls .splice(1,1) on stack array  */
-	jError.prototype.cutFirstTrace = function(){
-	  var stackArray = this.getStackArray()
-	  if(stackArray && stackArray.length > 1){
-	    stackArray.splice(1,1)
-	    this.setStackArray( stackArray )
-	  }
-
-	  return this
-	}
-
-	/** attempt to extract a line number from the error */
-	jError.prototype.getLineNum = function(){
-	  var string = this.getFirstTrace().split(':')[1]
-	  return Number(string)
-	}
-
-	/** attempt to extract a file path from the error */
-	jError.prototype.getFilePath = function(){
-	  var trace = this.getFirstTrace()
-	  var pathArray = trace.split(':')
-	  pathArray.pop()
-	  pathArray.pop()
-	  return pathArray.join(':').split('(').pop()
-	}
-
-	/** attempt to extract the error's name */
-	jError.prototype.getName = function(){
-	  if(this.errorObject.name)return this.errorObject.name
-	  return this.getFailingObjectName()
-	}
-
-	/** attempt to extract the named function or code that is running */
-	jError.prototype.getFailingObjectName = function(){
-	  var trace = this.getFirstTrace()
-	  return trace.split(/\(|@/)[0].trim()
-	}
-
-	/** get a message from the error even if it has no message */
-	jError.prototype.getMessage = function(){
-	  if(this.errorObject.message)return this.errorObject.message
-
-	  var fTrace = this.getFirstTrace()
-	  if(fTrace){
-	    var fSpaceArray = fTrace.split(' ')
-	    if(fSpaceArray.length){
-	      return fSpaceArray.splice(0, 1)[0]
-	    }
-	  }
-
-	  if(this.errorObject.constructor == String){
-	    return this.errorObject
-	  }
-	}
-
-	/** attempt to extract the error's type */
-	jError.prototype.getType = function(){
-	  var isNamed = this.errorObject.name && this.errorObject.name.toLowerCase!=null
-	  var isCode = this.errorObject.code && this.errorObject.code.toLowerCase!=null
-
-	  if(isCode && this.errorObject.name=='Error'){
-	    return this.errorObject.code
-	  }
-
-	  if(isNamed){
-	    return this.errorObject.name
-	  }
-	}
-
-	/** attempt to compare error with another error or another type of an error */
-	jError.prototype.isType = function(type){
-	  if(this.errorObject==null)return false
-
-	  if(this.errorObject.constructor && type == this.errorObject.constructor){
-	    return true
-	  }
-
-	  var eName = this.getType()
-	  if(eName && eName.toLowerCase()==type.toLowerCase()){
-	    return true
-	  }
-
-	  if(type.constructor==String){
-	    if(this.errorObject.constructor==String){
-	      return this.errorObject.toLowerCase() === type.toLowerCase()
-	    }
-
-	    var mess = this.getMessage()
-	    if(mess && type.toLowerCase()==mess.toLowerCase()){
-	      return true
-	    }
-	  }
-
-	  return false
-	}
-
-
-
-	jError.types = {}
-
-	jError.types.NotFound = function(message){
-	  Error.captureStackTrace(this, this.constructor);
-	  this.name = this.constructor.name;
-	  this.status = 404;
-	  this.code = "not_found";
-	  this.message = message || "Could Not Find Requested Resource";
-	}
-	jError.types.NotFound.prototype = Object.create(Error.prototype)
-	jError.types.notFound = function(message){
-	  return new jError.types.NotFound(message)
-	}
-
-	jError.types.LocalNetworkRequired = function(message){
-	  Error.captureStackTrace(this, this.constructor);
-	  this.name = this.constructor.name;
-	  this.status = 403;
-	  this.code = "local_network_required";
-	  this.message = message || "Local Network Connection Required";
-	}
-	jError.types.LocalNetworkRequired.prototype = Object.create(Error.prototype)
-	jError.types.localNetworkRequired = function(message){
-	  return new jError.types.LocalNetworkRequired(message)
-	}
-
-	jError.types.Unauthorized = function(message){
-	  Error.captureStackTrace(this, this.constructor);
-	  this.name = this.constructor.name;
-	  this.status = 401;
-	  this.code = "credentials_required";
-	  this.message = message || "No authorization token was found";
-	}
-	jError.types.Unauthorized.prototype = Object.create(Error.prototype)
-	jError.types.unauthorized = function(message){
-	  return new jError.types.Unauthorized(message)
-	}
-
-	jError.types.BadRequest = function(message){
-	  Error.captureStackTrace(this, this.constructor);
-	  this.name = this.constructor.name;
-	  this.status = 400;
-	  this.code = "bad_request";
-	  this.message = message || "Bad Request";
-	}
-	jError.types.BadRequest.prototype = Object.create(Error.prototype)
-	jError.types.badRequest = function(message){
-	  return new jError.types.BadRequest(message)
-	}
-
-	jError.types.MethodNotAllowed = function(message){
-	  Error.captureStackTrace(this, this.constructor);
-	  this.name = this.constructor.name;
-	  this.status = 405;
-	  this.code = "method_not_allowed";
-	  this.message = message || "Method Not Allowed";
-	}
-	jError.types.MethodNotAllowed.prototype = Object.create(Error.prototype)
-	jError.types.methodNotAllowed = function(message){
-	  return new jError.types.MethodNotAllowed(message)
-	}
-
-
-/***/ }),
-/* 147 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-	exports.__esModule = true;
-	var ack_x_1 = __webpack_require__(11);
-	exports.ack = ack_x_1.ack;
-	module.exports = exports.ack;
-
-
-/***/ }),
-/* 148 */,
 /* 149 */,
 /* 150 */
 /***/ (function(module, exports) {
 
 	"use strict";
-	var jXMethod = function jXMethod(method, name){
-		this.method = method;this.name = name
-		return this
+	exports.__esModule = true;
+	function method(errorObject) {
+	    return new jError(errorObject);
 	}
-
-	/** sets a timeout and then runs set method in milsecs */
-	jXMethod.prototype.runInMs = function(ms){
-		setTimeout(this.method, ms);return this
+	exports.method = method;
+	var jError = /** @class */ (function () {
+	    function jError(errorObject) {
+	        this.types = exports.jErrorTypes;
+	        this.errorObject = errorObject;
+	        return this;
+	    }
+	    /** returns all object keys of an error which is takes extra steps */
+	    jError.prototype.getKeys = function () {
+	        return Object.getOwnPropertyNames(this.errorObject);
+	    };
+	    /** converts error.stack into array via stack.split(' at ') */
+	    jError.prototype.getStackArray = function () {
+	        if (this.stackArray) {
+	            return this.stackArray;
+	        }
+	        if (this.errorObject.stack) {
+	            if (this.errorObject.stack.split) {
+	                this.stackArray = this.errorObject.stack.split(' at ');
+	            }
+	            else if (this.errorObject.stack.splice) {
+	                this.stackArray = this.errorObject.stack;
+	            }
+	            return this.stackArray;
+	        }
+	        return [];
+	    };
+	    /** dig out just the stack trace from error */
+	    jError.prototype.getTraceArray = function (amount) {
+	        var stackArray = [];
+	        stackArray.push.apply(stackArray, this.getStackArray());
+	        stackArray.shift();
+	        if (amount) {
+	            stackArray.splice(amount, stackArray.length);
+	        }
+	        return stackArray;
+	    };
+	    /** dig out only just the first trace of errors stack trace */
+	    jError.prototype.getFirstTrace = function (amount) {
+	        if (amount === void 0) { amount = 1; }
+	        var stackArray = this.getStackArray();
+	        if (!stackArray)
+	            return;
+	        if (stackArray.length == 1) {
+	            var rtn = [stackArray[0]];
+	        }
+	        else {
+	            var rtn = [];
+	            for (var i = 1; i <= stackArray.length && i <= amount; ++i) {
+	                rtn.push(stackArray[i]);
+	            }
+	        }
+	        return rtn.join(' at ');
+	    };
+	    jError.prototype.setStackArray = function (stackArray) {
+	        this.errorObject.stack = stackArray.join(' at ');
+	        this.stackArray = stackArray;
+	        return this;
+	    };
+	    /** analyzes stack to remove 1st trace (leaves error message in stack). Essentially calls .splice(1,1) on stack array  */
+	    jError.prototype.cutFirstTrace = function () {
+	        var stackArray = this.getStackArray();
+	        if (stackArray && stackArray.length > 1) {
+	            stackArray.splice(1, 1);
+	            this.setStackArray(stackArray);
+	        }
+	        return this;
+	    };
+	    /** attempt to extract a line number from the error */
+	    jError.prototype.getLineNum = function () {
+	        var string = this.getFirstTrace().split(':')[1];
+	        return Number(string);
+	    };
+	    /** attempt to extract a file path from the error */
+	    jError.prototype.getFilePath = function () {
+	        var trace = this.getFirstTrace();
+	        var pathArray = trace.split(':');
+	        pathArray.pop();
+	        pathArray.pop();
+	        return pathArray.join(':').split('(').pop();
+	    };
+	    /** attempt to extract the error's name */
+	    jError.prototype.getName = function () {
+	        if (this.errorObject.name)
+	            return this.errorObject.name;
+	        return this.getFailingObjectName();
+	    };
+	    /** attempt to extract the named function or code that is running */
+	    jError.prototype.getFailingObjectName = function () {
+	        var trace = this.getFirstTrace();
+	        return trace.split(/\(|@/)[0].trim();
+	    };
+	    /** get a message from the error even if it has no message */
+	    jError.prototype.getMessage = function () {
+	        if (this.errorObject.message)
+	            return this.errorObject.message;
+	        var fTrace = this.getFirstTrace();
+	        if (fTrace) {
+	            var fSpaceArray = fTrace.split(' ');
+	            if (fSpaceArray.length) {
+	                return fSpaceArray.splice(0, 1)[0];
+	            }
+	        }
+	        if (this.errorObject.constructor == String) {
+	            return this.errorObject;
+	        }
+	    };
+	    /** attempt to extract the error's type */
+	    jError.prototype.getType = function () {
+	        var isNamed = this.errorObject.name && this.errorObject.name.toLowerCase != null;
+	        var isCode = this.errorObject.code && this.errorObject.code.toLowerCase != null;
+	        if (isCode && this.errorObject.name == 'Error') {
+	            return this.errorObject.code;
+	        }
+	        if (isNamed) {
+	            return this.errorObject.name;
+	        }
+	    };
+	    /** attempt to compare error with another error or another type of an error */
+	    jError.prototype.isType = function (type) {
+	        if (this.errorObject == null)
+	            return false;
+	        if (this.errorObject.constructor && type == this.errorObject.constructor) {
+	            return true;
+	        }
+	        var eName = this.getType();
+	        if (eName && eName.toLowerCase() == type.toLowerCase()) {
+	            return true;
+	        }
+	        if (type.constructor == String) {
+	            if (this.errorObject.constructor == String) {
+	                return this.errorObject.toLowerCase() === type.toLowerCase();
+	            }
+	            var mess = this.getMessage();
+	            if (mess && type.toLowerCase() == mess.toLowerCase()) {
+	                return true;
+	            }
+	        }
+	        return false;
+	    };
+	    return jError;
+	}());
+	exports.jError = jError;
+	exports.jErrorTypes = {};
+	exports.jErrorTypes.NotFound = function (message) {
+	    Error["captureStackTrace"](this, this.constructor);
+	    this.name = this.constructor.name;
+	    this.status = 404;
+	    this.code = "not_found";
+	    this.message = message || "Could Not Find Requested Resource";
+	};
+	exports.jErrorTypes.NotFound.prototype = Object.create(Error.prototype);
+	exports.jErrorTypes.notFound = function (message) {
+	    return new exports.jErrorTypes.NotFound(message);
+	};
+	exports.jErrorTypes.LocalNetworkRequired = function (message) {
+	    Error["captureStackTrace"](this, this.constructor);
+	    this.name = this.constructor.name;
+	    this.status = 403;
+	    this.code = "local_network_required";
+	    this.message = message || "Local Network Connection Required";
+	};
+	exports.jErrorTypes.LocalNetworkRequired.prototype = Object.create(Error.prototype);
+	exports.jErrorTypes.localNetworkRequired = function (message) {
+	    return new exports.jErrorTypes.LocalNetworkRequired(message);
+	};
+	exports.jErrorTypes.Unauthorized = function (message) {
+	    Error["captureStackTrace"](this, this.constructor);
+	    this.name = this.constructor.name;
+	    this.status = 401;
+	    this.code = "credentials_required";
+	    this.message = message || "No authorization token was found";
+	};
+	exports.jErrorTypes.Unauthorized.prototype = Object.create(Error.prototype);
+	exports.jErrorTypes.unauthorized = function (message) {
+	    return new exports.jErrorTypes.Unauthorized(message);
+	};
+	exports.jErrorTypes.BadRequest = function (message) {
+	    Error["captureStackTrace"](this, this.constructor);
+	    this.name = this.constructor.name;
+	    this.status = 400;
+	    this.code = "bad_request";
+	    this.message = message || "Bad Request";
+	};
+	exports.jErrorTypes.BadRequest.prototype = Object.create(Error.prototype);
+	exports.jErrorTypes.badRequest = function (message) {
+	    return new exports.jErrorTypes.BadRequest(message);
+	};
+	function MethodNotAllowed(message) {
+	    Error["captureStackTrace"](this, this.constructor);
+	    this.name = this.constructor.name;
+	    this.status = 405;
+	    this.code = "method_not_allowed";
+	    this.message = message || "Method Not Allowed";
 	}
-
-	if(jXMethod.name && jXMethod.name==='jXMethod'){//device supports function.name
-		/** gets name of defined function */
-		jXMethod.prototype.getName = function(){
-			return this.name || (this.method.name.length ? this.method.name : null)
-		}
-	}else{
-		/** gets name of defined function */
-		jXMethod.prototype.getName = function(){
-			var funcNameRegex = /function\s+(.{1,})\(/;
-			var results = (funcNameRegex).exec(this.method.toString())
-			return this.name || ((results && results.length > 1) ? results[1] : null)
-		}
-	}
-
-	/** returns array of argument names defined within set function */
-	jXMethod.prototype.getArgNameArray = function(){
-		var string = this.getDefinition()
-		var argDef = /\(.+\)/.exec(string)[0]
-		argDef = argDef.substring(1, argDef.length)//remove (
-		argDef = argDef.substring(0, argDef.length-1)//remove )
-		argDef = argDef.replace(/\s|\t|\r|\n/g,'')
-		return argDef.split(',')
-	}
-
-	/** get set functions inner definition */
-	jXMethod.prototype.getDefinition = function(){
-		var funcNameRegex = /(.*function[^\)]+\))/;
-		var results = (funcNameRegex).exec(this.method.toString())
-		return (results && results.length > 1) ? results[1] : null
-	}
-
-	/** This is an option enhanced version of expectOne */
-	jXMethod.prototype.expect = function(nameOrMap, value, requiredOrType, type){
-		if(nameOrMap && nameOrMap.constructor==String){
-			return this.expectOne(nameOrMap, value, requiredOrType, type)
-		}
-
-		for(var key in nameOrMap){
-			var define = nameOrMap[key]
-			var val = define && (define.val!==null || define.value!==null)
-			if(val){
-				val = define.val || define.value
-				this.expectOne(key, val, define.required, define.type)
-			}else{
-				this.expectOne(key, define, true)
-			}
-		}
-
-		return this
-	}
-
-	/** Build argument validation for when set function is invoked.
-		@name - argument-name
-		@value - runtime value argument-value
-		@required
-		@type - requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
-	*/
-	jXMethod.prototype.expectOne = function(name, value, requiredOrType, type){
-		var isReqDefined = requiredOrType!=null && requiredOrType.constructor==Boolean
-		var isRequired = isReqDefined ? requiredOrType : true
-		type = type || (isReqDefined ? null : requiredOrType)
-
-		if(isRequired && value==null){
-			var methodName = this.getName()
-			var methodMsg = methodName ? 'The function '+methodName+' recieved an invalid argument. ' : ''
-			var argTypeMsg = methodMsg+'Argument '+name+' is required. '
-			var err = new Error(argTypeMsg+' Function definition: '+this.getDefinition())
-			err.invalidArg = {errorType:'undefined', name:name}
-			throw err
-		}
-
-		if(type){
-			if(value!=null && value.constructor!=type){
-				var methodName = this.getName()
-				var methodMsg = methodName ? 'The function '+methodName+' recieved an invalid argument. ' : ''
-				var argTypeMsg = methodMsg+'Argument '+name+' is not of type '+type.name+'. '
-				var err = new Error(argTypeMsg+'Received type: '+value.constructor.name+'. Function definition: '+this.getDefinition())
-				err.invalidArg = {errorType:'type', name:name}
-				throw err
-			}
-		}
-		return this
-	}
-
-	/** for processing current arguments */
-	jXMethod.prototype.arguments = function(args){
-		return new jXArgs(this, args)
-	}
-
-	var rtn = function(path){
-		return new jXMethod(path)
-	}
-	if(typeof(module)!='undefined' && module.exports){
-		rtn.Class = jXMethod
-		module.exports = rtn
-	}else if(typeof(jX)!='undefined'){
-		jX.modules.define('method', rtn)
-	}
-
-
-
-
-
-	var jXArgs = function(jXMethod, args){
-		this.args=args;this.jXMethod=jXMethod;return this
-	}
-
+	exports.jErrorTypes.MethodNotAllowed = MethodNotAllowed;
+	exports.jErrorTypes.MethodNotAllowed.prototype = Object.create(Error.prototype);
+	exports.jErrorTypes.methodNotAllowed = function (message) {
+	    return new MethodNotAllowed(message);
+	};
 
 
 /***/ }),
-/* 151 */
+/* 151 */,
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	exports.__esModule = true;
+	var ack_x_1 = __webpack_require__(12);
+	exports.ack = ack_x_1.ack;
+	module.exports = exports.ack;
+
+
+/***/ }),
+/* 153 */
+/***/ (function(module, exports) {
+
+	
+
+/***/ }),
+/* 154 */,
+/* 155 */,
+/* 156 */
+/***/ (function(module, exports) {
+
+	"use strict";
+	exports.__esModule = true;
+	var jXMethod = /** @class */ (function () {
+	    function jXMethod(method, name) {
+	        this.method = method;
+	        this.name = name;
+	        return this;
+	    }
+	    /** sets a timeout and then runs set method in milsecs */
+	    jXMethod.prototype.runInMs = function (ms) {
+	        setTimeout(this.method, ms);
+	        return this;
+	    };
+	    /** returns array of argument names defined within set function */
+	    jXMethod.prototype.getArgNameArray = function () {
+	        var string = this.getDefinition();
+	        var argDef = /\(.+\)/.exec(string)[0];
+	        argDef = argDef.substring(1, argDef.length); //remove (
+	        argDef = argDef.substring(0, argDef.length - 1); //remove )
+	        argDef = argDef.replace(/\s|\t|\r|\n/g, '');
+	        return argDef.split(',');
+	    };
+	    /** get set functions inner definition */
+	    jXMethod.prototype.getDefinition = function () {
+	        var funcNameRegex = /(.*function[^\)]+\))/;
+	        var results = (funcNameRegex).exec(this.method.toString());
+	        return (results && results.length > 1) ? results[1] : null;
+	    };
+	    /** This is an option enhanced version of expectOne */
+	    jXMethod.prototype.expect = function (nameOrMap, value, requiredOrType, type) {
+	        if (nameOrMap && nameOrMap.constructor == String) {
+	            return this.expectOne(nameOrMap, value, requiredOrType, type);
+	        }
+	        for (var key in nameOrMap) {
+	            var define = nameOrMap[key];
+	            var val = define && (define.val !== null || define.value !== null);
+	            if (val) {
+	                val = define.val || define.value;
+	                this.expectOne(key, val, define.required, define.type);
+	            }
+	            else {
+	                this.expectOne(key, define, true);
+	            }
+	        }
+	        return this;
+	    };
+	    /** Build argument validation for when set function is invoked.
+	        @name - argument-name
+	        @value - runtime value argument-value
+	        @required
+	        @type - requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
+	    */
+	    jXMethod.prototype.expectOne = function (name, value, requiredOrType, type) {
+	        var isReqDefined = requiredOrType != null && requiredOrType.constructor == Boolean;
+	        var isRequired = isReqDefined ? requiredOrType : true;
+	        type = type || (isReqDefined ? null : requiredOrType);
+	        if (isRequired && value == null) {
+	            var methodName = this.getName();
+	            var methodMsg = methodName ? 'The function ' + methodName + ' recieved an invalid argument. ' : '';
+	            var argTypeMsg = methodMsg + 'Argument ' + name + ' is required. ';
+	            var err = new Error(argTypeMsg + ' Function definition: ' + this.getDefinition());
+	            err["invalidArg"] = { errorType: 'undefined', name: name };
+	            throw err;
+	        }
+	        if (type) {
+	            if (value != null && value.constructor != type) {
+	                var methodName = this.getName();
+	                var methodMsg = methodName ? 'The function ' + methodName + ' recieved an invalid argument. ' : '';
+	                var argTypeMsg = methodMsg + 'Argument ' + name + ' is not of type ' + type.name + '. ';
+	                var err = new Error(argTypeMsg + 'Received type: ' + value.constructor.name + '. Function definition: ' + this.getDefinition());
+	                err["invalidArg"] = { errorType: 'type', name: name };
+	                throw err;
+	            }
+	        }
+	        return this;
+	    };
+	    /** for processing current arguments */
+	    /*arguments(args){
+	        return new jXArgs(this, args)
+	    }*/
+	    /** gets name of defined function */
+	    jXMethod.prototype.getName = function () {
+	        var name = this.name || (this.method.name.length ? this.method.name : null);
+	        return name || this.getOldSchoolName();
+	    };
+	    /** gets name of defined function */
+	    jXMethod.prototype.getOldSchoolName = function () {
+	        var funcNameRegex = /function\s+(.{1,})\(/;
+	        var results = (funcNameRegex).exec(this.method.toString());
+	        return this.name || ((results && results.length > 1) ? results[1] : null);
+	    };
+	    return jXMethod;
+	}());
+	exports.jXMethod = jXMethod;
+	function method(path) {
+	    return new jXMethod(path);
+	}
+	exports.method = method;
+
+
+/***/ }),
+/* 157 */,
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -20387,8 +20375,8 @@
 	    };
 	})();
 	exports.__esModule = true;
-	var date_1 = __webpack_require__(27);
-	var date_2 = __webpack_require__(27);
+	var date_1 = __webpack_require__(30);
+	var date_2 = __webpack_require__(30);
 	exports.AckDate = date_2.AckDate;
 	exports.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
 	var Month = /** @class */ (function (_super) {
@@ -20456,2344 +20444,318 @@
 
 
 /***/ }),
-/* 152 */,
-/* 153 */
-/***/ (function(module, exports) {
-
-	"use strict";
-	var jXNumber = function jXNumber(number){
-		this.number = number
-		return this
-	}
-
-	function suffixByNumber(i){
-	  if(!i)return ''
-
-	  var j = i % 10,
-	      k = i % 100;
-	  if (j == 1 && k != 11) {
-	      return "st";
-	  }
-	  if (j == 2 && k != 12) {
-	      return "nd";
-	  }
-	  if (j == 3 && k != 13) {
-	      return "rd";
-	  }
-	  return "th";
-	}
-
-	jXNumber.prototype.getSuffix = function(){
-	  return this.number == null ? '' : suffixByNumber( this.number )
-	}
-
-	/** @p - decimal places */
-	jXNumber.prototype.decimalFormat = function(p){
-	  p = p==null ? 2 : p
-	  var m=Math.pow(10,p)
-	    ,n=this.number
-	  return (Math.round(n*m)/m).toFixed(p)
-	}
-
-	/** convert set number into how many minutes into a date. Ex: 60 = new Date('2016-01-16 1:00:00.0')
-	  @options - {}
-	  @options.date - default=new Date()
-	*/
-	jXNumber.prototype.asMinutesToDateTime = function(options){
-	  options = options || {}
-	  var minute = this.number
-	  var iDate = options.date || new Date()
-	  var date = new Date(iDate.getFullYear(), iDate.getMonth(), iDate.getDate(), 0, minute)
-	  return date
-	}
-
-	/** convert set number into how many minutes into a string date. Ex: 60 = 1:00 AM')
-	  @options = {}
-	  @options.timeDelim - default=':'
-	  @optiosn.dayPeriodDelim - default=' '
-	*/
-	jXNumber.prototype.asMinutesToTime = function(options){
-	  options = options || {}
-	  options.timeDelim = options.timeDelim || ':'
-	  options.dayPeriodDelim = options.dayPeriodDelim || ' '
-	  var d = this.asMinutesToDateTime(options)
-	  var hour = d.getHours()
-	  var tt = 'AM'
-	  var mins = d.getMinutes()
-
-	  if(hour > 12){
-	    tt = 'PM'
-	    hour = hour - 12
-	  }
-
-	  mins = mins.toString().length == 1 ? '0'+mins : mins
-
-	  return hour +options.timeDelim+ mins +options.dayPeriodDelim+ tt;
-	}
-
-
-	var rtn = function(path){return new jXNumber(path)}
-	if(typeof(module)!='undefined' && module.exports){
-		rtn.Class = jXNumber
-		module.exports = rtn
-	}else if(typeof(jX)!='undefined'){
-		jX.modules.define('number', rtn)
-	}
-
-
-/***/ }),
-/* 154 */,
-/* 155 */
-/***/ (function(module, exports) {
-
-	"use strict";
-	var jXQueryObject = function jXQueryObject(object){
-		this.queryObject = object
-		return this
-	}
-
-	jXQueryObject.prototype.getNameArray = function(){
-		return Object.keys(this.queryObject)
-	}
-
-	//{delimiter,isNameFirstRow,textQualifier,titleArray}
-	jXQueryObject.prototype.toCsv = function(delimOrOptions, textQualifier, titleArray){
-		return this.Csv.apply(this,arguments).output()
-	}
-
-	jXQueryObject.prototype.Csv = function(delimOrOptions, textQualifier, titleArray){
-		if(typeof(delimOrOptions)=='string')
-			delimOrOptions = {delimiter:delimOrOptions}
-		else if(delimOrOptions==null)
-			delimOrOptions = {}
-
-		if(textQualifier)delimOrOptions.textQualifier=textQualifier
-		if(titleArray)delimOrOptions.titleArray=titleArray
-
-		return new jXQueryObjectCsv(this.queryObject, delimOrOptions)
-	}
-
-
-
-
-
-
-
-
-	//{delimiter,isNameFirstRow,textQualifier,titleArray}
-	function jXQueryObjectCsv(queryObject,$scope){
-		this.data = $scope || {}
-		this.data.isNameFirstRow = this.data.isNameFirstRow==null ? true : this.data.isNameFirstRow
-		this.data.delimiter = this.data.delimiter || ','
-		this.data.queryObject = queryObject || this.data.queryObject || {}
-		return this
-	}
-
-	jXQueryObjectCsv.prototype.getTitleArray = function(){
-		if(this.data.titleArray)return this.data.titleArray
-		if(this.data.isNameFirstRow)return Object.keys(this.data.queryObject)
-	}
-
-	jXQueryObjectCsv.prototype.output = function(){
-		return this.toArray().join( this.data.lineDelim || '\r\n' )
-	}
-
-	jXQueryObjectCsv.prototype.toArray = function(){
-		//textQualifier = textQualifier || '"'
-		var columnLoop, columnCount, tempContent, newValue, newTitle,
-			returnText = [],
-			titleArray = this.getTitleArray(),
-			nameArray = titleArray
-
-		var options = this.data
-		if(options.textQualifier && options.textQualifier.length){
-			var nr = new RegExp('/'+options.textQualifier+'/', 'gi')
-			var getCsvValueOf = function(val){
-				if(val==null)return ''
-				val = val.toString().replace(nr, options.textQualifier+options.textQualifier)
-				val = options.textQualifier + val + options.textQualifier;
-				return val
-			}
-		}else
-			var getCsvValueOf = function(val){
-				return val
-			}
-
-			/* figure headers */
-				var tempContent=[]
-
-				for(columnLoop=0; columnLoop < titleArray.length; ++columnLoop){
-					if(typeof(titleArray[columnLoop])=='object'){
-						newTitle =  titleArray[columnLoop][1]
-						titleArray[columnLoop] = newTitle
-						nameArray[columnLoop] = titleArray[columnLoop][0]
-					}else{
-						newTitle = titleArray[columnLoop]
-					}
-					newValue = getCsvValueOf(newTitle)
-					tempContent.push(newValue)
-				}
-			/* end: figure headers */
-
-			if(this.data.isNameFirstRow){
-				tempContent = tempContent.join(this.data.delimiter)
-				if(tempContent){
-	        returnText.push(tempContent);
-	      }
-			}
-
-			/* build CSV content */
-	//console.log('nameArray[0]', nameArray[0], nameArray, this.data.isNameFirstRow, this.data.queryObject)
-
-			var rowLoop,
-				columnName,
-	      firstColumn=this.data.queryObject[ nameArray[0] ]
-
-	    if(firstColumn){//when no data provided, firstColumn is null
-				var len = firstColumn.length;//get array len from first column
-	  		for(rowLoop=0; rowLoop < len; ++rowLoop){
-	  			tempContent	= [];
-	  			columnCount = nameArray.length;
-	  			for(columnLoop=0; columnLoop < columnCount; ++columnLoop){
-	  				columnName = nameArray[columnLoop];
-	  				newValue = this.data.queryObject[columnName][rowLoop]
-	  				newValue = getCsvValueOf(newValue);
-	  				//if(isBinary(newValue))newValue = toString(newValue);
-	  				tempContent.push(newValue)
-	  			}
-	  			tempContent = tempContent.join(this.data.delimiter)
-	  			returnText.push(tempContent)
-	  		}
-	    }
-		/* end */
-
-		return returnText
-	}
-
-
-
-
-
-
-
-	var rtn = function(path){return new jXQueryObject(path)}
-	if(typeof(module)!='undefined' && module.exports){
-		rtn.Class = jXQueryObject
-		module.exports = rtn
-	}else if(typeof(jX)!='undefined'){
-		jX.modules.define('queryObject',rtn)
-	}
-
-
-/***/ }),
-/* 156 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(Buffer) {"use strict";
-	var ExString = function ExString(string){
-		this.string = string
-		return this
-	}
-
-	ExString._keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
-
-	/** test string against email regX */
-	ExString.prototype.isEmail = function(){
-		return this.string.search(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)>=0
-	}
-
-	//Node.js doesnt have .repeat as of 2/11/15
-	ExString.prototype.repeat = function(num){
-		var x,s = ''
-		for(x=0; x < num; ++x)s = s + this.string
-		return s
-	}
-
-	//escapes html brackets
-	ExString.prototype.htmlFormat = function(){
-		var v = this.string
-		v=v.replace(/</g,'&lt;').replace(/>/g,'&gt;')
-		return v
-	}
-
-	/** string becomes really long */
-	ExString.prototype.toBase64 = function(){
-		var e = this._utf8_encode();
-		var t="";var n,r,i,s,o,u,a;var f=0;
-		while(f<e.length){
-			n=e.charCodeAt(f++);r=e.charCodeAt(f++);
-			i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;
-			if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}
-			t=t+ExString._keyStr.charAt(s)+ExString._keyStr.charAt(o)+ExString._keyStr.charAt(u)+ExString._keyStr.charAt(a)
-		}
-		return t
-	}
-
-	//convert string to something more safely portable
-	ExString.prototype._utf8_encode = function(){
-		var e = this.string.replace ? this.string : this.string.toString()
-		e=e.replace(/\r\n/g,"\n");var t="";
-		for(var n=0;n<e.length;n++){
-			var r=e.charCodeAt(n);
-			if(r<128){
-				t+=String.fromCharCode(r)
-			}else if(r>127&&r<2048){
-				t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)
-			}else{
-				t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)
-			}
-		}
-		return t
-	}
-	/*
-	ExString.prototype.isBinary = function(){
-		return /^[01]+$/.test(this.string)
-	}
-	*/
-	//NODE ONLY
-	if(typeof(Buffer) != 'undefined'){
-		ExString.prototype.toHex = function(encType){
-			encType = encType || 'hex'
-			return new Buffer(this.string,encType).toString('hex')
-		}
-
-		ExString.prototype.toBinary = function(encType){
-			encType = encType || 'binary'
-			return new Buffer(this.string,encType)
-		}
-	}
-
-	var rtn = function(path){
-		return new ExString(path)
-	}
-	rtn.Class = ExString
-	module.exports = rtn
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(157).Buffer))
-
-/***/ }),
-/* 157 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {/*!
-	 * The buffer module from node.js, for the browser.
-	 *
-	 * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
-	 * @license  MIT
-	 */
-	/* eslint-disable no-proto */
-
-	'use strict'
-
-	var base64 = __webpack_require__(158)
-	var ieee754 = __webpack_require__(159)
-	var isArray = __webpack_require__(160)
-
-	exports.Buffer = Buffer
-	exports.SlowBuffer = SlowBuffer
-	exports.INSPECT_MAX_BYTES = 50
-
-	/**
-	 * If `Buffer.TYPED_ARRAY_SUPPORT`:
-	 *   === true    Use Uint8Array implementation (fastest)
-	 *   === false   Use Object implementation (most compatible, even IE6)
-	 *
-	 * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
-	 * Opera 11.6+, iOS 4.2+.
-	 *
-	 * Due to various browser bugs, sometimes the Object implementation will be used even
-	 * when the browser supports typed arrays.
-	 *
-	 * Note:
-	 *
-	 *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
-	 *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
-	 *
-	 *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
-	 *
-	 *   - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
-	 *     incorrect length in some situations.
-
-	 * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
-	 * get the Object implementation, which is slower but behaves correctly.
-	 */
-	Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
-	  ? global.TYPED_ARRAY_SUPPORT
-	  : typedArraySupport()
-
-	/*
-	 * Export kMaxLength after typed array support is determined.
-	 */
-	exports.kMaxLength = kMaxLength()
-
-	function typedArraySupport () {
-	  try {
-	    var arr = new Uint8Array(1)
-	    arr.__proto__ = {__proto__: Uint8Array.prototype, foo: function () { return 42 }}
-	    return arr.foo() === 42 && // typed array instances can be augmented
-	        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
-	        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
-	  } catch (e) {
-	    return false
-	  }
-	}
-
-	function kMaxLength () {
-	  return Buffer.TYPED_ARRAY_SUPPORT
-	    ? 0x7fffffff
-	    : 0x3fffffff
-	}
-
-	function createBuffer (that, length) {
-	  if (kMaxLength() < length) {
-	    throw new RangeError('Invalid typed array length')
-	  }
-	  if (Buffer.TYPED_ARRAY_SUPPORT) {
-	    // Return an augmented `Uint8Array` instance, for best performance
-	    that = new Uint8Array(length)
-	    that.__proto__ = Buffer.prototype
-	  } else {
-	    // Fallback: Return an object instance of the Buffer class
-	    if (that === null) {
-	      that = new Buffer(length)
-	    }
-	    that.length = length
-	  }
-
-	  return that
-	}
-
-	/**
-	 * The Buffer constructor returns instances of `Uint8Array` that have their
-	 * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
-	 * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
-	 * and the `Uint8Array` methods. Square bracket notation works as expected -- it
-	 * returns a single octet.
-	 *
-	 * The `Uint8Array` prototype remains unmodified.
-	 */
-
-	function Buffer (arg, encodingOrOffset, length) {
-	  if (!Buffer.TYPED_ARRAY_SUPPORT && !(this instanceof Buffer)) {
-	    return new Buffer(arg, encodingOrOffset, length)
-	  }
-
-	  // Common case.
-	  if (typeof arg === 'number') {
-	    if (typeof encodingOrOffset === 'string') {
-	      throw new Error(
-	        'If encoding is specified then the first argument must be a string'
-	      )
-	    }
-	    return allocUnsafe(this, arg)
-	  }
-	  return from(this, arg, encodingOrOffset, length)
-	}
-
-	Buffer.poolSize = 8192 // not used by this implementation
-
-	// TODO: Legacy, not needed anymore. Remove in next major version.
-	Buffer._augment = function (arr) {
-	  arr.__proto__ = Buffer.prototype
-	  return arr
-	}
-
-	function from (that, value, encodingOrOffset, length) {
-	  if (typeof value === 'number') {
-	    throw new TypeError('"value" argument must not be a number')
-	  }
-
-	  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
-	    return fromArrayBuffer(that, value, encodingOrOffset, length)
-	  }
-
-	  if (typeof value === 'string') {
-	    return fromString(that, value, encodingOrOffset)
-	  }
-
-	  return fromObject(that, value)
-	}
-
-	/**
-	 * Functionally equivalent to Buffer(arg, encoding) but throws a TypeError
-	 * if value is a number.
-	 * Buffer.from(str[, encoding])
-	 * Buffer.from(array)
-	 * Buffer.from(buffer)
-	 * Buffer.from(arrayBuffer[, byteOffset[, length]])
-	 **/
-	Buffer.from = function (value, encodingOrOffset, length) {
-	  return from(null, value, encodingOrOffset, length)
-	}
-
-	if (Buffer.TYPED_ARRAY_SUPPORT) {
-	  Buffer.prototype.__proto__ = Uint8Array.prototype
-	  Buffer.__proto__ = Uint8Array
-	  if (typeof Symbol !== 'undefined' && Symbol.species &&
-	      Buffer[Symbol.species] === Buffer) {
-	    // Fix subarray() in ES2016. See: https://github.com/feross/buffer/pull/97
-	    Object.defineProperty(Buffer, Symbol.species, {
-	      value: null,
-	      configurable: true
-	    })
-	  }
-	}
-
-	function assertSize (size) {
-	  if (typeof size !== 'number') {
-	    throw new TypeError('"size" argument must be a number')
-	  } else if (size < 0) {
-	    throw new RangeError('"size" argument must not be negative')
-	  }
-	}
-
-	function alloc (that, size, fill, encoding) {
-	  assertSize(size)
-	  if (size <= 0) {
-	    return createBuffer(that, size)
-	  }
-	  if (fill !== undefined) {
-	    // Only pay attention to encoding if it's a string. This
-	    // prevents accidentally sending in a number that would
-	    // be interpretted as a start offset.
-	    return typeof encoding === 'string'
-	      ? createBuffer(that, size).fill(fill, encoding)
-	      : createBuffer(that, size).fill(fill)
-	  }
-	  return createBuffer(that, size)
-	}
-
-	/**
-	 * Creates a new filled Buffer instance.
-	 * alloc(size[, fill[, encoding]])
-	 **/
-	Buffer.alloc = function (size, fill, encoding) {
-	  return alloc(null, size, fill, encoding)
-	}
-
-	function allocUnsafe (that, size) {
-	  assertSize(size)
-	  that = createBuffer(that, size < 0 ? 0 : checked(size) | 0)
-	  if (!Buffer.TYPED_ARRAY_SUPPORT) {
-	    for (var i = 0; i < size; ++i) {
-	      that[i] = 0
-	    }
-	  }
-	  return that
-	}
-
-	/**
-	 * Equivalent to Buffer(num), by default creates a non-zero-filled Buffer instance.
-	 * */
-	Buffer.allocUnsafe = function (size) {
-	  return allocUnsafe(null, size)
-	}
-	/**
-	 * Equivalent to SlowBuffer(num), by default creates a non-zero-filled Buffer instance.
-	 */
-	Buffer.allocUnsafeSlow = function (size) {
-	  return allocUnsafe(null, size)
-	}
-
-	function fromString (that, string, encoding) {
-	  if (typeof encoding !== 'string' || encoding === '') {
-	    encoding = 'utf8'
-	  }
-
-	  if (!Buffer.isEncoding(encoding)) {
-	    throw new TypeError('"encoding" must be a valid string encoding')
-	  }
-
-	  var length = byteLength(string, encoding) | 0
-	  that = createBuffer(that, length)
-
-	  var actual = that.write(string, encoding)
-
-	  if (actual !== length) {
-	    // Writing a hex string, for example, that contains invalid characters will
-	    // cause everything after the first invalid character to be ignored. (e.g.
-	    // 'abxxcd' will be treated as 'ab')
-	    that = that.slice(0, actual)
-	  }
-
-	  return that
-	}
-
-	function fromArrayLike (that, array) {
-	  var length = array.length < 0 ? 0 : checked(array.length) | 0
-	  that = createBuffer(that, length)
-	  for (var i = 0; i < length; i += 1) {
-	    that[i] = array[i] & 255
-	  }
-	  return that
-	}
-
-	function fromArrayBuffer (that, array, byteOffset, length) {
-	  array.byteLength // this throws if `array` is not a valid ArrayBuffer
-
-	  if (byteOffset < 0 || array.byteLength < byteOffset) {
-	    throw new RangeError('\'offset\' is out of bounds')
-	  }
-
-	  if (array.byteLength < byteOffset + (length || 0)) {
-	    throw new RangeError('\'length\' is out of bounds')
-	  }
-
-	  if (byteOffset === undefined && length === undefined) {
-	    array = new Uint8Array(array)
-	  } else if (length === undefined) {
-	    array = new Uint8Array(array, byteOffset)
-	  } else {
-	    array = new Uint8Array(array, byteOffset, length)
-	  }
-
-	  if (Buffer.TYPED_ARRAY_SUPPORT) {
-	    // Return an augmented `Uint8Array` instance, for best performance
-	    that = array
-	    that.__proto__ = Buffer.prototype
-	  } else {
-	    // Fallback: Return an object instance of the Buffer class
-	    that = fromArrayLike(that, array)
-	  }
-	  return that
-	}
-
-	function fromObject (that, obj) {
-	  if (Buffer.isBuffer(obj)) {
-	    var len = checked(obj.length) | 0
-	    that = createBuffer(that, len)
-
-	    if (that.length === 0) {
-	      return that
-	    }
-
-	    obj.copy(that, 0, 0, len)
-	    return that
-	  }
-
-	  if (obj) {
-	    if ((typeof ArrayBuffer !== 'undefined' &&
-	        obj.buffer instanceof ArrayBuffer) || 'length' in obj) {
-	      if (typeof obj.length !== 'number' || isnan(obj.length)) {
-	        return createBuffer(that, 0)
-	      }
-	      return fromArrayLike(that, obj)
-	    }
-
-	    if (obj.type === 'Buffer' && isArray(obj.data)) {
-	      return fromArrayLike(that, obj.data)
-	    }
-	  }
-
-	  throw new TypeError('First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.')
-	}
-
-	function checked (length) {
-	  // Note: cannot use `length < kMaxLength()` here because that fails when
-	  // length is NaN (which is otherwise coerced to zero.)
-	  if (length >= kMaxLength()) {
-	    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
-	                         'size: 0x' + kMaxLength().toString(16) + ' bytes')
-	  }
-	  return length | 0
-	}
-
-	function SlowBuffer (length) {
-	  if (+length != length) { // eslint-disable-line eqeqeq
-	    length = 0
-	  }
-	  return Buffer.alloc(+length)
-	}
-
-	Buffer.isBuffer = function isBuffer (b) {
-	  return !!(b != null && b._isBuffer)
-	}
-
-	Buffer.compare = function compare (a, b) {
-	  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
-	    throw new TypeError('Arguments must be Buffers')
-	  }
-
-	  if (a === b) return 0
-
-	  var x = a.length
-	  var y = b.length
-
-	  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
-	    if (a[i] !== b[i]) {
-	      x = a[i]
-	      y = b[i]
-	      break
-	    }
-	  }
-
-	  if (x < y) return -1
-	  if (y < x) return 1
-	  return 0
-	}
-
-	Buffer.isEncoding = function isEncoding (encoding) {
-	  switch (String(encoding).toLowerCase()) {
-	    case 'hex':
-	    case 'utf8':
-	    case 'utf-8':
-	    case 'ascii':
-	    case 'latin1':
-	    case 'binary':
-	    case 'base64':
-	    case 'ucs2':
-	    case 'ucs-2':
-	    case 'utf16le':
-	    case 'utf-16le':
-	      return true
-	    default:
-	      return false
-	  }
-	}
-
-	Buffer.concat = function concat (list, length) {
-	  if (!isArray(list)) {
-	    throw new TypeError('"list" argument must be an Array of Buffers')
-	  }
-
-	  if (list.length === 0) {
-	    return Buffer.alloc(0)
-	  }
-
-	  var i
-	  if (length === undefined) {
-	    length = 0
-	    for (i = 0; i < list.length; ++i) {
-	      length += list[i].length
-	    }
-	  }
-
-	  var buffer = Buffer.allocUnsafe(length)
-	  var pos = 0
-	  for (i = 0; i < list.length; ++i) {
-	    var buf = list[i]
-	    if (!Buffer.isBuffer(buf)) {
-	      throw new TypeError('"list" argument must be an Array of Buffers')
-	    }
-	    buf.copy(buffer, pos)
-	    pos += buf.length
-	  }
-	  return buffer
-	}
-
-	function byteLength (string, encoding) {
-	  if (Buffer.isBuffer(string)) {
-	    return string.length
-	  }
-	  if (typeof ArrayBuffer !== 'undefined' && typeof ArrayBuffer.isView === 'function' &&
-	      (ArrayBuffer.isView(string) || string instanceof ArrayBuffer)) {
-	    return string.byteLength
-	  }
-	  if (typeof string !== 'string') {
-	    string = '' + string
-	  }
-
-	  var len = string.length
-	  if (len === 0) return 0
-
-	  // Use a for loop to avoid recursion
-	  var loweredCase = false
-	  for (;;) {
-	    switch (encoding) {
-	      case 'ascii':
-	      case 'latin1':
-	      case 'binary':
-	        return len
-	      case 'utf8':
-	      case 'utf-8':
-	      case undefined:
-	        return utf8ToBytes(string).length
-	      case 'ucs2':
-	      case 'ucs-2':
-	      case 'utf16le':
-	      case 'utf-16le':
-	        return len * 2
-	      case 'hex':
-	        return len >>> 1
-	      case 'base64':
-	        return base64ToBytes(string).length
-	      default:
-	        if (loweredCase) return utf8ToBytes(string).length // assume utf8
-	        encoding = ('' + encoding).toLowerCase()
-	        loweredCase = true
-	    }
-	  }
-	}
-	Buffer.byteLength = byteLength
-
-	function slowToString (encoding, start, end) {
-	  var loweredCase = false
-
-	  // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
-	  // property of a typed array.
-
-	  // This behaves neither like String nor Uint8Array in that we set start/end
-	  // to their upper/lower bounds if the value passed is out of range.
-	  // undefined is handled specially as per ECMA-262 6th Edition,
-	  // Section 13.3.3.7 Runtime Semantics: KeyedBindingInitialization.
-	  if (start === undefined || start < 0) {
-	    start = 0
-	  }
-	  // Return early if start > this.length. Done here to prevent potential uint32
-	  // coercion fail below.
-	  if (start > this.length) {
-	    return ''
-	  }
-
-	  if (end === undefined || end > this.length) {
-	    end = this.length
-	  }
-
-	  if (end <= 0) {
-	    return ''
-	  }
-
-	  // Force coersion to uint32. This will also coerce falsey/NaN values to 0.
-	  end >>>= 0
-	  start >>>= 0
-
-	  if (end <= start) {
-	    return ''
-	  }
-
-	  if (!encoding) encoding = 'utf8'
-
-	  while (true) {
-	    switch (encoding) {
-	      case 'hex':
-	        return hexSlice(this, start, end)
-
-	      case 'utf8':
-	      case 'utf-8':
-	        return utf8Slice(this, start, end)
-
-	      case 'ascii':
-	        return asciiSlice(this, start, end)
-
-	      case 'latin1':
-	      case 'binary':
-	        return latin1Slice(this, start, end)
-
-	      case 'base64':
-	        return base64Slice(this, start, end)
-
-	      case 'ucs2':
-	      case 'ucs-2':
-	      case 'utf16le':
-	      case 'utf-16le':
-	        return utf16leSlice(this, start, end)
-
-	      default:
-	        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
-	        encoding = (encoding + '').toLowerCase()
-	        loweredCase = true
-	    }
-	  }
-	}
-
-	// The property is used by `Buffer.isBuffer` and `is-buffer` (in Safari 5-7) to detect
-	// Buffer instances.
-	Buffer.prototype._isBuffer = true
-
-	function swap (b, n, m) {
-	  var i = b[n]
-	  b[n] = b[m]
-	  b[m] = i
-	}
-
-	Buffer.prototype.swap16 = function swap16 () {
-	  var len = this.length
-	  if (len % 2 !== 0) {
-	    throw new RangeError('Buffer size must be a multiple of 16-bits')
-	  }
-	  for (var i = 0; i < len; i += 2) {
-	    swap(this, i, i + 1)
-	  }
-	  return this
-	}
-
-	Buffer.prototype.swap32 = function swap32 () {
-	  var len = this.length
-	  if (len % 4 !== 0) {
-	    throw new RangeError('Buffer size must be a multiple of 32-bits')
-	  }
-	  for (var i = 0; i < len; i += 4) {
-	    swap(this, i, i + 3)
-	    swap(this, i + 1, i + 2)
-	  }
-	  return this
-	}
-
-	Buffer.prototype.swap64 = function swap64 () {
-	  var len = this.length
-	  if (len % 8 !== 0) {
-	    throw new RangeError('Buffer size must be a multiple of 64-bits')
-	  }
-	  for (var i = 0; i < len; i += 8) {
-	    swap(this, i, i + 7)
-	    swap(this, i + 1, i + 6)
-	    swap(this, i + 2, i + 5)
-	    swap(this, i + 3, i + 4)
-	  }
-	  return this
-	}
-
-	Buffer.prototype.toString = function toString () {
-	  var length = this.length | 0
-	  if (length === 0) return ''
-	  if (arguments.length === 0) return utf8Slice(this, 0, length)
-	  return slowToString.apply(this, arguments)
-	}
-
-	Buffer.prototype.equals = function equals (b) {
-	  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
-	  if (this === b) return true
-	  return Buffer.compare(this, b) === 0
-	}
-
-	Buffer.prototype.inspect = function inspect () {
-	  var str = ''
-	  var max = exports.INSPECT_MAX_BYTES
-	  if (this.length > 0) {
-	    str = this.toString('hex', 0, max).match(/.{2}/g).join(' ')
-	    if (this.length > max) str += ' ... '
-	  }
-	  return '<Buffer ' + str + '>'
-	}
-
-	Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
-	  if (!Buffer.isBuffer(target)) {
-	    throw new TypeError('Argument must be a Buffer')
-	  }
-
-	  if (start === undefined) {
-	    start = 0
-	  }
-	  if (end === undefined) {
-	    end = target ? target.length : 0
-	  }
-	  if (thisStart === undefined) {
-	    thisStart = 0
-	  }
-	  if (thisEnd === undefined) {
-	    thisEnd = this.length
-	  }
-
-	  if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
-	    throw new RangeError('out of range index')
-	  }
-
-	  if (thisStart >= thisEnd && start >= end) {
-	    return 0
-	  }
-	  if (thisStart >= thisEnd) {
-	    return -1
-	  }
-	  if (start >= end) {
-	    return 1
-	  }
-
-	  start >>>= 0
-	  end >>>= 0
-	  thisStart >>>= 0
-	  thisEnd >>>= 0
-
-	  if (this === target) return 0
-
-	  var x = thisEnd - thisStart
-	  var y = end - start
-	  var len = Math.min(x, y)
-
-	  var thisCopy = this.slice(thisStart, thisEnd)
-	  var targetCopy = target.slice(start, end)
-
-	  for (var i = 0; i < len; ++i) {
-	    if (thisCopy[i] !== targetCopy[i]) {
-	      x = thisCopy[i]
-	      y = targetCopy[i]
-	      break
-	    }
-	  }
-
-	  if (x < y) return -1
-	  if (y < x) return 1
-	  return 0
-	}
-
-	// Finds either the first index of `val` in `buffer` at offset >= `byteOffset`,
-	// OR the last index of `val` in `buffer` at offset <= `byteOffset`.
-	//
-	// Arguments:
-	// - buffer - a Buffer to search
-	// - val - a string, Buffer, or number
-	// - byteOffset - an index into `buffer`; will be clamped to an int32
-	// - encoding - an optional encoding, relevant is val is a string
-	// - dir - true for indexOf, false for lastIndexOf
-	function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
-	  // Empty buffer means no match
-	  if (buffer.length === 0) return -1
-
-	  // Normalize byteOffset
-	  if (typeof byteOffset === 'string') {
-	    encoding = byteOffset
-	    byteOffset = 0
-	  } else if (byteOffset > 0x7fffffff) {
-	    byteOffset = 0x7fffffff
-	  } else if (byteOffset < -0x80000000) {
-	    byteOffset = -0x80000000
-	  }
-	  byteOffset = +byteOffset  // Coerce to Number.
-	  if (isNaN(byteOffset)) {
-	    // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
-	    byteOffset = dir ? 0 : (buffer.length - 1)
-	  }
-
-	  // Normalize byteOffset: negative offsets start from the end of the buffer
-	  if (byteOffset < 0) byteOffset = buffer.length + byteOffset
-	  if (byteOffset >= buffer.length) {
-	    if (dir) return -1
-	    else byteOffset = buffer.length - 1
-	  } else if (byteOffset < 0) {
-	    if (dir) byteOffset = 0
-	    else return -1
-	  }
-
-	  // Normalize val
-	  if (typeof val === 'string') {
-	    val = Buffer.from(val, encoding)
-	  }
-
-	  // Finally, search either indexOf (if dir is true) or lastIndexOf
-	  if (Buffer.isBuffer(val)) {
-	    // Special case: looking for empty string/buffer always fails
-	    if (val.length === 0) {
-	      return -1
-	    }
-	    return arrayIndexOf(buffer, val, byteOffset, encoding, dir)
-	  } else if (typeof val === 'number') {
-	    val = val & 0xFF // Search for a byte value [0-255]
-	    if (Buffer.TYPED_ARRAY_SUPPORT &&
-	        typeof Uint8Array.prototype.indexOf === 'function') {
-	      if (dir) {
-	        return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset)
-	      } else {
-	        return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset)
-	      }
-	    }
-	    return arrayIndexOf(buffer, [ val ], byteOffset, encoding, dir)
-	  }
-
-	  throw new TypeError('val must be string, number or Buffer')
-	}
-
-	function arrayIndexOf (arr, val, byteOffset, encoding, dir) {
-	  var indexSize = 1
-	  var arrLength = arr.length
-	  var valLength = val.length
-
-	  if (encoding !== undefined) {
-	    encoding = String(encoding).toLowerCase()
-	    if (encoding === 'ucs2' || encoding === 'ucs-2' ||
-	        encoding === 'utf16le' || encoding === 'utf-16le') {
-	      if (arr.length < 2 || val.length < 2) {
-	        return -1
-	      }
-	      indexSize = 2
-	      arrLength /= 2
-	      valLength /= 2
-	      byteOffset /= 2
-	    }
-	  }
-
-	  function read (buf, i) {
-	    if (indexSize === 1) {
-	      return buf[i]
-	    } else {
-	      return buf.readUInt16BE(i * indexSize)
-	    }
-	  }
-
-	  var i
-	  if (dir) {
-	    var foundIndex = -1
-	    for (i = byteOffset; i < arrLength; i++) {
-	      if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
-	        if (foundIndex === -1) foundIndex = i
-	        if (i - foundIndex + 1 === valLength) return foundIndex * indexSize
-	      } else {
-	        if (foundIndex !== -1) i -= i - foundIndex
-	        foundIndex = -1
-	      }
-	    }
-	  } else {
-	    if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength
-	    for (i = byteOffset; i >= 0; i--) {
-	      var found = true
-	      for (var j = 0; j < valLength; j++) {
-	        if (read(arr, i + j) !== read(val, j)) {
-	          found = false
-	          break
-	        }
-	      }
-	      if (found) return i
-	    }
-	  }
-
-	  return -1
-	}
-
-	Buffer.prototype.includes = function includes (val, byteOffset, encoding) {
-	  return this.indexOf(val, byteOffset, encoding) !== -1
-	}
-
-	Buffer.prototype.indexOf = function indexOf (val, byteOffset, encoding) {
-	  return bidirectionalIndexOf(this, val, byteOffset, encoding, true)
-	}
-
-	Buffer.prototype.lastIndexOf = function lastIndexOf (val, byteOffset, encoding) {
-	  return bidirectionalIndexOf(this, val, byteOffset, encoding, false)
-	}
-
-	function hexWrite (buf, string, offset, length) {
-	  offset = Number(offset) || 0
-	  var remaining = buf.length - offset
-	  if (!length) {
-	    length = remaining
-	  } else {
-	    length = Number(length)
-	    if (length > remaining) {
-	      length = remaining
-	    }
-	  }
-
-	  // must be an even number of digits
-	  var strLen = string.length
-	  if (strLen % 2 !== 0) throw new TypeError('Invalid hex string')
-
-	  if (length > strLen / 2) {
-	    length = strLen / 2
-	  }
-	  for (var i = 0; i < length; ++i) {
-	    var parsed = parseInt(string.substr(i * 2, 2), 16)
-	    if (isNaN(parsed)) return i
-	    buf[offset + i] = parsed
-	  }
-	  return i
-	}
-
-	function utf8Write (buf, string, offset, length) {
-	  return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length)
-	}
-
-	function asciiWrite (buf, string, offset, length) {
-	  return blitBuffer(asciiToBytes(string), buf, offset, length)
-	}
-
-	function latin1Write (buf, string, offset, length) {
-	  return asciiWrite(buf, string, offset, length)
-	}
-
-	function base64Write (buf, string, offset, length) {
-	  return blitBuffer(base64ToBytes(string), buf, offset, length)
-	}
-
-	function ucs2Write (buf, string, offset, length) {
-	  return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length)
-	}
-
-	Buffer.prototype.write = function write (string, offset, length, encoding) {
-	  // Buffer#write(string)
-	  if (offset === undefined) {
-	    encoding = 'utf8'
-	    length = this.length
-	    offset = 0
-	  // Buffer#write(string, encoding)
-	  } else if (length === undefined && typeof offset === 'string') {
-	    encoding = offset
-	    length = this.length
-	    offset = 0
-	  // Buffer#write(string, offset[, length][, encoding])
-	  } else if (isFinite(offset)) {
-	    offset = offset | 0
-	    if (isFinite(length)) {
-	      length = length | 0
-	      if (encoding === undefined) encoding = 'utf8'
-	    } else {
-	      encoding = length
-	      length = undefined
-	    }
-	  // legacy write(string, encoding, offset, length) - remove in v0.13
-	  } else {
-	    throw new Error(
-	      'Buffer.write(string, encoding, offset[, length]) is no longer supported'
-	    )
-	  }
-
-	  var remaining = this.length - offset
-	  if (length === undefined || length > remaining) length = remaining
-
-	  if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
-	    throw new RangeError('Attempt to write outside buffer bounds')
-	  }
-
-	  if (!encoding) encoding = 'utf8'
-
-	  var loweredCase = false
-	  for (;;) {
-	    switch (encoding) {
-	      case 'hex':
-	        return hexWrite(this, string, offset, length)
-
-	      case 'utf8':
-	      case 'utf-8':
-	        return utf8Write(this, string, offset, length)
-
-	      case 'ascii':
-	        return asciiWrite(this, string, offset, length)
-
-	      case 'latin1':
-	      case 'binary':
-	        return latin1Write(this, string, offset, length)
-
-	      case 'base64':
-	        // Warning: maxLength not taken into account in base64Write
-	        return base64Write(this, string, offset, length)
-
-	      case 'ucs2':
-	      case 'ucs-2':
-	      case 'utf16le':
-	      case 'utf-16le':
-	        return ucs2Write(this, string, offset, length)
-
-	      default:
-	        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
-	        encoding = ('' + encoding).toLowerCase()
-	        loweredCase = true
-	    }
-	  }
-	}
-
-	Buffer.prototype.toJSON = function toJSON () {
-	  return {
-	    type: 'Buffer',
-	    data: Array.prototype.slice.call(this._arr || this, 0)
-	  }
-	}
-
-	function base64Slice (buf, start, end) {
-	  if (start === 0 && end === buf.length) {
-	    return base64.fromByteArray(buf)
-	  } else {
-	    return base64.fromByteArray(buf.slice(start, end))
-	  }
-	}
-
-	function utf8Slice (buf, start, end) {
-	  end = Math.min(buf.length, end)
-	  var res = []
-
-	  var i = start
-	  while (i < end) {
-	    var firstByte = buf[i]
-	    var codePoint = null
-	    var bytesPerSequence = (firstByte > 0xEF) ? 4
-	      : (firstByte > 0xDF) ? 3
-	      : (firstByte > 0xBF) ? 2
-	      : 1
-
-	    if (i + bytesPerSequence <= end) {
-	      var secondByte, thirdByte, fourthByte, tempCodePoint
-
-	      switch (bytesPerSequence) {
-	        case 1:
-	          if (firstByte < 0x80) {
-	            codePoint = firstByte
-	          }
-	          break
-	        case 2:
-	          secondByte = buf[i + 1]
-	          if ((secondByte & 0xC0) === 0x80) {
-	            tempCodePoint = (firstByte & 0x1F) << 0x6 | (secondByte & 0x3F)
-	            if (tempCodePoint > 0x7F) {
-	              codePoint = tempCodePoint
-	            }
-	          }
-	          break
-	        case 3:
-	          secondByte = buf[i + 1]
-	          thirdByte = buf[i + 2]
-	          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80) {
-	            tempCodePoint = (firstByte & 0xF) << 0xC | (secondByte & 0x3F) << 0x6 | (thirdByte & 0x3F)
-	            if (tempCodePoint > 0x7FF && (tempCodePoint < 0xD800 || tempCodePoint > 0xDFFF)) {
-	              codePoint = tempCodePoint
-	            }
-	          }
-	          break
-	        case 4:
-	          secondByte = buf[i + 1]
-	          thirdByte = buf[i + 2]
-	          fourthByte = buf[i + 3]
-	          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80 && (fourthByte & 0xC0) === 0x80) {
-	            tempCodePoint = (firstByte & 0xF) << 0x12 | (secondByte & 0x3F) << 0xC | (thirdByte & 0x3F) << 0x6 | (fourthByte & 0x3F)
-	            if (tempCodePoint > 0xFFFF && tempCodePoint < 0x110000) {
-	              codePoint = tempCodePoint
-	            }
-	          }
-	      }
-	    }
-
-	    if (codePoint === null) {
-	      // we did not generate a valid codePoint so insert a
-	      // replacement char (U+FFFD) and advance only 1 byte
-	      codePoint = 0xFFFD
-	      bytesPerSequence = 1
-	    } else if (codePoint > 0xFFFF) {
-	      // encode to utf16 (surrogate pair dance)
-	      codePoint -= 0x10000
-	      res.push(codePoint >>> 10 & 0x3FF | 0xD800)
-	      codePoint = 0xDC00 | codePoint & 0x3FF
-	    }
-
-	    res.push(codePoint)
-	    i += bytesPerSequence
-	  }
-
-	  return decodeCodePointsArray(res)
-	}
-
-	// Based on http://stackoverflow.com/a/22747272/680742, the browser with
-	// the lowest limit is Chrome, with 0x10000 args.
-	// We go 1 magnitude less, for safety
-	var MAX_ARGUMENTS_LENGTH = 0x1000
-
-	function decodeCodePointsArray (codePoints) {
-	  var len = codePoints.length
-	  if (len <= MAX_ARGUMENTS_LENGTH) {
-	    return String.fromCharCode.apply(String, codePoints) // avoid extra slice()
-	  }
-
-	  // Decode in chunks to avoid "call stack size exceeded".
-	  var res = ''
-	  var i = 0
-	  while (i < len) {
-	    res += String.fromCharCode.apply(
-	      String,
-	      codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
-	    )
-	  }
-	  return res
-	}
-
-	function asciiSlice (buf, start, end) {
-	  var ret = ''
-	  end = Math.min(buf.length, end)
-
-	  for (var i = start; i < end; ++i) {
-	    ret += String.fromCharCode(buf[i] & 0x7F)
-	  }
-	  return ret
-	}
-
-	function latin1Slice (buf, start, end) {
-	  var ret = ''
-	  end = Math.min(buf.length, end)
-
-	  for (var i = start; i < end; ++i) {
-	    ret += String.fromCharCode(buf[i])
-	  }
-	  return ret
-	}
-
-	function hexSlice (buf, start, end) {
-	  var len = buf.length
-
-	  if (!start || start < 0) start = 0
-	  if (!end || end < 0 || end > len) end = len
-
-	  var out = ''
-	  for (var i = start; i < end; ++i) {
-	    out += toHex(buf[i])
-	  }
-	  return out
-	}
-
-	function utf16leSlice (buf, start, end) {
-	  var bytes = buf.slice(start, end)
-	  var res = ''
-	  for (var i = 0; i < bytes.length; i += 2) {
-	    res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256)
-	  }
-	  return res
-	}
-
-	Buffer.prototype.slice = function slice (start, end) {
-	  var len = this.length
-	  start = ~~start
-	  end = end === undefined ? len : ~~end
-
-	  if (start < 0) {
-	    start += len
-	    if (start < 0) start = 0
-	  } else if (start > len) {
-	    start = len
-	  }
-
-	  if (end < 0) {
-	    end += len
-	    if (end < 0) end = 0
-	  } else if (end > len) {
-	    end = len
-	  }
-
-	  if (end < start) end = start
-
-	  var newBuf
-	  if (Buffer.TYPED_ARRAY_SUPPORT) {
-	    newBuf = this.subarray(start, end)
-	    newBuf.__proto__ = Buffer.prototype
-	  } else {
-	    var sliceLen = end - start
-	    newBuf = new Buffer(sliceLen, undefined)
-	    for (var i = 0; i < sliceLen; ++i) {
-	      newBuf[i] = this[i + start]
-	    }
-	  }
-
-	  return newBuf
-	}
-
-	/*
-	 * Need to make sure that buffer isn't trying to write out of bounds.
-	 */
-	function checkOffset (offset, ext, length) {
-	  if ((offset % 1) !== 0 || offset < 0) throw new RangeError('offset is not uint')
-	  if (offset + ext > length) throw new RangeError('Trying to access beyond buffer length')
-	}
-
-	Buffer.prototype.readUIntLE = function readUIntLE (offset, byteLength, noAssert) {
-	  offset = offset | 0
-	  byteLength = byteLength | 0
-	  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-	  var val = this[offset]
-	  var mul = 1
-	  var i = 0
-	  while (++i < byteLength && (mul *= 0x100)) {
-	    val += this[offset + i] * mul
-	  }
-
-	  return val
-	}
-
-	Buffer.prototype.readUIntBE = function readUIntBE (offset, byteLength, noAssert) {
-	  offset = offset | 0
-	  byteLength = byteLength | 0
-	  if (!noAssert) {
-	    checkOffset(offset, byteLength, this.length)
-	  }
-
-	  var val = this[offset + --byteLength]
-	  var mul = 1
-	  while (byteLength > 0 && (mul *= 0x100)) {
-	    val += this[offset + --byteLength] * mul
-	  }
-
-	  return val
-	}
-
-	Buffer.prototype.readUInt8 = function readUInt8 (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 1, this.length)
-	  return this[offset]
-	}
-
-	Buffer.prototype.readUInt16LE = function readUInt16LE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 2, this.length)
-	  return this[offset] | (this[offset + 1] << 8)
-	}
-
-	Buffer.prototype.readUInt16BE = function readUInt16BE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 2, this.length)
-	  return (this[offset] << 8) | this[offset + 1]
-	}
-
-	Buffer.prototype.readUInt32LE = function readUInt32LE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 4, this.length)
-
-	  return ((this[offset]) |
-	      (this[offset + 1] << 8) |
-	      (this[offset + 2] << 16)) +
-	      (this[offset + 3] * 0x1000000)
-	}
-
-	Buffer.prototype.readUInt32BE = function readUInt32BE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 4, this.length)
-
-	  return (this[offset] * 0x1000000) +
-	    ((this[offset + 1] << 16) |
-	    (this[offset + 2] << 8) |
-	    this[offset + 3])
-	}
-
-	Buffer.prototype.readIntLE = function readIntLE (offset, byteLength, noAssert) {
-	  offset = offset | 0
-	  byteLength = byteLength | 0
-	  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-	  var val = this[offset]
-	  var mul = 1
-	  var i = 0
-	  while (++i < byteLength && (mul *= 0x100)) {
-	    val += this[offset + i] * mul
-	  }
-	  mul *= 0x80
-
-	  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
-
-	  return val
-	}
-
-	Buffer.prototype.readIntBE = function readIntBE (offset, byteLength, noAssert) {
-	  offset = offset | 0
-	  byteLength = byteLength | 0
-	  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-	  var i = byteLength
-	  var mul = 1
-	  var val = this[offset + --i]
-	  while (i > 0 && (mul *= 0x100)) {
-	    val += this[offset + --i] * mul
-	  }
-	  mul *= 0x80
-
-	  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
-
-	  return val
-	}
-
-	Buffer.prototype.readInt8 = function readInt8 (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 1, this.length)
-	  if (!(this[offset] & 0x80)) return (this[offset])
-	  return ((0xff - this[offset] + 1) * -1)
-	}
-
-	Buffer.prototype.readInt16LE = function readInt16LE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 2, this.length)
-	  var val = this[offset] | (this[offset + 1] << 8)
-	  return (val & 0x8000) ? val | 0xFFFF0000 : val
-	}
-
-	Buffer.prototype.readInt16BE = function readInt16BE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 2, this.length)
-	  var val = this[offset + 1] | (this[offset] << 8)
-	  return (val & 0x8000) ? val | 0xFFFF0000 : val
-	}
-
-	Buffer.prototype.readInt32LE = function readInt32LE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 4, this.length)
-
-	  return (this[offset]) |
-	    (this[offset + 1] << 8) |
-	    (this[offset + 2] << 16) |
-	    (this[offset + 3] << 24)
-	}
-
-	Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 4, this.length)
-
-	  return (this[offset] << 24) |
-	    (this[offset + 1] << 16) |
-	    (this[offset + 2] << 8) |
-	    (this[offset + 3])
-	}
-
-	Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 4, this.length)
-	  return ieee754.read(this, offset, true, 23, 4)
-	}
-
-	Buffer.prototype.readFloatBE = function readFloatBE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 4, this.length)
-	  return ieee754.read(this, offset, false, 23, 4)
-	}
-
-	Buffer.prototype.readDoubleLE = function readDoubleLE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 8, this.length)
-	  return ieee754.read(this, offset, true, 52, 8)
-	}
-
-	Buffer.prototype.readDoubleBE = function readDoubleBE (offset, noAssert) {
-	  if (!noAssert) checkOffset(offset, 8, this.length)
-	  return ieee754.read(this, offset, false, 52, 8)
-	}
-
-	function checkInt (buf, value, offset, ext, max, min) {
-	  if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance')
-	  if (value > max || value < min) throw new RangeError('"value" argument is out of bounds')
-	  if (offset + ext > buf.length) throw new RangeError('Index out of range')
-	}
-
-	Buffer.prototype.writeUIntLE = function writeUIntLE (value, offset, byteLength, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  byteLength = byteLength | 0
-	  if (!noAssert) {
-	    var maxBytes = Math.pow(2, 8 * byteLength) - 1
-	    checkInt(this, value, offset, byteLength, maxBytes, 0)
-	  }
-
-	  var mul = 1
-	  var i = 0
-	  this[offset] = value & 0xFF
-	  while (++i < byteLength && (mul *= 0x100)) {
-	    this[offset + i] = (value / mul) & 0xFF
-	  }
-
-	  return offset + byteLength
-	}
-
-	Buffer.prototype.writeUIntBE = function writeUIntBE (value, offset, byteLength, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  byteLength = byteLength | 0
-	  if (!noAssert) {
-	    var maxBytes = Math.pow(2, 8 * byteLength) - 1
-	    checkInt(this, value, offset, byteLength, maxBytes, 0)
-	  }
-
-	  var i = byteLength - 1
-	  var mul = 1
-	  this[offset + i] = value & 0xFF
-	  while (--i >= 0 && (mul *= 0x100)) {
-	    this[offset + i] = (value / mul) & 0xFF
-	  }
-
-	  return offset + byteLength
-	}
-
-	Buffer.prototype.writeUInt8 = function writeUInt8 (value, offset, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) checkInt(this, value, offset, 1, 0xff, 0)
-	  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
-	  this[offset] = (value & 0xff)
-	  return offset + 1
-	}
-
-	function objectWriteUInt16 (buf, value, offset, littleEndian) {
-	  if (value < 0) value = 0xffff + value + 1
-	  for (var i = 0, j = Math.min(buf.length - offset, 2); i < j; ++i) {
-	    buf[offset + i] = (value & (0xff << (8 * (littleEndian ? i : 1 - i)))) >>>
-	      (littleEndian ? i : 1 - i) * 8
-	  }
-	}
-
-	Buffer.prototype.writeUInt16LE = function writeUInt16LE (value, offset, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
-	  if (Buffer.TYPED_ARRAY_SUPPORT) {
-	    this[offset] = (value & 0xff)
-	    this[offset + 1] = (value >>> 8)
-	  } else {
-	    objectWriteUInt16(this, value, offset, true)
-	  }
-	  return offset + 2
-	}
-
-	Buffer.prototype.writeUInt16BE = function writeUInt16BE (value, offset, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
-	  if (Buffer.TYPED_ARRAY_SUPPORT) {
-	    this[offset] = (value >>> 8)
-	    this[offset + 1] = (value & 0xff)
-	  } else {
-	    objectWriteUInt16(this, value, offset, false)
-	  }
-	  return offset + 2
-	}
-
-	function objectWriteUInt32 (buf, value, offset, littleEndian) {
-	  if (value < 0) value = 0xffffffff + value + 1
-	  for (var i = 0, j = Math.min(buf.length - offset, 4); i < j; ++i) {
-	    buf[offset + i] = (value >>> (littleEndian ? i : 3 - i) * 8) & 0xff
-	  }
-	}
-
-	Buffer.prototype.writeUInt32LE = function writeUInt32LE (value, offset, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
-	  if (Buffer.TYPED_ARRAY_SUPPORT) {
-	    this[offset + 3] = (value >>> 24)
-	    this[offset + 2] = (value >>> 16)
-	    this[offset + 1] = (value >>> 8)
-	    this[offset] = (value & 0xff)
-	  } else {
-	    objectWriteUInt32(this, value, offset, true)
-	  }
-	  return offset + 4
-	}
-
-	Buffer.prototype.writeUInt32BE = function writeUInt32BE (value, offset, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
-	  if (Buffer.TYPED_ARRAY_SUPPORT) {
-	    this[offset] = (value >>> 24)
-	    this[offset + 1] = (value >>> 16)
-	    this[offset + 2] = (value >>> 8)
-	    this[offset + 3] = (value & 0xff)
-	  } else {
-	    objectWriteUInt32(this, value, offset, false)
-	  }
-	  return offset + 4
-	}
-
-	Buffer.prototype.writeIntLE = function writeIntLE (value, offset, byteLength, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) {
-	    var limit = Math.pow(2, 8 * byteLength - 1)
-
-	    checkInt(this, value, offset, byteLength, limit - 1, -limit)
-	  }
-
-	  var i = 0
-	  var mul = 1
-	  var sub = 0
-	  this[offset] = value & 0xFF
-	  while (++i < byteLength && (mul *= 0x100)) {
-	    if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
-	      sub = 1
-	    }
-	    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
-	  }
-
-	  return offset + byteLength
-	}
-
-	Buffer.prototype.writeIntBE = function writeIntBE (value, offset, byteLength, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) {
-	    var limit = Math.pow(2, 8 * byteLength - 1)
-
-	    checkInt(this, value, offset, byteLength, limit - 1, -limit)
-	  }
-
-	  var i = byteLength - 1
-	  var mul = 1
-	  var sub = 0
-	  this[offset + i] = value & 0xFF
-	  while (--i >= 0 && (mul *= 0x100)) {
-	    if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
-	      sub = 1
-	    }
-	    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
-	  }
-
-	  return offset + byteLength
-	}
-
-	Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80)
-	  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
-	  if (value < 0) value = 0xff + value + 1
-	  this[offset] = (value & 0xff)
-	  return offset + 1
-	}
-
-	Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
-	  if (Buffer.TYPED_ARRAY_SUPPORT) {
-	    this[offset] = (value & 0xff)
-	    this[offset + 1] = (value >>> 8)
-	  } else {
-	    objectWriteUInt16(this, value, offset, true)
-	  }
-	  return offset + 2
-	}
-
-	Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
-	  if (Buffer.TYPED_ARRAY_SUPPORT) {
-	    this[offset] = (value >>> 8)
-	    this[offset + 1] = (value & 0xff)
-	  } else {
-	    objectWriteUInt16(this, value, offset, false)
-	  }
-	  return offset + 2
-	}
-
-	Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
-	  if (Buffer.TYPED_ARRAY_SUPPORT) {
-	    this[offset] = (value & 0xff)
-	    this[offset + 1] = (value >>> 8)
-	    this[offset + 2] = (value >>> 16)
-	    this[offset + 3] = (value >>> 24)
-	  } else {
-	    objectWriteUInt32(this, value, offset, true)
-	  }
-	  return offset + 4
-	}
-
-	Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
-	  value = +value
-	  offset = offset | 0
-	  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
-	  if (value < 0) value = 0xffffffff + value + 1
-	  if (Buffer.TYPED_ARRAY_SUPPORT) {
-	    this[offset] = (value >>> 24)
-	    this[offset + 1] = (value >>> 16)
-	    this[offset + 2] = (value >>> 8)
-	    this[offset + 3] = (value & 0xff)
-	  } else {
-	    objectWriteUInt32(this, value, offset, false)
-	  }
-	  return offset + 4
-	}
-
-	function checkIEEE754 (buf, value, offset, ext, max, min) {
-	  if (offset + ext > buf.length) throw new RangeError('Index out of range')
-	  if (offset < 0) throw new RangeError('Index out of range')
-	}
-
-	function writeFloat (buf, value, offset, littleEndian, noAssert) {
-	  if (!noAssert) {
-	    checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38)
-	  }
-	  ieee754.write(buf, value, offset, littleEndian, 23, 4)
-	  return offset + 4
-	}
-
-	Buffer.prototype.writeFloatLE = function writeFloatLE (value, offset, noAssert) {
-	  return writeFloat(this, value, offset, true, noAssert)
-	}
-
-	Buffer.prototype.writeFloatBE = function writeFloatBE (value, offset, noAssert) {
-	  return writeFloat(this, value, offset, false, noAssert)
-	}
-
-	function writeDouble (buf, value, offset, littleEndian, noAssert) {
-	  if (!noAssert) {
-	    checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308)
-	  }
-	  ieee754.write(buf, value, offset, littleEndian, 52, 8)
-	  return offset + 8
-	}
-
-	Buffer.prototype.writeDoubleLE = function writeDoubleLE (value, offset, noAssert) {
-	  return writeDouble(this, value, offset, true, noAssert)
-	}
-
-	Buffer.prototype.writeDoubleBE = function writeDoubleBE (value, offset, noAssert) {
-	  return writeDouble(this, value, offset, false, noAssert)
-	}
-
-	// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
-	Buffer.prototype.copy = function copy (target, targetStart, start, end) {
-	  if (!start) start = 0
-	  if (!end && end !== 0) end = this.length
-	  if (targetStart >= target.length) targetStart = target.length
-	  if (!targetStart) targetStart = 0
-	  if (end > 0 && end < start) end = start
-
-	  // Copy 0 bytes; we're done
-	  if (end === start) return 0
-	  if (target.length === 0 || this.length === 0) return 0
-
-	  // Fatal error conditions
-	  if (targetStart < 0) {
-	    throw new RangeError('targetStart out of bounds')
-	  }
-	  if (start < 0 || start >= this.length) throw new RangeError('sourceStart out of bounds')
-	  if (end < 0) throw new RangeError('sourceEnd out of bounds')
-
-	  // Are we oob?
-	  if (end > this.length) end = this.length
-	  if (target.length - targetStart < end - start) {
-	    end = target.length - targetStart + start
-	  }
-
-	  var len = end - start
-	  var i
-
-	  if (this === target && start < targetStart && targetStart < end) {
-	    // descending copy from end
-	    for (i = len - 1; i >= 0; --i) {
-	      target[i + targetStart] = this[i + start]
-	    }
-	  } else if (len < 1000 || !Buffer.TYPED_ARRAY_SUPPORT) {
-	    // ascending copy from start
-	    for (i = 0; i < len; ++i) {
-	      target[i + targetStart] = this[i + start]
-	    }
-	  } else {
-	    Uint8Array.prototype.set.call(
-	      target,
-	      this.subarray(start, start + len),
-	      targetStart
-	    )
-	  }
-
-	  return len
-	}
-
-	// Usage:
-	//    buffer.fill(number[, offset[, end]])
-	//    buffer.fill(buffer[, offset[, end]])
-	//    buffer.fill(string[, offset[, end]][, encoding])
-	Buffer.prototype.fill = function fill (val, start, end, encoding) {
-	  // Handle string cases:
-	  if (typeof val === 'string') {
-	    if (typeof start === 'string') {
-	      encoding = start
-	      start = 0
-	      end = this.length
-	    } else if (typeof end === 'string') {
-	      encoding = end
-	      end = this.length
-	    }
-	    if (val.length === 1) {
-	      var code = val.charCodeAt(0)
-	      if (code < 256) {
-	        val = code
-	      }
-	    }
-	    if (encoding !== undefined && typeof encoding !== 'string') {
-	      throw new TypeError('encoding must be a string')
-	    }
-	    if (typeof encoding === 'string' && !Buffer.isEncoding(encoding)) {
-	      throw new TypeError('Unknown encoding: ' + encoding)
-	    }
-	  } else if (typeof val === 'number') {
-	    val = val & 255
-	  }
-
-	  // Invalid ranges are not set to a default, so can range check early.
-	  if (start < 0 || this.length < start || this.length < end) {
-	    throw new RangeError('Out of range index')
-	  }
-
-	  if (end <= start) {
-	    return this
-	  }
-
-	  start = start >>> 0
-	  end = end === undefined ? this.length : end >>> 0
-
-	  if (!val) val = 0
-
-	  var i
-	  if (typeof val === 'number') {
-	    for (i = start; i < end; ++i) {
-	      this[i] = val
-	    }
-	  } else {
-	    var bytes = Buffer.isBuffer(val)
-	      ? val
-	      : utf8ToBytes(new Buffer(val, encoding).toString())
-	    var len = bytes.length
-	    for (i = 0; i < end - start; ++i) {
-	      this[i + start] = bytes[i % len]
-	    }
-	  }
-
-	  return this
-	}
-
-	// HELPER FUNCTIONS
-	// ================
-
-	var INVALID_BASE64_RE = /[^+\/0-9A-Za-z-_]/g
-
-	function base64clean (str) {
-	  // Node strips out invalid characters like \n and \t from the string, base64-js does not
-	  str = stringtrim(str).replace(INVALID_BASE64_RE, '')
-	  // Node converts strings with length < 2 to ''
-	  if (str.length < 2) return ''
-	  // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
-	  while (str.length % 4 !== 0) {
-	    str = str + '='
-	  }
-	  return str
-	}
-
-	function stringtrim (str) {
-	  if (str.trim) return str.trim()
-	  return str.replace(/^\s+|\s+$/g, '')
-	}
-
-	function toHex (n) {
-	  if (n < 16) return '0' + n.toString(16)
-	  return n.toString(16)
-	}
-
-	function utf8ToBytes (string, units) {
-	  units = units || Infinity
-	  var codePoint
-	  var length = string.length
-	  var leadSurrogate = null
-	  var bytes = []
-
-	  for (var i = 0; i < length; ++i) {
-	    codePoint = string.charCodeAt(i)
-
-	    // is surrogate component
-	    if (codePoint > 0xD7FF && codePoint < 0xE000) {
-	      // last char was a lead
-	      if (!leadSurrogate) {
-	        // no lead yet
-	        if (codePoint > 0xDBFF) {
-	          // unexpected trail
-	          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-	          continue
-	        } else if (i + 1 === length) {
-	          // unpaired lead
-	          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-	          continue
-	        }
-
-	        // valid lead
-	        leadSurrogate = codePoint
-
-	        continue
-	      }
-
-	      // 2 leads in a row
-	      if (codePoint < 0xDC00) {
-	        if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-	        leadSurrogate = codePoint
-	        continue
-	      }
-
-	      // valid surrogate pair
-	      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000
-	    } else if (leadSurrogate) {
-	      // valid bmp char, but last char was a lead
-	      if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-	    }
-
-	    leadSurrogate = null
-
-	    // encode utf8
-	    if (codePoint < 0x80) {
-	      if ((units -= 1) < 0) break
-	      bytes.push(codePoint)
-	    } else if (codePoint < 0x800) {
-	      if ((units -= 2) < 0) break
-	      bytes.push(
-	        codePoint >> 0x6 | 0xC0,
-	        codePoint & 0x3F | 0x80
-	      )
-	    } else if (codePoint < 0x10000) {
-	      if ((units -= 3) < 0) break
-	      bytes.push(
-	        codePoint >> 0xC | 0xE0,
-	        codePoint >> 0x6 & 0x3F | 0x80,
-	        codePoint & 0x3F | 0x80
-	      )
-	    } else if (codePoint < 0x110000) {
-	      if ((units -= 4) < 0) break
-	      bytes.push(
-	        codePoint >> 0x12 | 0xF0,
-	        codePoint >> 0xC & 0x3F | 0x80,
-	        codePoint >> 0x6 & 0x3F | 0x80,
-	        codePoint & 0x3F | 0x80
-	      )
-	    } else {
-	      throw new Error('Invalid code point')
-	    }
-	  }
-
-	  return bytes
-	}
-
-	function asciiToBytes (str) {
-	  var byteArray = []
-	  for (var i = 0; i < str.length; ++i) {
-	    // Node's code seems to be doing this and not & 0x7F..
-	    byteArray.push(str.charCodeAt(i) & 0xFF)
-	  }
-	  return byteArray
-	}
-
-	function utf16leToBytes (str, units) {
-	  var c, hi, lo
-	  var byteArray = []
-	  for (var i = 0; i < str.length; ++i) {
-	    if ((units -= 2) < 0) break
-
-	    c = str.charCodeAt(i)
-	    hi = c >> 8
-	    lo = c % 256
-	    byteArray.push(lo)
-	    byteArray.push(hi)
-	  }
-
-	  return byteArray
-	}
-
-	function base64ToBytes (str) {
-	  return base64.toByteArray(base64clean(str))
-	}
-
-	function blitBuffer (src, dst, offset, length) {
-	  for (var i = 0; i < length; ++i) {
-	    if ((i + offset >= dst.length) || (i >= src.length)) break
-	    dst[i + offset] = src[i]
-	  }
-	  return i
-	}
-
-	function isnan (val) {
-	  return val !== val // eslint-disable-line no-self-compare
-	}
-
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ }),
-/* 158 */
-/***/ (function(module, exports) {
-
-	'use strict'
-
-	exports.byteLength = byteLength
-	exports.toByteArray = toByteArray
-	exports.fromByteArray = fromByteArray
-
-	var lookup = []
-	var revLookup = []
-	var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
-
-	var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-	for (var i = 0, len = code.length; i < len; ++i) {
-	  lookup[i] = code[i]
-	  revLookup[code.charCodeAt(i)] = i
-	}
-
-	revLookup['-'.charCodeAt(0)] = 62
-	revLookup['_'.charCodeAt(0)] = 63
-
-	function placeHoldersCount (b64) {
-	  var len = b64.length
-	  if (len % 4 > 0) {
-	    throw new Error('Invalid string. Length must be a multiple of 4')
-	  }
-
-	  // the number of equal signs (place holders)
-	  // if there are two placeholders, than the two characters before it
-	  // represent one byte
-	  // if there is only one, then the three characters before it represent 2 bytes
-	  // this is just a cheap hack to not do indexOf twice
-	  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
-	}
-
-	function byteLength (b64) {
-	  // base64 is 4/3 + up to two characters of the original data
-	  return (b64.length * 3 / 4) - placeHoldersCount(b64)
-	}
-
-	function toByteArray (b64) {
-	  var i, l, tmp, placeHolders, arr
-	  var len = b64.length
-	  placeHolders = placeHoldersCount(b64)
-
-	  arr = new Arr((len * 3 / 4) - placeHolders)
-
-	  // if there are placeholders, only get up to the last complete 4 chars
-	  l = placeHolders > 0 ? len - 4 : len
-
-	  var L = 0
-
-	  for (i = 0; i < l; i += 4) {
-	    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
-	    arr[L++] = (tmp >> 16) & 0xFF
-	    arr[L++] = (tmp >> 8) & 0xFF
-	    arr[L++] = tmp & 0xFF
-	  }
-
-	  if (placeHolders === 2) {
-	    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-	    arr[L++] = tmp & 0xFF
-	  } else if (placeHolders === 1) {
-	    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-	    arr[L++] = (tmp >> 8) & 0xFF
-	    arr[L++] = tmp & 0xFF
-	  }
-
-	  return arr
-	}
-
-	function tripletToBase64 (num) {
-	  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
-	}
-
-	function encodeChunk (uint8, start, end) {
-	  var tmp
-	  var output = []
-	  for (var i = start; i < end; i += 3) {
-	    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
-	    output.push(tripletToBase64(tmp))
-	  }
-	  return output.join('')
-	}
-
-	function fromByteArray (uint8) {
-	  var tmp
-	  var len = uint8.length
-	  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-	  var output = ''
-	  var parts = []
-	  var maxChunkLength = 16383 // must be multiple of 3
-
-	  // go through the array every three bytes, we'll deal with trailing stuff later
-	  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-	    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
-	  }
-
-	  // pad the end with zeros, but make sure to not forget the extra bytes
-	  if (extraBytes === 1) {
-	    tmp = uint8[len - 1]
-	    output += lookup[tmp >> 2]
-	    output += lookup[(tmp << 4) & 0x3F]
-	    output += '=='
-	  } else if (extraBytes === 2) {
-	    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
-	    output += lookup[tmp >> 10]
-	    output += lookup[(tmp >> 4) & 0x3F]
-	    output += lookup[(tmp << 2) & 0x3F]
-	    output += '='
-	  }
-
-	  parts.push(output)
-
-	  return parts.join('')
-	}
-
-
-/***/ }),
-/* 159 */
-/***/ (function(module, exports) {
-
-	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
-	  var e, m
-	  var eLen = nBytes * 8 - mLen - 1
-	  var eMax = (1 << eLen) - 1
-	  var eBias = eMax >> 1
-	  var nBits = -7
-	  var i = isLE ? (nBytes - 1) : 0
-	  var d = isLE ? -1 : 1
-	  var s = buffer[offset + i]
-
-	  i += d
-
-	  e = s & ((1 << (-nBits)) - 1)
-	  s >>= (-nBits)
-	  nBits += eLen
-	  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-	  m = e & ((1 << (-nBits)) - 1)
-	  e >>= (-nBits)
-	  nBits += mLen
-	  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-	  if (e === 0) {
-	    e = 1 - eBias
-	  } else if (e === eMax) {
-	    return m ? NaN : ((s ? -1 : 1) * Infinity)
-	  } else {
-	    m = m + Math.pow(2, mLen)
-	    e = e - eBias
-	  }
-	  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
-	}
-
-	exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
-	  var e, m, c
-	  var eLen = nBytes * 8 - mLen - 1
-	  var eMax = (1 << eLen) - 1
-	  var eBias = eMax >> 1
-	  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
-	  var i = isLE ? 0 : (nBytes - 1)
-	  var d = isLE ? 1 : -1
-	  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
-
-	  value = Math.abs(value)
-
-	  if (isNaN(value) || value === Infinity) {
-	    m = isNaN(value) ? 1 : 0
-	    e = eMax
-	  } else {
-	    e = Math.floor(Math.log(value) / Math.LN2)
-	    if (value * (c = Math.pow(2, -e)) < 1) {
-	      e--
-	      c *= 2
-	    }
-	    if (e + eBias >= 1) {
-	      value += rt / c
-	    } else {
-	      value += rt * Math.pow(2, 1 - eBias)
-	    }
-	    if (value * c >= 2) {
-	      e++
-	      c /= 2
-	    }
-
-	    if (e + eBias >= eMax) {
-	      m = 0
-	      e = eMax
-	    } else if (e + eBias >= 1) {
-	      m = (value * c - 1) * Math.pow(2, mLen)
-	      e = e + eBias
-	    } else {
-	      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
-	      e = 0
-	    }
-	  }
-
-	  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
-
-	  e = (e << mLen) | m
-	  eLen += mLen
-	  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
-
-	  buffer[offset + i - d] |= s * 128
-	}
-
-
-/***/ }),
+/* 159 */,
 /* 160 */
 /***/ (function(module, exports) {
 
-	var toString = {}.toString;
-
-	module.exports = Array.isArray || function (arr) {
-	  return toString.call(arr) == '[object Array]';
-	};
+	"use strict";
+	exports.__esModule = true;
+	var jXNumber = /** @class */ (function () {
+	    function jXNumber(number) {
+	        this.number = number;
+	        return this;
+	    }
+	    jXNumber.prototype.getSuffix = function () {
+	        return this.number == null ? '' : suffixByNumber(this.number);
+	    };
+	    /** @p - decimal places */
+	    jXNumber.prototype.decimalFormat = function (p) {
+	        p = p == null ? 2 : p;
+	        var m = Math.pow(10, p), n = this.number;
+	        return (Math.round(n * m) / m).toFixed(p);
+	    };
+	    /** convert set number into how many minutes into a date. Ex: 60 = new Date('2016-01-16 1:00:00.0')
+	      @options - {}
+	      @options.date - default=new Date()
+	    */
+	    jXNumber.prototype.asMinutesToDateTime = function (options) {
+	        options = options || {};
+	        var minute = this.number;
+	        var iDate = options.date || new Date();
+	        var date = new Date(iDate.getFullYear(), iDate.getMonth(), iDate.getDate(), 0, minute);
+	        return date;
+	    };
+	    /** convert set number into how many minutes into a string date. Ex: 60 = 1:00 AM')
+	      @options = {}
+	      @options.timeDelim - default=':'
+	      @optiosn.dayPeriodDelim - default=' '
+	    */
+	    jXNumber.prototype.asMinutesToTime = function (options) {
+	        options = options || {};
+	        options.timeDelim = options.timeDelim || ':';
+	        options.dayPeriodDelim = options.dayPeriodDelim || ' ';
+	        var d = this.asMinutesToDateTime(options);
+	        var hour = d.getHours();
+	        var tt = 'AM';
+	        var mins = d.getMinutes();
+	        if (hour > 12) {
+	            tt = 'PM';
+	            hour = hour - 12;
+	        }
+	        mins = mins.toString().length == 1 ? '0' + mins : mins;
+	        return hour + options.timeDelim + mins + options.dayPeriodDelim + tt;
+	    };
+	    return jXNumber;
+	}());
+	exports.jXNumber = jXNumber;
+	function suffixByNumber(i) {
+	    if (!i)
+	        return '';
+	    var j = i % 10, k = i % 100;
+	    if (j == 1 && k != 11) {
+	        return "st";
+	    }
+	    if (j == 2 && k != 12) {
+	        return "nd";
+	    }
+	    if (j == 3 && k != 13) {
+	        return "rd";
+	    }
+	    return "th";
+	}
+	function method(path) {
+	    return new jXNumber(path);
+	}
+	exports.method = method;
 
 
 /***/ }),
-/* 161 */
+/* 161 */,
+/* 162 */,
+/* 163 */
+/***/ (function(module, exports) {
+
+	"use strict";
+	exports.__esModule = true;
+	var jXQueryObject = /** @class */ (function () {
+	    function jXQueryObject(object) {
+	        this.queryObject = object;
+	        return this;
+	    }
+	    jXQueryObject.prototype.getNameArray = function () {
+	        return Object.keys(this.queryObject);
+	    };
+	    //{delimiter,isNameFirstRow,textQualifier,titleArray}
+	    jXQueryObject.prototype.toCsv = function (delimOrOptions, textQualifier, titleArray) {
+	        return this.Csv.apply(this, arguments).output();
+	    };
+	    jXQueryObject.prototype.Csv = function (delimOrOptions, textQualifier, titleArray) {
+	        if (typeof (delimOrOptions) == 'string')
+	            delimOrOptions = { delimiter: delimOrOptions };
+	        else if (delimOrOptions == null)
+	            delimOrOptions = {};
+	        if (textQualifier)
+	            delimOrOptions.textQualifier = textQualifier;
+	        if (titleArray)
+	            delimOrOptions.titleArray = titleArray;
+	        return new jXQueryObjectCsv(this.queryObject, delimOrOptions);
+	    };
+	    return jXQueryObject;
+	}());
+	exports.jXQueryObject = jXQueryObject;
+	//{delimiter,isNameFirstRow,textQualifier,titleArray}
+	var jXQueryObjectCsv = /** @class */ (function () {
+	    function jXQueryObjectCsv(queryObject, $scope) {
+	        this.data = $scope || {};
+	        this.data.isNameFirstRow = this.data.isNameFirstRow == null ? true : this.data.isNameFirstRow;
+	        this.data.delimiter = this.data.delimiter || ',';
+	        this.data.queryObject = queryObject || this.data.queryObject || {};
+	        return this;
+	    }
+	    jXQueryObjectCsv.prototype.getTitleArray = function () {
+	        if (this.data.titleArray)
+	            return this.data.titleArray;
+	        if (this.data.isNameFirstRow)
+	            return Object.keys(this.data.queryObject);
+	    };
+	    jXQueryObjectCsv.prototype.output = function () {
+	        return this.toArray().join(this.data.lineDelim || '\r\n');
+	    };
+	    jXQueryObjectCsv.prototype.toArray = function () {
+	        //textQualifier = textQualifier || '"'
+	        var columnLoop;
+	        var columnCount;
+	        var newValue;
+	        var newTitle;
+	        var returnText = [];
+	        var titleArray = this.getTitleArray();
+	        var nameArray = titleArray;
+	        var tempContent;
+	        var options = this.data;
+	        if (options.textQualifier && options.textQualifier.length) {
+	            var nr = new RegExp('/' + options.textQualifier + '/', 'gi');
+	            var getCsvValueOf = function (val) {
+	                if (val == null)
+	                    return '';
+	                val = val.toString().replace(nr, options.textQualifier + options.textQualifier);
+	                val = options.textQualifier + val + options.textQualifier;
+	                return val;
+	            };
+	        }
+	        else
+	            var getCsvValueOf = function (val) {
+	                return val;
+	            };
+	        /* figure headers */
+	        var tempArray = [];
+	        for (columnLoop = 0; columnLoop < titleArray.length; ++columnLoop) {
+	            if (typeof (titleArray[columnLoop]) == 'object') {
+	                newTitle = titleArray[columnLoop][1];
+	                titleArray[columnLoop] = newTitle;
+	                nameArray[columnLoop] = titleArray[columnLoop][0];
+	            }
+	            else {
+	                newTitle = titleArray[columnLoop];
+	            }
+	            newValue = getCsvValueOf(newTitle);
+	            tempArray.push(newValue);
+	        }
+	        /* end: figure headers */
+	        if (this.data.isNameFirstRow) {
+	            tempContent = tempArray.join(this.data.delimiter);
+	            if (tempContent) {
+	                returnText.push(tempContent);
+	            }
+	        }
+	        /* build CSV content */
+	        //console.log('nameArray[0]', nameArray[0], nameArray, this.data.isNameFirstRow, this.data.queryObject)
+	        var rowLoop, columnName, firstColumn = this.data.queryObject[nameArray[0]];
+	        if (firstColumn) {
+	            var len = firstColumn.length; //get array len from first column
+	            for (rowLoop = 0; rowLoop < len; ++rowLoop) {
+	                tempArray = [];
+	                columnCount = nameArray.length;
+	                for (columnLoop = 0; columnLoop < columnCount; ++columnLoop) {
+	                    columnName = nameArray[columnLoop];
+	                    newValue = this.data.queryObject[columnName][rowLoop];
+	                    newValue = getCsvValueOf(newValue);
+	                    //if(isBinary(newValue))newValue = toString(newValue);
+	                    tempArray.push(newValue);
+	                }
+	                tempContent = tempArray.join(this.data.delimiter);
+	                returnText.push(tempContent);
+	            }
+	        }
+	        /* end */
+	        return returnText;
+	    };
+	    return jXQueryObjectCsv;
+	}());
+	exports.jXQueryObjectCsv = jXQueryObjectCsv;
+	function method(variable) {
+	    return new jXQueryObject(variable);
+	}
+	exports.method = method;
+
+
+/***/ }),
+/* 164 */,
+/* 165 */
+/***/ (function(module, exports) {
+
+	"use strict";
+	exports.__esModule = true;
+	var ExString = /** @class */ (function () {
+	    function ExString(string) {
+	        this.string = string;
+	        return this;
+	    }
+	    /** test string against email regX */
+	    ExString.prototype.isEmail = function () {
+	        return this.string.search(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) >= 0;
+	    };
+	    //Node.js doesnt have .repeat as of 2/11/15
+	    ExString.prototype.repeat = function (num) {
+	        var x, s = '';
+	        for (x = 0; x < num; ++x)
+	            s = s + this.string;
+	        return s;
+	    };
+	    //escapes html brackets
+	    ExString.prototype.htmlFormat = function () {
+	        var v = this.string;
+	        v = v.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	        return v;
+	    };
+	    /** string becomes really long */
+	    ExString.prototype.toBase64 = function () {
+	        var e = this._utf8_encode();
+	        var t = "";
+	        var n, r, i, s, o, u, a;
+	        var f = 0;
+	        while (f < e.length) {
+	            n = e.charCodeAt(f++);
+	            r = e.charCodeAt(f++);
+	            i = e.charCodeAt(f++);
+	            s = n >> 2;
+	            o = (n & 3) << 4 | r >> 4;
+	            u = (r & 15) << 2 | i >> 6;
+	            a = i & 63;
+	            if (isNaN(r)) {
+	                u = a = 64;
+	            }
+	            else if (isNaN(i)) {
+	                a = 64;
+	            }
+	            t = t + ExString._keyStr.charAt(s) + ExString._keyStr.charAt(o) + ExString._keyStr.charAt(u) + ExString._keyStr.charAt(a);
+	        }
+	        return t;
+	    };
+	    //convert string to something more safely portable
+	    ExString.prototype._utf8_encode = function () {
+	        var e = this.string.replace ? this.string : this.string.toString();
+	        e = e.replace(/\r\n/g, "\n");
+	        var t = "";
+	        for (var n = 0; n < e.length; n++) {
+	            var r = e.charCodeAt(n);
+	            if (r < 128) {
+	                t += String.fromCharCode(r);
+	            }
+	            else if (r > 127 && r < 2048) {
+	                t += String.fromCharCode(r >> 6 | 192);
+	                t += String.fromCharCode(r & 63 | 128);
+	            }
+	            else {
+	                t += String.fromCharCode(r >> 12 | 224);
+	                t += String.fromCharCode(r >> 6 & 63 | 128);
+	                t += String.fromCharCode(r & 63 | 128);
+	            }
+	        }
+	        return t;
+	    };
+	    //Typically NODE ONLY
+	    ExString.prototype.toHex = function (encType) {
+	        encType = encType || 'hex';
+	        return new exports.Buffer(this.string, encType).toString('hex');
+	    };
+	    //Typically NODE ONLY
+	    ExString.prototype.toBinary = function (encType) {
+	        encType = encType || 'binary';
+	        return new exports.Buffer(this.string, encType);
+	    };
+	    ExString._keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+	    return ExString;
+	}());
+	exports.ExString = ExString;
+	/*
+	ExString.prototype.isBinary = function(){
+	    return /^[01]+$/.test(this.string)
+	}
+	*/
+	function method(variable) {
+	    return new ExString(variable);
+	}
+	exports.method = method;
+
+
+/***/ }),
+/* 166 */,
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	exports.__esModule = true;
-	var date_1 = __webpack_require__(27);
+	var date_1 = __webpack_require__(30);
 	var ackTime = /** @class */ (function () {
 	    function ackTime(date) {
 	        this.date = toDate(date);
@@ -22842,8 +20804,8 @@
 
 
 /***/ }),
-/* 162 */,
-/* 163 */
+/* 168 */,
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22859,8 +20821,8 @@
 	})();
 	exports.__esModule = true;
 	//import jc = require('./jc')
-	var month_1 = __webpack_require__(151);
-	var date_1 = __webpack_require__(27);
+	var month_1 = __webpack_require__(158);
+	var date_1 = __webpack_require__(30);
 	var Week = /** @class */ (function (_super) {
 	    __extends(Week, _super);
 	    function Week() {
@@ -22901,13 +20863,13 @@
 
 
 /***/ }),
-/* 164 */,
-/* 165 */
+/* 170 */,
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	exports.__esModule = true;
-	var date_1 = __webpack_require__(27);
+	var date_1 = __webpack_require__(30);
 	//export * from "./date"
 	var ackYear = /** @class */ (function () {
 	    function ackYear(yyyy) {
@@ -22992,13 +20954,13 @@
 
 
 /***/ }),
-/* 166 */,
-/* 167 */
+/* 172 */,
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.accessors',function(){
 		it('#objectify',function(){
@@ -23011,7 +20973,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 168 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -23082,7 +21044,7 @@
 	// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 	// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-	var util = __webpack_require__(169);
+	var util = __webpack_require__(175);
 	var hasOwn = Object.prototype.hasOwnProperty;
 	var pSlice = Array.prototype.slice;
 	var functionsHaveNames = (function () {
@@ -23508,7 +21470,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 169 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -24036,7 +21998,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 
-	exports.isBuffer = __webpack_require__(170);
+	exports.isBuffer = __webpack_require__(176);
 
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -24080,7 +22042,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(171);
+	exports.inherits = __webpack_require__(177);
 
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -24098,10 +22060,10 @@
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(16)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(17)))
 
 /***/ }),
-/* 170 */
+/* 176 */
 /***/ (function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -24112,7 +22074,7 @@
 	}
 
 /***/ }),
-/* 171 */
+/* 177 */
 /***/ (function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -24141,12 +22103,12 @@
 
 
 /***/ }),
-/* 172 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack()',function(){
 		it('#throw',function(){
@@ -24282,12 +22244,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 173 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.array',function(){
 		it('#objectify',function(){
@@ -24397,12 +22359,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 174 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.base64',function(){
 		it('#toString',function(){
@@ -24415,12 +22377,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 175 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 	/*
 	describe('ack.binary',function(){
 		it('#isBinary',function(){
@@ -24438,13 +22400,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 176 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		AckDate = __webpack_require__(27).AckDate,
-		assert = __webpack_require__(168)
+		AckDate = __webpack_require__(30).AckDate,
+		assert = __webpack_require__(174)
 
 	var isDst = ack.date().now().isDst()
 	var wasDst = ack.date('2/12/2013').isDst()
@@ -24933,12 +22895,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 177 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,//require('../ack-x-dy').ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	//test was built in eastern time during daylight savings, need offset to account for that
 	var isDst = ack.date().now().isDst()
@@ -25002,12 +22964,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 178 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.debug',function(){
 		it('works',function(){
@@ -25019,13 +22981,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 179 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, __dirname) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168),
-		path = __webpack_require__(180)
+		assert = __webpack_require__(174),
+		path = __webpack_require__(186)
 
 	describe('ack.error',function(){
 		it('#getStackArray',function(){
@@ -25108,7 +23070,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), "/"))
 
 /***/ }),
-/* 180 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -25336,15 +23298,15 @@
 	    }
 	;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
-/* 181 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.injector',function(){
 		it('#define',function(){
@@ -25364,12 +23326,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 182 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.method',function(){
 		it('#getName',function(){
@@ -25442,12 +23404,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 183 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.month',function(){
 		describe('January',function(){
@@ -25546,12 +23508,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 184 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.number',function(){
 		it('#decimalFormat',function(){
@@ -25578,12 +23540,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 185 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.object',function(){
 		it('map',function(){
@@ -25669,12 +23631,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 186 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.queryObject',function(){
 		describe('#Csv.#toArray',function(){
@@ -25711,12 +23673,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 187 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.string',function(){
 		it('#htmlFormat',function(){
@@ -25766,12 +23728,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 188 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var ack = global.ack,
-		assert = __webpack_require__(168)
+		assert = __webpack_require__(174)
 
 	describe('ack.year',function(){
 		var t14
@@ -25802,7 +23764,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 189 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {process.nextTick(function() {
@@ -25813,7 +23775,7 @@
 			mocha.run();
 	});
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ })
 /******/ ]);

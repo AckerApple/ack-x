@@ -1,7 +1,7 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
-## [1.3.0] - 2017-10-10
+## [1.3.5] - 2017-10-11
 ### Breaking Changes
 - ack.function() is now ack.method()
 - index files moved around
