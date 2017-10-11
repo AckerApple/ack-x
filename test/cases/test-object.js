@@ -20,7 +20,7 @@ describe('ack.object',function(){
 			agency:[{
 				name:'My Agency',
 				clock_in:1,
-				clock_out:2,
+				clock_out:2
 			},{
 				name:'Toast',
 				email:'fake@aol.com',
@@ -77,6 +77,9 @@ describe('ack.object',function(){
 			assert.equal(res.agency.subs.subs.email.type, 'string')
 			assert.equal(typeof res.agency.subs.subs.active, 'object')
 			assert.equal(res.agency.subs.subs.active.type, 'number')
+
+			assert.equal(res.agency.subs.subs.clock_in.type, 'number')
+			assert.equal(res.agency.subs.subs.clock_out.type, 'number')
 		})
 	})
 

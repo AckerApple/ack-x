@@ -2788,7 +2788,22 @@
 	            var nextKey = keysArray[nextIndex];
 	            var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
 	            if (desc !== undefined && desc.enumerable) {
-	                to[nextKey] = nextSource[nextKey];
+	                if (nextSource[nextKey] != null && typeof (nextSource[nextKey]) == 'object') {
+	                    if (nextSource[nextKey].constructor == Array) {
+	                        console.log('aok0', '------');
+	                        to[nextKey] = nextSource[nextKey];
+	                        //to[nextKey] = to[nextKey] || {}
+	                        //assign(to[nextKey], nextSource[nextKey])
+	                    }
+	                    else {
+	                        console.log('aok1', '------');
+	                        to[nextKey] = to[nextKey] || {};
+	                        assign(to[nextKey], nextSource[nextKey]);
+	                    }
+	                }
+	                else {
+	                    to[nextKey] = nextSource[nextKey];
+	                }
 	            }
 	        }
 	    }

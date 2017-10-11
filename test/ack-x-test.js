@@ -3111,7 +3111,22 @@
 	            var nextKey = keysArray[nextIndex];
 	            var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
 	            if (desc !== undefined && desc.enumerable) {
-	                to[nextKey] = nextSource[nextKey];
+	                if (nextSource[nextKey] != null && typeof (nextSource[nextKey]) == 'object') {
+	                    if (nextSource[nextKey].constructor == Array) {
+	                        console.log('aok0', '------');
+	                        to[nextKey] = nextSource[nextKey];
+	                        //to[nextKey] = to[nextKey] || {}
+	                        //assign(to[nextKey], nextSource[nextKey])
+	                    }
+	                    else {
+	                        console.log('aok1', '------');
+	                        to[nextKey] = to[nextKey] || {};
+	                        assign(to[nextKey], nextSource[nextKey]);
+	                    }
+	                }
+	                else {
+	                    to[nextKey] = nextSource[nextKey];
+	                }
 	            }
 	        }
 	    }
@@ -23564,11 +23579,14 @@
 					c1:'a string here'
 				},
 				agency:[{
-					name:'My Agency'
+					name:'My Agency',
+					clock_in:1,
+					clock_out:2
 				},{
 					name:'Toast',
 					email:'fake@aol.com',
-					active:0
+					active:0,
+					clock_in:1
 				}]
 			}
 
@@ -23585,12 +23603,16 @@
 				assert.equal(res.agency[0].name, 'string')
 				assert.equal(res.agency[0].email, 'string')
 				assert.equal(res.agency[0].active, 'number')
+				assert.equal(res.agency[0].clock_in, 'number')
+				assert.equal(res.agency[0].clock_out, 'number')
 			})
 
 			it.only('mapped',function(){
 				var res = ack.object(v).getTypeMap(function(type,subs){
 					return {type:type,subs:subs}
 				})
+
+	//console.log( JSON.stringify(res, null, 2) )
 
 				assert.equal(typeof res.a, 'object')
 				assert.equal(res.a.type, 'number')
@@ -23618,7 +23640,9 @@
 				assert.equal(res.agency.subs.subs.email.type, 'string')
 				assert.equal(typeof res.agency.subs.subs.active, 'object')
 				assert.equal(res.agency.subs.subs.active.type, 'number')
-	console.log(JSON.stringify(res, null, 2))
+
+				assert.equal(res.agency.subs.subs.clock_in.type, 'number')
+				assert.equal(res.agency.subs.subs.clock_out.type, 'number')
 			})
 		})
 

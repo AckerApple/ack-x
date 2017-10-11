@@ -4,6 +4,8 @@ export declare class jXObject {
     constructor(object: any);
     /** @method(item, index, object) */
     forEach(method: any): this;
+    assign(...args: any[]): any;
+    deepAssign(...args: any[]): any;
     /** When object, returns similar object with key values as results of mapping
         map array or object @method(item, index, object)
 

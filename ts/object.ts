@@ -16,6 +16,14 @@ export class jXObject{
 		return this
 	}
 
+	assign(...args){
+		return assign.apply(assign, [this.object, ...args])
+	}
+	
+	deepAssign(...args){
+		return deepAssign.apply(deepAssign, [this.object, ...args])
+	}
+
 	/** When object, returns similar object with key values as results of mapping
 		map array or object @method(item, index, object)
 
@@ -65,7 +73,7 @@ export class jXObject{
 					if( !uniqueMap[0] ){
 						uniqueMap[0] = mapper(subType, subs, index)
 					}else{
-						assign(uniqueMap[0], mapper(subType, subs, index))
+						deepAssign(uniqueMap[0], mapper(subType, subs, index))
 					}
 				}
 			}else{
@@ -75,7 +83,7 @@ export class jXObject{
 						uniqueMap[index] = mapper(subType, subs[0], index)
 					}else{
 						uniqueMap[index] = uniqueMap[index] || {}
-						uniqueMap[index] = assign(uniqueMap[index], mapper(subType, subs, index))
+						uniqueMap[index] = deepAssign(uniqueMap[index], mapper(subType, subs, index))
 					}
 				}else{
 					uniqueMap[index] = mapper(subType, null, index)
@@ -189,6 +197,42 @@ function assign(target, firstSource) {
       var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
       if (desc !== undefined && desc.enumerable) {
         to[nextKey] = nextSource[nextKey];
+      }
+    }
+  }
+  return to;
+}
+
+//object.assign polyfill
+function deepAssign(target, firstSource) {
+  if (target === undefined || target === null) {
+    throw new TypeError('Cannot convert first argument to object');
+  }
+
+  var to = Object(target);
+  for (var i = 1; i < arguments.length; i++) {
+    var nextSource = arguments[i];
+    if (nextSource === undefined || nextSource === null) {
+      continue;
+    }
+
+    var keysArray = Object.keys(Object(nextSource));
+    for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+      var nextKey = keysArray[nextIndex];
+      var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+      if (desc !== undefined && desc.enumerable) {
+        
+        if( nextSource[nextKey]!=null && typeof(nextSource[nextKey])=='object' ){
+        	if( nextSource[nextKey].constructor==Array ){
+        		to[nextKey] = nextSource[nextKey];
+        	}else{
+        		to[nextKey] = to[nextKey] || {}
+        		deepAssign(to[nextKey], nextSource[nextKey])
+        	}
+        }else{
+        	to[nextKey] = nextSource[nextKey];
+        }
+
       }
     }
   }
