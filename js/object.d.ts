@@ -11,7 +11,7 @@ export declare class jXObject {
     map(method: any): {};
     isArray(): boolean;
     /**
-        @method(type, subs)
+        @method(type, subs, key)
     */
     getTypeMap(mapper?: any): any;
     /** tests Object for circular references */

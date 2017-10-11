@@ -39,12 +39,12 @@ var jXObject = /** @class */ (function () {
         return isArray(this.object);
     };
     /**
-        @method(type, subs)
+        @method(type, subs, key)
     */
     jXObject.prototype.getTypeMap = function (mapper) {
         var type = typeof (this.object);
         var isObject = type == 'object';
-        mapper = mapper || function (type, subs) {
+        mapper = mapper || function (type, subs, name) {
             if (subs) {
                 if (type == 'array')
                     return [subs];
@@ -67,14 +67,14 @@ var jXObject = /** @class */ (function () {
             if (isArray) {
                 if (isSubArray) {
                     subType = 'array';
-                    uniqueMap[index] = mapper(subType, subs[0]);
+                    uniqueMap[index] = mapper(subType, subs[0], index);
                 }
                 else if (isSubOb) {
                     if (!uniqueMap[0]) {
-                        uniqueMap[0] = mapper(subType, subs);
+                        uniqueMap[0] = mapper(subType, subs, index);
                     }
                     else {
-                        assign(uniqueMap[0], mapper(subType, subs));
+                        assign(uniqueMap[0], mapper(subType, subs, index));
                     }
                 }
             }
@@ -82,15 +82,15 @@ var jXObject = /** @class */ (function () {
                 if (isObject && isSubOb) {
                     if (isSubArray) {
                         subType = 'array';
-                        uniqueMap[index] = mapper(subType, subs[0]);
+                        uniqueMap[index] = mapper(subType, subs[0], index);
                     }
                     else {
                         uniqueMap[index] = uniqueMap[index] || {};
-                        uniqueMap[index] = assign(uniqueMap[index], mapper(subType, subs));
+                        uniqueMap[index] = assign(uniqueMap[index], mapper(subType, subs, index));
                     }
                 }
                 else {
-                    uniqueMap[index] = mapper(subType);
+                    uniqueMap[index] = mapper(subType, null, index);
                 }
             }
         });

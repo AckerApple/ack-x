@@ -41,7 +41,7 @@ describe('ack.object',function(){
 			assert.equal(res.agency[0].active, 'number')
 		})
 
-		it('mapped',function(){
+		it.only('mapped',function(){
 			var res = ack.object(v).getTypeMap(function(type,subs){
 				return {type:type,subs:subs}
 			})
@@ -72,6 +72,7 @@ describe('ack.object',function(){
 			assert.equal(res.agency.subs.subs.email.type, 'string')
 			assert.equal(typeof res.agency.subs.subs.active, 'object')
 			assert.equal(res.agency.subs.subs.active.type, 'number')
+console.log(JSON.stringify(res, null, 2))
 		})
 	})
 
