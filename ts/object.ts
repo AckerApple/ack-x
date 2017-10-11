@@ -55,7 +55,7 @@ export class jXObject{
 			var isSubOb = subType == 'object'
 			var jxSub = new jXObject( item )
 			var isSubArray = isSubOb && jxSub.isArray()
-			var subs = jxSub.getTypeMap()//get subs
+			var subs = jxSub.getTypeMap( mapper )//get subs
 
 			if( isArray ){
 				if( isSubArray ){
