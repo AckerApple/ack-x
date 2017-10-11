@@ -13,11 +13,11 @@ export declare class AckDate {
     monthsFromNow(): number;
     daysFromNow(): number;
     /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
-    fromNow(hideSuffix: any): string;
+    fromNow(hideSuffix: any): any;
     /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
-    fromToday(hideSuffix: any): string;
+    fromToday(hideSuffix: any): any;
     /** see moment http://momentjs.com/docs/#/displaying/from/ */
-    from(d: any, hideSuffix: any): string;
+    from(d: any, hideSuffix: any): any;
     now(): this;
     param(): this;
     dateYearDiff: (date: any) => number;
@@ -126,7 +126,7 @@ export declare class AckDate {
     dateSecondsDiff: (date: any, decimals: any) => any;
     dateMinuteDiff(date: any): number;
     dateMinutesDiff: (date: any) => number;
-    format(format: any): string;
+    format(format: any): any;
     getDayName(): string;
     getDayAbbr(): string;
     /** Febuary 24th 2016 */

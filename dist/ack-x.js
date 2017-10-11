@@ -51,7 +51,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-	modules.exports = __webpack_require__(2)
+	module.exports = __webpack_require__(2)
 
 /***/ }),
 /* 2 */
@@ -3103,7 +3103,8 @@
 
 	"use strict";
 	exports.__esModule = true;
-	var moment = __webpack_require__(22);
+	var momentPackage = __webpack_require__(22);
+	var moment = momentPackage["default"] ? momentPackage["default"] : momentPackage;
 	/* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
 	var AckDate = /** @class */ (function () {
 	    function AckDate(date, format) {

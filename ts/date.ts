@@ -1,4 +1,6 @@
-import * as moment from "moment"
+import * as momentPackage from "moment"
+
+const moment = momentPackage["default"] ? momentPackage["default"] : momentPackage
 
 /* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
 export class AckDate{

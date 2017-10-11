@@ -1,6 +1,7 @@
 "use strict";
 exports.__esModule = true;
-var moment = require("moment");
+var momentPackage = require("moment");
+var moment = momentPackage["default"] ? momentPackage["default"] : momentPackage;
 /* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
 var AckDate = /** @class */ (function () {
     function AckDate(date, format) {
