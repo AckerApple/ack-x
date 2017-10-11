@@ -1,2 +1,2 @@
 "use strict";
-modules.exports = require('./js/index-browser')
+module.exports = require('./js/index-browser')
