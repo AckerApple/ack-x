@@ -542,7 +542,7 @@ export class AckDate{
 
   //no negative numbers
   dateMinuteDiff(date){
-    date = toDate( date||new Date() )
+    date = toDate( date || new Date() )
     var hourDiff = date - this.date.getTime(); //in ms
     var secDiff = hourDiff / 1000; //in s
     var minDiff = hourDiff / 60 / 1000; //in minutes
@@ -550,7 +550,6 @@ export class AckDate{
     var hours = Math.floor(hDiff);
     var mins = minDiff - 60 * hours
     const calc = Math.abs( hours * 60 + mins )
-    //return Math.round(calc, 0);
     return Math.round(calc);
   }
   dateMinutesDiff = this.dateMinuteDiff//alias

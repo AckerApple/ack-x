@@ -3,8 +3,6 @@
 var assert = require('assert'),
     indexBrowser = require('../../js/index-browser')
 
-console.log('indexBrowser',indexBrowser)
-
 describe('index-browser',function(){
   it('has-functions',function(){
     assert.equal(typeof indexBrowser.error, 'function')
@@ -24,8 +22,8 @@ describe('index-browser',function(){
   })
 
   it('has-ack', function(){
-    var d = indexBrowser( 0 ).date().date
+    var d = indexBrowser( 0 ).date( 0 ).toUtc().date
     assert.equal(d.constructor, Date)
-    assert.equal(d.getFullYear(), 1969)
+    assert.equal(d.getFullYear(), 1970)
   })
 })

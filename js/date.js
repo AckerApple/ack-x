@@ -452,7 +452,6 @@ var AckDate = /** @class */ (function () {
         var hours = Math.floor(hDiff);
         var mins = minDiff - 60 * hours;
         var calc = Math.abs(hours * 60 + mins);
-        //return Math.round(calc, 0);
         return Math.round(calc);
     };
     /* FORMATTING */
