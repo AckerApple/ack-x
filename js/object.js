@@ -33,14 +33,16 @@ var jXObject = /** @class */ (function () {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        return assign.apply(assign, [this.object].concat(args));
+        assign.apply(assign, [this.object].concat(args));
+        return this;
     };
     jXObject.prototype.deepAssign = function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        return deepAssign.apply(deepAssign, [this.object].concat(args));
+        deepAssign.apply(deepAssign, [this.object].concat(args));
+        return this;
     };
     /** When object, returns similar object with key values as results of mapping
         map array or object @method(item, index, object)

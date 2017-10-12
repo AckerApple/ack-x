@@ -17,11 +17,13 @@ export class jXObject{
 	}
 
 	assign(...args){
-		return assign.apply(assign, [this.object, ...args])
+		assign.apply(assign, [this.object, ...args])
+		return this
 	}
 	
 	deepAssign(...args){
-		return deepAssign.apply(deepAssign, [this.object, ...args])
+		deepAssign.apply(deepAssign, [this.object, ...args])
+		return this
 	}
 
 	/** When object, returns similar object with key values as results of mapping

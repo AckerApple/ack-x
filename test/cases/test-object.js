@@ -1,6 +1,7 @@
 "use strict";
-var ack = global.ack,
-	assert = require('assert')
+var ack = global.ack
+var AckObject = require('../../js/object').jXObject
+var assert = require('assert')
 
 describe('ack.object',function(){
 	it('map',function(){
@@ -8,6 +9,18 @@ describe('ack.object',function(){
 		assert.equal(res.a, 10)
 		assert.equal(res.b, 20)
 		assert.equal(res.c, 30)
+	})
+
+	it('#assign',function(){
+		var aOb = ack.object({}).assign({})
+		assert.equal(aOb.constructor, AckObject)
+		assert.equal(aOb.object.constructor, Object)
+	})
+
+	it('#deepAssign',function(){
+		var aOb = ack.object({}).deepAssign({})
+		assert.equal(aOb.constructor, AckObject)
+		assert.equal(aOb.object.constructor, Object)
 	})
 	
 	describe('#getTypeMap',function(){

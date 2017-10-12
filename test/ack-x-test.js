@@ -2967,6 +2967,22 @@
 	        forEach(this.object, method);
 	        return this;
 	    };
+	    jXObject.prototype.assign = function () {
+	        var args = [];
+	        for (var _i = 0; _i < arguments.length; _i++) {
+	            args[_i] = arguments[_i];
+	        }
+	        assign.apply(assign, [this.object].concat(args));
+	        return this;
+	    };
+	    jXObject.prototype.deepAssign = function () {
+	        var args = [];
+	        for (var _i = 0; _i < arguments.length; _i++) {
+	            args[_i] = arguments[_i];
+	        }
+	        deepAssign.apply(deepAssign, [this.object].concat(args));
+	        return this;
+	    };
 	    /** When object, returns similar object with key values as results of mapping
 	        map array or object @method(item, index, object)
 
@@ -3013,7 +3029,7 @@
 	                        uniqueMap[0] = mapper(subType, subs, index);
 	                    }
 	                    else {
-	                        assign(uniqueMap[0], mapper(subType, subs, index));
+	                        deepAssign(uniqueMap[0], mapper(subType, subs, index));
 	                    }
 	                }
 	            }
@@ -3025,7 +3041,7 @@
 	                    }
 	                    else {
 	                        uniqueMap[index] = uniqueMap[index] || {};
-	                        uniqueMap[index] = assign(uniqueMap[index], mapper(subType, subs, index));
+	                        uniqueMap[index] = deepAssign(uniqueMap[index], mapper(subType, subs, index));
 	                    }
 	                }
 	                else {
@@ -3111,17 +3127,35 @@
 	            var nextKey = keysArray[nextIndex];
 	            var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
 	            if (desc !== undefined && desc.enumerable) {
+	                to[nextKey] = nextSource[nextKey];
+	            }
+	        }
+	    }
+	    return to;
+	}
+	//object.assign polyfill
+	function deepAssign(target, firstSource) {
+	    if (target === undefined || target === null) {
+	        throw new TypeError('Cannot convert first argument to object');
+	    }
+	    var to = Object(target);
+	    for (var i = 1; i < arguments.length; i++) {
+	        var nextSource = arguments[i];
+	        if (nextSource === undefined || nextSource === null) {
+	            continue;
+	        }
+	        var keysArray = Object.keys(Object(nextSource));
+	        for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+	            var nextKey = keysArray[nextIndex];
+	            var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+	            if (desc !== undefined && desc.enumerable) {
 	                if (nextSource[nextKey] != null && typeof (nextSource[nextKey]) == 'object') {
 	                    if (nextSource[nextKey].constructor == Array) {
-	                        console.log('aok0', '------');
 	                        to[nextKey] = nextSource[nextKey];
-	                        //to[nextKey] = to[nextKey] || {}
-	                        //assign(to[nextKey], nextSource[nextKey])
 	                    }
 	                    else {
-	                        console.log('aok1', '------');
 	                        to[nextKey] = to[nextKey] || {};
-	                        assign(to[nextKey], nextSource[nextKey]);
+	                        deepAssign(to[nextKey], nextSource[nextKey]);
 	                    }
 	                }
 	                else {
@@ -23560,8 +23594,9 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
-	var ack = global.ack,
-		assert = __webpack_require__(174)
+	var ack = global.ack
+	var AckObject = __webpack_require__(20).jXObject
+	var assert = __webpack_require__(174)
 
 	describe('ack.object',function(){
 		it('map',function(){
@@ -23569,6 +23604,18 @@
 			assert.equal(res.a, 10)
 			assert.equal(res.b, 20)
 			assert.equal(res.c, 30)
+		})
+
+		it('#assign',function(){
+			var aOb = ack.object({}).assign({})
+			assert.equal(aOb.constructor, AckObject)
+			assert.equal(aOb.object.constructor, Object)
+		})
+
+		it('#deepAssign',function(){
+			var aOb = ack.object({}).deepAssign({})
+			assert.equal(aOb.constructor, AckObject)
+			assert.equal(aOb.object.constructor, Object)
 		})
 		
 		describe('#getTypeMap',function(){
@@ -23607,12 +23654,10 @@
 				assert.equal(res.agency[0].clock_out, 'number')
 			})
 
-			it.only('mapped',function(){
+			it('mapped',function(){
 				var res = ack.object(v).getTypeMap(function(type,subs){
 					return {type:type,subs:subs}
 				})
-
-	//console.log( JSON.stringify(res, null, 2) )
 
 				assert.equal(typeof res.a, 'object')
 				assert.equal(res.a.type, 'number')

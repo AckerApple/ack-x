@@ -1,7 +1,6 @@
 # ack-x
 [![build status](https://travis-ci.org/AckerApple/ack-x.svg)](http://travis-ci.org/AckerApple/ack-x)
 [![Build status](https://ci.appveyor.com/api/projects/status/r2dj2j87wspg1unk?svg=true)](https://ci.appveyor.com/project/AckerApple/ack-x)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![NPM version](https://img.shields.io/npm/v/ack-x.svg?style=flat-square)](https://www.npmjs.com/package/ack-x)
 [![dependencies](https://david-dm.org/ackerapple/ack-x/status.svg)](https://david-dm.org/ackerapple/ack-x)
 
@@ -508,10 +507,46 @@ ack.number(n).asMinutesToTime(options)
 
 ## ack.object
 
+- [assign](#ackobjectassign)
+- [deepAssign](#ackobjectdeepassign)
 - [forEach](#ackobjectforeach)
 - [map](#ackobjectmap)
 - [getTypeMap](#ackobjectgettypemap)
 - [isCyclic](#ackobjectiscyclic)
+
+### ack.object.assign()
+Works exactly like Javascript built-in function Object.assign(, {})
+
+- Returns ack.object
+- @method(item0, item1, item2)
+
+```javascript
+var from = {b:2,c:{ca:0}}
+var copy = {a:1,b:1}
+ack.object( copy ).assign( from )
+
+copy.c.ca = 1
+
+from == {b:2,c:{ca:1}}
+copy == {a:1,b:2,c:{ca:1}}
+```
+
+### ack.object.deepAssign()
+Works exactly like Javascript built-in function Object.assign(, {}) with the addition of recursive cloning
+
+- Returns ack.object
+- @method(item0, item1, item2)
+
+```javascript
+var from = {b:2,c:{ca:0}}
+var copy = {a:1,b:1}
+ack.object( copy ).deepAssign( from )
+
+copy.c.ca = 1
+
+from == {a:1,b:2,c:{ca:0}}
+copy == {a:1,b:2,c:{ca:1}}
+```
 
 ### ack.object.forEach()
 - @method(item, index, object)
