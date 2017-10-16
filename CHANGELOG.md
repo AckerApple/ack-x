@@ -1,6 +1,9 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.3.13] - 2017-10-16
+- Enhanced the way getTypeMap produces results
+
 ## [1.3.5] - 2017-10-11
 ### Breaking Changes
 - ack.function() is now ack.method()

@@ -72,9 +72,9 @@ export class jXObject{
 					subType = 'array'
 					uniqueMap[index] = mapper(subType, subs[0], index)
 				}else if( isSubOb ){
-					if( !uniqueMap[0] ){
-						uniqueMap[0] = mapper(subType, subs, index)
-					}else{
+          if( !uniqueMap[0] ){
+            uniqueMap[0] = mapper(subType, subs, index)
+          }else{
 						deepAssign(uniqueMap[0], mapper(subType, subs, index))
 					}
 				}
@@ -82,13 +82,13 @@ export class jXObject{
 				if( isObject && isSubOb ){
 					if( isSubArray ){
 						subType = 'array'
-						uniqueMap[index] = mapper(subType, subs[0], index)
+            uniqueMap[index] = mapper(subType, subs[0] || {}, index)
 					}else{
 						uniqueMap[index] = uniqueMap[index] || {}
 						uniqueMap[index] = deepAssign(uniqueMap[index], mapper(subType, subs, index))
 					}
 				}else{
-					uniqueMap[index] = mapper(subType, null, index)
+					uniqueMap[index] = mapper(subType, undefined, index)
 				}
 			}
 		})

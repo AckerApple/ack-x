@@ -33,12 +33,16 @@ describe('ack.object',function(){
 			agency:[{
 				name:'My Agency',
 				clock_in:1,
-				clock_out:2
+				clock_out:2,
+				journals:[{
+					note:'this be the best note'
+				}]
 			},{
 				name:'Toast',
-				email:'fake@aol.com',
-				active:0,
-				clock_in:1
+				email:'fake@aol.com',//only in this ob
+				active:0,//only in this ob
+				clock_in:1,
+				journals:[]
 			}]
 		}
 
@@ -60,8 +64,8 @@ describe('ack.object',function(){
 		})
 
 		it('mapped',function(){
-			var res = ack.object(v).getTypeMap(function(type,subs){
-				return {type:type,subs:subs}
+			var res = ack.object(v).getTypeMap(function(type,subs,key){
+				return {type:type,subs:subs,key:key}
 			})
 
 			assert.equal(typeof res.a, 'object')
@@ -93,6 +97,13 @@ describe('ack.object',function(){
 
 			assert.equal(res.agency.subs.subs.clock_in.type, 'number')
 			assert.equal(res.agency.subs.subs.clock_out.type, 'number')
+			
+			assert.equal(typeof res.agency.subs.subs.journals, 'object')
+			assert.equal(res.agency.subs.subs.journals.type, 'array')
+			assert.equal(typeof res.agency.subs.subs.journals.subs, 'object')
+			assert.equal(typeof res.agency.subs.subs.journals.subs.subs, 'object')
+			assert.equal(typeof res.agency.subs.subs.journals.subs.subs.note, 'object')
+			assert.equal(res.agency.subs.subs.journals.subs.subs.note.type, 'string')
 		})
 	})
 

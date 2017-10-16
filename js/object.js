@@ -98,7 +98,7 @@ var jXObject = /** @class */ (function () {
                 if (isObject && isSubOb) {
                     if (isSubArray) {
                         subType = 'array';
-                        uniqueMap[index] = mapper(subType, subs[0], index);
+                        uniqueMap[index] = mapper(subType, subs[0] || {}, index);
                     }
                     else {
                         uniqueMap[index] = uniqueMap[index] || {};
@@ -106,7 +106,7 @@ var jXObject = /** @class */ (function () {
                     }
                 }
                 else {
-                    uniqueMap[index] = mapper(subType, null, index);
+                    uniqueMap[index] = mapper(subType, undefined, index);
                 }
             }
         });
