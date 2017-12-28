@@ -182,7 +182,7 @@ export class AckDate{
   }
 
   clone(){
-    return new AckDate( new Date(this.date) )
+    return new AckDate( new Date( this.date.getTime() ) )
   }
 
   isDate(date?){
@@ -296,7 +296,7 @@ export class AckDate{
   addMonths = this.nextMonth
 
   getLastDateOfMonth(){
-    var nd = new Date(this.date)
+    var nd = new Date( this.date.getTime() )
     var EDate = new AckDate(nd)
     return EDate.nextMonth().gotoFirstDayOfMonth().prevDay().date
   }
@@ -319,15 +319,15 @@ export class AckDate{
     return new Date(this.year(), this.month(), 0).getDate()
   }
 
-  addDays(amount?){
+  addDays(amount?):AckDate{
     var nd = dateAddDay(this.date,amount)
-    this.date = new Date(nd)
+    this.date = new Date( nd.getTime() )
     return this
   }
   nextDay = this.addDays//multi alias
 
   prevDay(amount=1){
-    var d = new Date(this.date)
+    var d = new Date( this.date.getTime() )
     this.date = new Date( d.setDate(d.getDate()-amount) )
     return this
   }
@@ -341,9 +341,9 @@ export class AckDate{
 
   /** getWeekInYear */
   week(){
-    var d = new Date(this.date)//could be number
+    var d = new Date( this.date.getTime() )//could be number
     var onejan = new Date(d.getFullYear(),0,1)
-    var nowDate = new Date(d).getTime()
+    var nowDate = d.getTime()
     const calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay()+1) / 7
     return Math.ceil( calc )
   }
@@ -413,13 +413,13 @@ export class AckDate{
   FirstWeekday(){
     var amount = -this.dayOfWeek()+2
       ,nd = this.date
-      ,nd = new Date(nd)//clone
+      ,nd = new Date( nd.getTime() )//clone
       ,Nd = new AckDate(nd).nextDay(amount)
     return Nd
   }
 
   getDateOfFirstWeekday(){
-    return new Date( this.FirstWeekday().date )
+    return new Date( this.FirstWeekday().date.getTime() )
   }
 
   /** method(weekNum, AckDate) */

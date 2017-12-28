@@ -71,8 +71,8 @@ export declare class AckDate {
     setMonth(n: any): this;
     gotoFirstDayOfMonth(): this;
     daysInMonth(): number;
-    addDays(amount?: any): this;
-    nextDay: (amount?: any) => this;
+    addDays(amount?: any): AckDate;
+    nextDay: (amount?: any) => AckDate;
     prevDay(amount?: number): this;
     priorDay: (amount?: number) => this;
     isWeekend(): boolean;

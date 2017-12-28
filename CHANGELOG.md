@@ -1,7 +1,8 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
-## [1.3.15] - 2017-12-28
+## [1.3.16] - 2017-12-28
+- updated dependencies
 - Added array.map
 - Added array.reduce
 - Added array.average

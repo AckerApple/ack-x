@@ -169,7 +169,7 @@ var AckDate = /** @class */ (function () {
         return this.date < date;
     };
     AckDate.prototype.clone = function () {
-        return new AckDate(new Date(this.date));
+        return new AckDate(new Date(this.date.getTime()));
     };
     AckDate.prototype.isDate = function (date) {
         return isDate(date || this.date);
@@ -245,7 +245,7 @@ var AckDate = /** @class */ (function () {
         return this;
     };
     AckDate.prototype.getLastDateOfMonth = function () {
-        var nd = new Date(this.date);
+        var nd = new Date(this.date.getTime());
         var EDate = new AckDate(nd);
         return EDate.nextMonth().gotoFirstDayOfMonth().prevDay().date;
     };
@@ -264,12 +264,12 @@ var AckDate = /** @class */ (function () {
     };
     AckDate.prototype.addDays = function (amount) {
         var nd = dateAddDay(this.date, amount);
-        this.date = new Date(nd);
+        this.date = new Date(nd.getTime());
         return this;
     };
     AckDate.prototype.prevDay = function (amount) {
         if (amount === void 0) { amount = 1; }
-        var d = new Date(this.date);
+        var d = new Date(this.date.getTime());
         this.date = new Date(d.setDate(d.getDate() - amount));
         return this;
     };
@@ -279,9 +279,9 @@ var AckDate = /** @class */ (function () {
     };
     /** getWeekInYear */
     AckDate.prototype.week = function () {
-        var d = new Date(this.date); //could be number
+        var d = new Date(this.date.getTime()); //could be number
         var onejan = new Date(d.getFullYear(), 0, 1);
-        var nowDate = new Date(d).getTime();
+        var nowDate = d.getTime();
         var calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7;
         return Math.ceil(calc);
     };
@@ -336,12 +336,12 @@ var AckDate = /** @class */ (function () {
         return this;
     };
     AckDate.prototype.FirstWeekday = function () {
-        var amount = -this.dayOfWeek() + 2, nd = this.date, nd = new Date(nd) //clone
+        var amount = -this.dayOfWeek() + 2, nd = this.date, nd = new Date(nd.getTime()) //clone
         , Nd = new AckDate(nd).nextDay(amount);
         return Nd;
     };
     AckDate.prototype.getDateOfFirstWeekday = function () {
-        return new Date(this.FirstWeekday().date);
+        return new Date(this.FirstWeekday().date.getTime());
     };
     /** method(weekNum, AckDate) */
     AckDate.prototype.eachWeekInYear = function (method) {
