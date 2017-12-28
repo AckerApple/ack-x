@@ -57,6 +57,19 @@ describe('ack.array',function(){
 		assert.equal(jA.sum(),10)
 	})
 
+	it('#map',function(){
+		var sumArray = [1,2]
+		var map = ack.array(sumArray).map(function(v){return v + 1})
+		assert.equal(map[0],2)
+		assert.equal(map[1],3)
+	})
+
+	it('#average',function(){
+		var sumArray = [0,3]
+		var average = ack.array(sumArray).average()
+		assert.equal(average,1.5)
+	})
+
 	it('#union',function(){
 		var a = ['a','b','c']
 		ack.array(a).union(['d','e','g'], ['h','i','j'])

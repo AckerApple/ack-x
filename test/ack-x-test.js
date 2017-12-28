@@ -3326,16 +3326,37 @@
 	        }
 	        return this;
 	    };
+	    jXArray.prototype.reduce = function (method, initValue) {
+	        var x = 0;
+	        if (!initValue) {
+	            initValue = this.array[0];
+	            ++x;
+	        }
+	        for (; x < this.array.length; ++x) {
+	            initValue = method(initValue, this.array[x], x, this.array);
+	        }
+	        return initValue;
+	    };
 	    /** ads an array all up
 	        @method - optional. Returned value is used to sum
 	    */
 	    jXArray.prototype.sum = function (method) {
-	        var n = 0, a = this.array;
-	        method = method || function (v, i) { return v; };
-	        for (var i = a.length - 1; i >= 0; --i) {
-	            n = n + Number(method(a[i], i));
+	        return this.reduce(function (acc, val) { return acc + val; }, 0);
+	    };
+	    /** produces an average number using array of numbers
+	        @method - optional. Returned value is used to sum
+	    */
+	    jXArray.prototype.average = function (method) {
+	        var numArray = method ? this.map(method) : this.array;
+	        var map = new jXArray(numArray).map(function (c, i, arr) { return c / arr.length; });
+	        return new jXArray(map).reduce(function (p, c) { return p + c; });
+	    };
+	    jXArray.prototype.map = function (method) {
+	        var newArray = [];
+	        for (var x = 0; x < this.array.length; ++x) {
+	            newArray.push(method(this.array[x], x, this.array));
 	        }
-	        return n;
+	        return newArray;
 	    };
 	    /** break an array into buckets of arrays
 	        @isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
@@ -22749,6 +22770,19 @@
 			assert.equal(jA.sum(),10)
 		})
 
+		it('#map',function(){
+			var sumArray = [1,2]
+			var map = ack.array(sumArray).map(function(v){return v + 1})
+			assert.equal(map[0],2)
+			assert.equal(map[1],3)
+		})
+
+		it('#average',function(){
+			var sumArray = [0,3]
+			var average = ack.array(sumArray).average()
+			assert.equal(average,1.5)
+		})
+
 		it('#union',function(){
 			var a = ['a','b','c']
 			ack.array(a).union(['d','e','g'], ['h','i','j'])
@@ -22854,10 +22888,15 @@
 	var isDst = ack.date().now().isDst()
 	var wasDst = ack.date('2/12/2013').isDst()
 	var wasDst2 = ack.date('6/1/2016').isDst()
-	var dto = new Date().getTimezoneOffset();
 	var dtsMatch = wasDst && !wasDst2
+	var tzStamp = ack.date().getTimezoneStamp()
+	var tzIt = it
 
-	console.info('Timezone', ack.date().getTimezoneStamp())
+	console.info('isDaylightSavings',isDst, 'Timezone', tzStamp)
+
+	if( tzStamp!='-0500' ){
+		tzIt = it.skip
+	}
 
 	describe('ack.date',function(){
 		var date,ndate
@@ -22961,9 +23000,9 @@
 			assert.equal(ack.date(0).from(900000, true), '15 minutes')
 		})
 
-		it('#isDaylightSavings',function(){
-			assert.equal(ack.date('2/12/2013').isDaylightSavings(), isDst && dtsMatch, '2/12/2013 is not daylight savings')
-			assert.equal(ack.date('6/1/2016').isDaylightSavings(), isDst && !dtsMatch, '6/1/2016 is not daylight savings')
+		tzIt('#isDaylightSavings',function(){
+			assert.equal(ack.date('2/12/2013').isDaylightSavings(), (isDst && dtsMatch) || (!isDst && dtsMatch), '2/12/2013 is not daylight savings')
+			assert.equal(ack.date('6/1/2016').isDaylightSavings(), (isDst && !dtsMatch) || (!isDst && !dtsMatch), '6/1/2016 is not daylight savings')
 		})
 
 		it('accepts-number',function(){

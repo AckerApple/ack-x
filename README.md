@@ -233,7 +233,10 @@ Takes current Date and casts to utc set Date number. Returns this
 - [objectify](#ackarrayobjectify)
 - [appendArray](#ackarrayappendArray)
 - [prependArray](#ackarrayprependArray)
+- [reduce](#ackarrayreduce)
+- [map](#ackarraymap)
 - [sum](#ackarraysum)
+- [average](#ackarraymap)
 - [group](#ackarraygroup)
 
 ```javascript
@@ -274,12 +277,37 @@ prepend an array's items onto the front of this array
 ack.array(a).prependArray(array)
 ```
 
+### ack.array.reduce
+reduces an array to a single value
+- @method : (accumlatedValue:any,value:any,index:number,array:any[]) => any
+- @initValue? : any
+
+```javascript
+ack.array(a).reduce(method)
+```
+
+### ack.array.map
+produce a new array
+- @method : (value:any,index:number,array:any[]) => any
+
+```javascript
+ack.array(a).map(method)
+```
+
 ### ack.array.sum
 ads an array all up
-- @method - optional. Returned value is used to sum
+- @method? : (value:any)=>any
 
 ```javascript
 ack.array(a).sum(method)
+```
+
+### ack.array.average
+ads an array all up
+- @method? : (value:any)=>any
+
+```javascript
+ack.array(a).average(method)
 ```
 
 ### ack.array.group

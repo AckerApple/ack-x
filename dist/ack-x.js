@@ -3003,16 +3003,37 @@
 	        }
 	        return this;
 	    };
+	    jXArray.prototype.reduce = function (method, initValue) {
+	        var x = 0;
+	        if (!initValue) {
+	            initValue = this.array[0];
+	            ++x;
+	        }
+	        for (; x < this.array.length; ++x) {
+	            initValue = method(initValue, this.array[x], x, this.array);
+	        }
+	        return initValue;
+	    };
 	    /** ads an array all up
 	        @method - optional. Returned value is used to sum
 	    */
 	    jXArray.prototype.sum = function (method) {
-	        var n = 0, a = this.array;
-	        method = method || function (v, i) { return v; };
-	        for (var i = a.length - 1; i >= 0; --i) {
-	            n = n + Number(method(a[i], i));
+	        return this.reduce(function (acc, val) { return acc + val; }, 0);
+	    };
+	    /** produces an average number using array of numbers
+	        @method - optional. Returned value is used to sum
+	    */
+	    jXArray.prototype.average = function (method) {
+	        var numArray = method ? this.map(method) : this.array;
+	        var map = new jXArray(numArray).map(function (c, i, arr) { return c / arr.length; });
+	        return new jXArray(map).reduce(function (p, c) { return p + c; });
+	    };
+	    jXArray.prototype.map = function (method) {
+	        var newArray = [];
+	        for (var x = 0; x < this.array.length; ++x) {
+	            newArray.push(method(this.array[x], x, this.array));
 	        }
-	        return n;
+	        return newArray;
 	    };
 	    /** break an array into buckets of arrays
 	        @isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array

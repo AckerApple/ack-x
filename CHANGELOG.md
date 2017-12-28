@@ -1,6 +1,11 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.3.15] - 2017-12-28
+- Added array.map
+- Added array.reduce
+- Added array.average
+
 ## [1.3.13] - 2017-10-16
 - Enhanced the way getTypeMap produces results
 

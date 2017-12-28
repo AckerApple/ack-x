@@ -16,10 +16,16 @@ export declare class jXArray {
     appendArray(): this;
     union: () => this;
     prependArray(): this;
+    reduce(method: (accumlatedValue: any, value: any, index: number, array: any[]) => any, initValue?: any): any;
     /** ads an array all up
         @method - optional. Returned value is used to sum
     */
-    sum(method: any): number;
+    sum(method?: (value: any) => any): any;
+    /** produces an average number using array of numbers
+        @method - optional. Returned value is used to sum
+    */
+    average(method?: (value: any) => any): any;
+    map(method: (value: any, index: number, array: any[]) => any): any[];
     /** break an array into buckets of arrays
         @isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
         @grouptype='sequence' - ('sequence'||'struct') . sequence, array of arrays = [ [],[],[] ] . struct = {value0:[buckets...], value1:[buckets...]}

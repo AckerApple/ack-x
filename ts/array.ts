@@ -95,16 +95,43 @@ export class jXArray{
 		return this
 	}
 
+	reduce( method:(accumlatedValue:any,value:any,index:number,array:any[])=>any, initValue?:any ):any{
+		let x=0
+		
+		if(!initValue){
+			initValue=this.array[0]
+			++x
+		}
+		
+		for(; x < this.array.length; ++x){
+			initValue = method(initValue, this.array[x], x, this.array)
+		}
+
+		return initValue
+	}
+
 	/** ads an array all up
 		@method - optional. Returned value is used to sum
 	*/
-	sum(method){
-		var n=0,a = this.array
-		method = method || function(v,i){return v}
-		for(var i=a.length-1; i >= 0; --i){
-			n = n + Number(method(a[i],i))
+	sum(method?:(value:any)=>any){
+		return this.reduce( (acc,val)=>acc+val, 0 )
+	}
+
+	/** produces an average number using array of numbers
+		@method - optional. Returned value is used to sum
+	*/
+	average(method?:(value:any)=>any){
+		const numArray = method ? this.map(method) : this.array
+		const map = new jXArray(numArray).map((c, i, arr) => c / arr.length)
+		return new jXArray(map).reduce((p, c) => p + c )
+	}
+
+	map( method:(value:any,index:number,array:any[])=>any ) : any[] {
+		const newArray = []
+		for(let x=0; x < this.array.length; ++x){
+			newArray.push( method(this.array[x], x, this.array) )
 		}
-		return n
+		return newArray
 	}
 
 	/** break an array into buckets of arrays

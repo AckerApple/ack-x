@@ -6,10 +6,15 @@ var ack = global.ack,
 var isDst = ack.date().now().isDst()
 var wasDst = ack.date('2/12/2013').isDst()
 var wasDst2 = ack.date('6/1/2016').isDst()
-var dto = new Date().getTimezoneOffset();
 var dtsMatch = wasDst && !wasDst2
+var tzStamp = ack.date().getTimezoneStamp()
+var tzIt = it
 
-console.info('Timezone', ack.date().getTimezoneStamp())
+console.info('isDaylightSavings',isDst, 'Timezone', tzStamp)
+
+if( tzStamp!='-0500' ){
+	tzIt = it.skip
+}
 
 describe('ack.date',function(){
 	var date,ndate
@@ -113,9 +118,9 @@ describe('ack.date',function(){
 		assert.equal(ack.date(0).from(900000, true), '15 minutes')
 	})
 
-	it('#isDaylightSavings',function(){
-		assert.equal(ack.date('2/12/2013').isDaylightSavings(), isDst && dtsMatch, '2/12/2013 is not daylight savings')
-		assert.equal(ack.date('6/1/2016').isDaylightSavings(), isDst && !dtsMatch, '6/1/2016 is not daylight savings')
+	tzIt('#isDaylightSavings',function(){
+		assert.equal(ack.date('2/12/2013').isDaylightSavings(), (isDst && dtsMatch) || (!isDst && dtsMatch), '2/12/2013 is not daylight savings')
+		assert.equal(ack.date('6/1/2016').isDaylightSavings(), (isDst && !dtsMatch) || (!isDst && !dtsMatch), '6/1/2016 is not daylight savings')
 	})
 
 	it('accepts-number',function(){
