@@ -118,6 +118,18 @@ describe('ack.date',function(){
 		assert.equal(ack.date(0).from(900000, true), '15 minutes')
 	})
 
+	it("#from(roundMinsUp)",function(){
+		var d = ack.date(1520341763000)
+		var compare = ack.date(1520341894000).from(d,true,{roundUpMins:1})
+		assert.equal(compare, '3 minutes')
+	})
+
+	it("#from(roundHoursUp)",function(){
+		var d = ack.date('2018-03-06T13:00:00.000Z')
+		var compare = ack.date('2018-03-06T15:01:00.000Z').from(d,true,{roundUpHours:1})
+		assert.equal(compare, '3 hours')
+	})
+
 	tzIt('#isDaylightSavings',function(){
 		assert.equal(ack.date('2/12/2013').isDaylightSavings(), (isDst && dtsMatch) || (!isDst && dtsMatch), '2/12/2013 is not daylight savings')
 		assert.equal(ack.date('6/1/2016').isDaylightSavings(), (isDst && !dtsMatch) || (!isDst && !dtsMatch), '6/1/2016 is not daylight savings')

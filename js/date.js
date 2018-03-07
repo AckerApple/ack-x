@@ -85,8 +85,34 @@ var AckDate = /** @class */ (function () {
         return moment(mDate).from(fDate, hideSuffix);
     };
     /** see moment http://momentjs.com/docs/#/displaying/from/ */
-    AckDate.prototype.from = function (d, hideSuffix) {
-        return moment(toDate(d)).from(this.date, hideSuffix);
+    AckDate.prototype.from = function (d, hideSuffix, options) {
+        var m = moment(toDate(d));
+        var m2 = moment(this.date);
+        if (options && options.roundUpMins) {
+            var needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0;
+            if (needsRounding) {
+                m2.add(1, 'minute').startOf('minute');
+            }
+        }
+        if (options && options.roundDownMins) {
+            var needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0;
+            if (needsRounding) {
+                m2.add(-1, 'minute').startOf('minute');
+            }
+        }
+        if (options && options.roundUpHours) {
+            var needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0;
+            if (needsRounding) {
+                m2.add(1, 'hour').startOf('hour');
+            }
+        }
+        if (options && options.roundDownHours) {
+            var needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0;
+            if (needsRounding) {
+                m2.add(-1, 'hour').startOf('hour');
+            }
+        }
+        return m.from(m2, hideSuffix);
     };
     AckDate.prototype.now = function () {
         this.date = new Date();

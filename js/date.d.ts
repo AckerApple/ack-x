@@ -1,3 +1,9 @@
+export interface fromOptions {
+    roundUpMins?: boolean;
+    roundDownMins?: boolean;
+    roundUpHours?: boolean;
+    roundDownHours?: boolean;
+}
 export declare class AckDate {
     date: Date;
     constructor(date?: any, format?: any);
@@ -17,7 +23,7 @@ export declare class AckDate {
     /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
     fromToday(hideSuffix: any): any;
     /** see moment http://momentjs.com/docs/#/displaying/from/ */
-    from(d: any, hideSuffix: any): any;
+    from(d: any, hideSuffix: any, options?: fromOptions): any;
     now(): this;
     param(): this;
     dateYearDiff: (date: any) => number;
@@ -122,8 +128,8 @@ export declare class AckDate {
       @date - not required, default = new Date()
       @decimals - not required, default = false (no decimals causes decimal rounding)
     */
-    dateSecondDiff(date: any, decimals: any): any;
-    dateSecondsDiff: (date: any, decimals: any) => any;
+    dateSecondDiff(date: any, decimals?: any): any;
+    dateSecondsDiff: (date: any, decimals?: any) => any;
     dateMinuteDiff(date: any): number;
     dateMinutesDiff: (date: any) => number;
     format(format: any): any;

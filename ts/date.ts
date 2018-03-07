@@ -2,6 +2,13 @@ import * as momentPackage from "moment"
 
 const moment = momentPackage["default"] ? momentPackage["default"] : momentPackage
 
+export interface fromOptions{
+  roundUpMins?:boolean
+  roundDownMins?:boolean
+  roundUpHours?:boolean
+  roundDownHours?:boolean
+}
+
 /* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
 export class AckDate{
   date:Date
@@ -69,8 +76,43 @@ export class AckDate{
   }
 
   /** see moment http://momentjs.com/docs/#/displaying/from/ */
-  from(d, hideSuffix){
-    return moment( toDate(d) ).from(this.date, hideSuffix)
+  from(d, hideSuffix, options?:fromOptions){
+    const m = moment( toDate(d) )
+    const m2 = moment( this.date )
+
+    if(options && options.roundUpMins){
+      const needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0
+      
+      if( needsRounding ){
+        m2.add(1, 'minute').startOf('minute')
+      }
+    }
+
+    if(options && options.roundDownMins){
+      const needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0
+      
+      if( needsRounding ){
+        m2.add(-1, 'minute').startOf('minute')
+      }
+    }
+
+    if(options && options.roundUpHours){
+      const needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0
+      
+      if( needsRounding ){
+        m2.add(1, 'hour').startOf('hour')
+      }
+    }
+
+    if(options && options.roundDownHours){
+      const needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0
+      
+      if( needsRounding ){
+        m2.add(-1, 'hour').startOf('hour')
+      }
+    }
+
+    return m.from(m2, hideSuffix)
   }
 
   now(){
@@ -525,7 +567,7 @@ export class AckDate{
     @date - not required, default = new Date()
     @decimals - not required, default = false (no decimals causes decimal rounding)
   */
-  dateSecondDiff(date, decimals){
+  dateSecondDiff(date, decimals?){
     date = dateObjectBy(date||new Date())
     var dif = this.date.getTime() - date.getTime()
     var Seconds_from_T1_to_T2 = dif / 1000;

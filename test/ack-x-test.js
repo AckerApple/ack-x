@@ -67,7 +67,7 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: TypeError: Cannot add property files, object is not extensible\n    at Object.Mocha (/Users/ackerapple/projects/Ack/core/ack-x/node_modules/mocha/lib/mocha.js:79:14)");
+throw new Error("Module build failed: TypeError: Cannot add property files, object is not extensible\n    at Object.Mocha (/Users/adminapple/projects/Ack/core/ack-x/node_modules/mocha/lib/mocha.js:79:14)");
 
 /***/ })
 /******/ ]);
