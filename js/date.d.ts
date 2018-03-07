@@ -181,3 +181,5 @@ export declare function parseTimeString(date: any): {
 };
 export declare function toDecimal(n: any, p: any): string;
 export declare function method(d?: any): AckDate;
+export declare function datesSecondDiff(date: any, date2: any, decimals?: any): any;
+export declare function datesMinuteDiff(date: any, date2: any): number;

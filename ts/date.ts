@@ -538,33 +538,13 @@ export class AckDate{
     @decimals - not required, default = false (no decimals causes decimal rounding)
   */
   dateSecondDiff(date, decimals?){
-    date = dateObjectBy(date||new Date())
-    var dif = this.date.getTime() - date.getTime()
-    var Seconds_from_T1_to_T2 = dif / 1000;
-    var rtn:any = Math.abs(Seconds_from_T1_to_T2)
-
-    if(decimals){
-      decimals = Number(decimals) && !isNaN(decimals) ? decimals:2;
-      rtn = toDecimal(rtn,decimals)
-    }else{
-      rtn = Math.round(rtn)
-    }
-
-    return rtn
+    return datesSecondDiff(this.date, date, decimals)
   }
   dateSecondsDiff = this.dateSecondDiff//alias
 
   //no negative numbers
   dateMinuteDiff(date){
-    date = toDate( date || new Date() )
-    var hourDiff = date - this.date.getTime(); //in ms
-    var secDiff = hourDiff / 1000; //in s
-    var minDiff = hourDiff / 60 / 1000; //in minutes
-    var hDiff = hourDiff / 3600 / 1000; //in hours
-    var hours = Math.floor(hDiff);
-    var mins = minDiff - 60 * hours
-    const calc = Math.abs( hours * 60 + mins )
-    return Math.round(calc);
+    return datesMinuteDiff(this.date, date)
   }
   dateMinutesDiff = this.dateMinuteDiff//alias
 
@@ -731,10 +711,14 @@ export class AckDate{
   }
   
   checkOptionsRoundMoments(options, m, m2){
-    const greater = m.toDate() > m2.toDate() ? m : m2
+    const mDate = m.toDate()
+    const m2Date = m2.toDate()
+    const firstGreater = mDate > m2Date
+    const greater = firstGreater ? m : m2
+    const lesser = firstGreater ? m2 : m
 
     if(options && options.roundUpMins){
-      const needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0
+      const needsRounding = (datesSecondDiff(mDate,m2Date) % 60) > 0
       
       if( needsRounding ){
         greater.add(1, 'minute').startOf('minute')
@@ -742,7 +726,7 @@ export class AckDate{
     }
 
     if(options && options.roundDownMins){
-      const needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0
+      const needsRounding = (datesSecondDiff(mDate,m2Date) % 60) > 0
       
       if( needsRounding ){
         greater.add(-1, 'minute').startOf('minute')
@@ -750,7 +734,7 @@ export class AckDate{
     }
 
     if(options && options.roundUpHours){
-      const needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0
+      const needsRounding = (datesMinuteDiff(mDate,m2Date) % 60) > 0
       
       if( needsRounding ){
         greater.add(1, 'hour').startOf('hour')
@@ -758,7 +742,7 @@ export class AckDate{
     }
 
     if(options && options.roundDownHours){
-      const needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0
+      const needsRounding = (datesMinuteDiff(mDate,m2Date) % 60) > 0
       
       if( needsRounding ){
         greater.add(-1, 'hour').startOf('hour')
@@ -958,8 +942,34 @@ export function toDecimal(n,p){
   var m=Math.pow(10,p);return (Math.round(n*m)/m).toFixed(p)
 }
 
-
-
 export function method(d?){
   return new AckDate(d)
+}
+
+export function datesSecondDiff(date, date2, decimals?){
+  date2 = dateObjectBy(date2||new Date())
+  var dif = date.getTime() - date2.getTime()
+  var Seconds_from_T1_to_T2 = dif / 1000;
+  var rtn:any = Math.abs(Seconds_from_T1_to_T2)
+
+  if(decimals){
+    decimals = Number(decimals) && !isNaN(decimals) ? decimals:2;
+    rtn = toDecimal(rtn,decimals)
+  }else{
+    rtn = Math.round(rtn)
+  }
+
+  return rtn
+}
+
+export function datesMinuteDiff(date, date2){
+  date2 = toDate( date2 || new Date() )
+  var hourDiff = date2 - date.getTime(); //in ms
+  var secDiff = hourDiff / 1000; //in s
+  var minDiff = hourDiff / 60 / 1000; //in minutes
+  var hDiff = hourDiff / 3600 / 1000; //in hours
+  var hours = Math.floor(hDiff);
+  var mins = minDiff - 60 * hours
+  const calc = Math.abs( hours * 60 + mins )
+  return Math.round(calc)
 }

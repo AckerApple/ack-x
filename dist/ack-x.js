@@ -5016,30 +5016,11 @@ var AckDate = /** @class */ (function () {
       @decimals - not required, default = false (no decimals causes decimal rounding)
     */
     AckDate.prototype.dateSecondDiff = function (date, decimals) {
-        date = dateObjectBy(date || new Date());
-        var dif = this.date.getTime() - date.getTime();
-        var Seconds_from_T1_to_T2 = dif / 1000;
-        var rtn = Math.abs(Seconds_from_T1_to_T2);
-        if (decimals) {
-            decimals = Number(decimals) && !isNaN(decimals) ? decimals : 2;
-            rtn = toDecimal(rtn, decimals);
-        }
-        else {
-            rtn = Math.round(rtn);
-        }
-        return rtn;
+        return datesSecondDiff(this.date, date, decimals);
     };
     //no negative numbers
     AckDate.prototype.dateMinuteDiff = function (date) {
-        date = toDate(date || new Date());
-        var hourDiff = date - this.date.getTime(); //in ms
-        var secDiff = hourDiff / 1000; //in s
-        var minDiff = hourDiff / 60 / 1000; //in minutes
-        var hDiff = hourDiff / 3600 / 1000; //in hours
-        var hours = Math.floor(hDiff);
-        var mins = minDiff - 60 * hours;
-        var calc = Math.abs(hours * 60 + mins);
-        return Math.round(calc);
+        return datesMinuteDiff(this.date, date);
     };
     /* FORMATTING */
     AckDate.prototype.format = function (format) {
@@ -5192,27 +5173,31 @@ var AckDate = /** @class */ (function () {
         return (d.getMonth() + 1) + sep + d.getDate();
     };
     AckDate.prototype.checkOptionsRoundMoments = function (options, m, m2) {
-        var greater = m.toDate() > m2.toDate() ? m : m2;
+        var mDate = m.toDate();
+        var m2Date = m2.toDate();
+        var firstGreater = mDate > m2Date;
+        var greater = firstGreater ? m : m2;
+        var lesser = firstGreater ? m2 : m;
         if (options && options.roundUpMins) {
-            var needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0;
+            var needsRounding = (datesSecondDiff(mDate, m2Date) % 60) > 0;
             if (needsRounding) {
                 greater.add(1, 'minute').startOf('minute');
             }
         }
         if (options && options.roundDownMins) {
-            var needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0;
+            var needsRounding = (datesSecondDiff(mDate, m2Date) % 60) > 0;
             if (needsRounding) {
                 greater.add(-1, 'minute').startOf('minute');
             }
         }
         if (options && options.roundUpHours) {
-            var needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0;
+            var needsRounding = (datesMinuteDiff(mDate, m2Date) % 60) > 0;
             if (needsRounding) {
                 greater.add(1, 'hour').startOf('hour');
             }
         }
         if (options && options.roundDownHours) {
-            var needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0;
+            var needsRounding = (datesMinuteDiff(mDate, m2Date) % 60) > 0;
             if (needsRounding) {
                 greater.add(-1, 'hour').startOf('hour');
             }
@@ -5392,6 +5377,33 @@ function method(d) {
     return new AckDate(d);
 }
 exports.method = method;
+function datesSecondDiff(date, date2, decimals) {
+    date2 = dateObjectBy(date2 || new Date());
+    var dif = date.getTime() - date2.getTime();
+    var Seconds_from_T1_to_T2 = dif / 1000;
+    var rtn = Math.abs(Seconds_from_T1_to_T2);
+    if (decimals) {
+        decimals = Number(decimals) && !isNaN(decimals) ? decimals : 2;
+        rtn = toDecimal(rtn, decimals);
+    }
+    else {
+        rtn = Math.round(rtn);
+    }
+    return rtn;
+}
+exports.datesSecondDiff = datesSecondDiff;
+function datesMinuteDiff(date, date2) {
+    date2 = toDate(date2 || new Date());
+    var hourDiff = date2 - date.getTime(); //in ms
+    var secDiff = hourDiff / 1000; //in s
+    var minDiff = hourDiff / 60 / 1000; //in minutes
+    var hDiff = hourDiff / 3600 / 1000; //in hours
+    var hours = Math.floor(hDiff);
+    var mins = minDiff - 60 * hours;
+    var calc = Math.abs(hours * 60 + mins);
+    return Math.round(calc);
+}
+exports.datesMinuteDiff = datesMinuteDiff;
 
 
 /***/ }),
