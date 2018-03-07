@@ -153,6 +153,7 @@ export declare class AckDate {
     yy(): string;
     mmdd(sep: any): string;
     md(sep: any): any;
+    checkOptionsRoundMoments(options: any, m: any, m2: any): void;
 }
 export declare function dateObjectBy(date: any, format?: any): any;
 export declare function toDate(date: any, format?: any): any;

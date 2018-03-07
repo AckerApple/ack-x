@@ -4671,30 +4671,7 @@ var AckDate = /** @class */ (function () {
     AckDate.prototype.from = function (d, hideSuffix, options) {
         var m = moment(toDate(d));
         var m2 = moment(this.date);
-        if (options && options.roundUpMins) {
-            var needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0;
-            if (needsRounding) {
-                m2.add(1, 'minute').startOf('minute');
-            }
-        }
-        if (options && options.roundDownMins) {
-            var needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0;
-            if (needsRounding) {
-                m2.add(-1, 'minute').startOf('minute');
-            }
-        }
-        if (options && options.roundUpHours) {
-            var needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0;
-            if (needsRounding) {
-                m2.add(1, 'hour').startOf('hour');
-            }
-        }
-        if (options && options.roundDownHours) {
-            var needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0;
-            if (needsRounding) {
-                m2.add(-1, 'hour').startOf('hour');
-            }
-        }
+        this.checkOptionsRoundMoments(options, m, m2);
         return m.from(m2, hideSuffix);
     };
     AckDate.prototype.now = function () {
@@ -5213,6 +5190,33 @@ var AckDate = /** @class */ (function () {
         sep = sep == null ? '/' : sep;
         var d = this.date;
         return (d.getMonth() + 1) + sep + d.getDate();
+    };
+    AckDate.prototype.checkOptionsRoundMoments = function (options, m, m2) {
+        var greater = m.toDate() > m2.toDate() ? m : m2;
+        if (options && options.roundUpMins) {
+            var needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0;
+            if (needsRounding) {
+                greater.add(1, 'minute').startOf('minute');
+            }
+        }
+        if (options && options.roundDownMins) {
+            var needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0;
+            if (needsRounding) {
+                greater.add(-1, 'minute').startOf('minute');
+            }
+        }
+        if (options && options.roundUpHours) {
+            var needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0;
+            if (needsRounding) {
+                greater.add(1, 'hour').startOf('hour');
+            }
+        }
+        if (options && options.roundDownHours) {
+            var needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0;
+            if (needsRounding) {
+                greater.add(-1, 'hour').startOf('hour');
+            }
+        }
     };
     return AckDate;
 }());

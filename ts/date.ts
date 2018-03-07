@@ -80,37 +80,7 @@ export class AckDate{
     const m = moment( toDate(d) )
     const m2 = moment( this.date )
 
-    if(options && options.roundUpMins){
-      const needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0
-      
-      if( needsRounding ){
-        m2.add(1, 'minute').startOf('minute')
-      }
-    }
-
-    if(options && options.roundDownMins){
-      const needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0
-      
-      if( needsRounding ){
-        m2.add(-1, 'minute').startOf('minute')
-      }
-    }
-
-    if(options && options.roundUpHours){
-      const needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0
-      
-      if( needsRounding ){
-        m2.add(1, 'hour').startOf('hour')
-      }
-    }
-
-    if(options && options.roundDownHours){
-      const needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0
-      
-      if( needsRounding ){
-        m2.add(-1, 'hour').startOf('hour')
-      }
-    }
+    this.checkOptionsRoundMoments(options, m, m2)
 
     return m.from(m2, hideSuffix)
   }
@@ -759,7 +729,42 @@ export class AckDate{
     var d = this.date
     return (d.getMonth()+1)+ sep + d.getDate()
   }
+  
+  checkOptionsRoundMoments(options, m, m2){
+    const greater = m.toDate() > m2.toDate() ? m : m2
 
+    if(options && options.roundUpMins){
+      const needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0
+      
+      if( needsRounding ){
+        greater.add(1, 'minute').startOf('minute')
+      }
+    }
+
+    if(options && options.roundDownMins){
+      const needsRounding = (this.dateSecondDiff(m.toDate()) % 60) > 0
+      
+      if( needsRounding ){
+        greater.add(-1, 'minute').startOf('minute')
+      }
+    }
+
+    if(options && options.roundUpHours){
+      const needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0
+      
+      if( needsRounding ){
+        greater.add(1, 'hour').startOf('hour')
+      }
+    }
+
+    if(options && options.roundDownHours){
+      const needsRounding = (this.dateHourDiff(m.toDate()) % 60) > 0
+      
+      if( needsRounding ){
+        greater.add(-1, 'hour').startOf('hour')
+      }
+    }
+  }
 }
 
 export function dateObjectBy(date, format?){

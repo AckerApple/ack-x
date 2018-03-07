@@ -1,7 +1,7 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
-## [1.3.18] - 2018-03-07
+## [1.3.19] - 2018-03-07
 - Added roundMinsUp, roundMinsDown, roundHoursUp, roundHoursDown
 	- in date.from
 

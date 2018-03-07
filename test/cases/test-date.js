@@ -122,6 +122,15 @@ describe('ack.date',function(){
 		var d = ack.date(1520341763000)
 		var compare = ack.date(1520341894000).from(d,true,{roundUpMins:1})
 		assert.equal(compare, '3 minutes')
+
+		//reverse order of previous dates
+		var d = ack.date(1520341894000)
+		var compare = ack.date(1520341763000).from(d,true,{roundUpMins:1})
+		assert.equal(compare, '3 minutes')
+
+		var d = ack.date(1520175204000)
+		var compare = ack.date(1520175058000).from(d,true,{roundUpMins:1})
+		assert.equal(compare, '3 minutes')
 	})
 
 	it("#from(roundHoursUp)",function(){
