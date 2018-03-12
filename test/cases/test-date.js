@@ -118,7 +118,7 @@ describe('ack.date',function(){
 		assert.equal(ack.date(0).from(900000, true), '15 minutes')
 	})
 
-	it.only("#from(roundMinsUp)",function(){
+	it("#from(roundMinsUp)",function(){
 		var d = ack.date(1520341763000)
 		var compare = ack.date(1520341894000).from(d,true,{roundUpMins:1})
 		assert.equal(compare, '3 minutes')
