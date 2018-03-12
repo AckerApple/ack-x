@@ -153,7 +153,6 @@ export declare class AckDate {
     yy(): string;
     mmdd(sep: any): string;
     md(sep: any): any;
-    checkOptionsRoundMoments(options: any, m: any, m2: any): void;
 }
 export declare function dateObjectBy(date: any, format?: any): any;
 export declare function toDate(date: any, format?: any): any;
@@ -183,3 +182,4 @@ export declare function toDecimal(n: any, p: any): string;
 export declare function method(d?: any): AckDate;
 export declare function datesSecondDiff(date: any, date2: any, decimals?: any): any;
 export declare function datesMinuteDiff(date: any, date2: any): number;
+export declare function checkOptionsRoundMoments(options: any, m: any, m2: any): void;

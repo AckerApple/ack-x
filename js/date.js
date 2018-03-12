@@ -88,7 +88,7 @@ var AckDate = /** @class */ (function () {
     AckDate.prototype.from = function (d, hideSuffix, options) {
         var m = moment(toDate(d));
         var m2 = moment(this.date);
-        this.checkOptionsRoundMoments(options, m, m2);
+        checkOptionsRoundMoments(options, m, m2);
         return m.from(m2, hideSuffix);
     };
     AckDate.prototype.now = function () {
@@ -589,37 +589,6 @@ var AckDate = /** @class */ (function () {
         var d = this.date;
         return (d.getMonth() + 1) + sep + d.getDate();
     };
-    AckDate.prototype.checkOptionsRoundMoments = function (options, m, m2) {
-        var mDate = m.toDate();
-        var m2Date = m2.toDate();
-        var firstGreater = mDate > m2Date;
-        var greater = firstGreater ? m : m2;
-        var lesser = firstGreater ? m2 : m;
-        if (options && options.roundUpMins) {
-            var needsRounding = (datesSecondDiff(mDate, m2Date) % 60) > 0;
-            if (needsRounding) {
-                greater.add(1, 'minute').startOf('minute');
-            }
-        }
-        if (options && options.roundDownMins) {
-            var needsRounding = (datesSecondDiff(mDate, m2Date) % 60) > 0;
-            if (needsRounding) {
-                greater.add(-1, 'minute').startOf('minute');
-            }
-        }
-        if (options && options.roundUpHours) {
-            var needsRounding = (datesMinuteDiff(mDate, m2Date) % 60) > 0;
-            if (needsRounding) {
-                greater.add(1, 'hour').startOf('hour');
-            }
-        }
-        if (options && options.roundDownHours) {
-            var needsRounding = (datesMinuteDiff(mDate, m2Date) % 60) > 0;
-            if (needsRounding) {
-                greater.add(-1, 'hour').startOf('hour');
-            }
-        }
-    };
     return AckDate;
 }());
 exports.AckDate = AckDate;
@@ -821,3 +790,35 @@ function datesMinuteDiff(date, date2) {
     return Math.round(calc);
 }
 exports.datesMinuteDiff = datesMinuteDiff;
+function checkOptionsRoundMoments(options, m, m2) {
+    var mDate = m.toDate();
+    var m2Date = m2.toDate();
+    var firstGreater = mDate > m2Date;
+    var greater = firstGreater ? m : m2;
+    var lesser = firstGreater ? m2 : m;
+    if (options && options.roundUpMins) {
+        var needsRounding = (datesSecondDiff(mDate, m2Date) % 60) > 0;
+        if (needsRounding) {
+            greater.add(1, 'minute');
+        }
+    }
+    if (options && options.roundDownMins) {
+        var needsRounding = (datesSecondDiff(mDate, m2Date) % 60) > 0;
+        if (needsRounding) {
+            greater.add(-1, 'minute');
+        }
+    }
+    if (options && options.roundUpHours) {
+        var needsRounding = (datesMinuteDiff(mDate, m2Date) % 60) > 0;
+        if (needsRounding) {
+            greater.add(1, 'hour');
+        }
+    }
+    if (options && options.roundDownHours) {
+        var needsRounding = (datesMinuteDiff(mDate, m2Date) % 60) > 0;
+        if (needsRounding) {
+            greater.add(-1, 'hour');
+        }
+    }
+}
+exports.checkOptionsRoundMoments = checkOptionsRoundMoments;

@@ -80,7 +80,7 @@ export class AckDate{
     const m = moment( toDate(d) )
     const m2 = moment( this.date )
 
-    this.checkOptionsRoundMoments(options, m, m2)
+    checkOptionsRoundMoments(options, m, m2)
 
     return m.from(m2, hideSuffix)
   }
@@ -709,46 +709,6 @@ export class AckDate{
     var d = this.date
     return (d.getMonth()+1)+ sep + d.getDate()
   }
-  
-  checkOptionsRoundMoments(options, m, m2){
-    const mDate = m.toDate()
-    const m2Date = m2.toDate()
-    const firstGreater = mDate > m2Date
-    const greater = firstGreater ? m : m2
-    const lesser = firstGreater ? m2 : m
-
-    if(options && options.roundUpMins){
-      const needsRounding = (datesSecondDiff(mDate,m2Date) % 60) > 0
-      
-      if( needsRounding ){
-        greater.add(1, 'minute').startOf('minute')
-      }
-    }
-
-    if(options && options.roundDownMins){
-      const needsRounding = (datesSecondDiff(mDate,m2Date) % 60) > 0
-      
-      if( needsRounding ){
-        greater.add(-1, 'minute').startOf('minute')
-      }
-    }
-
-    if(options && options.roundUpHours){
-      const needsRounding = (datesMinuteDiff(mDate,m2Date) % 60) > 0
-      
-      if( needsRounding ){
-        greater.add(1, 'hour').startOf('hour')
-      }
-    }
-
-    if(options && options.roundDownHours){
-      const needsRounding = (datesMinuteDiff(mDate,m2Date) % 60) > 0
-      
-      if( needsRounding ){
-        greater.add(-1, 'hour').startOf('hour')
-      }
-    }
-  }
 }
 
 export function dateObjectBy(date, format?){
@@ -972,4 +932,43 @@ export function datesMinuteDiff(date, date2){
   var mins = minDiff - 60 * hours
   const calc = Math.abs( hours * 60 + mins )
   return Math.round(calc)
+}
+  
+export function checkOptionsRoundMoments(options, m, m2){
+  const mDate = m.toDate()
+  const m2Date = m2.toDate()
+  const firstGreater = mDate > m2Date
+  const greater = firstGreater ? m : m2
+  const lesser = firstGreater ? m2 : m
+
+  if(options && options.roundUpMins){
+    const needsRounding = (datesSecondDiff(mDate,m2Date) % 60) > 0
+    if( needsRounding ){
+      greater.add(1, 'minute')
+    }
+  }
+
+  if(options && options.roundDownMins){
+    const needsRounding = (datesSecondDiff(mDate,m2Date) % 60) > 0
+    
+    if( needsRounding ){
+      greater.add(-1, 'minute')
+    }
+  }
+
+  if(options && options.roundUpHours){
+    const needsRounding = (datesMinuteDiff(mDate,m2Date) % 60) > 0
+    
+    if( needsRounding ){
+      greater.add(1, 'hour')
+    }
+  }
+
+  if(options && options.roundDownHours){
+    const needsRounding = (datesMinuteDiff(mDate,m2Date) % 60) > 0
+    
+    if( needsRounding ){
+      greater.add(-1, 'hour')
+    }
+  }
 }

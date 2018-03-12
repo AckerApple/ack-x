@@ -1,7 +1,10 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
-## [1.3.20] - 2018-03-07
+## [1.3.22] - 2018-03-12
+- Fixed minor issue with rounding up and down dates
+
+## [1.3.21] - 2018-03-07
 - Added roundMinsUp, roundMinsDown, roundHoursUp, roundHoursDown
 	- in date.from
 

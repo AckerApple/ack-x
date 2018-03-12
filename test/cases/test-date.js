@@ -118,7 +118,7 @@ describe('ack.date',function(){
 		assert.equal(ack.date(0).from(900000, true), '15 minutes')
 	})
 
-	it("#from(roundMinsUp)",function(){
+	it.only("#from(roundMinsUp)",function(){
 		var d = ack.date(1520341763000)
 		var compare = ack.date(1520341894000).from(d,true,{roundUpMins:1})
 		assert.equal(compare, '3 minutes')
@@ -131,6 +131,10 @@ describe('ack.date',function(){
 		var d = ack.date(1520175204000)
 		var compare = ack.date(1520175058000).from(d,true,{roundUpMins:1})
 		assert.equal(compare, '3 minutes')
+
+		var d = ack.date(1520686184000)
+		var compare = ack.date(1520686495000).from(d,true,{roundUpMins:1})
+		assert.equal(compare, '6 minutes')
 	})
 
 	it("#from(roundHoursUp)",function(){
