@@ -135,6 +135,10 @@ describe('ack.date',function(){
 		var d = ack.date(1520686184000)
 		var compare = ack.date(1520686495000).from(d,true,{roundUpMins:1})
 		assert.equal(compare, '6 minutes')
+
+		var d = ack.date(1520528098000)
+		var compare = ack.date(1520528318000).from(d,true,{roundUpMins:1})
+		assert.equal(compare, '4 minutes')
 	})
 
 	it("#from(roundHoursUp)",function(){
@@ -272,13 +276,18 @@ describe('ack.date',function(){
 	describe('gotos',function(){
 		it('#addHours',function(){
 			var d0 = new Date('01/01/2015 02:00:00'),
-				d1 = ack.date(new Date(d0)).addHours(5),
+				d1 = ack.date( new Date(d0) ).addHours(5),
 				diff = d1.dateHourDiff(d0)
 
 			assert.equal(diff,5,'added 5 hours but got '+diff)
 
 			var d = ack.date().param().addHours(-40).dateHourDiff()
-			assert.equal(Math.floor(d), 40)
+
+			if( isDst ){
+				assert.equal(Math.floor(d), 39)
+			}else{
+				assert.equal(Math.floor(d), 40)
+			}
 		})
 
 		it('#addMinutes',function(){

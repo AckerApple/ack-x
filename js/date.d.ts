@@ -182,4 +182,4 @@ export declare function toDecimal(n: any, p: any): string;
 export declare function method(d?: any): AckDate;
 export declare function datesSecondDiff(date: any, date2: any, decimals?: any): any;
 export declare function datesMinuteDiff(date: any, date2: any): number;
-export declare function checkOptionsRoundMoments(options: any, m: any, m2: any): void;
+export declare function momentDateDiff(m: any, m2: any, options: any): number;

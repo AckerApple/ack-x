@@ -4671,8 +4671,8 @@ var AckDate = /** @class */ (function () {
     AckDate.prototype.from = function (d, hideSuffix, options) {
         var m = moment(toDate(d));
         var m2 = moment(this.date);
-        checkOptionsRoundMoments(options, m, m2);
-        return m.from(m2, hideSuffix);
+        var mDateDiff = momentDateDiff(m, m2, options);
+        return moment(0).from(mDateDiff, hideSuffix);
     };
     AckDate.prototype.now = function () {
         this.date = new Date();
@@ -5373,38 +5373,40 @@ function datesMinuteDiff(date, date2) {
     return Math.round(calc);
 }
 exports.datesMinuteDiff = datesMinuteDiff;
-function checkOptionsRoundMoments(options, m, m2) {
+function momentDateDiff(m, m2, options) {
     var mDate = m.toDate();
     var m2Date = m2.toDate();
-    var firstGreater = mDate > m2Date;
-    var greater = firstGreater ? m : m2;
-    var lesser = firstGreater ? m2 : m;
-    if (options && options.roundUpMins) {
-        var needsRounding = (datesSecondDiff(mDate, m2Date) % 60) > 0;
+    var diffDate = new Date(Math.abs(mDate.getTime() - m2Date.getTime()));
+    var mDiffDate = moment(diffDate);
+    if (!options)
+        return mDiffDate;
+    if (options.roundUpMins) {
+        var needsRounding = diffDate.getSeconds() > 0;
         if (needsRounding) {
-            greater.add(1, 'minute');
+            mDiffDate.add(1, 'minute').startOf('minute');
         }
     }
-    if (options && options.roundDownMins) {
-        var needsRounding = (datesSecondDiff(mDate, m2Date) % 60) > 0;
+    if (options.roundDownMins) {
+        var needsRounding = diffDate.getSeconds() > 0;
         if (needsRounding) {
-            greater.add(-1, 'minute');
+            mDiffDate.add(-1, 'minute').startOf('minute');
         }
     }
-    if (options && options.roundUpHours) {
+    if (options.roundUpHours) {
         var needsRounding = (datesMinuteDiff(mDate, m2Date) % 60) > 0;
         if (needsRounding) {
-            greater.add(1, 'hour');
+            mDiffDate.add(1, 'hour').startOf('hour');
         }
     }
-    if (options && options.roundDownHours) {
+    if (options.roundDownHours) {
         var needsRounding = (datesMinuteDiff(mDate, m2Date) % 60) > 0;
         if (needsRounding) {
-            greater.add(-1, 'hour');
+            mDiffDate.add(-1, 'hour').startOf('hour');
         }
     }
+    return mDiffDate;
 }
-exports.checkOptionsRoundMoments = checkOptionsRoundMoments;
+exports.momentDateDiff = momentDateDiff;
 
 
 /***/ }),

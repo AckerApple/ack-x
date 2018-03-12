@@ -80,9 +80,9 @@ export class AckDate{
     const m = moment( toDate(d) )
     const m2 = moment( this.date )
 
-    checkOptionsRoundMoments(options, m, m2)
+    const mDateDiff = momentDateDiff(m, m2, options)
 
-    return m.from(m2, hideSuffix)
+    return moment(0).from(mDateDiff, hideSuffix)
   }
 
   now(){
@@ -934,41 +934,42 @@ export function datesMinuteDiff(date, date2){
   return Math.round(calc)
 }
   
-export function checkOptionsRoundMoments(options, m, m2){
+export function momentDateDiff(m, m2, options) : number{
   const mDate = m.toDate()
   const m2Date = m2.toDate()
-  const firstGreater = mDate > m2Date
-  const greater = firstGreater ? m : m2
-  const lesser = firstGreater ? m2 : m
 
-  if(options && options.roundUpMins){
-    const needsRounding = (datesSecondDiff(mDate,m2Date) % 60) > 0
+  const diffDate = new Date( Math.abs( mDate.getTime() - m2Date.getTime() ) )
+  const mDiffDate = moment( diffDate )
+
+  if(!options)return mDiffDate
+
+  if( options.roundUpMins ){
+    const needsRounding = diffDate.getSeconds() > 0
     if( needsRounding ){
-      greater.add(1, 'minute')
+      mDiffDate.add(1, 'minute').startOf('minute')
     }
   }
 
-  if(options && options.roundDownMins){
-    const needsRounding = (datesSecondDiff(mDate,m2Date) % 60) > 0
-    
+  if( options.roundDownMins ){
+    const needsRounding = diffDate.getSeconds() > 0
     if( needsRounding ){
-      greater.add(-1, 'minute')
+      mDiffDate.add(-1, 'minute').startOf('minute')
     }
   }
 
-  if(options && options.roundUpHours){
+  if( options.roundUpHours ){
     const needsRounding = (datesMinuteDiff(mDate,m2Date) % 60) > 0
-    
     if( needsRounding ){
-      greater.add(1, 'hour')
+      mDiffDate.add(1, 'hour').startOf('hour')
     }
   }
 
-  if(options && options.roundDownHours){
+  if( options.roundDownHours ){
     const needsRounding = (datesMinuteDiff(mDate,m2Date) % 60) > 0
-    
     if( needsRounding ){
-      greater.add(-1, 'hour')
+      mDiffDate.add(-1, 'hour').startOf('hour')
     }
   }
+  
+  return mDiffDate
 }
