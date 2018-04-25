@@ -490,9 +490,14 @@ describe('ack.date',function(){
 		d = ack.date().now().addDays(15)
 		assert.equal(ack.date().now().dateWeekDiff(d), 2)
 
-		const starts = ack.date('4/1/2018').gotoFirstDayOfMonth().gotoFirstDayOfWeek()
-		const ends = ack.date('4/1/2018').gotoLastDayOfMonth().gotoLastDayOfWeek()
-		const weeks = ack.date( starts ).dateWeekDiff( ends )
+		let starts = ack.date('4/1/2018').gotoFirstDayOfMonth().gotoFirstDayOfWeek().date
+		let ends = ack.date('4/28/2018').gotoLastDayOfMonth().gotoLastDayOfWeek().date
+		let weeks = ack.date( starts ).dateWeekDiff( ends )
+		assert.equal(weeks, 4)
+
+		starts = ack.date('12/1/2018').gotoFirstDayOfMonth().gotoFirstDayOfWeek().date
+		ends = ack.date('12/28/2018').gotoLastDayOfMonth().gotoLastDayOfWeek().date
+		weeks = ack.date( starts ).dateWeekDiff( ends )
 		assert.equal(weeks, 5)
 	})
 

@@ -328,8 +328,7 @@ export class AckDate{
   }
 
   gotoLastDayOfMonth(){
-    this.nextMonth()
-    return this.priorDay()
+    return this.nextMonth().gotoFirstDayOfMonth().priorDay()
   }
 
 
@@ -868,10 +867,12 @@ export function dateWeekDiff(date0, date1){
   date0 = toDate(date0)
   date1 = toDate(date1)
   return Math.abs( (weekOfDate(date1)+52*date1.getFullYear())-(weekOfDate(date0)+52*date0.getFullYear()) )
+
+//  return Math.abs( weekOfDate( date0 ) - weekOfDate( date1 ) )
 }
 
 export function weekOfDate( date:any ){
-  var d = new Date( date )//could be number
+  var d = toDate(date)
   var onejan = new Date(d.getFullYear(),0,1)
   var nowDate = d.getTime()
   const calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay()+1) / 7
