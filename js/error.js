@@ -10,6 +10,13 @@ var jError = /** @class */ (function () {
         this.errorObject = errorObject;
         return this;
     }
+    jError.prototype.toObject = function () {
+        var _this = this;
+        var keys = Object.getOwnPropertyNames(this.errorObject);
+        var ob = {};
+        keys.forEach(function (key) { return ob[key] = _this.errorObject[key]; });
+        return ob;
+    };
     /** returns all object keys of an error which is takes extra steps */
     jError.prototype.getKeys = function () {
         return Object.getOwnPropertyNames(this.errorObject);

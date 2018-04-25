@@ -12,6 +12,13 @@ export class jError{
     return this;
   }
 
+  toObject(){
+    const keys = Object.getOwnPropertyNames(this.errorObject)
+    const ob = {}
+    keys.forEach( key=>ob[key]=this.errorObject[key] )
+    return ob
+  }
+
   /** returns all object keys of an error which is takes extra steps */
   getKeys(){
     return Object.getOwnPropertyNames(this.errorObject)

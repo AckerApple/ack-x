@@ -101,6 +101,10 @@ export class AckDate{
   dateMonthDiff(date){
     return dateMonthDiff(this.date, date)
   }
+
+  dateWeekDiff( date ){
+    return dateWeekDiff(this.date, date)
+  }
   
   /** always absolute number */
   dateDayDiff(date){
@@ -323,6 +327,11 @@ export class AckDate{
     this.prevDay( this.date.getDate()-1 );return this
   }
 
+  gotoLastDayOfMonth(){
+    this.nextMonth()
+    return this.priorDay()
+  }
+
 
 
   /* DAYS */
@@ -338,7 +347,7 @@ export class AckDate{
   }
   nextDay = this.addDays//multi alias
 
-  prevDay(amount=1){
+  prevDay( amount=1 ){
     var d = new Date( this.date.getTime() )
     this.date = new Date( d.setDate(d.getDate()-amount) )
     return this
@@ -353,11 +362,7 @@ export class AckDate{
 
   /** getWeekInYear */
   week(){
-    var d = new Date( this.date.getTime() )//could be number
-    var onejan = new Date(d.getFullYear(),0,1)
-    var nowDate = d.getTime()
-    const calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay()+1) / 7
-    return Math.ceil( calc )
+    return weekOfDate( this.date )
   }
   getWeek = this.week
 
@@ -370,6 +375,11 @@ export class AckDate{
     this.prevDay( this.dayOfWeek()-1 );return this
   }
   gotoFirstDayOfWeek = this.gotoSunday
+
+  gotoSaturday(){
+    return this.nextWeek().gotoFirstDayOfWeek().prevDay()
+  }
+  gotoLastDayOfWeek = this.gotoSaturday
 
   gotoMonday(){
     this.gotoFirstDayOfWeek().nextDay();return this
@@ -387,13 +397,11 @@ export class AckDate{
     return this
   }
 
-  priorWeek(amount){
-    amount = amount==null ? 1 : amount
+  priorWeek( amount=1 ){
     return this.nextWeek(-Math.abs(amount))
   }
 
-  nextWeek(amount){
-    amount = amount==null ? 1 : amount
+  nextWeek( amount=1 ){
     this.nextDay(amount * 7)
     return this
   }
@@ -665,6 +673,7 @@ export class AckDate{
   }
 
   mmddyyyy(sep?){
+console.log('called')
     if(!this.date)return '';
     sep = sep==null ? '/' : sep
     var d = this.date
@@ -850,10 +859,24 @@ var stdTimezoneOffset = function(d) {
 }
 
 export function dateMonthDiff(date0, date1){
-  date0 = new Date(date0);date1 = new Date(date1)
+  date0 = new Date(date0)
+  date1 = new Date(date1)
   return Math.abs( (date1.getMonth()+12*date1.getFullYear())-(date0.getMonth()+12*date0.getFullYear()) )
 }
 
+export function dateWeekDiff(date0, date1){
+  date0 = toDate(date0)
+  date1 = toDate(date1)
+  return Math.abs( (weekOfDate(date1)+52*date1.getFullYear())-(weekOfDate(date0)+52*date0.getFullYear()) )
+}
+
+export function weekOfDate( date:any ){
+  var d = new Date( date )//could be number
+  var onejan = new Date(d.getFullYear(),0,1)
+  var nowDate = d.getTime()
+  const calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay()+1) / 7
+  return Math.ceil( calc )
+}
 
 
 

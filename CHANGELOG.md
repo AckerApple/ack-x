@@ -1,6 +1,14 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.3.24] - 2018-04-25
+- Added
+  - ack.date.gotoFirstDayOfMonth
+  - ack.date.gotoFirstDayOfWeek
+  - ack.date.gotoLastDayOfMonth
+  - ack.date.gotoLastDayOfWeek
+  - ack.date.dateWeekDiff
+
 ## [1.3.22] - 2018-03-12
 - Fixed minor issue with rounding up and down dates
 

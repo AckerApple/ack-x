@@ -36,6 +36,7 @@ var AckDate = /** @class */ (function () {
         this.priorDay = this.prevDay; //aka for naming consistency
         this.getWeek = this.week;
         this.gotoFirstDayOfWeek = this.gotoSunday;
+        this.gotoLastDayOfWeek = this.gotoSaturday;
         this.gotoMondayOfWeek = this.gotoMonday;
         this.gotoFridayOfWeek = this.gotoFriday;
         this.gotoEndOfDate = this.gotoEod;
@@ -101,6 +102,9 @@ var AckDate = /** @class */ (function () {
     };
     AckDate.prototype.dateMonthDiff = function (date) {
         return dateMonthDiff(this.date, date);
+    };
+    AckDate.prototype.dateWeekDiff = function (date) {
+        return dateWeekDiff(this.date, date);
     };
     /** always absolute number */
     AckDate.prototype.dateDayDiff = function (date) {
@@ -261,6 +265,10 @@ var AckDate = /** @class */ (function () {
         this.prevDay(this.date.getDate() - 1);
         return this;
     };
+    AckDate.prototype.gotoLastDayOfMonth = function () {
+        this.nextMonth();
+        return this.priorDay();
+    };
     /* DAYS */
     AckDate.prototype.daysInMonth = function () {
         return new Date(this.year(), this.month(), 0).getDate();
@@ -282,11 +290,7 @@ var AckDate = /** @class */ (function () {
     };
     /** getWeekInYear */
     AckDate.prototype.week = function () {
-        var d = new Date(this.date.getTime()); //could be number
-        var onejan = new Date(d.getFullYear(), 0, 1);
-        var nowDate = d.getTime();
-        var calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7;
-        return Math.ceil(calc);
+        return weekOfDate(this.date);
     };
     AckDate.prototype.dayOfWeek = function () {
         var d = this.date;
@@ -295,6 +299,9 @@ var AckDate = /** @class */ (function () {
     AckDate.prototype.gotoSunday = function () {
         this.prevDay(this.dayOfWeek() - 1);
         return this;
+    };
+    AckDate.prototype.gotoSaturday = function () {
+        return this.nextWeek().gotoFirstDayOfWeek().prevDay();
     };
     AckDate.prototype.gotoMonday = function () {
         this.gotoFirstDayOfWeek().nextDay();
@@ -310,11 +317,11 @@ var AckDate = /** @class */ (function () {
         return this;
     };
     AckDate.prototype.priorWeek = function (amount) {
-        amount = amount == null ? 1 : amount;
+        if (amount === void 0) { amount = 1; }
         return this.nextWeek(-Math.abs(amount));
     };
     AckDate.prototype.nextWeek = function (amount) {
-        amount = amount == null ? 1 : amount;
+        if (amount === void 0) { amount = 1; }
         this.nextDay(amount * 7);
         return this;
     };
@@ -544,6 +551,7 @@ var AckDate = /** @class */ (function () {
         return this.year() + sep + this.mmdd(sep);
     };
     AckDate.prototype.mmddyyyy = function (sep) {
+        console.log('called');
         if (!this.date)
             return '';
         sep = sep == null ? '/' : sep;
@@ -725,6 +733,20 @@ function dateMonthDiff(date0, date1) {
     return Math.abs((date1.getMonth() + 12 * date1.getFullYear()) - (date0.getMonth() + 12 * date0.getFullYear()));
 }
 exports.dateMonthDiff = dateMonthDiff;
+function dateWeekDiff(date0, date1) {
+    date0 = toDate(date0);
+    date1 = toDate(date1);
+    return Math.abs((weekOfDate(date1) + 52 * date1.getFullYear()) - (weekOfDate(date0) + 52 * date0.getFullYear()));
+}
+exports.dateWeekDiff = dateWeekDiff;
+function weekOfDate(date) {
+    var d = new Date(date); //could be number
+    var onejan = new Date(d.getFullYear(), 0, 1);
+    var nowDate = d.getTime();
+    var calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7;
+    return Math.ceil(calc);
+}
+exports.weekOfDate = weekOfDate;
 var eackDate = function (date) {
     return new AckDate(date);
 };

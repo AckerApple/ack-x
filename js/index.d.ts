@@ -1,1 +1,1 @@
-export declare const ack: any;
+export { ack } from "./ack-x";

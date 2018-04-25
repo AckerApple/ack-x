@@ -4,6 +4,7 @@ export declare class jError {
     errorObject: any;
     stackArray: any[];
     constructor(errorObject?: any);
+    toObject(): {};
     /** returns all object keys of an error which is takes extra steps */
     getKeys(): string[];
     /** converts error.stack into array via stack.split(' at ') */

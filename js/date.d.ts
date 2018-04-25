@@ -28,6 +28,7 @@ export declare class AckDate {
     param(): this;
     dateYearDiff: (date: any) => number;
     dateMonthDiff(date: any): number;
+    dateWeekDiff(date: any): number;
     /** always absolute number */
     dateDayDiff(date: any): number;
     /** returns no negative numbers */
@@ -76,6 +77,7 @@ export declare class AckDate {
     getLastDateOfMonth(): Date;
     setMonth(n: any): this;
     gotoFirstDayOfMonth(): this;
+    gotoLastDayOfMonth(): this;
     daysInMonth(): number;
     addDays(amount?: any): AckDate;
     nextDay: (amount?: any) => AckDate;
@@ -88,13 +90,15 @@ export declare class AckDate {
     dayOfWeek(): number;
     gotoSunday(): this;
     gotoFirstDayOfWeek: () => this;
+    gotoSaturday(): this;
+    gotoLastDayOfWeek: () => this;
     gotoMonday(): this;
     gotoMondayOfWeek: () => this;
     gotoFriday(): this;
     gotoFridayOfWeek: () => this;
     gotoWeek(week: any): this;
-    priorWeek(amount: any): this;
-    nextWeek(amount: any): this;
+    priorWeek(amount?: number): this;
+    nextWeek(amount?: number): this;
     getDateWeekStart(): Date;
     getDateWeekStop(): Date;
     /** goto end of day. Just sets time to 23:59:59.999 */
@@ -112,7 +116,7 @@ export declare class AckDate {
     getWeeksWithMondayInYearExposedArray(): any[];
     /** returns array of date objects representing each week in a year */
     getWeeksWithMondayInYearArray(): any[];
-    getWeeksInYear(y?: any): 53 | 52;
+    getWeeksInYear(y?: any): 52 | 53;
     setTimeByString(string: any): this;
     getTime(): number;
     /** alters this.date and return this */
@@ -174,6 +178,8 @@ export declare const dayNameArray: string[];
 export declare const dayAbbrArray: string[];
 export declare function dateYearDiff(d0: any, d1: any): number;
 export declare function dateMonthDiff(date0: any, date1: any): number;
+export declare function dateWeekDiff(date0: any, date1: any): number;
+export declare function weekOfDate(date: any): number;
 export declare function parseTimeString(date: any): {
     hour: any;
     minute: any;

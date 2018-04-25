@@ -283,11 +283,13 @@ describe('ack.date',function(){
 
 			var d = ack.date().param().addHours(-40).dateHourDiff()
 
-			if( isDst ){
+			/*if( isDst ){
 				assert.equal(Math.floor(d), 39)
 			}else{
 				assert.equal(Math.floor(d), 40)
-			}
+			}*/
+
+			assert.equal(Math.floor(d), 40)
 		})
 
 		it('#addMinutes',function(){
@@ -372,24 +374,49 @@ describe('ack.date',function(){
 		})
 
 		it('#gotoFridayOfWeek',function(){
-			date = ack.date('4/7/2015').gotoFridayOfWeek()
-			assert(date.mmddyyyy,'04/10/2015')
+			var date = ack.date('4/7/2015').gotoFridayOfWeek()
+			assert.equal(date.mmddyyyy(),'04/10/2015')
+		})
+
+		it('#gotoFirstDayOfMonth',function(){
+			var date = ack.date('4/2/2018').gotoFirstDayOfMonth()
+			assert.equal(date.mmddyyyy(),'04/01/2018')
+		})
+
+		it('#gotoFirstDayOfWeek',function(){
+			var date = ack.date('4/1/2018').gotoFirstDayOfWeek()
+			assert.equal(date.mmddyyyy(),'04/01/2018')
+		})
+
+		it('#gotoLastDayOfWeek',function(){
+			var date = ack.date('4/1/2018').gotoLastDayOfWeek()
+			assert.equal(date.mmddyyyy(),'04/07/2018')
+		})
+
+		it('#gotoLastDayOfMonth + #gotoLastDayOfWeek',function(){
+			var date = ack.date('4/1/2018').gotoLastDayOfMonth().gotoLastDayOfWeek()
+			assert.equal(date.mmddyyyy(),'05/05/2018')
+		})
+
+		it('#gotoLastDayOfMonth',function(){
+			var date = ack.date('4/1/2018').gotoLastDayOfMonth()
+			assert.equal(date.mmddyyyy(),'04/30/2018')
 		})
 
 		describe('#gotoMondayOfWeek',function(){
 			it('tuesday',function(){
-				date = ack.date('4/7/2015').gotoMondayOfWeek()
-				assert(date.mmddyyyy,'04/06/2015')
+				var date = ack.date('4/7/2015').gotoMondayOfWeek()
+				assert.equal(date.mmddyyyy(),'04/06/2015')
 			})
 
 			it('monday',function(){
-				date = ack.date('3/30/2015').gotoMondayOfWeek()
-				assert(date.mmddyyyy,'03/30/2015')
+				var date = ack.date('3/30/2015').gotoMondayOfWeek()
+				assert.equal(date.mmddyyyy(),'03/30/2015')
 			})
 
 			it('monday2',function(){
-				date = ack.date('4/6/2015').gotoMondayOfWeek()
-				assert(date.mmddyyyy,'04/06/2015')
+				var date = ack.date('4/6/2015').gotoMondayOfWeek()
+				assert.equal(date.mmddyyyy(),'04/06/2015')
 			})
 		})
 	})
@@ -443,6 +470,30 @@ describe('ack.date',function(){
 
 		d = ack.date().now().addDays(1)
 		assert.equal(ack.date().now().dateDayDiff(d), 1)
+	})
+
+	it('#week',function(){
+		var d = new Date('1/25/2018')
+		assert.equal(ack.date().week(d), 17)
+	})
+
+	it('#dateWeekDiff',function(){
+		var d = new Date()
+		assert.equal(ack.date().dateWeekDiff(d), 0)
+
+		d = ack.date().addDays(1)
+		assert.equal(ack.date().dateWeekDiff(d), 0)
+
+		d = ack.date().now().addDays(14)
+		assert.equal(ack.date().now().dateWeekDiff(d), 2)
+
+		d = ack.date().now().addDays(15)
+		assert.equal(ack.date().now().dateWeekDiff(d), 2)
+
+		const starts = ack.date('4/1/2018').gotoFirstDayOfMonth().gotoFirstDayOfWeek()
+		const ends = ack.date('4/1/2018').gotoLastDayOfMonth().gotoLastDayOfWeek()
+		const weeks = ack.date( starts ).dateWeekDiff( ends )
+		assert.equal(weeks, 5)
 	})
 
 	it('#fullWeeksLeftInMonth', function(){

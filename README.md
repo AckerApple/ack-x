@@ -97,7 +97,11 @@ ack({XxX:{YyY:33}}).byName('xXx').get('yYy') == 33
 - [ack.date.getUtcDate](#ackdategetutcdate)
 - [ack.date.utc](#ackdateutc)
 - [ack.date.toUtc](#ackdatetoutc)
-
+- [ack.date.gotoFirstDayOfMonth](#ackdategotofirstdayofmonth)
+- [ack.date.gotoFirstDayOfWeek](#ackdategotofirstdayofweek)
+- [ack.date.gotoLastDayOfMonth](#ackdategotolastdayofmonth)
+- [ack.date.gotoLastDayOfWeek](#ackdategotolastdayofweek)
+- [ack.date.dateWeekDiff](#ackdatedateweekdiff)
 
 ### Compound Example
 ```javascript
@@ -223,6 +227,39 @@ Takes current Date and returns casted utc set Date number
 
 ### ack.date.toUtc
 Takes current Date and casts to utc set Date number. Returns this
+
+### ack.date.gotoFirstDayOfMonth
+```
+var date = ack.date('4/2/2018').gotoFirstDayOfMonth()
+assert.equal(date.mmddyyyy(),'04/01/2018')
+```
+
+### ack.date.gotoFirstDayOfWeek
+```
+var date = ack.date('4/1/2018').gotoFirstDayOfWeek()
+assert.equal(date.mmddyyyy(),'04/01/2018')
+```
+
+### ack.date.gotoLastDayOfMonth
+```
+var date = ack.date('4/1/2018').gotoLastDayOfMonth().gotoLastDayOfWeek()
+assert.equal(date.mmddyyyy(),'05/05/2018')
+```
+
+### ack.date.gotoLastDayOfWeek
+```
+var date = ack.date('4/1/2018').gotoLastDayOfWeek()
+assert.equal(date.mmddyyyy(),'04/07/2018')
+```
+
+### ack.date.dateWeekDiff
+```
+ack.date().addDays(7).dateWeekDiff( Date.now() ) === 1
+ack.date().addDays(14).dateWeekDiff( Date.now() ) === 2
+ack.date().addDays(15).dateWeekDiff( Date.now() ) === 2
+```
+
+
 
 
 [Back to Top](#table-of-contents)
