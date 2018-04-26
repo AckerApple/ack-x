@@ -1,10 +1,23 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 exports.__esModule = true;
 var ack_1 = require("./ack");
 function ack($var) {
-    return ack_1.ack($var);
+    return new ackExpose2($var);
 }
 exports.ack = ack;
+for (var x in ack_1.ackAppends) {
+    ack[x] = ack_1.ackAppends[x];
+}
 var error_1 = require("./error");
 ack['error'] = error_1.method;
 var number_1 = require("./number");
@@ -33,5 +46,14 @@ var time_1 = require("./time");
 ack['time'] = time_1.method;
 var method_1 = require("./method");
 ack['method'] = method_1.method;
-//declare var module: any;
-//module.exports = ack
+var ackExpose2 = /** @class */ (function (_super) {
+    __extends(ackExpose2, _super);
+    function ackExpose2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ackExpose2.prototype.ackit = function (name) {
+        return ack[name];
+    };
+    return ackExpose2;
+}(ack_1.ackExpose));
+exports.ackExpose2 = ackExpose2;

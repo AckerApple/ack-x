@@ -4,70 +4,71 @@ var ackInjector_1 = require("./ackInjector");
 var debug_1 = require("debug");
 var ackP = require("ack-p");
 var ackObject = require("./object");
-var partyModules = {
-    ackP: ackP,
-    debug: debug_1.debug
-};
 /** calling ack() as function, will return a module to work with almost any object */
 function ack($var) {
     return new ackExpose($var);
 }
 exports.ack = ack;
-ack['modules'] = new ackInjector_1.ackInjector(ack);
-ack['object'] = ackObject;
-ack['throwBy'] = function (ob, msg) {
-    if (ob) {
-        throw (ob);
+exports.ackAppends = {
+    modules: new ackInjector_1.ackInjector(ack),
+    object: ackObject,
+    throwBy: function (ob, msg) {
+        if (ob) {
+            throw (ob);
+        }
+        else if (msg) {
+            throw new Error(msg);
+        }
+        else {
+            throw new Error('An unexpected error has occured');
+        }
+    },
+    logArrayTo: function (array, logTo) {
+        logTo.apply(logTo, array);
+    },
+    logError: function (err, msg, logTo) {
+        logTo = logTo || console.log;
+        var drray = [];
+        if (msg == null && err && err.stack) { //?no message
+            msg = msg || err.stack.replace(/(\n|\t|\r)/g, '').split(/\s+at\s+/).shift(); //error stack as message
+        }
+        if (msg != null)
+            drray.push(msg);
+        if (err != null)
+            drray.push(err);
+        this.ackit('logErrorArray')(drray, logTo);
+    },
+    injector: function ($scope) {
+        return new ackInjector_1.ackInjector($scope);
+    },
+    promise: function (var0, var1, var2, var3) {
+        var promise = ackP.start();
+        return promise.set.apply(promise, arguments);
+    },
+    Promise: function (resolver) {
+        return new ackP(resolver);
+    },
+    debug: function (name, log0, log1, log2) {
+        var logger = debug_1.debug(name);
+        this.map = this.map || {};
+        this.map[name] = logger; //store memory of logger for meta referencing
+        if (arguments.length > 1) { //logging intended to go with
+            var args = Array.prototype.slice.call(arguments);
+            args.shift(); //remove first
+            logger.apply(logger, args);
+        }
+        var temp = this;
+        logger.debug = function (subname, log0, log1, log2) {
+            arguments[0] = name + ':' + subname;
+            return temp.ackit('debug').apply(ack, arguments);
+        };
+        logger.sublog = logger.debug;
+        return logger;
     }
-    else if (msg) {
-        throw new Error(msg);
-    }
-    else {
-        throw new Error('An unexpected error has occured');
-    }
 };
-ack['logArrayTo'] = function (array, logTo) {
-    logTo.apply(logTo, array);
-};
-ack['logError'] = function (err, msg, logTo) {
-    logTo = logTo || console.log;
-    var drray = [];
-    if (msg == null && err && err.stack) { //?no message
-        msg = msg || err.stack.replace(/(\n|\t|\r)/g, '').split(/\s+at\s+/).shift(); //error stack as message
-    }
-    if (msg != null)
-        drray.push(msg);
-    if (err != null)
-        drray.push(err);
-    ack['logErrorArray'](drray, logTo);
-};
-ack['injector'] = function ($scope) {
-    return new ackInjector_1.ackInjector($scope);
-};
-ack['promise'] = function (var0, var1, var2, var3) {
-    var promise = ackP.start();
-    return promise.set.apply(promise, arguments);
-};
-ack['Promise'] = function (resolver) {
-    return new ackP(resolver);
-};
-var ackDebugMap = {}; //create storage of all loggers created
-ack['debug'] = function debug(name, log0, log1, log2) {
-    var logger = partyModules.debug(name);
-    ack['debug'].map[name] = logger; //store memory of logger for meta referencing
-    if (arguments.length > 1) { //logging intended to go with
-        var args = Array.prototype.slice.call(arguments);
-        args.shift(); //remove first
-        logger.apply(logger, args);
-    }
-    logger.debug = function (subname, log0, log1, log2) {
-        arguments[0] = name + ':' + subname;
-        return ack['debug'].apply(ack, arguments);
-    };
-    logger.sublog = logger.debug;
-    return logger;
-};
-ack['debug'].map = ackDebugMap; //latch onto storage
+for (var x in exports.ackAppends) {
+    ack[x] = exports.ackAppends[x];
+}
 var ackExpose = /** @class */ (function () {
     function ackExpose($var) {
         //aka functions
@@ -75,22 +76,28 @@ var ackExpose = /** @class */ (function () {
         this.$var = $var;
         return this;
     }
-    ackExpose.prototype.error = function () { return ack['error'](this.$var); };
-    ackExpose.prototype.number = function () { return ack['number'](this.$var); };
-    ackExpose.prototype.string = function () { return ack['string'](this.$var); };
-    ackExpose.prototype.binary = function () { return ack['binary'](this.$var); };
-    ackExpose.prototype.base64 = function () { return ack['base64'](this.$var); };
-    ackExpose.prototype.method = function () { return ack['method'](this.$var); };
-    ackExpose.prototype.array = function () { return ack['array'](this.$var); };
-    ackExpose.prototype.queryObject = function () { return ack['queryObject'](this.$var); };
-    ackExpose.prototype.week = function () { return ack['week'](this.$var); };
-    ackExpose.prototype.month = function () { return ack['month'](this.$var); };
-    ackExpose.prototype.year = function () { return ack['year'](this.$var); };
-    ackExpose.prototype.date = function () { return ack['date'](this.$var); };
-    ackExpose.prototype.time = function () { return ack['time'](this.$var); };
+    ackExpose.prototype.ackit = function (name) {
+        return ack[name];
+    };
+    ackExpose.prototype.ackGet = function (name) {
+        return this.ackit(name)(this.$var);
+    };
+    ackExpose.prototype.error = function () { return this.ackGet('error'); };
+    ackExpose.prototype.number = function () { return this.ackGet('number'); };
+    ackExpose.prototype.string = function () { return this.ackGet('string'); };
+    ackExpose.prototype.binary = function () { return this.ackGet('binary'); };
+    ackExpose.prototype.base64 = function () { return this.ackGet('base64'); };
+    ackExpose.prototype.method = function () { return this.ackGet('method'); };
+    ackExpose.prototype.array = function () { return this.ackGet('array'); };
+    ackExpose.prototype.queryObject = function () { return this.ackGet('queryObject'); };
+    ackExpose.prototype.week = function () { return this.ackGet('week'); };
+    ackExpose.prototype.month = function () { return this.ackGet('month'); };
+    ackExpose.prototype.year = function () { return this.ackGet('year'); };
+    ackExpose.prototype.date = function () { return this.ackGet('date'); };
+    ackExpose.prototype.time = function () { return this.ackGet('time'); };
     //deprecate
     ackExpose.prototype["function"] = function () {
-        return ack['function'](this.$var);
+        return this.ackGet('function');
     };
     ackExpose.prototype.getSimpleClone = function () {
         var target = {};
@@ -122,8 +129,8 @@ var ackExpose = /** @class */ (function () {
     };
     //deprecate this
     ackExpose.prototype["throw"] = function (msg, logTo) {
-        ack['logError'](this.$var, msg, logTo);
-        ack['throwBy'](this.$var, msg);
+        this.ackit('logError')(this.$var, msg, logTo);
+        this.ackit('throwBy')(this.$var, msg);
         return this;
     };
     /** JSON.stringify with default spacing=2 */

@@ -1,7 +1,11 @@
-import { ackExpose, ack as ackX } from "./ack"
+import { ackExpose, ackAppends } from "./ack"
 
 export function ack($var){
-  return ackX($var)
+  return new ackExpose2($var)
+}
+
+for(let x in ackAppends){
+  ack[x] = ackAppends[x]
 }
 
 import { method as errorMethod } from "./error"
@@ -46,5 +50,8 @@ ack['time'] = timeMethod
 import { method as methodMethod } from "./method"
 ack['method'] = methodMethod
 
-//declare var module: any;
-//module.exports = ack
+export class ackExpose2 extends ackExpose{
+  ackit(name){
+    return ack[name]
+  }
+}

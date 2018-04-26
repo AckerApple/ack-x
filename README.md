@@ -1,4 +1,3 @@
-# ack-x
 Extra functional library to objectify & compartmentalize variables into wrappers that make invokation & injection processes, lighter & easier to implement.
 
 [![build status](https://travis-ci.org/AckerApple/ack-x.svg)](http://travis-ci.org/AckerApple/ack-x)
@@ -6,12 +5,14 @@ Extra functional library to objectify & compartmentalize variables into wrappers
 [![NPM version](https://img.shields.io/npm/v/ack-x.svg?style=flat-square)](https://www.npmjs.com/package/ack-x)
 [![dependencies](https://david-dm.org/ackerapple/ack-x/status.svg)](https://david-dm.org/ackerapple/ack-x)
 
-
 <details>
   <summary><strong>Table of Contents</strong></summary>
 
 - [Install](#install)
-- [import](#import)
+- [Import](#import)
+  - [NodeJs](#nodejs)
+  - [Web Browser](#web-browser)
+  - [TypeScript](#typescript)
 - [Usage Documentation](#usage-documentation)
   - [getBoolean](#ackgetboolean)
   - [isBooleanLike](#ackisbooleanlike)
@@ -35,11 +36,22 @@ Extra functional library to objectify & compartmentalize variables into wrappers
 ```
 npm install ack-x
 ```
+
 ## Import
+
+### NodeJs
 ```javascript
 require("ack-x").ack
+```
 
-ack( someVariable )
+### Web Browser
+```javascript
+require("ack-x/browser").ack
+```
+
+### TypeScript
+```javascript
+import { ack } from "ack-x/browser"
 ```
 
 ## Usage Documentation
