@@ -25,7 +25,7 @@ describe('ack()',function(){
 	})
 
 	it('#date',function(){
-		var date = ack().date().date
+		var date = ack.date().date
 		assert.equal(date.constructor, Date)
 	})
 

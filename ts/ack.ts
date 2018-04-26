@@ -85,11 +85,16 @@ export class ackExpose{
 	$var:any
 
 	constructor($var){
+		if(!this)return new ackExpose($var)
 		this.$var = $var
 		return this
 	}
 
-	ackit(name){
+	public ackit(name){
+		return ack[name]
+	}
+	
+	static ackit(name){
 		return ack[name]
 	}
 
@@ -104,21 +109,21 @@ export class ackExpose{
 	public static promise = ackAppends.promise
 	public static Promise = ackAppends.Promise
 	public static debug = ackAppends.debug
-	
-	error(){return this.ackGet('error')}
-	number(){return this.ackGet('number')}
-	string(){return this.ackGet('string')}
-	binary(){return this.ackGet('binary')}
-	base64(){return this.ackGet('base64')}
-	method(){return this.ackGet('method')}
-	array(){return this.ackGet('array')}
-	queryObject(){return this.ackGet('queryObject')}
-	week(){return this.ackGet('week')}
-	month(){return this.ackGet('month')}
-	year(){return this.ackGet('year')}
-	date(){return this.ackGet('date')}
-	time(){return this.ackGet('time')}
-	
+		
+	public static error(v){return ackExpose.ackit('error')(v)}
+	public static number(v){return ackExpose.ackit('number')(v)}
+	public static string(v){return ackExpose.ackit('string')(v)}
+	public static binary(v){return ackExpose.ackit('binary')(v)}
+	public static base64(v){return ackExpose.ackit('base64')(v)}
+	public static method(v){return ackExpose.ackit('method')(v)}
+	public static array(v){return ackExpose.ackit('array')(v)}
+	public static queryObject(v){return ackExpose.ackit('queryObject')(v)}
+	public static week(v){return ackExpose.ackit('week')(v)}
+	public static month(v){return ackExpose.ackit('month')(v)}
+	public static year(v){return ackExpose.ackit('year')(v)}
+	public static date(v){return ackExpose.ackit('date')(v)}
+	public static time(v){return ackExpose.ackit('time')(v)}
+
 	//deprecate
 	function(){
 		return this.ackGet('function')

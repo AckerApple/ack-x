@@ -71,28 +71,33 @@ for (var x in exports.ackAppends) {
 }
 var ackExpose = /** @class */ (function () {
     function ackExpose($var) {
+        if (!this)
+            return new ackExpose($var);
         this.$var = $var;
         return this;
     }
     ackExpose.prototype.ackit = function (name) {
         return ack[name];
     };
+    ackExpose.ackit = function (name) {
+        return ack[name];
+    };
     ackExpose.prototype.ackGet = function (name) {
         return this.ackit(name)(this.$var);
     };
-    ackExpose.prototype.error = function () { return this.ackGet('error'); };
-    ackExpose.prototype.number = function () { return this.ackGet('number'); };
-    ackExpose.prototype.string = function () { return this.ackGet('string'); };
-    ackExpose.prototype.binary = function () { return this.ackGet('binary'); };
-    ackExpose.prototype.base64 = function () { return this.ackGet('base64'); };
-    ackExpose.prototype.method = function () { return this.ackGet('method'); };
-    ackExpose.prototype.array = function () { return this.ackGet('array'); };
-    ackExpose.prototype.queryObject = function () { return this.ackGet('queryObject'); };
-    ackExpose.prototype.week = function () { return this.ackGet('week'); };
-    ackExpose.prototype.month = function () { return this.ackGet('month'); };
-    ackExpose.prototype.year = function () { return this.ackGet('year'); };
-    ackExpose.prototype.date = function () { return this.ackGet('date'); };
-    ackExpose.prototype.time = function () { return this.ackGet('time'); };
+    ackExpose.error = function (v) { return ackExpose.ackit('error')(v); };
+    ackExpose.number = function (v) { return ackExpose.ackit('number')(v); };
+    ackExpose.string = function (v) { return ackExpose.ackit('string')(v); };
+    ackExpose.binary = function (v) { return ackExpose.ackit('binary')(v); };
+    ackExpose.base64 = function (v) { return ackExpose.ackit('base64')(v); };
+    ackExpose.method = function (v) { return ackExpose.ackit('method')(v); };
+    ackExpose.array = function (v) { return ackExpose.ackit('array')(v); };
+    ackExpose.queryObject = function (v) { return ackExpose.ackit('queryObject')(v); };
+    ackExpose.week = function (v) { return ackExpose.ackit('week')(v); };
+    ackExpose.month = function (v) { return ackExpose.ackit('month')(v); };
+    ackExpose.year = function (v) { return ackExpose.ackit('year')(v); };
+    ackExpose.date = function (v) { return ackExpose.ackit('date')(v); };
+    ackExpose.time = function (v) { return ackExpose.ackit('time')(v); };
     //deprecate
     ackExpose.prototype["function"] = function () {
         return this.ackGet('function');

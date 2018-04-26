@@ -16,8 +16,9 @@ import { method as timeMethod } from "./time"
 import { method as methodMethod } from "./method"
 
 export class ack extends ackExpose{
-  constructor($var){
+  constructor( $var? ){
     super( $var )
+    if(!this)return new ack($var)
     return this
   }
 
@@ -25,18 +26,35 @@ export class ack extends ackExpose{
     return ack[name]
   }
   
-  public static error = errorMethod
-  public static number = numberMethod
-  public static string = stringMethod
-  public static binary = binaryMethod
-  public static base64 = base64Method
-  public static object = objectMethod
-  public static array = arrayMethod
-  public static queryObject = queryObjectMethod
-  public static week = weekMethod
-  public static month = monthMethod
-  public static year = yearMethod
-  public static date = dateMethod
-  public static time = timeMethod
-  public static method = methodMethod
+  public error = errorMethod
+  public number = numberMethod
+  public string = stringMethod
+  public binary = binaryMethod
+  public base64 = base64Method
+  public object = objectMethod
+  public array = arrayMethod
+  public queryObject = queryObjectMethod
+  public week = weekMethod
+  public month = monthMethod
+  public year = yearMethod
+  public date = dateMethod
+  public time = timeMethod
+  public method = methodMethod
+
+  static error = errorMethod
+  static number = numberMethod
+  static string = stringMethod
+  static binary = binaryMethod
+  static base64 = base64Method
+  static object = objectMethod
+  static array = arrayMethod
+  static queryObject = queryObjectMethod
+  static week = weekMethod
+  static month = monthMethod
+  static year = yearMethod
+  static date = dateMethod
+  static time = timeMethod
+  static method = methodMethod
 }
+
+//export const ack = new Ack()

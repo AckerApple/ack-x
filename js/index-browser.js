@@ -29,6 +29,22 @@ var ack = /** @class */ (function (_super) {
     __extends(ack, _super);
     function ack($var) {
         var _this = _super.call(this, $var) || this;
+        _this.error = error_1.method;
+        _this.number = number_1.method;
+        _this.string = string_1.method;
+        _this.binary = binary_1.method;
+        _this.base64 = base64_1.method;
+        _this.object = object_1.method;
+        _this.array = array_1.method;
+        _this.queryObject = queryObject_1.method;
+        _this.week = week_1.method;
+        _this.month = month_1.method;
+        _this.year = year_1.method;
+        _this.date = date_1.method;
+        _this.time = time_1.method;
+        _this.method = method_1.method;
+        if (!_this)
+            return new ack($var);
         return _this;
     }
     ack.prototype.ackit = function (name) {
@@ -51,3 +67,4 @@ var ack = /** @class */ (function (_super) {
     return ack;
 }(ack_1.ackExpose));
 exports.ack = ack;
+//export const ack = new Ack()
