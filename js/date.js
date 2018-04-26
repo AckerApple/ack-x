@@ -46,6 +46,10 @@ var AckDate = /** @class */ (function () {
         this.date = toDate(date, format);
         return this;
     }
+    //convenience of date as number
+    AckDate.prototype.getTime = function () {
+        return this.date.getTime();
+    };
     /** takes current Date and returns casted utc set Date object */
     AckDate.prototype.getUtcDate = function () {
         return new Date(this.date.getUTCFullYear(), this.date.getUTCMonth(), this.date.getUTCDate(), this.date.getUTCHours(), this.date.getUTCMinutes(), this.date.getUTCSeconds());
@@ -405,14 +409,11 @@ var AckDate = /** @class */ (function () {
         }
         return this;
     };
-    //convenience of date as number
-    AckDate.prototype.getTime = function () {
-        return this.date.getTime();
-    };
     /** alters this.date and return this */
     AckDate.prototype.addHours = function (n) {
-        if (this.date)
+        if (this.date) {
             this.date.setHours(this.date.getHours() + n);
+        }
         return this;
     };
     /** alters this.date and return this */
@@ -550,7 +551,6 @@ var AckDate = /** @class */ (function () {
         return this.year() + sep + this.mmdd(sep);
     };
     AckDate.prototype.mmddyyyy = function (sep) {
-        console.log('called');
         if (!this.date)
             return '';
         sep = sep == null ? '/' : sep;

@@ -99,8 +99,6 @@ export class jXQueryObjectCsv{
       }
 
       /* build CSV content */
-  //console.log('nameArray[0]', nameArray[0], nameArray, this.data.isNameFirstRow, this.data.queryObject)
-
       var rowLoop,
         columnName,
         firstColumn=this.data.queryObject[ nameArray[0] ]

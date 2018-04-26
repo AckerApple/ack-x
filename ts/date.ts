@@ -18,9 +18,13 @@ export class AckDate{
     return this    
   }
 
+  //convenience of date as number
+  getTime():number{
+    return this.date.getTime()
+  }
 
   /** takes current Date and returns casted utc set Date object */
-  getUtcDate(){
+  getUtcDate():Date{
     return new Date(
       this.date.getUTCFullYear(),
       this.date.getUTCMonth(),
@@ -32,17 +36,17 @@ export class AckDate{
   }
 
   /** takes current Date and returns casted utc set Date number */
-  utc(){
+  utc():number{
     return this.getUtcDate().getTime()
   }
 
   /** takes current Date and casts to utc set Date number. Returns this */
-  toUtc(){
+  toUtc():AckDate{
     this.date = this.getUtcDate()
     return this
   }
 
-  setDateByString(date){
+  setDateByString(date):AckDate{
     this.date = dateStringToDate(date)
     return this
   }
@@ -85,12 +89,14 @@ export class AckDate{
     return moment(0).from(mDateDiff, hideSuffix)
   }
 
-  now(){
-    this.date = new Date();return this;
+  now():AckDate{
+    this.date = new Date()
+    return this
   }
 
-  param(){
-    this.date = this.date||new Date();return this;
+  param():AckDate{
+    this.date = this.date||new Date()
+    return this
   }
   
   dateYearDiff = function(date){
@@ -211,7 +217,7 @@ export class AckDate{
   }
 
   //sets day of month
-  setDate = function(n){
+  setDate = function(n):AckDate{
     var d = this.date
     d = d.setDate(n)
     this.date = new Date(d)
@@ -229,7 +235,7 @@ export class AckDate{
   }
   getYear = this.year
 
-  setYear(n){
+  setYear(n):AckDate{
     this.date.setFullYear(n)
     return this
   }
@@ -245,7 +251,7 @@ export class AckDate{
     return this.year()+y
   }
   
-  nextYear(y){
+  nextYear(y):AckDate{
     this.setYear( this.getNextYear(y) )
     return this
   }
@@ -257,7 +263,7 @@ export class AckDate{
     return this.year()-Math.abs(y)
   }
   
-  priorYear(y){
+  priorYear(y):AckDate{
     this.setYear( this.getPriorYear(y) )
     return this
   }
@@ -305,7 +311,7 @@ export class AckDate{
     return this.nextMonth(-Math.abs(amount))
   }
 
-  nextMonth(amount=1){
+  nextMonth(amount=1):AckDate{
     this.date = new Date(this.date.setMonth(this.date.getMonth()+amount))
     return this
   }
@@ -317,14 +323,15 @@ export class AckDate{
     return EDate.nextMonth().gotoFirstDayOfMonth().prevDay().date
   }
 
-  setMonth(n){
+  setMonth(n):AckDate{
     var d = this.date.setMonth(n-1)
     this.date = new Date(d)
     return this
   }
 
-  gotoFirstDayOfMonth(){
-    this.prevDay( this.date.getDate()-1 );return this
+  gotoFirstDayOfMonth():AckDate{
+    this.prevDay( this.date.getDate()-1 )
+    return this
   }
 
   gotoLastDayOfMonth(){
@@ -346,7 +353,7 @@ export class AckDate{
   }
   nextDay = this.addDays//multi alias
 
-  prevDay( amount=1 ){
+  prevDay( amount=1 ):AckDate{
     var d = new Date( this.date.getTime() )
     this.date = new Date( d.setDate(d.getDate()-amount) )
     return this
@@ -370,8 +377,9 @@ export class AckDate{
     return d.getDay()+1
   }
 
-  gotoSunday(){
-    this.prevDay( this.dayOfWeek()-1 );return this
+  gotoSunday():AckDate{
+    this.prevDay( this.dayOfWeek()-1 )
+    return this
   }
   gotoFirstDayOfWeek = this.gotoSunday
 
@@ -380,27 +388,29 @@ export class AckDate{
   }
   gotoLastDayOfWeek = this.gotoSaturday
 
-  gotoMonday(){
-    this.gotoFirstDayOfWeek().nextDay();return this
+  gotoMonday():AckDate{
+    this.gotoFirstDayOfWeek().nextDay()
+    return this
   }
   gotoMondayOfWeek = this.gotoMonday
 
-  gotoFriday(){
-    this.gotoFirstDayOfWeek().nextDay(5);return this
+  gotoFriday():AckDate{
+    this.gotoFirstDayOfWeek().nextDay(5)
+    return this
   }
   gotoFridayOfWeek = this.gotoFriday
 
-  gotoWeek(week){
+  gotoWeek(week):AckDate{
     var thisWk = this.week()
     this.nextWeek( week - thisWk )
     return this
   }
 
-  priorWeek( amount=1 ){
+  priorWeek( amount=1 ):AckDate{
     return this.nextWeek(-Math.abs(amount))
   }
 
-  nextWeek( amount=1 ){
+  nextWeek( amount=1 ):AckDate{
     this.nextDay(amount * 7)
     return this
   }
@@ -418,14 +428,16 @@ export class AckDate{
   }
 
   /** goto end of day. Just sets time to 23:59:59.999 */
-  gotoEod(){
-    this.date = endOfDateDay(this.date);return this
+  gotoEod():AckDate{
+    this.date = endOfDateDay(this.date)
+    return this
   }
   gotoEndOfDate = this.gotoEod
 
   /** goto start of day. Just sets time to 0:0:0.0 */
-  gotoSod(){
-    this.date = startOfDateDay(this.date);return this
+  gotoSod():AckDate{
+    this.date = startOfDateDay(this.date)
+    return this
   }
   gotoStartOfDate = this.gotoSod
 
@@ -442,7 +454,7 @@ export class AckDate{
   }
 
   /** method(weekNum, AckDate) */
-  eachWeekInYear(method){
+  eachWeekInYear(method):AckDate{
     var num = this.getWeeksInYear()
       ,year = this.year()
 
@@ -454,7 +466,7 @@ export class AckDate{
     return this
   }
 
-  eachWeekWithMondayInYear(method){
+  eachWeekWithMondayInYear(method):AckDate{
     this.eachWeekInYear(function(num, AckDate){
       method(num, AckDate.gotoMondayOfWeek())
     })
@@ -495,7 +507,7 @@ export class AckDate{
 
   /* ! TIME METHODS ! */
 
-  setTimeByString(string){
+  setTimeByString(string):AckDate{
     if(!this.date || !string)return this
 
     if(string.split){
@@ -505,22 +517,19 @@ export class AckDate{
       this.date = new Date(change)
     }
 
-    return this;
-  }
-
-  //convenience of date as number
-  getTime(){
-    return this.date.getTime()
-  }
-
-  /** alters this.date and return this */
-  addHours(n){
-    if(this.date)this.date.setHours( this.date.getHours()+n );
     return this
   }
 
   /** alters this.date and return this */
-  addMinutes(n){
+  addHours(n):AckDate{
+    if(this.date){
+        this.date.setHours( this.date.getHours()+n )
+    }
+    return this
+  }
+
+  /** alters this.date and return this */
+  addMinutes(n):AckDate{
     if(this.date)this.date = new Date(this.date.getTime() + n*60000)
     return this
   }
@@ -535,7 +544,7 @@ export class AckDate{
   }
 
   /** alters this.date and return this */
-  addMilliseconds(n){
+  addMilliseconds(n):AckDate{
     if(this.date)this.date = new Date(this.date.getTime() + n)
     return this
   }
@@ -672,7 +681,6 @@ export class AckDate{
   }
 
   mmddyyyy(sep?){
-console.log('called')
     if(!this.date)return '';
     sep = sep==null ? '/' : sep
     var d = this.date

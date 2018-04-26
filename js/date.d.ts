@@ -7,13 +7,14 @@ export interface fromOptions {
 export declare class AckDate {
     date: Date;
     constructor(date?: any, format?: any);
+    getTime(): number;
     /** takes current Date and returns casted utc set Date object */
     getUtcDate(): Date;
     /** takes current Date and returns casted utc set Date number */
     utc(): number;
     /** takes current Date and casts to utc set Date number. Returns this */
-    toUtc(): this;
-    setDateByString(date: any): this;
+    toUtc(): AckDate;
+    setDateByString(date: any): AckDate;
     getTimezoneStamp(sep: any): string;
     yearsFromNow(): number;
     monthsFromNow(): number;
@@ -24,8 +25,8 @@ export declare class AckDate {
     fromToday(hideSuffix: any): any;
     /** see moment http://momentjs.com/docs/#/displaying/from/ */
     from(d: any, hideSuffix: any, options?: fromOptions): any;
-    now(): this;
-    param(): this;
+    now(): AckDate;
+    param(): AckDate;
     dateYearDiff: (date: any) => number;
     dateMonthDiff(date: any): number;
     dateWeekDiff(date: any): number;
@@ -48,19 +49,19 @@ export declare class AckDate {
     clone(): AckDate;
     isDate(date?: any): boolean;
     getDate: () => any;
-    setDate: (n: any) => any;
-    setDayOfMonth: (n: any) => any;
+    setDate: (n: any) => AckDate;
+    setDayOfMonth: (n: any) => AckDate;
     Year(): any;
     year(): any;
     getYear: () => any;
-    setYear(n: any): this;
+    setYear(n: any): AckDate;
     dayOfYear(): number;
     getNextYear(y: any): any;
-    nextYear(y: any): this;
-    addYear: (y: any) => this;
-    addYears: (y: any) => this;
+    nextYear(y: any): AckDate;
+    addYear: (y: any) => AckDate;
+    addYears: (y: any) => AckDate;
     getPriorYear(y: any): number;
-    priorYear(y: any): this;
+    priorYear(y: any): AckDate;
     /** 1st 2nd 3rd of the month */
     getMonthAbbr(): string;
     getMonthDateProperNumber(): string;
@@ -71,63 +72,62 @@ export declare class AckDate {
     getMonthNameArray(): string[];
     month(): number;
     getMonth: () => number;
-    priorMonth(amount?: number): this;
-    nextMonth(amount?: number): this;
-    addMonths: (amount?: number) => this;
+    priorMonth(amount?: number): AckDate;
+    nextMonth(amount?: number): AckDate;
+    addMonths: (amount?: number) => AckDate;
     getLastDateOfMonth(): Date;
-    setMonth(n: any): this;
-    gotoFirstDayOfMonth(): this;
-    gotoLastDayOfMonth(): this;
+    setMonth(n: any): AckDate;
+    gotoFirstDayOfMonth(): AckDate;
+    gotoLastDayOfMonth(): AckDate;
     daysInMonth(): number;
     addDays(amount?: any): AckDate;
     nextDay: (amount?: any) => AckDate;
-    prevDay(amount?: number): this;
-    priorDay: (amount?: number) => this;
+    prevDay(amount?: number): AckDate;
+    priorDay: (amount?: number) => AckDate;
     isWeekend(): boolean;
     /** getWeekInYear */
     week(): number;
     getWeek: () => number;
     dayOfWeek(): number;
-    gotoSunday(): this;
-    gotoFirstDayOfWeek: () => this;
-    gotoSaturday(): this;
-    gotoLastDayOfWeek: () => this;
-    gotoMonday(): this;
-    gotoMondayOfWeek: () => this;
-    gotoFriday(): this;
-    gotoFridayOfWeek: () => this;
-    gotoWeek(week: any): this;
-    priorWeek(amount?: number): this;
-    nextWeek(amount?: number): this;
+    gotoSunday(): AckDate;
+    gotoFirstDayOfWeek: () => AckDate;
+    gotoSaturday(): AckDate;
+    gotoLastDayOfWeek: () => AckDate;
+    gotoMonday(): AckDate;
+    gotoMondayOfWeek: () => AckDate;
+    gotoFriday(): AckDate;
+    gotoFridayOfWeek: () => AckDate;
+    gotoWeek(week: any): AckDate;
+    priorWeek(amount?: number): AckDate;
+    nextWeek(amount?: number): AckDate;
     getDateWeekStart(): Date;
     getDateWeekStop(): Date;
     /** goto end of day. Just sets time to 23:59:59.999 */
-    gotoEod(): this;
-    gotoEndOfDate: () => this;
+    gotoEod(): AckDate;
+    gotoEndOfDate: () => AckDate;
     /** goto start of day. Just sets time to 0:0:0.0 */
-    gotoSod(): this;
-    gotoStartOfDate: () => this;
+    gotoSod(): AckDate;
+    gotoStartOfDate: () => AckDate;
     FirstWeekday(): AckDate;
     getDateOfFirstWeekday(): Date;
     /** method(weekNum, AckDate) */
-    eachWeekInYear(method: any): this;
-    eachWeekWithMondayInYear(method: any): this;
+    eachWeekInYear(method: any): AckDate;
+    eachWeekWithMondayInYear(method: any): AckDate;
     /** returns array of date exposed objects representing each week in a year */
     getWeeksWithMondayInYearExposedArray(): any[];
     /** returns array of date objects representing each week in a year */
     getWeeksWithMondayInYearArray(): any[];
     getWeeksInYear(y?: any): 52 | 53;
-    setTimeByString(string: any): this;
-    getTime(): number;
+    setTimeByString(string: any): AckDate;
     /** alters this.date and return this */
-    addHours(n: any): this;
+    addHours(n: any): AckDate;
     /** alters this.date and return this */
-    addMinutes(n: any): this;
+    addMinutes(n: any): AckDate;
     minuteOfDay(): number;
     /** alters this.date and return this */
-    addSeconds(n: any): this;
+    addSeconds(n: any): AckDate;
     /** alters this.date and return this */
-    addMilliseconds(n: any): this;
+    addMilliseconds(n: any): AckDate;
     /** Does not return negative numbers.
       @date - not required, default = new Date()
       @decimals - not required, default = false (no decimals causes decimal rounding)

@@ -50,8 +50,8 @@ exports.ackAppends = {
     },
     debug: function (name, log0, log1, log2) {
         var logger = debug_1.debug(name);
-        this.map = this.map || {};
-        this.map[name] = logger; //store memory of logger for meta referencing
+        //this.map = this.map || {}
+        //this.map[name] = logger//store memory of logger for meta referencing
         if (arguments.length > 1) { //logging intended to go with
             var args = Array.prototype.slice.call(arguments);
             args.shift(); //remove first
@@ -71,8 +71,6 @@ for (var x in exports.ackAppends) {
 }
 var ackExpose = /** @class */ (function () {
     function ackExpose($var) {
-        //aka functions
-        this.dump = ackExpose.prototype.stringify;
         this.$var = $var;
         return this;
     }
@@ -138,6 +136,9 @@ var ackExpose = /** @class */ (function () {
         spacing = spacing == null ? 2 : spacing;
         return JSON.stringify(this.$var, null, spacing);
     };
+    ackExpose.prototype.dump = function (spacing) {
+        return this.stringify(spacing);
+    };
     /** negative numbers will be 0  */
     ackExpose.prototype.getBit = function () {
         var b = this.getBoolean();
@@ -184,6 +185,13 @@ var ackExpose = /** @class */ (function () {
             return false;
         return this.getBoolean() !== null;
     };
+    ackExpose.throwBy = exports.ackAppends.throwBy;
+    ackExpose.logArrayTo = exports.ackAppends.logArrayTo;
+    ackExpose.logError = exports.ackAppends.logError;
+    ackExpose.injector = exports.ackAppends.injector;
+    ackExpose.promise = exports.ackAppends.promise;
+    ackExpose.Promise = exports.ackAppends.Promise;
+    ackExpose.debug = exports.ackAppends.debug;
     return ackExpose;
 }());
 exports.ackExpose = ackExpose;

@@ -84,9 +84,6 @@ for(let x in ackAppends){
 export class ackExpose{
 	$var:any
 
-	//aka functions
-	dump = ackExpose.prototype.stringify
-
 	constructor($var){
 		this.$var = $var
 		return this
@@ -99,6 +96,14 @@ export class ackExpose{
 	ackGet(name){
 		return this.ackit(name)(this.$var)
 	}
+	
+	public static throwBy = ackAppends.throwBy
+	public static logArrayTo = ackAppends.logArrayTo
+	public static logError = ackAppends.logError
+	public static injector = ackAppends.injector
+	public static promise = ackAppends.promise
+	public static Promise = ackAppends.Promise
+	public static debug = ackAppends.debug
 	
 	error(){return this.ackGet('error')}
 	number(){return this.ackGet('number')}
@@ -165,6 +170,9 @@ export class ackExpose{
 		return JSON.stringify(this.$var, null, spacing)
 	}
 	
+	dump(spacing){
+		return this.stringify(spacing)
+	}	
 	/** negative numbers will be 0  */
 	getBit(){
 		var b = this.getBoolean()

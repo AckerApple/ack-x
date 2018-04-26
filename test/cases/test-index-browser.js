@@ -22,7 +22,7 @@ describe('index-browser',function(){
   })
 
   it('has-ack', function(){
-    var d = indexBrowser( 0 ).date( 0 ).toUtc().date
+    var d = indexBrowser.date( 0 ).toUtc().date
     assert.equal(d.constructor, Date)
     assert.equal(d.getFullYear(), 1970)
   })

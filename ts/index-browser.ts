@@ -1,57 +1,42 @@
 import { ackExpose, ackAppends } from "./ack"
 
-export function ack($var){
-  return new ackExpose2($var)
-}
-
-for(let x in ackAppends){
-  ack[x] = ackAppends[x]
-}
-
 import { method as errorMethod } from "./error"
-ack['error'] = errorMethod
-
 import { method as numberMethod } from "./number"
-ack['number'] = numberMethod
-
 import { method as stringMethod } from "./string"
-ack['string'] = stringMethod
-
 import { method as binaryMethod } from "./binary"
-ack['binary'] = binaryMethod
-
 import { method as base64Method } from "./base64"
-ack['base64'] = base64Method
-
 import { method as objectMethod } from "./object"
-ack['object'] = objectMethod
-
 import { method as arrayMethod } from "./array"
-ack['array'] = arrayMethod
-
 import { method as queryObjectMethod } from "./queryObject"
-ack['queryObject'] = queryObjectMethod
-
 import { method as weekMethod } from "./week"
-ack['week'] = weekMethod
-
 import { method as monthMethod } from "./month"
-ack['month'] = monthMethod
-
 import { method as yearMethod } from "./year"
-ack['year'] = yearMethod
-
 import { method as dateMethod } from "./date"
-ack['date'] = dateMethod
-
 import { method as timeMethod } from "./time"
-ack['time'] = timeMethod
-
 import { method as methodMethod } from "./method"
-ack['method'] = methodMethod
 
-export class ackExpose2 extends ackExpose{
+export class ack extends ackExpose{
+  constructor($var){
+    super( $var )
+    return this
+  }
+
   ackit(name){
     return ack[name]
   }
+  
+  public static error = errorMethod
+  public static number = numberMethod
+  public static string = stringMethod
+  public static binary = binaryMethod
+  public static base64 = base64Method
+  public static object = objectMethod
+  public static array = arrayMethod
+  public static queryObject = queryObjectMethod
+  public static week = weekMethod
+  public static month = monthMethod
+  public static year = yearMethod
+  public static date = dateMethod
+  public static time = timeMethod
+  public static method = methodMethod
 }

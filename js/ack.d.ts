@@ -15,10 +15,16 @@ export declare const ackAppends: {
 };
 export declare class ackExpose {
     $var: any;
-    dump: (spacing: any) => string;
     constructor($var: any);
     ackit(name: any): any;
     ackGet(name: any): any;
+    static throwBy: (ob: any, msg: any) => never;
+    static logArrayTo: (array: any, logTo: any) => void;
+    static logError: (err: any, msg: any, logTo: any) => void;
+    static injector: ($scope: any) => ackInjector;
+    static promise: (var0: any, var1: any, var2: any, var3: any) => any;
+    static Promise: (resolver: any) => any;
+    static debug: (name: any, log0: any, log1: any, log2: any) => any;
     error(): any;
     number(): any;
     string(): any;
@@ -41,6 +47,7 @@ export declare class ackExpose {
     throw(msg: any, logTo: any): this;
     /** JSON.stringify with default spacing=2 */
     stringify(spacing: any): string;
+    dump(spacing: any): string;
     /** negative numbers will be 0  */
     getBit(): 0 | 1;
     nullsToEmptyString(): this;
