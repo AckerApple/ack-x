@@ -1,7 +1,8 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
-## [1.4.4] - 2018-04-25
+## [1.4.6] - 2018-04-25
+- getWeek() is no longer driven by UTC results
 - Better TypeScripting
 - BREAKING CHANGES
   - changed the way ack-x is invoked

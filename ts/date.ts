@@ -879,14 +879,15 @@ export function dateWeekDiff(date0, date1){
 //  return Math.abs( weekOfDate( date0 ) - weekOfDate( date1 ) )
 }
 
-export function weekOfDate( date:any ){
-  var d = toDate(date)
-  var onejan = new Date(d.getFullYear(),0,1)
-  var nowDate = d.getTime()
-  const calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay()+1) / 7
-  return Math.ceil( calc )
+export function weekOfDate(d):number{
+  let now = new Date(d)
+  let onejan = new Date(now.getFullYear(), 0, 1)
+  return Math.ceil( (((now.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7 )
 }
 
+export function utcWeekOfDate(d):number{
+  return moment(d).format("W")
+}
 
 
 

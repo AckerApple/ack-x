@@ -176,6 +176,16 @@ describe('ack.date',function(){
 		assert.equal(ack.date().now().minuteOfDay() >= new Date().getMinutes(), true)
 	})
 
+	it('#getWeek',function(){
+		assert.equal(ack.date("04/28/2018").getWeek(), 17, "04/28/2018")
+		assert.equal(ack.date("04/29/2018 11:20 pm").getWeek(), 18, "04/29/2018")
+		assert.equal(ack.date("04/29/2018").getWeek(), 18, "04/29/2018")
+		assert.equal(ack.date("05/05/2018").getWeek(), 18, "05/05/2018")
+
+		assert.equal(ack.date("05/06/2018").getWeek(), 19, "05/06/2018")
+		assert.equal(ack.date("05/12/2018").getWeek(), 19, "05/12/2018")
+	})
+
 	it('#getWeeksWithMondayInYearExposedArray',function(){
 		var jDate = ack.date('8/3/2015')
 		var yweArray = jDate.getWeeksWithMondayInYearExposedArray()

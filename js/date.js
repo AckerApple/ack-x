@@ -739,14 +739,16 @@ function dateWeekDiff(date0, date1) {
     //  return Math.abs( weekOfDate( date0 ) - weekOfDate( date1 ) )
 }
 exports.dateWeekDiff = dateWeekDiff;
-function weekOfDate(date) {
-    var d = toDate(date);
-    var onejan = new Date(d.getFullYear(), 0, 1);
-    var nowDate = d.getTime();
-    var calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7;
-    return Math.ceil(calc);
+function weekOfDate(d) {
+    var now = new Date(d);
+    var onejan = new Date(now.getFullYear(), 0, 1);
+    return Math.ceil((((now.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);
 }
 exports.weekOfDate = weekOfDate;
+function utcWeekOfDate(d) {
+    return moment(d).format("W");
+}
+exports.utcWeekOfDate = utcWeekOfDate;
 var eackDate = function (date) {
     return new AckDate(date);
 };
