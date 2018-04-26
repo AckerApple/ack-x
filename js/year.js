@@ -13,7 +13,7 @@ var ackYear = /** @class */ (function () {
     }
     ackYear.prototype.setStartDate = function (date) {
         var isObject = typeof (date) == 'object', isYearString = !isObject && !isNaN(Number(date)), isYear = isYearString || (!date_1.method(date).isDate() && !isNaN(date));
-        if (isYear) {
+        if (isYear) { //just the year number?
             date = new Date(new Date('1/1/2011').setFullYear(date));
         }
         this.date = date;
@@ -27,7 +27,7 @@ var ackYear = /** @class */ (function () {
         return this.date;
     };
     ackYear.prototype.setEndDate = function (date) {
-        if (!date_1.method(date).isDate() && !isNaN(date))
+        if (!date_1.method(date).isDate() && !isNaN(date)) //just the year number?
             this.date = new Date('12/31/' + date);
         else
             this.date = date;

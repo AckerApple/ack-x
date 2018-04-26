@@ -1,6 +1,12 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.4.0] - 2018-04-25
+- BREAKING CHANGES
+  - changed the way ack-x is invoked
+  - FROM require('ack-x')
+  - ONTO require('ack-x').ack
+
 ## [1.3.24] - 2018-04-25
 - Added
   - ack.date.gotoFirstDayOfMonth

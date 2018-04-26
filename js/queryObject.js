@@ -93,7 +93,7 @@ var jXQueryObjectCsv = /** @class */ (function () {
         /* build CSV content */
         //console.log('nameArray[0]', nameArray[0], nameArray, this.data.isNameFirstRow, this.data.queryObject)
         var rowLoop, columnName, firstColumn = this.data.queryObject[nameArray[0]];
-        if (firstColumn) {
+        if (firstColumn) { //when no data provided, firstColumn is null
             var len = firstColumn.length; //get array len from first column
             for (rowLoop = 0; rowLoop < len; ++rowLoop) {
                 tempArray = [];

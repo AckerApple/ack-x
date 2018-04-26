@@ -34,7 +34,7 @@ function paramdata() {
 exports.paramdata = paramdata;
 //assumptions: .data exists && keyName will be found in lowercase
 function set(nameOrInitStruct, value) {
-    if (typeof (nameOrInitStruct) == 'string') {
+    if (typeof (nameOrInitStruct) == 'string') { //is arg1 name
         paramdata.call(this); //ensure this.data is defined
         var keyName = nameOrInitStruct; //nameOrInitStruct.toLowerCase()
         this.data[keyName] = value;
@@ -48,7 +48,7 @@ exports.set = set;
 //very specific and tuned function to set variables using setMethods
 function setByAccessor(nameOrInitStruct, value) {
     if (typeof (nameOrInitStruct) == 'string') {
-        if (this['set' + nameOrInitStruct]) {
+        if (this['set' + nameOrInitStruct]) { //exact key case found
             this['set' + nameOrInitStruct].call(this, value);
             return this;
         }

@@ -28,7 +28,7 @@ var Month = /** @class */ (function (_super) {
         var jDate = date_1.method();
         if (!jDate.isDate(date)) {
             var num = Number(date);
-            if (!isNaN(num)) {
+            if (!isNaN(num)) { //just the month number?
                 date = date_1.method().now().setDate(1).setMonth(date).date;
             }
             else {
@@ -56,7 +56,7 @@ var Month = /** @class */ (function (_super) {
         return this;
     };
     Month.prototype.setEndDate = function (date) {
-        if (!date_1.method(date).isDate() && !isNaN(date))
+        if (!date_1.method(date).isDate() && !isNaN(date)) //just the month number?
             this.endDate = date_1.method(new Date()).setMonth(date).getLastDateOfMonth();
         else
             this.endDate = date;

@@ -1,1 +1,1 @@
-module.exports = require('./index-browser.js');
+module.exports = require('./js/index-browser.js')

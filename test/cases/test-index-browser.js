@@ -1,7 +1,7 @@
 "use strict";
 
 var assert = require('assert'),
-    indexBrowser = require('../../js/index-browser')
+    indexBrowser = require('../../js/index-browser').ack
 
 describe('index-browser',function(){
   it('has-functions',function(){

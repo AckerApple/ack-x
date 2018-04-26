@@ -13,7 +13,7 @@ var ackInjector = /** @class */ (function () {
             var isInjectInit = typeof (injectArray) == 'function', init = isInjectInit ? injectArray : injectArray[injectArray.length - 1], args = [];
             if (!isInjectInit) {
                 var tar;
-                for (var i = 0; i < injectArray.length - 1; ++i) {
+                for (var i = 0; i < injectArray.length - 1; ++i) { //all but last, last was init
                     switch (injectArray[i].toLowerCase()) {
                         case '$arg0':
                             tar = $args[0];
@@ -39,13 +39,14 @@ var ackInjector = /** @class */ (function () {
                 }
             }
             args = args.concat(Array.prototype.slice.call($args));
-            if (typeof (init) == 'string') {
+            if (typeof (init) == 'string') { //last arg is module to return
                 switch (init) {
                     case '$module':
                         return $module.apply($module, args);
                     //break;
                     default:
                         throw 'should not get here. Last argument of injector was not a function NOR "$module"';
+                    //return $module.apply(this.$scope[init], args)
                 }
             }
             return init.apply(init, args);

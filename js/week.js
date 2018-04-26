@@ -25,14 +25,14 @@ var Week = /** @class */ (function (_super) {
         return this.endDate;
     };
     Week.prototype.setEndDate = function (date) {
-        if (!date_1.method(date).isDate() && !isNaN(date))
+        if (!date_1.method(date).isDate() && !isNaN(date)) //just the month number?
             this.endDate = date_1.method(new Date()).setMonth(date).getLastDateOfMonth();
         else
             this.endDate = date;
         return this;
     };
     Week.prototype.setStartDate = function (date) {
-        if (!isNaN(date) && date.constructor != Date)
+        if (!isNaN(date) && date.constructor != Date) //just the month number?
             this.date = date_1.method(new Date()).gotoWeek(date).date;
         else
             this.date = date;

@@ -1,5 +1,6 @@
-var webpack = require('webpack');
+var webpack = require('webpack')
 var path = require('path')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = [{
   entry: "./entry.js",
@@ -14,22 +15,15 @@ module.exports = [{
     filename: "ack-x-min.js"
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
+    new UglifyJsPlugin({
+      cache: true,
+      parallel: true,
+      uglifyOptions: {
+        compress: false,
+        ecma: 6,
+        mangle: true
+      },
+      sourceMap: true
     })
   ]
-},/*{
-  entry: "./entry.js",
-  output: {
-    path: path.join(__dirname,'test'),
-    filename: "ack-x.js",
-    library:'ack',
-    libraryTarget:'this'
-  }
-},*/{
-  entry: "mocha!./entry-test.js",
-  output: {
-    path: path.join(__dirname,'test'),
-    filename: "ack-x-test.js"
-  }
 }]

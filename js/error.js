@@ -30,7 +30,7 @@ var jError = /** @class */ (function () {
             if (this.errorObject.stack.split) {
                 this.stackArray = this.errorObject.stack.split(' at ');
             }
-            else if (this.errorObject.stack.splice) {
+            else if (this.errorObject.stack.splice) { //?already an array?
                 this.stackArray = this.errorObject.stack;
             }
             return this.stackArray;

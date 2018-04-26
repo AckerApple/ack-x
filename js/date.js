@@ -699,7 +699,7 @@ function isDate(date) {
     var isRawDate = date.constructor == Date && !isNaN(date.getTime());
     if (isRawDate)
         return true;
-    if (date.search)
+    if (date.search) //string
         return date.search(/^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4}|[0-9]{2})$/) >= 0;
     return false;
 }
