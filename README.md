@@ -6,33 +6,42 @@
 
 Extra functional library to objectify & compartmentalize variables into wrappers that make invokation & injection processes, lighter & easier to implement.
 
-### Table of Contents
+<details>
+  <summary><strong>Table of Contents</strong></summary>
 
-- [The ack Function](#the-ack-function)
-- [ack.date](#ackdate)
-- [ack.array](#ackarray)
-- [ack.method](#ackmethod)
-- [ack.error](#ackerror)
-- [ack.number](#acknumber)
-- [ack.object](#ackobject)
-- [ack.string](#ackstring)
+- [Install](#install)
+- [import](#import)
+- [Usage Documentation](#usage-documentation)
+  - [getBoolean](#ackgetboolean)
+  - [isBooleanLike](#ackisbooleanlike)
+  - [nullsToEmptyString](#acknullstoemptystring)
+  - [getBit](#ackgetbit)
+  - [stringify](#ackstringify)
+  - [get](#ackget)
+  - [byName](#ackbyname)
+  - [ack.date](#ackdate)
+  - [ack.array](#ackarray)
+  - [ack.method](#ackmethod)
+  - [ack.error](#ackerror)
+  - [ack.number](#acknumber)
+  - [ack.object](#ackobject)
+  - [ack.string](#ackstring)
 - [More Examples](#more-examples)
 
-## The ack Function
-Access to short-hand methods that can function with most all variable types
+</details>
+
+## Install
+```
+npm install ack-x
+```
+## Import
 ```javascript
-var ack = require('ack-x')
+require("ack-x").ack
 
 ack( someVariable )
 ```
 
-- [getBoolean](#ackgetboolean)
-- [isBooleanLike](#ackisbooleanlike)
-- [nullsToEmptyString](#acknullstoemptystring)
-- [getBit](#ackgetbit)
-- [stringify](#ackstringify)
-- [get](#ackget)
-- [byName](#ackbyname)
+## Usage Documentation
 
 ### ack.getBoolean
 reduces variable to a true/false
@@ -764,7 +773,7 @@ ack.string(s)._utf8_encode()
 ## Simple Example of Variable Exposing
 ```javascript
 //get date object for the first hour, minute and second of the first day of month
-var aDate = require('ack-x').date().now()
+var aDate = require('ack-x').ack.date().now()
 var startOfDate = aDate.gotoFirstDayOfMonth().gotoStartOfDate()
 var monthStartsExactlyAt = startOfDate.date
 
@@ -775,7 +784,7 @@ console.log( monthStartsExactlyAt )
 ### Complex Example of Variable Exposing
 In the following example, many modules are used to manipulate variables
 ```javascript
-var ack = require('ack-x')
+var ack = require('ack-x').ack
 var xDate = ack.date().now()//expose date as now
 
 ack.promise(
