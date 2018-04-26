@@ -1,10 +1,11 @@
 # ack-x
+Extra functional library to objectify & compartmentalize variables into wrappers that make invokation & injection processes, lighter & easier to implement.
+
 [![build status](https://travis-ci.org/AckerApple/ack-x.svg)](http://travis-ci.org/AckerApple/ack-x)
 [![Build status](https://ci.appveyor.com/api/projects/status/r2dj2j87wspg1unk?svg=true)](https://ci.appveyor.com/project/AckerApple/ack-x)
 [![NPM version](https://img.shields.io/npm/v/ack-x.svg?style=flat-square)](https://www.npmjs.com/package/ack-x)
 [![dependencies](https://david-dm.org/ackerapple/ack-x/status.svg)](https://david-dm.org/ackerapple/ack-x)
 
-Extra functional library to objectify & compartmentalize variables into wrappers that make invokation & injection processes, lighter & easier to implement.
 
 <details>
   <summary><strong>Table of Contents</strong></summary>
