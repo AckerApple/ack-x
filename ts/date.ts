@@ -567,7 +567,7 @@ export class AckDate{
 
 
   /* FORMATTING */
-  format(format){
+  format( format ){
     return moment(this.date).format(format)
   }
 
@@ -588,10 +588,8 @@ export class AckDate{
   }
 
   /** 01:20.220 */
-  hhmmssl(timeSep, milsecSep){
+  hhmmssl(timeSep=':', milsecSep='.'){
     if(!this.date)return ''
-    timeSep = timeSep || ':'
-    milsecSep = milsecSep || '.'
     var d = this.date
     var h:any = d.getHours()
     var m:any = d.getMinutes()
@@ -630,9 +628,8 @@ export class AckDate{
     return h+':'+m+' '+t
   }
 
-  mmddyyyyhhmmtt(dateSep, spaceSep, timeSep, ttSep){
+  mmddyyyyhhmmtt(dateSep?, spaceSep=' ', timeSep?, ttSep?){
     if(!this.date)return ''
-    spaceSep = spaceSep==null?' ':spaceSep;
     return this.mmddyyyy(dateSep)+ spaceSep + this.hhmmtt(timeSep, ttSep)
   }
 
@@ -667,10 +664,8 @@ export class AckDate{
   }
 
   //yyyy-mm-dd hh:nn:ss:l aka serverFormat
-  storageFormat(dateSep, spaceSep, timeSep, milsecSep){
+  storageFormat(dateSep:string='-', spaceSep:string=' ', timeSep?, milsecSep?){
     if(!this.date)return '';
-    dateSep = dateSep || '-'
-    spaceSep = spaceSep || ' '
     return this.date.getFullYear() + dateSep + this.mmdd(dateSep) + spaceSep + this.hhmmssl(timeSep, milsecSep)
   }
 
@@ -879,15 +874,27 @@ export function dateWeekDiff(date0, date1){
 //  return Math.abs( weekOfDate( date0 ) - weekOfDate( date1 ) )
 }
 
+export function weekOfDate( date:any ){
+  var d = startOfDateDay( toDate(date) )
+  var onejan = new Date(d.getFullYear(),0,1)
+  var nowDate = d.getTime()
+  const calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay()+1) / 7
+  return Math.ceil( calc )
+}
+/*
 export function weekOfDate(d):number{
-  let now = new Date(d)
-  let onejan = new Date(now.getFullYear(), 0, 1)
-  return Math.ceil( (((now.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7 )
+  const now = startOfDateDay(new Date(d))
+  const onejan = new Date(now.getFullYear(), 0, 1)
+
+  const timeApart = now.getTime() - onejan.getTime()
+  const daysApart = timeApart / 86400000
+  return Math.ceil( (daysApart + onejan.getDay() + 1) / 7 )
 }
 
 export function utcWeekOfDate(d):number{
   return moment(d).format("W")
 }
+*/
 
 
 

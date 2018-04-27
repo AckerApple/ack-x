@@ -178,12 +178,16 @@ describe('ack.date',function(){
 
 	it('#getWeek',function(){
 		assert.equal(ack.date("04/28/2018").getWeek(), 17, "04/28/2018")
+		assert.equal(ack.date("04/29/2018").getWeek(), 18, "04/29/2018")
 		assert.equal(ack.date("04/29/2018 11:20 pm").getWeek(), 18, "04/29/2018")
 		assert.equal(ack.date("04/29/2018").getWeek(), 18, "04/29/2018")
 		assert.equal(ack.date("05/05/2018").getWeek(), 18, "05/05/2018")
 
 		assert.equal(ack.date("05/06/2018").getWeek(), 19, "05/06/2018")
 		assert.equal(ack.date("05/12/2018").getWeek(), 19, "05/12/2018")
+
+		assert.equal(ack.date("05/05/2018 00:00:00.0").getWeek(), 18, "2018-05-05 00:00:00.0")
+		assert.equal(ack.date("05/05/2018 06:30:00.0").getWeek(), 18, "2018-05-05 06:30:00.0")
 	})
 
 	it('#getWeeksWithMondayInYearExposedArray',function(){

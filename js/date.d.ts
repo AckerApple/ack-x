@@ -142,13 +142,13 @@ export declare class AckDate {
     /** Febuary 24th 2016 */
     mmmmdyyyy(): string;
     /** 01:20.220 */
-    hhmmssl(timeSep: any, milsecSep: any): string;
+    hhmmssl(timeSep?: string, milsecSep?: string): string;
     hhmmsl(timeSep: any, milsecSep: any): any;
     hmmtt(): string;
-    mmddyyyyhhmmtt(dateSep: any, spaceSep: any, timeSep: any, ttSep: any): string;
+    mmddyyyyhhmmtt(dateSep?: any, spaceSep?: string, timeSep?: any, ttSep?: any): string;
     hhmmtt(timeSep: any, ttSep: any): string;
     hhmmsstt(timeSep: any, ttSep: any): string;
-    storageFormat(dateSep: any, spaceSep: any, timeSep: any, milsecSep: any): string;
+    storageFormat(dateSep?: string, spaceSep?: string, timeSep?: any, milsecSep?: any): string;
     yyyymmdd(sep: any): string;
     mmddyyyy(sep?: any): string;
     mdyyyy(sep: any): any;
@@ -179,8 +179,7 @@ export declare const dayAbbrArray: string[];
 export declare function dateYearDiff(d0: any, d1: any): number;
 export declare function dateMonthDiff(date0: any, date1: any): number;
 export declare function dateWeekDiff(date0: any, date1: any): number;
-export declare function weekOfDate(d: any): number;
-export declare function utcWeekOfDate(d: any): number;
+export declare function weekOfDate(date: any): number;
 export declare function parseTimeString(date: any): {
     hour: any;
     minute: any;

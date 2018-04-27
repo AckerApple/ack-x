@@ -468,10 +468,10 @@ var AckDate = /** @class */ (function () {
     };
     /** 01:20.220 */
     AckDate.prototype.hhmmssl = function (timeSep, milsecSep) {
+        if (timeSep === void 0) { timeSep = ':'; }
+        if (milsecSep === void 0) { milsecSep = '.'; }
         if (!this.date)
             return '';
-        timeSep = timeSep || ':';
-        milsecSep = milsecSep || '.';
         var d = this.date;
         var h = d.getHours();
         var m = d.getMinutes();
@@ -504,9 +504,9 @@ var AckDate = /** @class */ (function () {
         return h + ':' + m + ' ' + t;
     };
     AckDate.prototype.mmddyyyyhhmmtt = function (dateSep, spaceSep, timeSep, ttSep) {
+        if (spaceSep === void 0) { spaceSep = ' '; }
         if (!this.date)
             return '';
-        spaceSep = spaceSep == null ? ' ' : spaceSep;
         return this.mmddyyyy(dateSep) + spaceSep + this.hhmmtt(timeSep, ttSep);
     };
     AckDate.prototype.hhmmtt = function (timeSep, ttSep) {
@@ -538,10 +538,10 @@ var AckDate = /** @class */ (function () {
     };
     //yyyy-mm-dd hh:nn:ss:l aka serverFormat
     AckDate.prototype.storageFormat = function (dateSep, spaceSep, timeSep, milsecSep) {
+        if (dateSep === void 0) { dateSep = '-'; }
+        if (spaceSep === void 0) { spaceSep = ' '; }
         if (!this.date)
             return '';
-        dateSep = dateSep || '-';
-        spaceSep = spaceSep || ' ';
         return this.date.getFullYear() + dateSep + this.mmdd(dateSep) + spaceSep + this.hhmmssl(timeSep, milsecSep);
     };
     AckDate.prototype.yyyymmdd = function (sep) {
@@ -739,16 +739,28 @@ function dateWeekDiff(date0, date1) {
     //  return Math.abs( weekOfDate( date0 ) - weekOfDate( date1 ) )
 }
 exports.dateWeekDiff = dateWeekDiff;
-function weekOfDate(d) {
-    var now = new Date(d);
-    var onejan = new Date(now.getFullYear(), 0, 1);
-    return Math.ceil((((now.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);
+function weekOfDate(date) {
+    var d = startOfDateDay(toDate(date));
+    var onejan = new Date(d.getFullYear(), 0, 1);
+    var nowDate = d.getTime();
+    var calc = (((nowDate - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7;
+    return Math.ceil(calc);
 }
 exports.weekOfDate = weekOfDate;
-function utcWeekOfDate(d) {
-    return moment(d).format("W");
+/*
+export function weekOfDate(d):number{
+  const now = startOfDateDay(new Date(d))
+  const onejan = new Date(now.getFullYear(), 0, 1)
+
+  const timeApart = now.getTime() - onejan.getTime()
+  const daysApart = timeApart / 86400000
+  return Math.ceil( (daysApart + onejan.getDay() + 1) / 7 )
 }
-exports.utcWeekOfDate = utcWeekOfDate;
+
+export function utcWeekOfDate(d):number{
+  return moment(d).format("W")
+}
+*/
 var eackDate = function (date) {
     return new AckDate(date);
 };
