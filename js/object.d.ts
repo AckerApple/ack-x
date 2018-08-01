@@ -5,6 +5,7 @@ export declare class jXObject {
     /** @method(item, index, object) */
     forEach(method: any): this;
     assign(...args: any[]): this;
+    /** aka deepClone */
     deepAssign(...args: any[]): this;
     /** When object, returns similar object with key values as results of mapping
         map array or object @method(item, index, object)

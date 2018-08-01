@@ -56,7 +56,7 @@ export class jXNumber{
 
 }
 
-function suffixByNumber(i){
+export function suffixByNumber(i):string{
   if(!i)return ''
 
   var j = i % 10,

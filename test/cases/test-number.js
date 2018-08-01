@@ -3,10 +3,15 @@ var ack = global.ack,
 	assert = require('assert')
 
 describe('ack.number',function(){
-	it('#decimalFormat',function(){
-		var decimalF = 467.65484646848,
-			decimal0 = 0
-		assert.equal(ack.number(decimalF).decimalFormat(),467.65)
+	it('#getSuffix',function(){
+    assert.equal(ack.number(1).getSuffix(),"st")
+		assert.equal(ack.number(2).getSuffix(),"nd")
+  })
+  
+  it('#decimalFormat',function(){
+    var decimalF = 467.65484646848,
+      decimal0 = 0
+    assert.equal(ack.number(decimalF).decimalFormat(),467.65)
 		assert.equal(ack.number(decimal0).decimalFormat(),0.00)
 	})
 

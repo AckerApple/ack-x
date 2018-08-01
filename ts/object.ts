@@ -21,6 +21,7 @@ export class jXObject{
 		return this
 	}
 	
+  /** aka deepClone */
 	deepAssign(...args){
 		deepAssign.apply(deepAssign, [this.object, ...args])
 		return this

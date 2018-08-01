@@ -1,6 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var momentPackage = require("moment");
+var number_1 = require("./number");
 var moment = momentPackage["default"] ? momentPackage["default"] : momentPackage;
 /* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
 var AckDate = /** @class */ (function () {
@@ -206,6 +207,7 @@ var AckDate = /** @class */ (function () {
         return this.year() + y;
     };
     AckDate.prototype.nextYear = function (y) {
+        if (y === void 0) { y = 1; }
         this.setYear(this.getNextYear(y));
         return this;
     };
@@ -218,12 +220,17 @@ var AckDate = /** @class */ (function () {
         return this;
     };
     /* MONTHS */
-    /** 1st 2nd 3rd of the month */
+    /** Jan, Feb, Mar */
     AckDate.prototype.getMonthAbbr = function () {
         return exports.monthAbbrArray[this.date.getMonth()];
     };
+    /** 1st 2nd 3rc of the month */
     AckDate.prototype.getMonthDateProperNumber = function () {
-        return suffixByNumber(this.date.getDate());
+        return this.date.getDate() + this.getMonthDateNumberSuffix();
+    };
+    /** st || nd || rd. Used for 1st 2nd 3rc of the month */
+    AckDate.prototype.getMonthDateNumberSuffix = function () {
+        return number_1.suffixByNumber(this.date.getDate());
     };
     AckDate.prototype.fullWeeksLeftInMonth = function () {
         var eDate = this.getLastDateOfMonth();
@@ -624,20 +631,6 @@ function getTimezoneStamp(date, seperator) {
     return value;
 }
 exports.getTimezoneStamp = getTimezoneStamp;
-function suffixByNumber(i) {
-    var j = i % 10, k = i % 100;
-    if (j == 1 && k != 11) {
-        return i + "st";
-    }
-    if (j == 2 && k != 12) {
-        return i + "nd";
-    }
-    if (j == 3 && k != 13) {
-        return i + "rd";
-    }
-    return i + "th";
-}
-exports.suffixByNumber = suffixByNumber;
 function dateAddDay(d, amount) {
     if (amount === void 0) { amount = 1; }
     var dat = new Date(d);

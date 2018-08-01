@@ -1,7 +1,7 @@
 export declare class jXNumber {
     number: number;
     constructor(number: any);
-    getSuffix(): "" | "st" | "nd" | "rd" | "th";
+    getSuffix(): string;
     /** @p - decimal places */
     decimalFormat(p: any): string;
     /** convert set number into how many minutes into a date. Ex: 60 = new Date('2016-01-16 1:00:00.0')
@@ -16,4 +16,5 @@ export declare class jXNumber {
     */
     asMinutesToTime(options: any): string;
 }
+export declare function suffixByNumber(i: any): string;
 export declare function method(path: any): jXNumber;

@@ -1,6 +1,9 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.4.8] - 2018-04-25
+- added date.getMonthDateNumberSuffix
+
 ## [1.4.7] - 2018-04-25
 - fixed weekOfDate()
 - Better TypeScripting

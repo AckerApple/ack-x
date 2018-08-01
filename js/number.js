@@ -63,6 +63,7 @@ function suffixByNumber(i) {
     }
     return "th";
 }
+exports.suffixByNumber = suffixByNumber;
 function method(path) {
     return new jXNumber(path);
 }

@@ -488,7 +488,7 @@ describe('ack.date',function(){
 
 	it('#week',function(){
 		var d = new Date('1/25/2018')
-		assert.equal(ack.date().week(d), 17)
+		assert.equal(ack.date(d).week(), 4)
 	})
 
 	it('#dateWeekDiff',function(){

@@ -1,4 +1,5 @@
 import * as momentPackage from "moment"
+import { suffixByNumber } from "./number"
 
 const moment = momentPackage["default"] ? momentPackage["default"] : momentPackage
 
@@ -246,12 +247,12 @@ export class AckDate{
     return Math.ceil((d.getTime() - compareDate) / 86400000)
   }
 
-  getNextYear(y){
+  getNextYear( y ){
     y = y==null ? 1 : Number(y)
     return this.year()+y
   }
   
-  nextYear(y):AckDate{
+  nextYear( y=1 ):AckDate{
     this.setYear( this.getNextYear(y) )
     return this
   }
@@ -270,12 +271,18 @@ export class AckDate{
 
   /* MONTHS */
 
-  /** 1st 2nd 3rd of the month */
+  /** Jan, Feb, Mar */
   getMonthAbbr(){
     return monthAbbrArray[this.date.getMonth()]
   }
 
-  getMonthDateProperNumber(){
+  /** 1st 2nd 3rc of the month */
+  getMonthDateProperNumber():string{
+    return this.date.getDate() + this.getMonthDateNumberSuffix()
+  }
+  
+  /** st || nd || rd. Used for 1st 2nd 3rc of the month */
+  getMonthDateNumberSuffix():string{
     return suffixByNumber( this.date.getDate() )
   }
 
@@ -747,21 +754,6 @@ export function getTimezoneStamp(date, seperator){
   return value
 }
 
-export function suffixByNumber(i){
-  var j = i % 10,
-      k = i % 100;
-  if (j == 1 && k != 11) {
-      return i + "st";
-  }
-  if (j == 2 && k != 12) {
-      return i + "nd";
-  }
-  if (j == 3 && k != 13) {
-      return i + "rd";
-  }
-  return i + "th";
-}
-
 export function dateAddDay(d, amount=1){
   var dat = new Date(d);
   dat.setDate(dat.getDate() + amount);
@@ -874,7 +866,7 @@ export function dateWeekDiff(date0, date1){
 //  return Math.abs( weekOfDate( date0 ) - weekOfDate( date1 ) )
 }
 
-export function weekOfDate( date:any ){
+export function weekOfDate( date:any ):number{
   var d = startOfDateDay( toDate(date) )
   var onejan = new Date(d.getFullYear(),0,1)
   var nowDate = d.getTime()

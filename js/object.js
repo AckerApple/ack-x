@@ -36,6 +36,7 @@ var jXObject = /** @class */ (function () {
         assign.apply(assign, [this.object].concat(args));
         return this;
     };
+    /** aka deepClone */
     jXObject.prototype.deepAssign = function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {

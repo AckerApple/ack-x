@@ -57,14 +57,17 @@ export declare class AckDate {
     setYear(n: any): AckDate;
     dayOfYear(): number;
     getNextYear(y: any): any;
-    nextYear(y: any): AckDate;
-    addYear: (y: any) => AckDate;
-    addYears: (y: any) => AckDate;
+    nextYear(y?: number): AckDate;
+    addYear: (y?: number) => AckDate;
+    addYears: (y?: number) => AckDate;
     getPriorYear(y: any): number;
     priorYear(y: any): AckDate;
-    /** 1st 2nd 3rd of the month */
+    /** Jan, Feb, Mar */
     getMonthAbbr(): string;
+    /** 1st 2nd 3rc of the month */
     getMonthDateProperNumber(): string;
+    /** st || nd || rd. Used for 1st 2nd 3rc of the month */
+    getMonthDateNumberSuffix(): string;
     fullWeeksLeftInMonth(): number;
     weekInMonth(): number;
     getMonthDayCount(): number;
@@ -161,7 +164,6 @@ export declare class AckDate {
 export declare function dateObjectBy(date: any, format?: any): any;
 export declare function toDate(date: any, format?: any): any;
 export declare function getTimezoneStamp(date: any, seperator: any): string;
-export declare function suffixByNumber(i: any): string;
 export declare function dateAddDay(d: any, amount?: number): Date;
 export declare function startOfDateDay(date: any): Date;
 export declare function endOfDateDay(date: any): Date;
