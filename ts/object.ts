@@ -5,7 +5,7 @@ export function method(ob){
 export class jXObject{
 	object:any
 
-	constructor(object):jXObject{
+	constructor(object){
 		this.object = object
 		return this		
 	}

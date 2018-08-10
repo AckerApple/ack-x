@@ -149,7 +149,8 @@ export declare class AckDate {
     hhmmsl(timeSep: any, milsecSep: any): any;
     hmmtt(): string;
     mmddyyyyhhmmtt(dateSep?: any, spaceSep?: string, timeSep?: any, ttSep?: any): string;
-    hhmmtt(timeSep: any, ttSep: any): string;
+    hhmm(timeSep?: string): string;
+    hhmmtt(timeSep?: string, ttSep?: string): string;
     hhmmsstt(timeSep: any, ttSep: any): string;
     storageFormat(dateSep?: string, spaceSep?: string, timeSep?: any, milsecSep?: any): string;
     yyyymmdd(sep: any): string;

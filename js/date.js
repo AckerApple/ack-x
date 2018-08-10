@@ -516,12 +516,24 @@ var AckDate = /** @class */ (function () {
             return '';
         return this.mmddyyyy(dateSep) + spaceSep + this.hhmmtt(timeSep, ttSep);
     };
-    AckDate.prototype.hhmmtt = function (timeSep, ttSep) {
+    AckDate.prototype.hhmm = function (timeSep) {
+        if (timeSep === void 0) { timeSep = ':'; }
         if (!this.date)
             return '';
         var d = this.date;
         var timeSep = timeSep || ':';
-        var ttSep = ttSep == null ? ' ' : ttSep;
+        var h = d.getHours();
+        var m = d.getMinutes();
+        m = m < 10 ? '0' + m : m;
+        h = h >= 12 ? (h - 12 || 12) : (h == 0 ? 12 : h);
+        return ('0' + h).slice(-2) + timeSep + m;
+    };
+    AckDate.prototype.hhmmtt = function (timeSep, ttSep) {
+        if (timeSep === void 0) { timeSep = ':'; }
+        if (ttSep === void 0) { ttSep = ' '; }
+        if (!this.date)
+            return '';
+        var d = this.date;
         var h = d.getHours();
         var t = 'AM';
         var m = d.getMinutes();
