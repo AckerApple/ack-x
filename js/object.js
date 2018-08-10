@@ -194,7 +194,7 @@ function assign(target, firstSource) {
     }
     return to;
 }
-//object.assign polyfill
+//clone like version of object.assign polyfill
 function deepAssign(target, firstSource) {
     if (target === undefined || target === null) {
         throw new TypeError('Cannot convert first argument to object');
@@ -212,7 +212,9 @@ function deepAssign(target, firstSource) {
             if (desc !== undefined && desc.enumerable) {
                 if (nextSource[nextKey] != null && typeof (nextSource[nextKey]) == 'object') {
                     if (nextSource[nextKey].constructor == Array) {
-                        to[nextKey] = nextSource[nextKey];
+                        to[nextKey] = duplicateArray(nextSource[nextKey]);
+                        //does not clone
+                        //to[nextKey] = nextSource[nextKey];
                     }
                     else {
                         to[nextKey] = to[nextKey] || {};
@@ -226,4 +228,17 @@ function deepAssign(target, firstSource) {
         }
     }
     return to;
+}
+function duplicateArray(a) {
+    return a.map(function (v, i) {
+        switch (typeof (v)) {
+            case 'object': {
+                if (v.constructor === Array) {
+                    return duplicateArray(v);
+                }
+                return deepAssign({}, v);
+            }
+        }
+        return v;
+    });
 }

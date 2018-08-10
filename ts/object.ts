@@ -5,24 +5,24 @@ export function method(ob){
 export class jXObject{
 	object:any
 
-	constructor(object){
+	constructor(object):jXObject{
 		this.object = object
 		return this		
 	}
 
 	/** @method(item, index, object) */
-	forEach(method){
+	forEach(method):jXObject{
 		forEach(this.object, method)
 		return this
 	}
 
-	assign(...args){
+	assign(...args):jXObject{
 		assign.apply(assign, [this.object, ...args])
 		return this
 	}
 	
   /** aka deepClone */
-	deepAssign(...args){
+	deepAssign(...args):jXObject{
 		deepAssign.apply(deepAssign, [this.object, ...args])
 		return this
 	}
@@ -205,7 +205,7 @@ function assign(target, firstSource) {
   return to;
 }
 
-//object.assign polyfill
+//clone like version of object.assign polyfill
 function deepAssign(target, firstSource) {
   if (target === undefined || target === null) {
     throw new TypeError('Cannot convert first argument to object');
@@ -226,7 +226,9 @@ function deepAssign(target, firstSource) {
         
         if( nextSource[nextKey]!=null && typeof(nextSource[nextKey])=='object' ){
         	if( nextSource[nextKey].constructor==Array ){
-        		to[nextKey] = nextSource[nextKey];
+            to[nextKey] = duplicateArray(nextSource[nextKey])
+            //does not clone
+            //to[nextKey] = nextSource[nextKey];
         	}else{
         		to[nextKey] = to[nextKey] || {}
         		deepAssign(to[nextKey], nextSource[nextKey])
@@ -234,9 +236,22 @@ function deepAssign(target, firstSource) {
         }else{
         	to[nextKey] = nextSource[nextKey];
         }
-
       }
     }
   }
   return to;
+}
+
+function duplicateArray(a){
+  return a.map((v,i)=>{
+    switch(typeof(v)){
+      case 'object':{
+        if( v.constructor===Array ){
+          return duplicateArray(v)
+        }
+        return deepAssign({},v)
+      }
+    }
+    return v
+  })
 }

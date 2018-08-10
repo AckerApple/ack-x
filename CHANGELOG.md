@@ -1,6 +1,9 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.4.9] - 2018-04-25
+- Make deep assign clone arrays
+
 ## [1.4.8] - 2018-04-25
 - added date.getMonthDateNumberSuffix
 
