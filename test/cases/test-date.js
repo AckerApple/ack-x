@@ -598,15 +598,29 @@ describe('ack.date',function(){
 	
 	it('#hourMinSecDiff',function(){
 		const now = Date.now()
-		var jDate = ack.date( now - 1000 )
 		
-		assert.equal(jDate.hourMinSecDiff(now), '0:00:01');
+		assert.equal(
+			ack.date( now - 1000 ).hourMinSecDiff(now),
+			'0:00:01'
+		)
+		
+		assert.equal(
+			ack.date( now - (1000*60) ).hourMinSecDiff(now),
+			'0:01:00'
+		)
 	})
 
 	it('#MinSecDiff',function(){
 		const now = Date.now()
-		var jDate = ack.date( now - 1000 )
 		
-		assert.equal(jDate.minSecDiff(now), '00:01');
+		assert.equal(
+			ack.date( now - 1000 ).minSecDiff(now),
+			'00:01'
+		)
+		
+		assert.equal(
+			ack.date( now - (1000*60) ).minSecDiff(now),
+			'01:00'
+		)
 	})
 })

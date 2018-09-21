@@ -1,7 +1,7 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
-## [1.5.0] - 2018-09-21
+## [1.5.1] - 2018-09-21
 - Added minSecDiff
 - Added hourMinSecDiff
 - Breaking Changes

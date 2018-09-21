@@ -104,12 +104,12 @@ var AckDate = /** @class */ (function () {
     /** 0:00:01 */
     AckDate.prototype.hourMinSecDiff = function (date, sep) {
         if (sep === void 0) { sep = ":"; }
-        return this.dateHourDiff(date) + sep + ('0' + this.dateMinuteDiff(date)).slice(-2) + sep + ('0' + this.dateSecondDiff(date)).slice(-2);
+        return this.dateHourDiff(date) + sep + ('0' + (this.dateMinuteDiff(date) % 60)).slice(-2) + sep + ('0' + (this.dateSecondDiff(date) % 60)).slice(-2);
     };
     /** 00:01 */
     AckDate.prototype.minSecDiff = function (date, sep) {
         if (sep === void 0) { sep = ":"; }
-        return ('0' + this.dateMinuteDiff(date)).slice(-2) + sep + ('0' + this.dateSecondDiff(date)).slice(-2);
+        return ('0' + this.dateMinuteDiff(date)).slice(-2) + sep + ('0' + (this.dateSecondDiff(date) % 60)).slice(-2);
     };
     AckDate.prototype.dateYearDiff = function (date) {
         date = toDate(date);

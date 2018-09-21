@@ -102,12 +102,12 @@ export class AckDate{
   
   /** 0:00:01 */
   hourMinSecDiff(date, sep=":"){
-    return this.dateHourDiff(date) + sep + ('0'+this.dateMinuteDiff(date)).slice(-2) + sep + ('0'+this.dateSecondDiff(date)).slice(-2)
+    return this.dateHourDiff(date) + sep + ('0'+(this.dateMinuteDiff(date) % 60)).slice(-2) + sep + ('0'+(this.dateSecondDiff(date) % 60)).slice(-2)
   }
   
   /** 00:01 */
   minSecDiff(date, sep=":"){
-    return ('0'+this.dateMinuteDiff(date)).slice(-2) + sep + ('0'+this.dateSecondDiff(date)).slice(-2)
+    return ('0'+this.dateMinuteDiff(date)).slice(-2) + sep + ('0'+(this.dateSecondDiff(date) % 60)).slice(-2)
   }
 
   dateYearDiff(date){
