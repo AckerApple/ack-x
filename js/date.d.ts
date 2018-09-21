@@ -27,7 +27,11 @@ export declare class AckDate {
     from(d: any, hideSuffix: any, options?: fromOptions): any;
     now(): AckDate;
     param(): AckDate;
-    dateYearDiff: (date: any) => number;
+    /** 0:00:01 */
+    hourMinSecDiff(date: any, sep?: string): string;
+    /** 00:01 */
+    minSecDiff(date: any, sep?: string): string;
+    dateYearDiff(date: any): number;
     dateMonthDiff(date: any): number;
     dateWeekDiff(date: any): number;
     /** always absolute number */

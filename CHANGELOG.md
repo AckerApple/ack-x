@@ -1,6 +1,13 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.5.0] - 2018-09-21
+- Added minSecDiff
+- Added hourMinSecDiff
+- Breaking Changes
+  - dateHourDiff floors instead of rounding
+  - dateMinuteDiff floors instead of rounding
+
 ## [1.4.9] - 2018-04-25
 - Make deep assign clone arrays
 

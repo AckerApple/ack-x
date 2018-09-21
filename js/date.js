@@ -6,10 +6,6 @@ var moment = momentPackage["default"] ? momentPackage["default"] : momentPackage
 /* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
 var AckDate = /** @class */ (function () {
     function AckDate(date, format) {
-        this.dateYearDiff = function (date) {
-            date = toDate(date);
-            return dateYearDiff(date, this.date);
-        };
         this.dateHoursDiff = this.dateHourDiff; //alias
         this.isDst = this.isDaylightSavings; //alias
         /** true/false if argument is lesser than defined date */
@@ -105,6 +101,20 @@ var AckDate = /** @class */ (function () {
         this.date = this.date || new Date();
         return this;
     };
+    /** 0:00:01 */
+    AckDate.prototype.hourMinSecDiff = function (date, sep) {
+        if (sep === void 0) { sep = ":"; }
+        return this.dateHourDiff(date) + sep + ('0' + this.dateMinuteDiff(date)).slice(-2) + sep + ('0' + this.dateSecondDiff(date)).slice(-2);
+    };
+    /** 00:01 */
+    AckDate.prototype.minSecDiff = function (date, sep) {
+        if (sep === void 0) { sep = ":"; }
+        return ('0' + this.dateMinuteDiff(date)).slice(-2) + sep + ('0' + this.dateSecondDiff(date)).slice(-2);
+    };
+    AckDate.prototype.dateYearDiff = function (date) {
+        date = toDate(date);
+        return dateYearDiff(date, this.date);
+    };
     AckDate.prototype.dateMonthDiff = function (date) {
         return dateMonthDiff(this.date, date);
     };
@@ -121,7 +131,7 @@ var AckDate = /** @class */ (function () {
     /** returns no negative numbers */
     AckDate.prototype.dateHourDiff = function (date) {
         var calcDate = this.date.getTime() - dateObjectBy(date || new Date());
-        return Math.abs(calcDate) / 36e5;
+        return Math.floor(Math.abs(calcDate) / 36e5);
     };
     AckDate.prototype.isDaylightSavings = function () {
         if (!this.date)
@@ -814,7 +824,7 @@ function datesSecondDiff(date, date2, decimals) {
         rtn = toDecimal(rtn, decimals);
     }
     else {
-        rtn = Math.round(rtn);
+        rtn = Math.floor(rtn);
     }
     return rtn;
 }
@@ -828,7 +838,7 @@ function datesMinuteDiff(date, date2) {
     var hours = Math.floor(hDiff);
     var mins = minDiff - 60 * hours;
     var calc = Math.abs(hours * 60 + mins);
-    return Math.round(calc);
+    return Math.floor(calc);
 }
 exports.datesMinuteDiff = datesMinuteDiff;
 function momentDateDiff(m, m2, options) {

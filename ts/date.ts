@@ -100,7 +100,17 @@ export class AckDate{
     return this
   }
   
-  dateYearDiff = function(date){
+  /** 0:00:01 */
+  hourMinSecDiff(date, sep=":"){
+    return this.dateHourDiff(date) + sep + ('0'+this.dateMinuteDiff(date)).slice(-2) + sep + ('0'+this.dateSecondDiff(date)).slice(-2)
+  }
+  
+  /** 00:01 */
+  minSecDiff(date, sep=":"){
+    return ('0'+this.dateMinuteDiff(date)).slice(-2) + sep + ('0'+this.dateSecondDiff(date)).slice(-2)
+  }
+
+  dateYearDiff(date){
     date = toDate(date)
     return dateYearDiff(date, this.date)
   }
@@ -124,7 +134,7 @@ export class AckDate{
   /** returns no negative numbers */
   dateHourDiff(date){
     const calcDate = this.date.getTime() - dateObjectBy(date||new Date())
-    return Math.abs(calcDate) / 36e5;
+    return Math.floor( Math.abs(calcDate) / 36e5 );
   }
   dateHoursDiff = this.dateHourDiff//alias
 
@@ -958,7 +968,7 @@ export function datesSecondDiff(date, date2, decimals?){
     decimals = Number(decimals) && !isNaN(decimals) ? decimals:2;
     rtn = toDecimal(rtn,decimals)
   }else{
-    rtn = Math.round(rtn)
+    rtn = Math.floor(rtn)
   }
 
   return rtn
@@ -973,7 +983,7 @@ export function datesMinuteDiff(date, date2){
   var hours = Math.floor(hDiff);
   var mins = minDiff - 60 * hours
   const calc = Math.abs( hours * 60 + mins )
-  return Math.round(calc)
+  return Math.floor(calc)
 }
   
 export function momentDateDiff(m, m2, options) : number{

@@ -595,4 +595,18 @@ describe('ack.date',function(){
 		var stopDate = jDate.getDateWeekStop().getTime()
 		assert.equal(ack.date(stopDate).mmddyyyyhhmmtt(), '03/12/2016 11:59 PM');
 	})
+	
+	it('#hourMinSecDiff',function(){
+		const now = Date.now()
+		var jDate = ack.date( now - 1000 )
+		
+		assert.equal(jDate.hourMinSecDiff(now), '0:00:01');
+	})
+
+	it('#MinSecDiff',function(){
+		const now = Date.now()
+		var jDate = ack.date( now - 1000 )
+		
+		assert.equal(jDate.minSecDiff(now), '00:01');
+	})
 })
