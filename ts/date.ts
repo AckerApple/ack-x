@@ -19,10 +19,23 @@ export class AckDate{
     return this    
   }
 
-  //convenience of date as number
-  getTime():number{
-    return this.date.getTime()
-  }
+  /* convenience functions for AckDate to act like a date */
+    getTime():number{
+      return this.date.getTime()
+    }
+
+    getHours():number{
+      return this.date.getHours()
+    }
+
+    getMinutes():number{
+      return this.date.getMinutes()
+    }
+
+    getMilliseconds():number{
+      return this.date.getMilliseconds()
+    }
+  /* end */
 
   /** takes current Date and returns casted utc set Date object */
   getUtcDate():Date{
@@ -56,20 +69,20 @@ export class AckDate{
     return getTimezoneStamp( this.date, sep )
   }
 
-  yearsFromNow(){
+  yearsFromNow():number{
     return this.dateYearDiff( Date.now() )
   }
 
-  monthsFromNow(){
+  monthsFromNow():number{
     return this.dateMonthDiff( Date.now() )
   }
 
-  daysFromNow(){
+  daysFromNow():number{
     return this.dateDayDiff( Date.now() )
   }
 
   /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
-  fromNow(hideSuffix){
+  fromNow(hideSuffix):string{
     return moment( this.date ).fromNow(hideSuffix)
   }
 
@@ -101,30 +114,30 @@ export class AckDate{
   }
   
   /** 0:00:01 */
-  hourMinSecDiff(date, sep=":"){
+  hourMinSecDiff(date, sep=":"):string{
     return this.dateHourDiff(date) + sep + ('0'+(this.dateMinuteDiff(date) % 60)).slice(-2) + sep + ('0'+(this.dateSecondDiff(date) % 60)).slice(-2)
   }
   
   /** 00:01 */
-  minSecDiff(date, sep=":"){
+  minSecDiff(date, sep=":"):string{
     return ('0'+this.dateMinuteDiff(date)).slice(-2) + sep + ('0'+(this.dateSecondDiff(date) % 60)).slice(-2)
   }
 
-  dateYearDiff(date){
+  dateYearDiff(date):number{
     date = toDate(date)
     return dateYearDiff(date, this.date)
   }
 
-  dateMonthDiff(date){
+  dateMonthDiff(date):number{
     return dateMonthDiff(this.date, date)
   }
 
-  dateWeekDiff( date ){
+  dateWeekDiff( date ):number{
     return dateWeekDiff(this.date, date)
   }
   
   /** always absolute number */
-  dateDayDiff(date){
+  dateDayDiff(date):number{
     //return Math.abs(parseInt((this.date - AckDate.toDate(date))/(24*3600*1000)))
     const dateCalc = this.date.getTime() - toDate(date).getTime()
     const calc = Math.floor(( dateCalc ) / 86400000)
@@ -432,7 +445,7 @@ export class AckDate{
     return this
   }
 
-  getDateWeekStart(){
+  getDateWeekStart() : Date{
     var date = this.date
     var dw = this.dayOfWeek()-1;
     return new Date(date.setDate(date.getDate()-dw))
@@ -457,6 +470,16 @@ export class AckDate{
     return this
   }
   gotoStartOfDate = this.gotoSod
+
+  gotoStartOfWeek():AckDate{
+    this.date = this.getDateWeekStart()
+    return this.gotoSod()
+  }
+
+  gotoEndOfWeek():AckDate{
+    this.date = this.getDateWeekStop()
+    return this.gotoEod()
+  }
 
   FirstWeekday(){
     var amount = -this.dayOfWeek()+2

@@ -373,14 +373,32 @@ describe('ack.date',function(){
 			})
 		})
 
-		it('#sod#gotoStartOfDate',function(){
+		it('#gotoStartOfWeek',function(){
+			var sod = ack.date(1543640400000).gotoStartOfWeek()
+
+			assert.equal(sod.mmdd(), '11/25')
+			assert.equal(sod.getHours(), 0)
+			assert.equal(sod.getMinutes(), 0)
+			assert.equal(sod.getMilliseconds(), 0)
+		})
+
+		it('#gotoEndOfWeek',function(){
+			var eod = ack.date(1543640400000).gotoEndOfWeek()
+			
+			assert.equal(eod.mmdd(), '12/01')
+			assert.equal(eod.getHours(), 23)
+			assert.equal(eod.getMinutes(), 59)
+			assert.equal(eod.getMilliseconds(), 999)
+		})
+
+		it('#sod',function(){
 			var sod = ack.date('7/1/2015').gotoSod().date
 			assert.equal(sod.getHours(), 0)
 			assert.equal(sod.getMinutes(), 0)
 			assert.equal(sod.getMilliseconds(), 0)
 		})
 
-		it('#eod#gotoEndOfDate',function(){
+		it('#eod',function(){
 			var sod = ack.date('7/1/2015').gotoEod().date
 			assert.equal(sod.getHours(), 23)
 			assert.equal(sod.getMinutes(), 59)

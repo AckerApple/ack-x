@@ -8,6 +8,9 @@ export declare class AckDate {
     date: Date;
     constructor(date?: any, format?: any);
     getTime(): number;
+    getHours(): number;
+    getMinutes(): number;
+    getMilliseconds(): number;
     /** takes current Date and returns casted utc set Date object */
     getUtcDate(): Date;
     /** takes current Date and returns casted utc set Date number */
@@ -20,7 +23,7 @@ export declare class AckDate {
     monthsFromNow(): number;
     daysFromNow(): number;
     /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
-    fromNow(hideSuffix: any): any;
+    fromNow(hideSuffix: any): string;
     /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
     fromToday(hideSuffix: any): any;
     /** see moment http://momentjs.com/docs/#/displaying/from/ */
@@ -115,6 +118,8 @@ export declare class AckDate {
     /** goto start of day. Just sets time to 0:0:0.0 */
     gotoSod(): AckDate;
     gotoStartOfDate: () => AckDate;
+    gotoStartOfWeek(): AckDate;
+    gotoEndOfWeek(): AckDate;
     FirstWeekday(): AckDate;
     getDateOfFirstWeekday(): Date;
     /** method(weekNum, AckDate) */

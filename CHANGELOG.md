@@ -1,6 +1,10 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.5.2] - 2018-12-01
+- added ack.date.getDateWeekStart
+- added ack.date.getDateWeekStop
+
 ## [1.5.1] - 2018-09-21
 - Added minSecDiff
 - Added hourMinSecDiff

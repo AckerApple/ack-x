@@ -43,10 +43,20 @@ var AckDate = /** @class */ (function () {
         this.date = toDate(date, format);
         return this;
     }
-    //convenience of date as number
+    /* convenience functions for AckDate to act like a date */
     AckDate.prototype.getTime = function () {
         return this.date.getTime();
     };
+    AckDate.prototype.getHours = function () {
+        return this.date.getHours();
+    };
+    AckDate.prototype.getMinutes = function () {
+        return this.date.getMinutes();
+    };
+    AckDate.prototype.getMilliseconds = function () {
+        return this.date.getMilliseconds();
+    };
+    /* end */
     /** takes current Date and returns casted utc set Date object */
     AckDate.prototype.getUtcDate = function () {
         return new Date(this.date.getUTCFullYear(), this.date.getUTCMonth(), this.date.getUTCDate(), this.date.getUTCHours(), this.date.getUTCMinutes(), this.date.getUTCSeconds());
@@ -364,6 +374,14 @@ var AckDate = /** @class */ (function () {
     AckDate.prototype.gotoSod = function () {
         this.date = startOfDateDay(this.date);
         return this;
+    };
+    AckDate.prototype.gotoStartOfWeek = function () {
+        this.date = this.getDateWeekStart();
+        return this.gotoSod();
+    };
+    AckDate.prototype.gotoEndOfWeek = function () {
+        this.date = this.getDateWeekStop();
+        return this.gotoEod();
     };
     AckDate.prototype.FirstWeekday = function () {
         var amount = -this.dayOfWeek() + 2, nd = this.date, nd = new Date(nd.getTime()) //clone
