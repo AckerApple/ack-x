@@ -1,7 +1,7 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var date_1 = require("./date");
-var ackTime = /** @class */ (function () {
+var ackTime = (function () {
     function ackTime(date) {
         this.date = toDate(date);
         return this;
@@ -19,7 +19,7 @@ function dateObjectBy(date) {
         if (date.split) {
             return stringToDate(date);
         }
-        return new Date(date); //convert string to date object
+        return new Date(date);
     }
     return date || new Date();
 }

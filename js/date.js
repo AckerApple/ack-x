@@ -1,36 +1,32 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var momentPackage = require("moment");
 var number_1 = require("./number");
 var moment = momentPackage["default"] ? momentPackage["default"] : momentPackage;
-/* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
-var AckDate = /** @class */ (function () {
+var AckDate = (function () {
     function AckDate(date, format) {
-        this.dateHoursDiff = this.dateHourDiff; //alias
-        this.isDst = this.isDaylightSavings; //alias
-        /** true/false if argument is lesser than defined date */
+        this.dateHoursDiff = this.dateHourDiff;
+        this.isDst = this.isDaylightSavings;
         this.lesser = function (otherDate) {
             return new AckDate(otherDate).date < this.date ? true : false;
         };
-        //return natural Date object
         this.getDate = function () {
             return this.date.getDate();
         };
-        //sets day of month
         this.setDate = function (n) {
             var d = this.date;
             d = d.setDate(n);
             this.date = new Date(d);
             return this;
         };
-        this.setDayOfMonth = this.setDate; //aka
+        this.setDayOfMonth = this.setDate;
         this.getYear = this.year;
         this.addYear = this.nextYear;
         this.addYears = this.nextYear;
         this.getMonth = this.month;
         this.addMonths = this.nextMonth;
-        this.nextDay = this.addDays; //multi alias
-        this.priorDay = this.prevDay; //aka for naming consistency
+        this.nextDay = this.addDays;
+        this.priorDay = this.prevDay;
         this.getWeek = this.week;
         this.gotoFirstDayOfWeek = this.gotoSunday;
         this.gotoLastDayOfWeek = this.gotoSaturday;
@@ -38,12 +34,11 @@ var AckDate = /** @class */ (function () {
         this.gotoFridayOfWeek = this.gotoFriday;
         this.gotoEndOfDate = this.gotoEod;
         this.gotoStartOfDate = this.gotoSod;
-        this.dateSecondsDiff = this.dateSecondDiff; //alias
-        this.dateMinutesDiff = this.dateMinuteDiff; //alias
+        this.dateSecondsDiff = this.dateSecondDiff;
+        this.dateMinutesDiff = this.dateMinuteDiff;
         this.date = toDate(date, format);
         return this;
     }
-    /* convenience functions for AckDate to act like a date */
     AckDate.prototype.getTime = function () {
         return this.date.getTime();
     };
@@ -56,16 +51,12 @@ var AckDate = /** @class */ (function () {
     AckDate.prototype.getMilliseconds = function () {
         return this.date.getMilliseconds();
     };
-    /* end */
-    /** takes current Date and returns casted utc set Date object */
     AckDate.prototype.getUtcDate = function () {
         return new Date(this.date.getUTCFullYear(), this.date.getUTCMonth(), this.date.getUTCDate(), this.date.getUTCHours(), this.date.getUTCMinutes(), this.date.getUTCSeconds());
     };
-    /** takes current Date and returns casted utc set Date number */
     AckDate.prototype.utc = function () {
         return this.getUtcDate().getTime();
     };
-    /** takes current Date and casts to utc set Date number. Returns this */
     AckDate.prototype.toUtc = function () {
         this.date = this.getUtcDate();
         return this;
@@ -86,17 +77,14 @@ var AckDate = /** @class */ (function () {
     AckDate.prototype.daysFromNow = function () {
         return this.dateDayDiff(Date.now());
     };
-    /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
     AckDate.prototype.fromNow = function (hideSuffix) {
         return moment(this.date).fromNow(hideSuffix);
     };
-    /** see moment http://momentjs.com/docs/#/displaying/fromnow/  */
     AckDate.prototype.fromToday = function (hideSuffix) {
         var fDate = new AckDate().now().gotoSod().date;
         var mDate = new AckDate(this.date).gotoSod().date;
         return moment(mDate).from(fDate, hideSuffix);
     };
-    /** see moment http://momentjs.com/docs/#/displaying/from/ */
     AckDate.prototype.from = function (d, hideSuffix, options) {
         var m = moment(toDate(d));
         var m2 = moment(this.date);
@@ -111,12 +99,10 @@ var AckDate = /** @class */ (function () {
         this.date = this.date || new Date();
         return this;
     };
-    /** 0:00:01 */
     AckDate.prototype.hourMinSecDiff = function (date, sep) {
         if (sep === void 0) { sep = ":"; }
         return this.dateHourDiff(date) + sep + ('0' + (this.dateMinuteDiff(date) % 60)).slice(-2) + sep + ('0' + (this.dateSecondDiff(date) % 60)).slice(-2);
     };
-    /** 00:01 */
     AckDate.prototype.minSecDiff = function (date, sep) {
         if (sep === void 0) { sep = ":"; }
         return ('0' + this.dateMinuteDiff(date)).slice(-2) + sep + ('0' + (this.dateSecondDiff(date) % 60)).slice(-2);
@@ -131,14 +117,11 @@ var AckDate = /** @class */ (function () {
     AckDate.prototype.dateWeekDiff = function (date) {
         return dateWeekDiff(this.date, date);
     };
-    /** always absolute number */
     AckDate.prototype.dateDayDiff = function (date) {
-        //return Math.abs(parseInt((this.date - AckDate.toDate(date))/(24*3600*1000)))
         var dateCalc = this.date.getTime() - toDate(date).getTime();
         var calc = Math.floor((dateCalc) / 86400000);
         return Math.abs(calc);
     };
-    /** returns no negative numbers */
     AckDate.prototype.dateHourDiff = function (date) {
         var calcDate = this.date.getTime() - dateObjectBy(date || new Date());
         return Math.floor(Math.abs(calcDate) / 36e5);
@@ -148,16 +131,13 @@ var AckDate = /** @class */ (function () {
             return;
         return this.date.getTimezoneOffset() < stdTimezoneOffset(this.date);
     };
-    /** amount daylight savings */
     AckDate.prototype.daylightSavings = function () {
         var d = new Date();
         return (stdTimezoneOffset(d) - d.getTimezoneOffset()) / 60;
     };
-    /** true/false if argument is greater than defined date */
     AckDate.prototype.greater = function (otherDate) {
         return new AckDate(otherDate).date > this.date ? true : false;
     };
-    //returns years.months (32.11 is 32 years and 11 months && 32.1 is 32 years 1 month)
     AckDate.prototype.getAgeDisplay = function () {
         var d = this.date;
         var toDate = new Date();
@@ -206,7 +186,6 @@ var AckDate = /** @class */ (function () {
     AckDate.prototype.isDate = function (date) {
         return isDate(date || this.date);
     };
-    /* YEARS */
     AckDate.prototype.Year = function () {
         return this.year();
     };
@@ -239,16 +218,12 @@ var AckDate = /** @class */ (function () {
         this.setYear(this.getPriorYear(y));
         return this;
     };
-    /* MONTHS */
-    /** Jan, Feb, Mar */
     AckDate.prototype.getMonthAbbr = function () {
         return exports.monthAbbrArray[this.date.getMonth()];
     };
-    /** 1st 2nd 3rc of the month */
     AckDate.prototype.getMonthDateProperNumber = function () {
         return this.date.getDate() + this.getMonthDateNumberSuffix();
     };
-    /** st || nd || rd. Used for 1st 2nd 3rc of the month */
     AckDate.prototype.getMonthDateNumberSuffix = function () {
         return number_1.suffixByNumber(this.date.getDate());
     };
@@ -299,7 +274,6 @@ var AckDate = /** @class */ (function () {
     AckDate.prototype.gotoLastDayOfMonth = function () {
         return this.nextMonth().gotoFirstDayOfMonth().priorDay();
     };
-    /* DAYS */
     AckDate.prototype.daysInMonth = function () {
         return new Date(this.year(), this.month(), 0).getDate();
     };
@@ -314,11 +288,9 @@ var AckDate = /** @class */ (function () {
         this.date = new Date(d.setDate(d.getDate() - amount));
         return this;
     };
-    /* WEEKS */
     AckDate.prototype.isWeekend = function () {
         return [1, 7].indexOf(this.dayOfWeek()) >= 0;
     };
-    /** getWeekInYear */
     AckDate.prototype.week = function () {
         return weekOfDate(this.date);
     };
@@ -365,12 +337,10 @@ var AckDate = /** @class */ (function () {
         date = date.setDate(date.getDate() + 6);
         return endOfDateDay(date);
     };
-    /** goto end of day. Just sets time to 23:59:59.999 */
     AckDate.prototype.gotoEod = function () {
         this.date = endOfDateDay(this.date);
         return this;
     };
-    /** goto start of day. Just sets time to 0:0:0.0 */
     AckDate.prototype.gotoSod = function () {
         this.date = startOfDateDay(this.date);
         return this;
@@ -384,14 +354,12 @@ var AckDate = /** @class */ (function () {
         return this.gotoEod();
     };
     AckDate.prototype.FirstWeekday = function () {
-        var amount = -this.dayOfWeek() + 2, nd = this.date, nd = new Date(nd.getTime()) //clone
-        , Nd = new AckDate(nd).nextDay(amount);
+        var amount = -this.dayOfWeek() + 2, nd = this.date, nd = new Date(nd.getTime()), Nd = new AckDate(nd).nextDay(amount);
         return Nd;
     };
     AckDate.prototype.getDateOfFirstWeekday = function () {
         return new Date(this.FirstWeekday().date.getTime());
     };
-    /** method(weekNum, AckDate) */
     AckDate.prototype.eachWeekInYear = function (method) {
         var num = this.getWeeksInYear(), year = this.year();
         for (var x = 1; x <= num; ++x) {
@@ -407,7 +375,6 @@ var AckDate = /** @class */ (function () {
         });
         return this;
     };
-    /** returns array of date exposed objects representing each week in a year */
     AckDate.prototype.getWeeksWithMondayInYearExposedArray = function () {
         var rtnArray = [];
         this.eachWeekWithMondayInYear(function (weekNum, AckDate) {
@@ -415,7 +382,6 @@ var AckDate = /** @class */ (function () {
         });
         return rtnArray;
     };
-    /** returns array of date objects representing each week in a year */
     AckDate.prototype.getWeeksWithMondayInYearArray = function () {
         var rtnArray = [];
         this.eachWeekWithMondayInYear(function (weekNum, AckDate) {
@@ -428,11 +394,8 @@ var AckDate = /** @class */ (function () {
         var d, isLeap;
         d = new Date(y, 0, 1);
         isLeap = new Date(y, 1, 29).getMonth() === 1;
-        //check for a Jan 1 that's a Thursday or a leap year that has a
-        //Wednesday jan 1. Otherwise it's 52
         return d.getDay() === 4 || isLeap && d.getDay() === 3 ? 53 : 52;
     };
-    /* ! TIME METHODS ! */
     AckDate.prototype.setTimeByString = function (string) {
         if (!this.date || !string)
             return this;
@@ -444,14 +407,12 @@ var AckDate = /** @class */ (function () {
         }
         return this;
     };
-    /** alters this.date and return this */
     AckDate.prototype.addHours = function (n) {
         if (this.date) {
             this.date.setHours(this.date.getHours() + n);
         }
         return this;
     };
-    /** alters this.date and return this */
     AckDate.prototype.addMinutes = function (n) {
         if (this.date)
             this.date = new Date(this.date.getTime() + n * 60000);
@@ -460,28 +421,20 @@ var AckDate = /** @class */ (function () {
     AckDate.prototype.minuteOfDay = function () {
         return (60 * this.date.getHours()) + this.date.getMinutes();
     };
-    /** alters this.date and return this */
     AckDate.prototype.addSeconds = function (n) {
         return this.addMilliseconds(n * 1000);
     };
-    /** alters this.date and return this */
     AckDate.prototype.addMilliseconds = function (n) {
         if (this.date)
             this.date = new Date(this.date.getTime() + n);
         return this;
     };
-    /** Does not return negative numbers.
-      @date - not required, default = new Date()
-      @decimals - not required, default = false (no decimals causes decimal rounding)
-    */
     AckDate.prototype.dateSecondDiff = function (date, decimals) {
         return datesSecondDiff(this.date, date, decimals);
     };
-    //no negative numbers
     AckDate.prototype.dateMinuteDiff = function (date) {
         return datesMinuteDiff(this.date, date);
     };
-    /* FORMATTING */
     AckDate.prototype.format = function (format) {
         return moment(this.date).format(format);
     };
@@ -495,13 +448,11 @@ var AckDate = /** @class */ (function () {
             return '';
         return exports.dayAbbrArray[this.date.getDay()];
     };
-    /** Febuary 24th 2016 */
     AckDate.prototype.mmmmdyyyy = function () {
         if (!this.date)
             return '';
         return this.getMonthName() + ' ' + this.getMonthDateProperNumber() + ' ' + this.date.getFullYear();
     };
-    /** 01:20.220 */
     AckDate.prototype.hhmmssl = function (timeSep, milsecSep) {
         if (timeSep === void 0) { timeSep = ':'; }
         if (milsecSep === void 0) { milsecSep = '.'; }
@@ -583,7 +534,6 @@ var AckDate = /** @class */ (function () {
         var s = ('0' + d.getSeconds()).slice(-2);
         return ('0' + h).slice(-2) + timeSep + m + timeSep + s + ttSep + t;
     };
-    //yyyy-mm-dd hh:nn:ss:l aka serverFormat
     AckDate.prototype.storageFormat = function (dateSep, spaceSep, timeSep, milsecSep) {
         if (dateSep === void 0) { dateSep = '-'; }
         if (spaceSep === void 0) { spaceSep = ' '; }
@@ -652,7 +602,7 @@ function dateObjectBy(date, format) {
             case AckDate: return date.date;
             case Date: return date;
             case String: return dateStringToDate(date, format);
-            default: return new Date(date); //convert string to date object
+            default: return new Date(date);
         }
     }
     return date || new Date();
@@ -692,7 +642,6 @@ function endOfDateDay(date) {
     return new Date(date.setMilliseconds(999));
 }
 exports.endOfDateDay = endOfDateDay;
-/** Without format argument, auto detection is by placement of year */
 function dateStringToDate(date, format) {
     if (format) {
         return new Date(moment(date, format));
@@ -709,10 +658,6 @@ function dateStringToDate(date, format) {
         dateSplit[0] = year;
         dateSplit[1] = month;
         dateSplit[2] = day;
-        //fails on safari 10.1.2
-        //dateSplit[0] = month
-        //dateSplit[1] = day
-        //dateSplit[2] = year
         date = dateSplit.join(slash);
         if (dateOnly) {
             return new Date(year, month - 1, day);
@@ -721,7 +666,6 @@ function dateStringToDate(date, format) {
     return new Date(date);
 }
 exports.dateStringToDate = dateStringToDate;
-//NON PROTOTYPE METHODS
 function twoDigit(n) {
     return ('0' + n).slice(-2);
 }
@@ -732,7 +676,7 @@ function isDate(date) {
     var isRawDate = date.constructor == Date && !isNaN(date.getTime());
     if (isRawDate)
         return true;
-    if (date.search) //string
+    if (date.search)
         return date.search(/^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4}|[0-9]{2})$/) >= 0;
     return false;
 }
@@ -769,7 +713,6 @@ function dateWeekDiff(date0, date1) {
     date0 = toDate(date0);
     date1 = toDate(date1);
     return Math.abs((weekOfDate(date1) + 52 * date1.getFullYear()) - (weekOfDate(date0) + 52 * date0.getFullYear()));
-    //  return Math.abs( weekOfDate( date0 ) - weekOfDate( date1 ) )
 }
 exports.dateWeekDiff = dateWeekDiff;
 function weekOfDate(date) {
@@ -780,20 +723,6 @@ function weekOfDate(date) {
     return Math.ceil(calc);
 }
 exports.weekOfDate = weekOfDate;
-/*
-export function weekOfDate(d):number{
-  const now = startOfDateDay(new Date(d))
-  const onejan = new Date(now.getFullYear(), 0, 1)
-
-  const timeApart = now.getTime() - onejan.getTime()
-  const daysApart = timeApart / 86400000
-  return Math.ceil( (daysApart + onejan.getDay() + 1) / 7 )
-}
-
-export function utcWeekOfDate(d):number{
-  return moment(d).format("W")
-}
-*/
 var eackDate = function (date) {
     return new AckDate(date);
 };
@@ -849,10 +778,10 @@ function datesSecondDiff(date, date2, decimals) {
 exports.datesSecondDiff = datesSecondDiff;
 function datesMinuteDiff(date, date2) {
     date2 = toDate(date2 || new Date());
-    var hourDiff = date2 - date.getTime(); //in ms
-    var secDiff = hourDiff / 1000; //in s
-    var minDiff = hourDiff / 60 / 1000; //in minutes
-    var hDiff = hourDiff / 3600 / 1000; //in hours
+    var hourDiff = date2 - date.getTime();
+    var secDiff = hourDiff / 1000;
+    var minDiff = hourDiff / 60 / 1000;
+    var hDiff = hourDiff / 3600 / 1000;
     var hours = Math.floor(hDiff);
     var mins = minDiff - 60 * hours;
     var calc = Math.abs(hours * 60 + mins);

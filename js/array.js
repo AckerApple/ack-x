@@ -1,17 +1,11 @@
 "use strict";
-exports.__esModule = true;
-var jXArray = /** @class */ (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var jXArray = (function () {
     function jXArray(array) {
         this.union = this.appendArray;
         this.array = array;
         return this;
     }
-    /**
-        Intended for high performance by looping an array only once but performing multiple actions.
-        Run multiple functions for each iteration of an array.
-
-        Example: array.each(countTeacher, countChild) instead of two loops array.each(countTeacher) + array.each(countChild)
-    */
     jXArray.prototype.each = function (method0, method1, method2, method3) {
         if (!this.array)
             return this;
@@ -23,9 +17,6 @@ var jXArray = /** @class */ (function () {
         }
         return this;
     };
-    /** reduce array down to only distinct items
-        @method - optional, returned value is used to determine distinctness
-    */
     jXArray.prototype.distinct = function (method) {
         if (!this.array)
             return this;
@@ -47,7 +38,6 @@ var jXArray = /** @class */ (function () {
         this.array = distincts;
         return this;
     };
-    //pivets array of objects to object of arrays
     jXArray.prototype.objectify = function () {
         if (!this.array.length)
             return {};
@@ -64,9 +54,7 @@ var jXArray = /** @class */ (function () {
         }
         return r;
     };
-    //append an array's items onto the end of this array
     jXArray.prototype.appendArray = function () {
-        //each argument maybe another array
         for (var argIn = 0; argIn < arguments.length; ++argIn) {
             var array = arguments[argIn];
             for (var aI = 0; aI < array.length; ++aI) {
@@ -75,9 +63,7 @@ var jXArray = /** @class */ (function () {
         }
         return this;
     };
-    //prepend an array's items onto the front of this array
     jXArray.prototype.prependArray = function () {
-        //each argument maybe another array
         for (var argIn = 0; argIn < arguments.length; ++argIn) {
             var array = arguments[argIn];
             for (var aI = array.length - 1; aI >= 0; --aI) {
@@ -97,15 +83,9 @@ var jXArray = /** @class */ (function () {
         }
         return initValue;
     };
-    /** ads an array all up
-        @method - optional. Returned value is used to sum
-    */
     jXArray.prototype.sum = function (method) {
         return this.reduce(function (acc, val) { return acc + val; }, 0);
     };
-    /** produces an average number using array of numbers
-        @method - optional. Returned value is used to sum
-    */
     jXArray.prototype.average = function (method) {
         var numArray = method ? this.map(method) : this.array;
         var map = new jXArray(numArray).map(function (c, i, arr) { return c / arr.length; });
@@ -118,10 +98,6 @@ var jXArray = /** @class */ (function () {
         }
         return newArray;
     };
-    /** break an array into buckets of arrays
-        @isIndexValue=false - when true, buckets of arrays will be corresponding index values back to original array
-        @grouptype='sequence' - ('sequence'||'struct') . sequence, array of arrays = [ [],[],[] ] . struct = {value0:[buckets...], value1:[buckets...]}
-    */
     jXArray.prototype.group = function (method, isIndexValue, grouptype) {
         method = method ? method : function (v) { return v; };
         grouptype = grouptype ? grouptype : 'sequence';

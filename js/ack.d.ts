@@ -1,6 +1,5 @@
 import { ackInjector } from "./ackInjector";
 import * as ackObject from "./object";
-/** calling ack() as function, will return a module to work with almost any object */
 export declare function ack($var: any): ackExpose;
 export declare const ackAppends: {
     modules: ackInjector;
@@ -41,18 +40,13 @@ export declare class ackExpose {
     static time(v: any): any;
     function(): any;
     getSimpleClone(): {};
-    /** get at raw variable within target variable with case insensativity */
     get(name: any, def?: any): any;
-    /** $var[name] returned as ack Object. When null, null returned */
     byName(name: any): ackExpose;
     throw(msg: any, logTo: any): this;
-    /** JSON.stringify with default spacing=2 */
     stringify(spacing: any): string;
     dump(spacing: any): string;
-    /** negative numbers will be 0  */
     getBit(): 0 | 1;
     nullsToEmptyString(): this;
-    /** reduces variable to a true/false */
     getBoolean(): any;
     isBooleanLike(): boolean;
 }

@@ -1,10 +1,10 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 function method(errorObject) {
     return new jError(errorObject);
 }
 exports.method = method;
-var jError = /** @class */ (function () {
+var jError = (function () {
     function jError(errorObject) {
         this.types = exports.jErrorTypes;
         this.errorObject = errorObject;
@@ -17,11 +17,9 @@ var jError = /** @class */ (function () {
         keys.forEach(function (key) { return ob[key] = _this.errorObject[key]; });
         return ob;
     };
-    /** returns all object keys of an error which is takes extra steps */
     jError.prototype.getKeys = function () {
         return Object.getOwnPropertyNames(this.errorObject);
     };
-    /** converts error.stack into array via stack.split(' at ') */
     jError.prototype.getStackArray = function () {
         if (this.stackArray) {
             return this.stackArray;
@@ -30,14 +28,13 @@ var jError = /** @class */ (function () {
             if (this.errorObject.stack.split) {
                 this.stackArray = this.errorObject.stack.split(' at ');
             }
-            else if (this.errorObject.stack.splice) { //?already an array?
+            else if (this.errorObject.stack.splice) {
                 this.stackArray = this.errorObject.stack;
             }
             return this.stackArray;
         }
         return [];
     };
-    /** dig out just the stack trace from error */
     jError.prototype.getTraceArray = function (amount) {
         var stackArray = [];
         stackArray.push.apply(stackArray, this.getStackArray());
@@ -47,7 +44,6 @@ var jError = /** @class */ (function () {
         }
         return stackArray;
     };
-    /** dig out only just the first trace of errors stack trace */
     jError.prototype.getFirstTrace = function (amount) {
         if (amount === void 0) { amount = 1; }
         var stackArray = this.getStackArray();
@@ -69,7 +65,6 @@ var jError = /** @class */ (function () {
         this.stackArray = stackArray;
         return this;
     };
-    /** analyzes stack to remove 1st trace (leaves error message in stack). Essentially calls .splice(1,1) on stack array  */
     jError.prototype.cutFirstTrace = function () {
         var stackArray = this.getStackArray();
         if (stackArray && stackArray.length > 1) {
@@ -78,12 +73,10 @@ var jError = /** @class */ (function () {
         }
         return this;
     };
-    /** attempt to extract a line number from the error */
     jError.prototype.getLineNum = function () {
         var string = this.getFirstTrace().split(':')[1];
         return Number(string);
     };
-    /** attempt to extract a file path from the error */
     jError.prototype.getFilePath = function () {
         var trace = this.getFirstTrace();
         var pathArray = trace.split(':');
@@ -91,18 +84,15 @@ var jError = /** @class */ (function () {
         pathArray.pop();
         return pathArray.join(':').split('(').pop();
     };
-    /** attempt to extract the error's name */
     jError.prototype.getName = function () {
         if (this.errorObject.name)
             return this.errorObject.name;
         return this.getFailingObjectName();
     };
-    /** attempt to extract the named function or code that is running */
     jError.prototype.getFailingObjectName = function () {
         var trace = this.getFirstTrace();
         return trace.split(/\(|@/)[0].trim();
     };
-    /** get a message from the error even if it has no message */
     jError.prototype.getMessage = function () {
         if (this.errorObject.message)
             return this.errorObject.message;
@@ -117,7 +107,6 @@ var jError = /** @class */ (function () {
             return this.errorObject;
         }
     };
-    /** attempt to extract the error's type */
     jError.prototype.getType = function () {
         var isNamed = this.errorObject.name && this.errorObject.name.toLowerCase != null;
         var isCode = this.errorObject.code && this.errorObject.code.toLowerCase != null;
@@ -128,7 +117,6 @@ var jError = /** @class */ (function () {
             return this.errorObject.name;
         }
     };
-    /** attempt to compare error with another error or another type of an error */
     jError.prototype.isType = function (type) {
         if (this.errorObject == null)
             return false;

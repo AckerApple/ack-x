@@ -1,32 +1,28 @@
 "use strict";
-exports.__esModule = true;
-var jXMethod = /** @class */ (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var jXMethod = (function () {
     function jXMethod(method, name) {
         this.method = method;
         this.name = name;
         return this;
     }
-    /** sets a timeout and then runs set method in milsecs */
     jXMethod.prototype.runInMs = function (ms) {
         setTimeout(this.method, ms);
         return this;
     };
-    /** returns array of argument names defined within set function */
     jXMethod.prototype.getArgNameArray = function () {
         var string = this.getDefinition();
         var argDef = /\(.+\)/.exec(string)[0];
-        argDef = argDef.substring(1, argDef.length); //remove (
-        argDef = argDef.substring(0, argDef.length - 1); //remove )
+        argDef = argDef.substring(1, argDef.length);
+        argDef = argDef.substring(0, argDef.length - 1);
         argDef = argDef.replace(/\s|\t|\r|\n/g, '');
         return argDef.split(',');
     };
-    /** get set functions inner definition */
     jXMethod.prototype.getDefinition = function () {
         var funcNameRegex = /(.*function[^\)]+\))/;
         var results = (funcNameRegex).exec(this.method.toString());
         return (results && results.length > 1) ? results[1] : null;
     };
-    /** This is an option enhanced version of expectOne */
     jXMethod.prototype.expect = function (nameOrMap, value, requiredOrType, type) {
         if (nameOrMap && nameOrMap.constructor == String) {
             return this.expectOne(nameOrMap, value, requiredOrType, type);
@@ -44,12 +40,6 @@ var jXMethod = /** @class */ (function () {
         }
         return this;
     };
-    /** Build argument validation for when set function is invoked.
-        @name - argument-name
-        @value - runtime value argument-value
-        @required
-        @type - requiredOrType - true/false or constructor validation. When constructor validatation, required is true. When undefined, required is true
-    */
     jXMethod.prototype.expectOne = function (name, value, requiredOrType, type) {
         var isReqDefined = requiredOrType != null && requiredOrType.constructor == Boolean;
         var isRequired = isReqDefined ? requiredOrType : true;
@@ -74,16 +64,10 @@ var jXMethod = /** @class */ (function () {
         }
         return this;
     };
-    /** for processing current arguments */
-    /*arguments(args){
-        return new jXArgs(this, args)
-    }*/
-    /** gets name of defined function */
     jXMethod.prototype.getName = function () {
         var name = this.name || (this.method.name.length ? this.method.name : null);
         return name || this.getOldSchoolName();
     };
-    /** gets name of defined function */
     jXMethod.prototype.getOldSchoolName = function () {
         var funcNameRegex = /function\s+(.{1,})\(/;
         var results = (funcNameRegex).exec(this.method.toString());

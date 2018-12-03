@@ -1,28 +1,24 @@
 "use strict";
-exports.__esModule = true;
-var ExString = /** @class */ (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var ExString = (function () {
     function ExString(string) {
         this.string = string;
         return this;
     }
-    /** test string against email regX */
     ExString.prototype.isEmail = function () {
         return this.string.search(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) >= 0;
     };
-    //Node.js doesnt have .repeat as of 2/11/15
     ExString.prototype.repeat = function (num) {
         var x, s = '';
         for (x = 0; x < num; ++x)
             s = s + this.string;
         return s;
     };
-    //escapes html brackets
     ExString.prototype.htmlFormat = function () {
         var v = this.string;
         v = v.replace(/</g, '&lt;').replace(/>/g, '&gt;');
         return v;
     };
-    /** string becomes really long */
     ExString.prototype.toBase64 = function () {
         var e = this._utf8_encode();
         var t = "";
@@ -46,7 +42,6 @@ var ExString = /** @class */ (function () {
         }
         return t;
     };
-    //convert string to something more safely portable
     ExString.prototype._utf8_encode = function () {
         var e = this.string.replace ? this.string : this.string.toString();
         e = e.replace(/\r\n/g, "\n");
@@ -68,12 +63,10 @@ var ExString = /** @class */ (function () {
         }
         return t;
     };
-    //Typically NODE ONLY
     ExString.prototype.toHex = function (encType) {
         encType = encType || 'hex';
         return new exports.Buffer(this.string, encType).toString('hex');
     };
-    //Typically NODE ONLY
     ExString.prototype.toBinary = function (encType) {
         encType = encType || 'binary';
         return new exports.Buffer(this.string, encType);
@@ -82,11 +75,6 @@ var ExString = /** @class */ (function () {
     return ExString;
 }());
 exports.ExString = ExString;
-/*
-ExString.prototype.isBinary = function(){
-    return /^[01]+$/.test(this.string)
-}
-*/
 function method(variable) {
     return new ExString(variable);
 }

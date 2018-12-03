@@ -1,12 +1,11 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 function method(ob) {
     return new jXObject(ob);
 }
 exports.method = method;
-var jXObject = /** @class */ (function () {
+var jXObject = (function () {
     function jXObject(object) {
-        /** like JSON.stringify but converts all to cookie definition */
         this.toCookieString = function () {
             var cookies = this.object;
             var cookieNameArray = Object.keys(cookies);
@@ -15,7 +14,7 @@ var jXObject = /** @class */ (function () {
                 cookieNameArray.forEach(function (name, i) {
                     cookieString += '; ' + name + '=' + cookies[name];
                 });
-                cookieString = cookieString.substring(2, cookieString.length); //remove "; "
+                cookieString = cookieString.substring(2, cookieString.length);
                 return cookieString;
             }
             return '';
@@ -23,7 +22,6 @@ var jXObject = /** @class */ (function () {
         this.object = object;
         return this;
     }
-    /** @method(item, index, object) */
     jXObject.prototype.forEach = function (method) {
         forEach(this.object, method);
         return this;
@@ -36,7 +34,6 @@ var jXObject = /** @class */ (function () {
         assign.apply(assign, [this.object].concat(args));
         return this;
     };
-    /** aka deepClone */
     jXObject.prototype.deepAssign = function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -45,19 +42,12 @@ var jXObject = /** @class */ (function () {
         deepAssign.apply(deepAssign, [this.object].concat(args));
         return this;
     };
-    /** When object, returns similar object with key values as results of mapping
-        map array or object @method(item, index, object)
-
-    */
     jXObject.prototype.map = function (method) {
         return map(this.object, method);
     };
     jXObject.prototype.isArray = function () {
         return isArray(this.object);
     };
-    /**
-        @method(type, subs, key)
-    */
     jXObject.prototype.getTypeMap = function (mapper) {
         var type = typeof (this.object);
         var isObject = type == 'object';
@@ -80,7 +70,7 @@ var jXObject = /** @class */ (function () {
             var isSubOb = subType == 'object';
             var jxSub = new jXObject(item);
             var isSubArray = isSubOb && jxSub.isArray();
-            var subs = jxSub.getTypeMap(mapper); //get subs
+            var subs = jxSub.getTypeMap(mapper);
             if (isArray) {
                 if (isSubArray) {
                     subType = 'array';
@@ -113,7 +103,6 @@ var jXObject = /** @class */ (function () {
         });
         return uniqueMap;
     };
-    /** tests Object for circular references */
     jXObject.prototype.isCyclic = function () {
         var seenObjects = [];
         function detect(obj) {
@@ -135,9 +124,6 @@ var jXObject = /** @class */ (function () {
     return jXObject;
 }());
 exports.jXObject = jXObject;
-/** Loop an object or an array. Returns array of loop results
-    @method(var, index, object)
-*/
 function map(ob, method) {
     if (ob.constructor && ob.contructor == Array) {
         return mapArray(ob, method);
@@ -155,7 +141,6 @@ function mapArray(ob, method) {
     }
     return res;
 }
-/** @method(var, index, object) */
 function forEach(ob, method) {
     if (ob.constructor == Array) {
         for (var x in ob) {
@@ -172,7 +157,6 @@ function forEach(ob, method) {
 function isArray(ob) {
     return ob.constructor && ob.constructor == Array;
 }
-//object.assign polyfill
 function assign(target, firstSource) {
     if (target === undefined || target === null) {
         throw new TypeError('Cannot convert first argument to object');
@@ -194,7 +178,6 @@ function assign(target, firstSource) {
     }
     return to;
 }
-//clone like version of object.assign polyfill
 function deepAssign(target, firstSource) {
     if (target === undefined || target === null) {
         throw new TypeError('Cannot convert first argument to object');
@@ -213,8 +196,6 @@ function deepAssign(target, firstSource) {
                 if (nextSource[nextKey] != null && typeof (nextSource[nextKey]) == 'object') {
                     if (nextSource[nextKey].constructor == Array) {
                         to[nextKey] = duplicateArray(nextSource[nextKey]);
-                        //does not clone
-                        //to[nextKey] = nextSource[nextKey];
                     }
                     else {
                         to[nextKey] = to[nextKey] || {};

@@ -1,5 +1,5 @@
 import { ackInjector } from "./ackInjector"
-import { debug } from "debug"
+import { debug } from "debug/dist/debug.js"
 import * as ackP from "ack-p"
 import * as ackObject from "./object"
 

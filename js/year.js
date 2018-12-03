@@ -1,11 +1,10 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var date_1 = require("./date");
-//export * from "./date"
-var ackYear = /** @class */ (function () {
+var ackYear = (function () {
     function ackYear(yyyy) {
-        this.getMonth = this.month; //deprecated
-        this.getWeek = this.week; //deprecated
+        this.getMonth = this.month;
+        this.getWeek = this.week;
         this.year = this.getYear;
         if (yyyy != null)
             this.setStartDate(yyyy);
@@ -13,7 +12,7 @@ var ackYear = /** @class */ (function () {
     }
     ackYear.prototype.setStartDate = function (date) {
         var isObject = typeof (date) == 'object', isYearString = !isObject && !isNaN(Number(date)), isYear = isYearString || (!date_1.method(date).isDate() && !isNaN(date));
-        if (isYear) { //just the year number?
+        if (isYear) {
             date = new Date(new Date('1/1/2011').setFullYear(date));
         }
         this.date = date;
@@ -27,7 +26,7 @@ var ackYear = /** @class */ (function () {
         return this.date;
     };
     ackYear.prototype.setEndDate = function (date) {
-        if (!date_1.method(date).isDate() && !isNaN(date)) //just the year number?
+        if (!date_1.method(date).isDate() && !isNaN(date))
             this.date = new Date('12/31/' + date);
         else
             this.date = date;
@@ -53,12 +52,10 @@ var ackYear = /** @class */ (function () {
     ackYear.prototype.week = function () {
         return this.StartDate().week();
     };
-    //?deprecated (duplicate of Date class)
     ackYear.prototype.getYear = function () {
         var d = this.getStartDate();
         return date_1.method(d).year();
     };
-    //gets startdate and changes the year
     ackYear.prototype.setYear = function (yyyy) {
         var ExYy = date_1.method(yyyy);
         if (isNaN(yyyy) && ExYy.isDate())

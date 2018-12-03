@@ -1,10 +1,9 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var ackInjector_1 = require("./ackInjector");
-var debug_1 = require("debug");
+var debug_js_1 = require("debug/dist/debug.js");
 var ackP = require("ack-p");
 var ackObject = require("./object");
-/** calling ack() as function, will return a module to work with almost any object */
 function ack($var) {
     return new ackExpose($var);
 }
@@ -29,8 +28,8 @@ exports.ackAppends = {
     logError: function (err, msg, logTo) {
         logTo = logTo || console.log;
         var drray = [];
-        if (msg == null && err && err.stack) { //?no message
-            msg = msg || err.stack.replace(/(\n|\t|\r)/g, '').split(/\s+at\s+/).shift(); //error stack as message
+        if (msg == null && err && err.stack) {
+            msg = msg || err.stack.replace(/(\n|\t|\r)/g, '').split(/\s+at\s+/).shift();
         }
         if (msg != null)
             drray.push(msg);
@@ -49,12 +48,10 @@ exports.ackAppends = {
         return new ackP(resolver);
     },
     debug: function (name, log0, log1, log2) {
-        var logger = debug_1.debug(name);
-        //this.map = this.map || {}
-        //this.map[name] = logger//store memory of logger for meta referencing
-        if (arguments.length > 1) { //logging intended to go with
+        var logger = debug_js_1.debug(name);
+        if (arguments.length > 1) {
             var args = Array.prototype.slice.call(arguments);
-            args.shift(); //remove first
+            args.shift();
             logger.apply(logger, args);
         }
         var temp = this;
@@ -69,7 +66,7 @@ exports.ackAppends = {
 for (var x in exports.ackAppends) {
     ack[x] = exports.ackAppends[x];
 }
-var ackExpose = /** @class */ (function () {
+var ackExpose = (function () {
     function ackExpose($var) {
         if (!this)
             return new ackExpose($var);
@@ -98,8 +95,7 @@ var ackExpose = /** @class */ (function () {
     ackExpose.year = function (v) { return ackExpose.ackit('year')(v); };
     ackExpose.date = function (v) { return ackExpose.ackit('date')(v); };
     ackExpose.time = function (v) { return ackExpose.ackit('time')(v); };
-    //deprecate
-    ackExpose.prototype["function"] = function () {
+    ackExpose.prototype.function = function () {
         return this.ackGet('function');
     };
     ackExpose.prototype.getSimpleClone = function () {
@@ -109,13 +105,11 @@ var ackExpose = /** @class */ (function () {
         }
         return target;
     };
-    /** get at raw variable within target variable with case insensativity */
     ackExpose.prototype.get = function (name, def) {
         if (!name)
             return this.$var;
-        if (this.$var && this.$var[name] != null) //try exact match first
+        if (this.$var && this.$var[name] != null)
             return this.$var[name];
-        //case insensative search
         var lcase = name.toLowerCase();
         for (var key in this.$var) {
             if (lcase == key.toLowerCase())
@@ -123,20 +117,17 @@ var ackExpose = /** @class */ (function () {
         }
         return def;
     };
-    /** $var[name] returned as ack Object. When null, null returned */
     ackExpose.prototype.byName = function (name) {
         var v = this.get(name);
         if (v != null) {
             return ack(v);
         }
     };
-    //deprecate this
-    ackExpose.prototype["throw"] = function (msg, logTo) {
+    ackExpose.prototype.throw = function (msg, logTo) {
         this.ackit('logError')(this.$var, msg, logTo);
         this.ackit('throwBy')(this.$var, msg);
         return this;
     };
-    /** JSON.stringify with default spacing=2 */
     ackExpose.prototype.stringify = function (spacing) {
         spacing = spacing == null ? 2 : spacing;
         return JSON.stringify(this.$var, null, spacing);
@@ -144,7 +135,6 @@ var ackExpose = /** @class */ (function () {
     ackExpose.prototype.dump = function (spacing) {
         return this.stringify(spacing);
     };
-    /** negative numbers will be 0  */
     ackExpose.prototype.getBit = function () {
         var b = this.getBoolean();
         if (b && b.constructor == Number && b < 0) {
@@ -160,13 +150,12 @@ var ackExpose = /** @class */ (function () {
         }
         return this;
     };
-    /** reduces variable to a true/false */
     ackExpose.prototype.getBoolean = function () {
         if (this.$var == null || !this.$var.constructor)
             return false;
         var a = this.$var;
         if (a.constructor == String) {
-            a = a.toLowerCase(); //makes TRUE:true and yes/no true
+            a = a.toLowerCase();
             if (a === 'y' || a === 'yes') {
                 return true;
             }

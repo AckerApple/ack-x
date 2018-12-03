@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-var jXNumber = /** @class */ (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var jXNumber = (function () {
     function jXNumber(number) {
         this.number = number;
         return this;
@@ -8,16 +8,11 @@ var jXNumber = /** @class */ (function () {
     jXNumber.prototype.getSuffix = function () {
         return this.number == null ? '' : suffixByNumber(this.number);
     };
-    /** @p - decimal places */
     jXNumber.prototype.decimalFormat = function (p) {
         p = p == null ? 2 : p;
         var m = Math.pow(10, p), n = this.number;
         return (Math.round(n * m) / m).toFixed(p);
     };
-    /** convert set number into how many minutes into a date. Ex: 60 = new Date('2016-01-16 1:00:00.0')
-      @options - {}
-      @options.date - default=new Date()
-    */
     jXNumber.prototype.asMinutesToDateTime = function (options) {
         options = options || {};
         var minute = this.number;
@@ -25,11 +20,6 @@ var jXNumber = /** @class */ (function () {
         var date = new Date(iDate.getFullYear(), iDate.getMonth(), iDate.getDate(), 0, minute);
         return date;
     };
-    /** convert set number into how many minutes into a string date. Ex: 60 = 1:00 AM')
-      @options = {}
-      @options.timeDelim - default=':'
-      @optiosn.dayPeriodDelim - default=' '
-    */
     jXNumber.prototype.asMinutesToTime = function (options) {
         options = options || {};
         options.timeDelim = options.timeDelim || ':';

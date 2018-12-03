@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-var jXBase64 = /** @class */ (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var jXBase64 = (function () {
     function jXBase64(base64) {
         this.base64 = base64;
         return this;

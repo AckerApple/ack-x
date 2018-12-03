@@ -13,9 +13,7 @@ export declare class Vm {
     constructor(args?: any);
     set: typeof setByAccessor;
     get: (name: any) => any;
-    /** if name is defined, returns actual case sensative name */
     defined(name: any): any;
-    /** deprecated name alias */
     getExactName: (name: any) => any;
     param(name: any, def: any): any;
     remove: (name: any) => any;

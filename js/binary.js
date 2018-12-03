@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-var jXBinary = /** @class */ (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var jXBinary = (function () {
     function jXBinary(binary) {
         this.binary = binary;
         return this;

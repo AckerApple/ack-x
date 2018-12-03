@@ -1,20 +1,23 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var date_1 = require("./date");
 var date_2 = require("./date");
 exports.AckDate = date_2.AckDate;
 exports.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
-var Month = /** @class */ (function (_super) {
+var Month = (function (_super) {
     __extends(Month, _super);
     function Month(num) {
         var _this = _super.call(this) || this;
@@ -28,7 +31,7 @@ var Month = /** @class */ (function (_super) {
         var jDate = date_1.method();
         if (!jDate.isDate(date)) {
             var num = Number(date);
-            if (!isNaN(num)) { //just the month number?
+            if (!isNaN(num)) {
                 date = date_1.method().now().setDate(1).setMonth(date).date;
             }
             else {
@@ -56,7 +59,7 @@ var Month = /** @class */ (function (_super) {
         return this;
     };
     Month.prototype.setEndDate = function (date) {
-        if (!date_1.method(date).isDate() && !isNaN(date)) //just the month number?
+        if (!date_1.method(date).isDate() && !isNaN(date))
             this.endDate = date_1.method(new Date()).setMonth(date).getLastDateOfMonth();
         else
             this.endDate = date;

@@ -1,25 +1,25 @@
 "use strict";
-exports.__esModule = true;
-var ackInjector = /** @class */ (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var ackInjector = (function () {
     function ackInjector($scope, $storage) {
         this.LoadModule = function (name, $module, $args, injectArray) {
             if ($module.constructor != Function) {
                 return $module;
             }
             if (!injectArray) {
-                var r = $module.apply($module, $args); //no dependencies
+                var r = $module.apply($module, $args);
                 return r;
             }
             var isInjectInit = typeof (injectArray) == 'function', init = isInjectInit ? injectArray : injectArray[injectArray.length - 1], args = [];
             if (!isInjectInit) {
                 var tar;
-                for (var i = 0; i < injectArray.length - 1; ++i) { //all but last, last was init
+                for (var i = 0; i < injectArray.length - 1; ++i) {
                     switch (injectArray[i].toLowerCase()) {
                         case '$arg0':
                             tar = $args[0];
                             break;
                         case '$injector':
-                            tar = this.$scope; //this
+                            tar = this.$scope;
                             break;
                         case '$module':
                             tar = $module;
@@ -39,14 +39,12 @@ var ackInjector = /** @class */ (function () {
                 }
             }
             args = args.concat(Array.prototype.slice.call($args));
-            if (typeof (init) == 'string') { //last arg is module to return
+            if (typeof (init) == 'string') {
                 switch (init) {
                     case '$module':
                         return $module.apply($module, args);
-                    //break;
                     default:
                         throw 'should not get here. Last argument of injector was not a function NOR "$module"';
-                    //return $module.apply(this.$scope[init], args)
                 }
             }
             return init.apply(init, args);
@@ -60,7 +58,7 @@ var ackInjector = /** @class */ (function () {
         var method = function () {
             return $this.LoadModule(name, $module, arguments, initInjectArray);
         };
-        this.$scope[name] = method; //this.functionName . example: ack.mail()
+        this.$scope[name] = method;
         return this;
     };
     ackInjector.prototype.definePath = function (name, path, initInjectArray) {
@@ -69,7 +67,7 @@ var ackInjector = /** @class */ (function () {
             var $module = $this.getModule(name, path);
             return $this.LoadModule(name, $module, arguments, initInjectArray);
         };
-        this.$scope[name] = fetcher; //this.functionName . example: ack.mail()
+        this.$scope[name] = fetcher;
         return this;
     };
     ackInjector.prototype.getModule = function (name, path) {
