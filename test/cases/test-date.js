@@ -641,4 +641,34 @@ describe('ack.date',function(){
 			'01:00'
 		)
 	})
+
+	it("#hourMinuteDecimalDiff",function(){
+		const min = 60000
+		const hour = min * 60
+
+		assert.equal(
+			ack.date( 0 ).hourMinuteDecimalDiff( hour ),
+			1
+		)
+
+		assert.equal(
+			ack.date( 0 ).hourMinuteDecimalDiff( hour*2 ),
+			2
+		)
+
+		assert.equal(
+			ack.date( 0 ).hourMinuteDecimalDiff( hour+min*30 ),
+			1.5
+		)
+
+		assert.equal(
+			ack.date( 0 ).hourMinuteDecimalDiff( hour+min*15 ),
+			1.25
+		)
+
+		assert.equal(
+			ack.date( 0 ).hourMinuteDecimalDiff( hour+min*45 ),
+			1.75
+		)
+	})
 })

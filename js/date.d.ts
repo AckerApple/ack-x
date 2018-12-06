@@ -24,6 +24,7 @@ export declare class AckDate {
     from(d: any, hideSuffix: any, options?: fromOptions): any;
     now(): AckDate;
     param(): AckDate;
+    hourMinuteDecimalDiff(date: any): number;
     hourMinSecDiff(date: any, sep?: string): string;
     minSecDiff(date: any, sep?: string): string;
     dateYearDiff(date: any): number;
@@ -130,11 +131,11 @@ export declare class AckDate {
     hhmmtt(timeSep?: string, ttSep?: string): string;
     hhmmsstt(timeSep: any, ttSep: any): string;
     storageFormat(dateSep?: string, spaceSep?: string, timeSep?: any, milsecSep?: any): string;
-    yyyymmdd(sep: any): string;
-    mmddyyyy(sep?: any): string;
-    mdyyyy(sep: any): any;
-    mdyy(sep: any): string;
-    mmddyy(sep: any): string;
+    yyyymmdd(sep?: string): string;
+    mmddyyyy(sep?: string): string;
+    mdyyyy(sep?: string): string;
+    mdyy(sep?: string): string;
+    mmddyy(sep?: string): string;
     yy(): string;
     mmdd(sep: any): string;
     md(sep: any): any;

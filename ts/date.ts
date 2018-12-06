@@ -112,7 +112,14 @@ export class AckDate{
     this.date = this.date||new Date()
     return this
   }
-  
+
+  /** 1.25 1.5 1.75 */
+  hourMinuteDecimalDiff( date ):number{
+    const h = this.dateHourDiff(date)
+    const m = ((this.dateMinuteDiff(date) % 60) / 60)
+    return h+m
+  }
+
   /** 0:00:01 */
   hourMinSecDiff(date, sep=":"):string{
     return this.dateHourDiff(date) + sep + ('0'+(this.dateMinuteDiff(date) % 60)).slice(-2) + sep + ('0'+(this.dateSecondDiff(date) % 60)).slice(-2)
@@ -599,12 +606,10 @@ export class AckDate{
   dateSecondsDiff = this.dateSecondDiff//alias
 
   //no negative numbers
-  dateMinuteDiff(date){
+  dateMinuteDiff( date ){
     return datesMinuteDiff(this.date, date)
   }
   dateMinutesDiff = this.dateMinuteDiff//alias
-
-
 
   /* FORMATTING */
   format( format ){
@@ -719,36 +724,32 @@ export class AckDate{
     return this.date.getFullYear() + dateSep + this.mmdd(dateSep) + spaceSep + this.hhmmssl(timeSep, milsecSep)
   }
 
-  yyyymmdd(sep){
+  yyyymmdd( sep="/" ){
     if(!this.date)return '';
-    sep = sep==null ? '' : sep
     return this.year() + sep + this.mmdd(sep)
   }
 
-  mmddyyyy(sep?){
+  mmddyyyy( sep="/" ){
     if(!this.date)return '';
-    sep = sep==null ? '/' : sep
     var d = this.date
     return this.mmdd(sep)+ sep +d.getFullYear()
   }
 
-  mdyyyy(sep){
+  mdyyyy( sep="/" ){
     if(!this.date)return '';
-    sep = sep==null ? '/' : sep
     var d = this.date
     return this.md(sep)+ sep +d.getFullYear()
   }
 
-  mdyy(sep){
+  mdyy( sep="/" ){
     if(!this.date)return '';
-    sep = sep==null ? '/' : sep
     var d = this.date
     return this.md(sep)+ sep +this.yy()
   }
 
-  mmddyy(sep){
+  mmddyy( sep="/" ){
     if(!this.date)return '';
-    var r = this.mmddyyyy()
+    var r = this.mmddyyyy( sep )
     return r.substring(0,r.length-4)+r.substring(r.length-2,r.length)
   }
 
