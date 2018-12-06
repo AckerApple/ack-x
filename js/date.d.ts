@@ -31,8 +31,8 @@ export declare class AckDate {
     dateMonthDiff(date: any): number;
     dateWeekDiff(date: any): number;
     dateDayDiff(date: any): number;
-    dateHourDiff(date: any): number;
-    dateHoursDiff: (date: any) => number;
+    dateHourDiff(date?: any): number;
+    dateHoursDiff: (date?: any) => number;
     isDaylightSavings(): boolean;
     isDst: () => boolean;
     daylightSavings(): number;
@@ -115,8 +115,8 @@ export declare class AckDate {
     minuteOfDay(): number;
     addSeconds(n: any): AckDate;
     addMilliseconds(n: any): AckDate;
-    dateSecondDiff(date: any, decimals?: any): any;
-    dateSecondsDiff: (date: any, decimals?: any) => any;
+    dateSecondDiff(date: any, decimals?: any): number;
+    dateSecondsDiff: (date: any, decimals?: any) => number;
     dateMinuteDiff(date: any): number;
     dateMinutesDiff: (date: any) => number;
     format(format: any): any;
@@ -164,8 +164,8 @@ export declare function parseTimeString(date: any): {
     hour: any;
     minute: any;
 };
-export declare function toDecimal(n: any, p: any): string;
+export declare function toDecimal(n: any, p?: number): number;
 export declare function method(d?: any): AckDate;
-export declare function datesSecondDiff(date: any, date2: any, decimals?: any): any;
+export declare function datesSecondDiff(date: any, date2: any, decimals?: any): number;
 export declare function datesMinuteDiff(date: any, date2: any): number;
 export declare function momentDateDiff(m: any, m2: any, options: any): number;

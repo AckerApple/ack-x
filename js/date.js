@@ -102,7 +102,7 @@ var AckDate = (function () {
     AckDate.prototype.hourMinuteDecimalDiff = function (date) {
         var h = this.dateHourDiff(date);
         var m = ((this.dateMinuteDiff(date) % 60) / 60);
-        return h + m;
+        return toDecimal(h + m);
     };
     AckDate.prototype.hourMinSecDiff = function (date, sep) {
         if (sep === void 0) { sep = ":"; }
@@ -128,7 +128,8 @@ var AckDate = (function () {
         return Math.abs(calc);
     };
     AckDate.prototype.dateHourDiff = function (date) {
-        var calcDate = this.date.getTime() - dateObjectBy(date || new Date());
+        var diffTime = dateObjectBy(date == null ? new Date() : date).getTime();
+        var calcDate = this.date.getTime() - diffTime;
         return Math.floor(Math.abs(calcDate) / 36e5);
     };
     AckDate.prototype.isDaylightSavings = function () {
@@ -759,8 +760,10 @@ function parseTimeString(date) {
 }
 exports.parseTimeString = parseTimeString;
 function toDecimal(n, p) {
+    if (p === void 0) { p = 2; }
     var m = Math.pow(10, p);
-    return (Math.round(n * m) / m).toFixed(p);
+    var f = (Math.round(n * m) / m).toFixed(p);
+    return Number(f);
 }
 exports.toDecimal = toDecimal;
 function method(d) {
@@ -783,7 +786,7 @@ function datesSecondDiff(date, date2, decimals) {
 }
 exports.datesSecondDiff = datesSecondDiff;
 function datesMinuteDiff(date, date2) {
-    date2 = toDate(date2 || new Date());
+    date2 = toDate(date2 == null ? new Date() : date2);
     var hourDiff = date2 - date.getTime();
     var secDiff = hourDiff / 1000;
     var minDiff = hourDiff / 60 / 1000;

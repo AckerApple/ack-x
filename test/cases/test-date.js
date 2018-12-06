@@ -642,12 +642,17 @@ describe('ack.date',function(){
 		)
 	})
 
-	it("#hourMinuteDecimalDiff",function(){
+	it.only("#hourMinuteDecimalDiff",function(){
 		const min = 60000
 		const hour = min * 60
 
 		assert.equal(
 			ack.date( 0 ).hourMinuteDecimalDiff( hour ),
+			1
+		)
+
+		assert.equal(
+			ack.date( hour ).hourMinuteDecimalDiff( 0 ),
 			1
 		)
 
@@ -669,6 +674,11 @@ describe('ack.date',function(){
 		assert.equal(
 			ack.date( 0 ).hourMinuteDecimalDiff( hour+min*45 ),
 			1.75
+		)
+
+		assert.equal(
+			ack.date( 0 ).hourMinuteDecimalDiff( 1320000 ),
+			0.37
 		)
 	})
 })

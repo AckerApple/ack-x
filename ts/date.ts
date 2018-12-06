@@ -117,7 +117,7 @@ export class AckDate{
   hourMinuteDecimalDiff( date ):number{
     const h = this.dateHourDiff(date)
     const m = ((this.dateMinuteDiff(date) % 60) / 60)
-    return h+m
+    return toDecimal( h+m )
   }
 
   /** 0:00:01 */
@@ -152,9 +152,11 @@ export class AckDate{
   }
 
   /** returns no negative numbers */
-  dateHourDiff(date){
-    const calcDate = this.date.getTime() - dateObjectBy(date||new Date())
+  dateHourDiff( date? ){
+    const diffTime = dateObjectBy(date==null ? new Date() : date).getTime()
+    const calcDate = this.date.getTime() - diffTime
     return Math.floor( Math.abs(calcDate) / 36e5 );
+    //return Math.floor( Math.abs(calcDate) / 1000 / 60 / 60 );
   }
   dateHoursDiff = this.dateHourDiff//alias
 
@@ -974,15 +976,21 @@ export function parseTimeString(date){
 }
 
 
-export function toDecimal(n,p){
-  var m=Math.pow(10,p);return (Math.round(n*m)/m).toFixed(p)
+export function toDecimal(n,p=2):number{
+  var m=Math.pow(10,p);
+  const f = (Math.round(n*m)/m).toFixed(p)
+  return Number( f )
 }
 
 export function method(d?){
   return new AckDate(d)
 }
 
-export function datesSecondDiff(date, date2, decimals?){
+export function datesSecondDiff(
+  date,
+  date2,
+  decimals?
+):number{
   date2 = dateObjectBy(date2||new Date())
   var dif = date.getTime() - date2.getTime()
   var Seconds_from_T1_to_T2 = dif / 1000;
@@ -999,7 +1007,7 @@ export function datesSecondDiff(date, date2, decimals?){
 }
 
 export function datesMinuteDiff(date, date2){
-  date2 = toDate( date2 || new Date() )
+  date2 = toDate( date2==null ? new Date() : date2 )
   var hourDiff = date2 - date.getTime(); //in ms
   var secDiff = hourDiff / 1000; //in s
   var minDiff = hourDiff / 60 / 1000; //in minutes
