@@ -1,6 +1,9 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.5.5] - 2018-12-11
+- added roundUp argument to dateMinuteDiff
+
 ## [1.5.4] - 2018-12-06
 - Added date.hourMinuteDecimalDiff
 

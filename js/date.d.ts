@@ -117,8 +117,8 @@ export declare class AckDate {
     addMilliseconds(n: any): AckDate;
     dateSecondDiff(date: any, decimals?: any): number;
     dateSecondsDiff: (date: any, decimals?: any) => number;
-    dateMinuteDiff(date: any): number;
-    dateMinutesDiff: (date: any) => number;
+    dateMinuteDiff(date: any, roundUp?: boolean): number;
+    dateMinutesDiff: (date: any, roundUp?: boolean) => number;
     format(format: any): any;
     getDayName(): string;
     getDayAbbr(): string;
@@ -167,5 +167,5 @@ export declare function parseTimeString(date: any): {
 export declare function toDecimal(n: any, p?: number): number;
 export declare function method(d?: any): AckDate;
 export declare function datesSecondDiff(date: any, date2: any, decimals?: any): number;
-export declare function datesMinuteDiff(date: any, date2: any): number;
+export declare function datesMinuteDiff(date: any, date2: any, roundUp?: boolean): number;
 export declare function momentDateDiff(m: any, m2: any, options: any): number;

@@ -478,6 +478,28 @@ describe('ack.date',function(){
 	})
 
 	describe('#dateMinuteDiff',function(){
+		it('under min',function(){
+			var d0 = new Date(),
+				D0 = ack.date(d0),
+				D1 = ack.date(new Date(d0)).addMilliseconds(7422),
+				diff = D1.dateMinuteDiff(d0),
+				diff2 = D0.dateMinuteDiff( D1.date )
+
+			assert.equal(diff, 0, 'added 7422ms minutes but got '+diff)
+			assert.equal(diff2, 0, 'added 7422ms minutes but got '+diff2)
+		})
+
+		it('under min roundUp',function(){
+			var d0 = new Date(),
+				D0 = ack.date(d0),
+				D1 = ack.date(new Date(d0)).addMilliseconds(7422),
+				diff = D1.dateMinuteDiff(d0, 1),
+				diff2 = D0.dateMinuteDiff(D1.date, 1)
+
+			assert.equal(diff, 1, 'added 7422ms minutes but got '+diff)
+			assert.equal(diff2, 1, 'added 7422ms minutes but got '+diff2)
+		})
+
 		it('2 mins',function(){
 			var d0 = new Date(),
 				D0 = ack.date(d0),
@@ -642,7 +664,7 @@ describe('ack.date',function(){
 		)
 	})
 
-	it.only("#hourMinuteDecimalDiff",function(){
+	it("#hourMinuteDecimalDiff",function(){
 		const min = 60000
 		const hour = min * 60
 

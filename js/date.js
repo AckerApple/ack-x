@@ -438,8 +438,9 @@ var AckDate = (function () {
     AckDate.prototype.dateSecondDiff = function (date, decimals) {
         return datesSecondDiff(this.date, date, decimals);
     };
-    AckDate.prototype.dateMinuteDiff = function (date) {
-        return datesMinuteDiff(this.date, date);
+    AckDate.prototype.dateMinuteDiff = function (date, roundUp) {
+        if (roundUp === void 0) { roundUp = false; }
+        return datesMinuteDiff(this.date, date, roundUp);
     };
     AckDate.prototype.format = function (format) {
         return moment(this.date).format(format);
@@ -785,7 +786,8 @@ function datesSecondDiff(date, date2, decimals) {
     return rtn;
 }
 exports.datesSecondDiff = datesSecondDiff;
-function datesMinuteDiff(date, date2) {
+function datesMinuteDiff(date, date2, roundUp) {
+    if (roundUp === void 0) { roundUp = false; }
     date2 = toDate(date2 == null ? new Date() : date2);
     var hourDiff = date2 - date.getTime();
     var secDiff = hourDiff / 1000;
@@ -794,7 +796,7 @@ function datesMinuteDiff(date, date2) {
     var hours = Math.floor(hDiff);
     var mins = minDiff - 60 * hours;
     var calc = Math.abs(hours * 60 + mins);
-    return Math.floor(calc);
+    return roundUp ? Math.ceil(calc) : Math.floor(calc);
 }
 exports.datesMinuteDiff = datesMinuteDiff;
 function momentDateDiff(m, m2, options) {

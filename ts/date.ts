@@ -608,8 +608,8 @@ export class AckDate{
   dateSecondsDiff = this.dateSecondDiff//alias
 
   //no negative numbers
-  dateMinuteDiff( date ){
-    return datesMinuteDiff(this.date, date)
+  dateMinuteDiff(date, roundUp=false){
+    return datesMinuteDiff(this.date, date, roundUp)
   }
   dateMinutesDiff = this.dateMinuteDiff//alias
 
@@ -1006,7 +1006,11 @@ export function datesSecondDiff(
   return rtn
 }
 
-export function datesMinuteDiff(date, date2){
+export function datesMinuteDiff(
+  date,
+  date2,
+  roundUp=false
+){
   date2 = toDate( date2==null ? new Date() : date2 )
   var hourDiff = date2 - date.getTime(); //in ms
   var secDiff = hourDiff / 1000; //in s
@@ -1015,7 +1019,7 @@ export function datesMinuteDiff(date, date2){
   var hours = Math.floor(hDiff);
   var mins = minDiff - 60 * hours
   const calc = Math.abs( hours * 60 + mins )
-  return Math.floor(calc)
+  return roundUp ? Math.ceil(calc) : Math.floor(calc)
 }
   
 export function momentDateDiff(m, m2, options) : number{
