@@ -2,7 +2,10 @@ declare var require: any;
 
 import { Vm } from "./jc"
 
-import { ack as ackX, ackExpose } from "./ack"
+import {
+	ack as ackX
+	//, ackExpose
+} from "./ack"
 
 export const ack = ackX
 

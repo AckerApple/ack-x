@@ -1,4 +1,7 @@
-import * as momentPackage from "moment"
+//import * as momentPackage from "moment/min/moment.min.js"
+//import * as momentPackage from "moment"
+//import * as momentPackage from "moment/moment.js"
+import * as momentPackage from "moment-mini"
 import { suffixByNumber } from "./number"
 
 const moment = momentPackage["default"] ? momentPackage["default"] : momentPackage

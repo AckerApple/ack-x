@@ -45,7 +45,7 @@ export const ackAppends = {
 		return new ackInjector($scope)
 	},
 
-	promise : function(var0, var1, var2, var3){
+	promise : function(var0?, var1?, var2?, var3?){
 		var promise = ackP.start()
 		return promise.set.apply(promise,arguments)
 	},

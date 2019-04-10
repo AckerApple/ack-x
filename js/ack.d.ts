@@ -8,7 +8,7 @@ export declare const ackAppends: {
     logArrayTo: (array: any, logTo: any) => void;
     logError: (err: any, msg: any, logTo: any) => void;
     injector: ($scope: any) => ackInjector;
-    promise: (var0: any, var1: any, var2: any, var3: any) => any;
+    promise: (var0?: any, var1?: any, var2?: any, var3?: any) => any;
     Promise: (resolver: any) => any;
     debug: (name: any, log0: any, log1: any, log2: any) => any;
 };
@@ -22,7 +22,7 @@ export declare class ackExpose {
     static logArrayTo: (array: any, logTo: any) => void;
     static logError: (err: any, msg: any, logTo: any) => void;
     static injector: ($scope: any) => ackInjector;
-    static promise: (var0: any, var1: any, var2: any, var3: any) => any;
+    static promise: (var0?: any, var1?: any, var2?: any, var3?: any) => any;
     static Promise: (resolver: any) => any;
     static debug: (name: any, log0: any, log1: any, log2: any) => any;
     static error(v: any): any;

@@ -30,6 +30,7 @@ export class ack extends ackExpose{
   public number = numberMethod
   public string = stringMethod
   public binary = binaryMethod
+  //public promise = promiseMethod
   public base64 = base64Method
   public object = objectMethod
   public array = arrayMethod
@@ -45,6 +46,7 @@ export class ack extends ackExpose{
   static number = numberMethod
   static string = stringMethod
   static binary = binaryMethod
+  //static promise = promiseMethod
   static base64 = base64Method
   static object = objectMethod
   static array = arrayMethod

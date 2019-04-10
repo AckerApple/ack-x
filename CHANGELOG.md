@@ -1,6 +1,9 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.5.6] - 2018-12-11
+- Replaced moment with moment-mini
+
 ## [1.5.5] - 2018-12-11
 - added roundUp argument to dateMinuteDiff
 

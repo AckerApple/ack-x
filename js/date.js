@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var momentPackage = require("moment");
+var momentPackage = require("moment-mini");
 var number_1 = require("./number");
 var moment = momentPackage["default"] ? momentPackage["default"] : momentPackage;
 var AckDate = (function () {
