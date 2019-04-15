@@ -1,6 +1,9 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.5.7] - 2019-04-(unreleased)
+- Date as number string can convert to date
+
 ## [1.5.6] - 2018-12-11
 - Replaced moment with moment-mini
 

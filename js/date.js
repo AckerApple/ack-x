@@ -654,6 +654,10 @@ function dateStringToDate(date, format) {
     if (format) {
         return new Date(moment(date, format));
     }
+    var num = Number(date);
+    if (!isNaN(num)) {
+        return new Date(num);
+    }
     var isZoned = date.substring(date.length - 1, date.length) == 'Z';
     var isFirstFourDigits = date.length > 8 && !isNaN(date.substring(0, 4)) && !isZoned;
     var slash = date.substring(4, 5);

@@ -28,6 +28,11 @@ describe('ack.date',function(){
 		assert.equal(ack.date(0).date.getMinutes(), new Date(0).getMinutes())
 	})
 
+	it('number',function(){
+		assert.equal(ack.date(1555394400000).getTime(), 1555394400000)
+		assert.equal(ack.date("1555394400000").getTime(), 1555394400000)
+	})
+
 	it('#utc',function(){
 		var format = ack.date('2016-12-28').utc()
 		assert.equal(typeof format, 'number')
