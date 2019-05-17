@@ -55,7 +55,7 @@ var AckDate = (function () {
         return new Date(this.date.getUTCFullYear(), this.date.getUTCMonth(), this.date.getUTCDate(), this.date.getUTCHours(), this.date.getUTCMinutes(), this.date.getUTCSeconds());
     };
     AckDate.prototype.utc = function () {
-        return this.getUtcDate().getTime();
+        return this.date.getTime();
     };
     AckDate.prototype.toUtc = function () {
         this.date = this.getUtcDate();
@@ -91,6 +91,23 @@ var AckDate = (function () {
         var mDateDiff = momentDateDiff(m, m2, options);
         return moment(0).from(mDateDiff, hideSuffix);
     };
+    AckDate.prototype.diffStats = function (d) {
+        d = toDate(d);
+        var months = this.dateMonthDiff(d) % 12;
+        var days = this.dateDayDiff(d);
+        var dayDiff = days === 1 ? 1 : Math.floor(days / 7) % 4 % 7;
+        var weeks = Math.floor(days / 7);
+        var weekDiff = weeks === 4 && months === 0 ? 4 : (weeks % 4);
+        return {
+            years: dateYearDiffFloor(this.date, d),
+            months: months,
+            weeks: weekDiff,
+            days: dayDiff,
+            hours: this.dateHourDiff(d) % 24,
+            minutes: this.dateMinuteDiff(d) % 60,
+            seconds: this.dateSecondDiff(d) % 60
+        };
+    };
     AckDate.prototype.now = function () {
         this.date = new Date();
         return this;
@@ -117,15 +134,14 @@ var AckDate = (function () {
         return dateYearDiff(date, this.date);
     };
     AckDate.prototype.dateMonthDiff = function (date) {
+        date = toDate(date);
         return dateMonthDiff(this.date, date);
     };
     AckDate.prototype.dateWeekDiff = function (date) {
         return dateWeekDiff(this.date, date);
     };
     AckDate.prototype.dateDayDiff = function (date) {
-        var dateCalc = this.date.getTime() - toDate(date).getTime();
-        var calc = Math.floor((dateCalc) / 86400000);
-        return Math.abs(calc);
+        return dateDayDiff(this.date, date);
     };
     AckDate.prototype.dateHourDiff = function (date) {
         var diffTime = dateObjectBy(date == null ? new Date() : date).getTime();
@@ -710,6 +726,11 @@ function dateYearDiff(d0, d1) {
     return Math.abs(d0.getFullYear() - d1.getFullYear());
 }
 exports.dateYearDiff = dateYearDiff;
+function dateYearDiffFloor(d0, d1) {
+    var diff = dateDayDiff(d0, d1);
+    return Math.floor(diff / 365);
+}
+exports.dateYearDiffFloor = dateYearDiffFloor;
 var stdTimezoneOffset = function (d) {
     var jan = new Date(d.getFullYear(), 0, 1);
     var jul = new Date(d.getFullYear(), 6, 1);
@@ -718,13 +739,15 @@ var stdTimezoneOffset = function (d) {
 function dateMonthDiff(date0, date1) {
     date0 = new Date(date0);
     date1 = new Date(date1);
-    return Math.abs((date1.getMonth() + 12 * date1.getFullYear()) - (date0.getMonth() + 12 * date0.getFullYear()));
+    var result = (date1.getMonth() + 12 * date1.getFullYear()) - (date0.getMonth() + 12 * date0.getFullYear());
+    return Math.abs(result);
 }
 exports.dateMonthDiff = dateMonthDiff;
 function dateWeekDiff(date0, date1) {
     date0 = toDate(date0);
     date1 = toDate(date1);
-    return Math.abs((weekOfDate(date1) + 52 * date1.getFullYear()) - (weekOfDate(date0) + 52 * date0.getFullYear()));
+    var diff = (weekOfDate(date1) + 52 * date1.getFullYear()) - (weekOfDate(date0) + 52 * date0.getFullYear());
+    return Math.abs(diff);
 }
 exports.dateWeekDiff = dateWeekDiff;
 function weekOfDate(date) {
@@ -837,3 +860,9 @@ function momentDateDiff(m, m2, options) {
     return mDiffDate;
 }
 exports.momentDateDiff = momentDateDiff;
+function dateDayDiff(date0, date) {
+    var dateCalc = date0.getTime() - toDate(date).getTime();
+    var calc = Math.floor((dateCalc) / 86400000);
+    return Math.abs(calc);
+}
+exports.dateDayDiff = dateDayDiff;

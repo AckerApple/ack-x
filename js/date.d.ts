@@ -4,6 +4,15 @@ export interface fromOptions {
     roundUpHours?: boolean;
     roundDownHours?: boolean;
 }
+export interface dateStats {
+    years: number;
+    months: number;
+    weeks: number;
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+}
 export declare class AckDate {
     date: Date;
     constructor(date?: any, format?: any);
@@ -22,6 +31,7 @@ export declare class AckDate {
     fromNow(hideSuffix: any): string;
     fromToday(hideSuffix: any): any;
     from(d: any, hideSuffix: any, options?: fromOptions): any;
+    diffStats(d: any): dateStats;
     now(): AckDate;
     param(): AckDate;
     hourMinuteDecimalDiff(date: any): number;
@@ -157,6 +167,7 @@ export declare const monthAbbrArray: string[];
 export declare const dayNameArray: string[];
 export declare const dayAbbrArray: string[];
 export declare function dateYearDiff(d0: any, d1: any): number;
+export declare function dateYearDiffFloor(d0: any, d1: any): number;
 export declare function dateMonthDiff(date0: any, date1: any): number;
 export declare function dateWeekDiff(date0: any, date1: any): number;
 export declare function weekOfDate(date: any): number;
@@ -169,3 +180,4 @@ export declare function method(d?: any): AckDate;
 export declare function datesSecondDiff(date: any, date2: any, decimals?: any): number;
 export declare function datesMinuteDiff(date: any, date2: any, roundUp?: boolean): number;
 export declare function momentDateDiff(m: any, m2: any, options: any): number;
+export declare function dateDayDiff(date0: any, date: any): number;

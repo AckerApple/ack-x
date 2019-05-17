@@ -13,6 +13,16 @@ export interface fromOptions{
   roundDownHours?:boolean
 }
 
+export interface dateStats{
+  years   : number
+  months  : number
+  weeks   : number
+  days    : number
+  hours   : number
+  minutes : number
+  seconds : number
+}
+
 /* everything operates on a scale of 1-12 NOT 0-11 OR 1-31 NOT 0-30 ... Weeks are 1-53 */
 export class AckDate{
   date:Date
@@ -40,7 +50,7 @@ export class AckDate{
     }
   /* end */
 
-  /** takes current Date and returns casted utc set Date object */
+  /** takes current Date and returns casted to utc set Date object */
   getUtcDate():Date{
     return new Date(
       this.date.getUTCFullYear(),
@@ -54,7 +64,8 @@ export class AckDate{
 
   /** takes current Date and returns casted utc set Date number */
   utc():number{
-    return this.getUtcDate().getTime()
+    return this.date.getTime()
+    //return this.getUtcDate().getTime()
   }
 
   /** takes current Date and casts to utc set Date number. Returns this */
@@ -106,6 +117,26 @@ export class AckDate{
     return moment(0).from(mDateDiff, hideSuffix)
   }
 
+  diffStats(d):dateStats{
+    d = toDate( d )
+    
+    const months = this.dateMonthDiff( d ) % 12
+    const days = this.dateDayDiff( d )
+    const dayDiff = days===1 ? 1 : Math.floor(days / 7) % 4 % 7
+    const weeks = Math.floor(days / 7)
+    const weekDiff = weeks===4 && months===0 ? 4 : (weeks % 4)
+
+    return {
+      years   : dateYearDiffFloor(this.date, d),
+      months  : months,
+      weeks   : weekDiff,
+      days    : dayDiff,
+      hours   : this.dateHourDiff( d ) % 24,
+      minutes : this.dateMinuteDiff( d ) % 60,
+      seconds : this.dateSecondDiff( d ) % 60
+    }
+  }
+
   now():AckDate{
     this.date = new Date()
     return this
@@ -139,6 +170,7 @@ export class AckDate{
   }
 
   dateMonthDiff(date):number{
+    date = toDate( date )
     return dateMonthDiff(this.date, date)
   }
 
@@ -148,10 +180,7 @@ export class AckDate{
   
   /** always absolute number */
   dateDayDiff(date):number{
-    //return Math.abs(parseInt((this.date - AckDate.toDate(date))/(24*3600*1000)))
-    const dateCalc = this.date.getTime() - toDate(date).getTime()
-    const calc = Math.floor(( dateCalc ) / 86400000)
-    return Math.abs( calc )
+    return dateDayDiff(this.date, date)
   }
 
   /** returns no negative numbers */
@@ -900,6 +929,11 @@ export function dateYearDiff(d0, d1){
   return Math.abs(d0.getFullYear() - d1.getFullYear())
 }
 
+export function dateYearDiffFloor(d0, d1){
+  const diff = dateDayDiff(d0,d1)
+  return Math.floor(diff / 365)
+}
+
 var stdTimezoneOffset = function(d) {
   var jan = new Date(d.getFullYear(), 0, 1);
   var jul = new Date(d.getFullYear(), 6, 1);
@@ -909,13 +943,15 @@ var stdTimezoneOffset = function(d) {
 export function dateMonthDiff(date0, date1){
   date0 = new Date(date0)
   date1 = new Date(date1)
-  return Math.abs( (date1.getMonth()+12*date1.getFullYear())-(date0.getMonth()+12*date0.getFullYear()) )
+  const result = (date1.getMonth()+12*date1.getFullYear())-(date0.getMonth()+12*date0.getFullYear())
+  return Math.abs( result )
 }
 
 export function dateWeekDiff(date0, date1){
   date0 = toDate(date0)
   date1 = toDate(date1)
-  return Math.abs( (weekOfDate(date1)+52*date1.getFullYear())-(weekOfDate(date0)+52*date0.getFullYear()) )
+  const diff = (weekOfDate(date1)+52*date1.getFullYear())-(weekOfDate(date0)+52*date0.getFullYear())
+  return Math.abs( diff )
 
 //  return Math.abs( weekOfDate( date0 ) - weekOfDate( date1 ) )
 }
@@ -1068,4 +1104,11 @@ export function momentDateDiff(m, m2, options) : number{
   }
   
   return mDiffDate
+}
+
+export function dateDayDiff(date0, date):number{
+  //return Math.abs(parseInt((this.date - AckDate.toDate(date))/(24*3600*1000)))
+  const dateCalc = date0.getTime() - toDate(date).getTime()
+  const calc = Math.floor(( dateCalc ) / 86400000)
+  return Math.abs( calc )
 }
