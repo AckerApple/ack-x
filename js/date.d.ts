@@ -169,6 +169,7 @@ export declare const dayAbbrArray: string[];
 export declare function dateYearDiff(d0: any, d1: any): number;
 export declare function dateYearDiffFloor(d0: any, d1: any): number;
 export declare function dateMonthDiff(date0: any, date1: any): number;
+export declare function dateMonthDiffFloor(date0: any, date1: any): number;
 export declare function dateWeekDiff(date0: any, date1: any): number;
 export declare function weekOfDate(date: any): number;
 export declare function parseTimeString(date: any): {

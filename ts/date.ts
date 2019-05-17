@@ -120,15 +120,17 @@ export class AckDate{
   diffStats(d):dateStats{
     d = toDate( d )
     
-    const months = this.dateMonthDiff( d ) % 12
-    const days = this.dateDayDiff( d )
+    const yearsDiff = dateYearDiffFloor(this.date, d)
+    const months = dateMonthDiffFloor(this.date, d)
+    const monthsDiff = months % 12
+    const days = new AckDate( this.date.getTime() ).addMonths(months).dateDayDiff( d )
     const dayDiff = days===1 ? 1 : Math.floor(days / 7) % 4 % 7
     const weeks = Math.floor(days / 7)
-    const weekDiff = weeks===4 && months===0 ? 4 : (weeks % 4)
+    const weekDiff = weeks===4 && monthsDiff===0 ? 4 : (weeks % 4)
 
     return {
-      years   : dateYearDiffFloor(this.date, d),
-      months  : months,
+      years   : yearsDiff,
+      months  : monthsDiff,
       weeks   : weekDiff,
       days    : dayDiff,
       hours   : this.dateHourDiff( d ) % 24,
@@ -944,6 +946,18 @@ export function dateMonthDiff(date0, date1){
   date0 = new Date(date0)
   date1 = new Date(date1)
   const result = (date1.getMonth()+12*date1.getFullYear())-(date0.getMonth()+12*date0.getFullYear())
+  return Math.abs( result )
+}
+
+export function dateMonthDiffFloor(date0, date1){
+  date0 = new Date(date0)
+  date1 = new Date(date1)
+  const result = (date1.getMonth()+12*date1.getFullYear())-(date0.getMonth()+12*date0.getFullYear())
+
+  if( date0.getDate() > date1.getDate() ){
+    return Math.abs( result -1 )
+  }
+
   return Math.abs( result )
 }
 

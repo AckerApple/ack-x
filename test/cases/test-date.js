@@ -98,9 +98,10 @@ describe('ack.date',function(){
 	})
 
 	it('#diffStats',function(){
-		const bday = ack.date('10/10/1982').gotoSod()
+		let start = ack.date('10/10/1982').gotoSod()
 		let diffDay = ack.date('10/10/1983').gotoSod()
-		let dateStats = bday.diffStats( diffDay )
+		let dateStats = start.diffStats( diffDay )
+
 		assert.equal(dateStats.years, 1, 'bday-years')
 		assert.equal(dateStats.months, 0, 'bday-months')
 		assert.equal(dateStats.weeks, 0, 'bday-weeks')
@@ -109,9 +110,9 @@ describe('ack.date',function(){
 		assert.equal(dateStats.minutes, 0, 'bday-minutes')
 		assert.equal(dateStats.seconds, 0, 'bday-seconds')
 
-		const sHour = ack.date('1/1/1982').gotoSod()
+		start = ack.date('1/1/1982').gotoSod()
 		diffDay = ack.date('1/2/1982').gotoSod()
-		dateStats = sHour.diffStats( diffDay )
+		dateStats = start.diffStats( diffDay )
 		assert.equal(dateStats.years, 0, '24-years')
 		assert.equal(dateStats.months, 0, '24-months')
 		assert.equal(dateStats.weeks, 0, '24-weeks')
@@ -120,9 +121,9 @@ describe('ack.date',function(){
 		assert.equal(dateStats.minutes, 0, '24-minutes')
 		assert.equal(dateStats.seconds, 0, '24-seconds')
 
-		const syear = ack.date('1/1/1982').gotoSod()
+		start = ack.date('1/1/1982').gotoSod()
 		diffDay = ack.date('1/1/1983').gotoSod()
-		dateStats = syear.diffStats( diffDay )
+		dateStats = start.diffStats( diffDay )
 		assert.equal(dateStats.years, 1, '360-years')
 		assert.equal(dateStats.months, 0, '360-months')
 		assert.equal(dateStats.weeks, 0, '360-weeks')
@@ -131,9 +132,9 @@ describe('ack.date',function(){
 		assert.equal(dateStats.minutes, 0, '360-minutes')
 		assert.equal(dateStats.seconds, 0, '360-seconds')
 
-		const bDiff = ack.date('10/10/1982').gotoSod()
+		start = ack.date('10/10/1982').gotoSod()
 		diffDay = ack.date('5/17/2019').gotoSod()
-		dateStats = bDiff.diffStats( diffDay )
+		dateStats = start.diffStats( diffDay )
 		assert.equal(dateStats.years, 36, '36-years')
 		assert.equal(dateStats.months, 7, '36-months')
 		assert.equal(dateStats.weeks, 1, '36-weeks')
@@ -142,9 +143,9 @@ describe('ack.date',function(){
 		assert.equal(dateStats.minutes, 0, '36-minutes')
 		assert.equal(dateStats.seconds, 0, '36-seconds')
 
-		const daysDiff = ack.date('12/1/1982').gotoSod()
+		start = ack.date('12/1/1982').gotoSod()
 		diffDay = ack.date('12/31/1982').gotoEod()
-		dateStats = daysDiff.diffStats( diffDay )
+		dateStats = start.diffStats( diffDay )
 		assert.equal(dateStats.years, 0, '31-years')
 		assert.equal(dateStats.months, 0, '31-months')
 		assert.equal(dateStats.weeks, 4, '31-weeks')
@@ -153,9 +154,9 @@ describe('ack.date',function(){
 		assert.equal(dateStats.minutes, 59, '31-minutes')
 		assert.equal(dateStats.seconds, 59, '31-seconds')
 
-		const monthDiff = ack.date('12/1/1982').gotoSod()
+		start = ack.date('12/1/1982').gotoSod()
 		diffDay = ack.date('1/1/1983').gotoSod()
-		dateStats = monthDiff.diffStats( diffDay )
+		dateStats = start.diffStats( diffDay )
 		assert.equal(dateStats.years, 0, '1-years')
 		assert.equal(dateStats.months, 1, '1-months')
 		assert.equal(dateStats.weeks, 0, '1-weeks')
@@ -163,6 +164,17 @@ describe('ack.date',function(){
 		assert.equal(dateStats.hours, 0, '1-hours')
 		assert.equal(dateStats.minutes, 0, '1-minutes')
 		assert.equal(dateStats.seconds, 0, '1-seconds')
+
+		start = ack.date('05/17/2019').gotoSod()
+		diffDay = ack.date('10/10/2019').gotoSod()
+		dateStats = start.diffStats( diffDay )
+		assert.equal(dateStats.years, 0, '4-3-years')
+		assert.equal(dateStats.months, 4, '4-3-months')
+		assert.equal(dateStats.weeks, 3, '4-3-weeks')
+		assert.equal(dateStats.days, 3, '4-3-days')
+		assert.equal(dateStats.hours, 0, '4-3-hours')
+		assert.equal(dateStats.minutes, 0, '4-3-minutes')
+		assert.equal(dateStats.seconds, 0, '4-3-seconds')
 	})
 
 	it('#fromToday',function(){

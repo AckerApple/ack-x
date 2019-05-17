@@ -1,7 +1,7 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
-## [1.6.0] - 2019-05-17
+## [1.5.9] - 2019-05-17
 - correct date.utc() to just use date.getTime()
 - Added date.diffStats
 
