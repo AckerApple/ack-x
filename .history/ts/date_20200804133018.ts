@@ -128,8 +128,7 @@ export class AckDate {
     const hoursDiff = this.dateHourDiff(d) % 24;
 
     const days = new AckDate(myTime).addMonths(months).dateDayDiff(d);
-    const dayDiff = days % 7;
-    // const dayDiff = days === 1 ? (hoursDiff ? 0 : 1) : days % 7;
+    const dayDiff = days === 1 ? (hoursDiff ? 0 : 1) : days % 7;
     // const dayDiff = days === 1 ? 1 : Math.floor(days / 7) % 4 % 7;
 
     const weeks = Math.floor(days / 7);

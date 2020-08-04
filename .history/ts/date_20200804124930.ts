@@ -118,29 +118,26 @@ export class AckDate {
   }
 
   diffStats(d): dateStats {
-    d = toDate(d);
-    const myTime = this.date.getTime();
+    d = toDate(d)
 
-    const yearsDiff = dateYearDiffFloor(this.date, d);
-    const months = dateMonthDiffFloor(this.date, d);
+    const yearsDiff = dateYearDiffFloor(this.date, d)
+    const months = dateMonthDiffFloor(this.date, d)
     const monthsDiff = months % 12
+    console.log("months", months, monthsDiff)
 
-    const hoursDiff = this.dateHourDiff(d) % 24;
+    const days = new AckDate(this.date.getTime()).addMonths(months).dateDayDiff(d);
+    console.log("days", Math.floor(days / 7) % 4 % 7);
+    const dayDiff = days === 1 ? 1 : Math.floor(days / 7) % 4 % 7
 
-    const days = new AckDate(myTime).addMonths(months).dateDayDiff(d);
-    const dayDiff = days % 7;
-    // const dayDiff = days === 1 ? (hoursDiff ? 0 : 1) : days % 7;
-    // const dayDiff = days === 1 ? 1 : Math.floor(days / 7) % 4 % 7;
-
-    const weeks = Math.floor(days / 7);
-    const weekDiff = weeks === 4 && monthsDiff === 0 ? 4 : (weeks % 4);
+    const weeks = Math.floor(days / 7)
+    const weekDiff = weeks === 4 && monthsDiff === 0 ? 4 : (weeks % 4)
 
     return {
       years: yearsDiff,
       months: monthsDiff,
       weeks: weekDiff,
       days: dayDiff,
-      hours: hoursDiff,
+      hours: this.dateHourDiff(d) % 24,
       minutes: this.dateMinuteDiff(d) % 60,
       seconds: this.dateSecondDiff(d) % 60
     }

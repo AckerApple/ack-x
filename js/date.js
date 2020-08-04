@@ -93,11 +93,13 @@ var AckDate = (function () {
     };
     AckDate.prototype.diffStats = function (d) {
         d = toDate(d);
+        var myTime = this.date.getTime();
         var yearsDiff = dateYearDiffFloor(this.date, d);
         var months = dateMonthDiffFloor(this.date, d);
         var monthsDiff = months % 12;
-        var days = new AckDate(this.date.getTime()).addMonths(months).dateDayDiff(d);
-        var dayDiff = days === 1 ? 1 : Math.floor(days / 7) % 4 % 7;
+        var hoursDiff = this.dateHourDiff(d) % 24;
+        var days = new AckDate(myTime).addMonths(months).dateDayDiff(d);
+        var dayDiff = days % 7;
         var weeks = Math.floor(days / 7);
         var weekDiff = weeks === 4 && monthsDiff === 0 ? 4 : (weeks % 4);
         return {
@@ -105,7 +107,7 @@ var AckDate = (function () {
             months: monthsDiff,
             weeks: weekDiff,
             days: dayDiff,
-            hours: this.dateHourDiff(d) % 24,
+            hours: hoursDiff,
             minutes: this.dateMinuteDiff(d) % 60,
             seconds: this.dateSecondDiff(d) % 60
         };
@@ -748,7 +750,12 @@ exports.dateMonthDiff = dateMonthDiff;
 function dateMonthDiffFloor(date0, date1) {
     date0 = new Date(date0);
     date1 = new Date(date1);
-    var result = (date1.getMonth() + 12 * date1.getFullYear()) - (date0.getMonth() + 12 * date0.getFullYear());
+    var monthsPlusYears0 = date0.getMonth() + 12 * date0.getFullYear();
+    var monthsPlusYears1 = date1.getMonth() + 12 * date1.getFullYear();
+    var result = monthsPlusYears1 - monthsPlusYears0;
+    if (result === 0) {
+        return result;
+    }
     if (date0.getDate() > date1.getDate()) {
         return Math.abs(result - 1);
     }

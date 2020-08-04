@@ -1,14 +1,12 @@
 {
   "name": "ack-x",
-  "version": "1.5.11",
+  "version": "1.5.10",
   "description": "Javascript variable exposing library",
   "main": "js/index.js",
   "typings": "js/index.d.ts",
   "scripts": {
     "test": "mocha ./test/cases --recursive",
-    "test:watch": "npm-run-all --parallel watch:ts test:watch:js",
-    "watch:ts": "npm run build:js -- --watch",
-    "test:watch:js": "mocha ./test/cases --recursive --watch",
+    "test:watch": "mocha ./test/cases --recursive --watch",
     "start": "webpack-dev-server --content-base test/",
     "watch": "webpack --watch --progress",
     "build": "npm-run-all build:js build:dist",
