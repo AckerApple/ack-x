@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ackInjector = void 0;
 var ackInjector = (function () {
     function ackInjector($scope, $storage) {
         this.LoadModule = function (name, $module, $args, injectArray) {

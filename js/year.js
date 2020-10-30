@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.method = exports.ackYear = void 0;
 var date_1 = require("./date");
 var ackYear = (function () {
     function ackYear(yyyy) {

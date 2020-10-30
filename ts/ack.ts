@@ -1,5 +1,5 @@
 import { ackInjector } from "./ackInjector"
-import { debug } from "debug/dist/debug.js"
+// import { debug } from "debug/dist/debug.js"
 import * as ackP from "ack-p"
 import * as ackObject from "./object"
 
@@ -54,7 +54,7 @@ export const ackAppends = {
 		return new ackP(resolver)
 	},
 	
-	debug : function(name, log0, log1, log2){
+	/*debug : function(name, log0, log1, log2){
 		var logger = debug(name)
 		//this.map = this.map || {}
 		//this.map[name] = logger//store memory of logger for meta referencing
@@ -73,8 +73,7 @@ export const ackAppends = {
 		logger.sublog = logger.debug
 
 		return logger
-	}
-
+	}*/
 }
 
 for(let x in ackAppends){
@@ -108,7 +107,7 @@ export class ackExpose{
 	public static injector = ackAppends.injector
 	public static promise = ackAppends.promise
 	public static Promise = ackAppends.Promise
-	public static debug = ackAppends.debug
+	// public static debug = ackAppends.debug
 		
 	public static error(v){return ackExpose.ackit('error')(v)}
 	public static number(v){return ackExpose.ackit('number')(v)}

@@ -1,5 +1,13 @@
 "use strict";
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.jXObject = exports.method = void 0;
 function method(ob) {
     return new jXObject(ob);
 }
@@ -31,7 +39,7 @@ var jXObject = (function () {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        assign.apply(assign, [this.object].concat(args));
+        assign.apply(assign, __spreadArrays([this.object], args));
         return this;
     };
     jXObject.prototype.deepAssign = function () {
@@ -39,7 +47,7 @@ var jXObject = (function () {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        deepAssign.apply(deepAssign, [this.object].concat(args));
+        deepAssign.apply(deepAssign, __spreadArrays([this.object], args));
         return this;
     };
     jXObject.prototype.map = function (method) {

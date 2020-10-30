@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.method = exports.jXBase64 = void 0;
 var jXBase64 = (function () {
     function jXBase64(base64) {
         this.base64 = base64;

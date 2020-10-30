@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.method = exports.suffixByNumber = exports.jXNumber = void 0;
 var jXNumber = (function () {
     function jXNumber(number) {
         this.number = number;

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ackExpose = exports.ackAppends = exports.ack = void 0;
 var ackInjector_1 = require("./ackInjector");
-var debug_js_1 = require("debug/dist/debug.js");
 var ackP = require("ack-p");
 var ackObject = require("./object");
 function ack($var) {
@@ -47,21 +47,6 @@ exports.ackAppends = {
     Promise: function (resolver) {
         return new ackP(resolver);
     },
-    debug: function (name, log0, log1, log2) {
-        var logger = debug_js_1.debug(name);
-        if (arguments.length > 1) {
-            var args = Array.prototype.slice.call(arguments);
-            args.shift();
-            logger.apply(logger, args);
-        }
-        var temp = this;
-        logger.debug = function (subname, log0, log1, log2) {
-            arguments[0] = name + ':' + subname;
-            return temp.ackit('debug').apply(ack, arguments);
-        };
-        logger.sublog = logger.debug;
-        return logger;
-    }
 };
 for (var x in exports.ackAppends) {
     ack[x] = exports.ackAppends[x];
@@ -185,7 +170,6 @@ var ackExpose = (function () {
     ackExpose.injector = exports.ackAppends.injector;
     ackExpose.promise = exports.ackAppends.promise;
     ackExpose.Promise = exports.ackAppends.Promise;
-    ackExpose.debug = exports.ackAppends.debug;
     return ackExpose;
 }());
 exports.ackExpose = ackExpose;

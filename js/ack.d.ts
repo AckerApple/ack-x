@@ -10,7 +10,6 @@ export declare const ackAppends: {
     injector: ($scope: any) => ackInjector;
     promise: (var0?: any, var1?: any, var2?: any, var3?: any) => any;
     Promise: (resolver: any) => any;
-    debug: (name: any, log0: any, log1: any, log2: any) => any;
 };
 export declare class ackExpose {
     $var: any;
@@ -24,7 +23,6 @@ export declare class ackExpose {
     static injector: ($scope: any) => ackInjector;
     static promise: (var0?: any, var1?: any, var2?: any, var3?: any) => any;
     static Promise: (resolver: any) => any;
-    static debug: (name: any, log0: any, log1: any, log2: any) => any;
     static error(v: any): any;
     static number(v: any): any;
     static string(v: any): any;
@@ -47,6 +45,6 @@ export declare class ackExpose {
     dump(spacing: any): string;
     getBit(): 0 | 1;
     nullsToEmptyString(): this;
-    getBoolean(): any;
+    getBoolean(): Number | Boolean;
     isBooleanLike(): boolean;
 }

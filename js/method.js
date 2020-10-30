@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.method = exports.jXMethod = void 0;
 var jXMethod = (function () {
     function jXMethod(method, name) {
         this.method = method;

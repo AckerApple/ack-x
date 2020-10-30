@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.jErrorTypes = exports.jError = exports.method = void 0;
 function method(errorObject) {
     return new jError(errorObject);
 }

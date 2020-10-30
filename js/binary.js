@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.method = exports.jXBinary = void 0;
 var jXBinary = (function () {
     function jXBinary(binary) {
         this.binary = binary;

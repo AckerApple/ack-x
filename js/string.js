@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.method = exports.ExString = void 0;
 var ExString = (function () {
     function ExString(string) {
         this.string = string;

@@ -13,9 +13,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.method = exports.Month = exports.monthLcaseNameArray = void 0;
 var date_1 = require("./date");
 var date_2 = require("./date");
-exports.AckDate = date_2.AckDate;
+Object.defineProperty(exports, "AckDate", { enumerable: true, get: function () { return date_2.AckDate; } });
 exports.monthLcaseNameArray = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
 var Month = (function (_super) {
     __extends(Month, _super);

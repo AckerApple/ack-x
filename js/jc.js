@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Vm = exports.runNullOp = exports.param = exports.get = exports.init = exports.setByAccessor = exports.set = exports.paramdata = exports.clear = exports.each = exports.isF = void 0;
 function isF(f) {
     return typeof (f) == 'function';
 }

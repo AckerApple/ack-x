@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.method = exports.Week = void 0;
 var month_1 = require("./month");
 var date_1 = require("./date");
 var Week = (function (_super) {

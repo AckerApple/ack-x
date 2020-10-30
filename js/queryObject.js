@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.method = exports.jXQueryObjectCsv = exports.jXQueryObject = void 0;
 var jXQueryObject = (function () {
     function jXQueryObject(object) {
         this.queryObject = object;

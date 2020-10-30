@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.method = exports.jXArray = void 0;
 var jXArray = (function () {
     function jXArray(array) {
         this.union = this.appendArray;
