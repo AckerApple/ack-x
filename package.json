@@ -1,6 +1,6 @@
 {
   "name": "ack-x",
-  "version": "1.5.11",
+  "version": "1.5.12",
   "description": "Javascript variable exposing library",
   "main": "js/index.js",
   "typings": "js/index.d.ts",
@@ -27,7 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "ack-p": "^1.0.14",
-    "debug": "^4.1.0",
+    "debug": "~4.1.0",
     "moment-mini": "^2.22.1"
   },
   "devDependencies": {
