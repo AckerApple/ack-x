@@ -1,6 +1,6 @@
 import { ackInjector } from "./ackInjector";
 import * as ackObject from "./object";
-export declare function ack($var: any): ackExpose;
+import { jError } from "./error";
 export declare const ackAppends: {
     modules: ackInjector;
     object: typeof ackObject;
@@ -23,7 +23,7 @@ export declare class ackExpose {
     injector: ($scope: any) => ackInjector;
     promise: (var0?: any, var1?: any, var2?: any, var3?: any) => any;
     Promise: (resolver: any) => any;
-    error(v: any): any;
+    error(v: any): jError;
     number(v: any): any;
     string(v: any): any;
     binary(v: any): any;
@@ -47,4 +47,8 @@ export declare class ackExpose {
     nullsToEmptyString(): this;
     getBoolean(): Number | Boolean;
     isBooleanLike(): boolean;
+}
+export declare function ack($var: any): ackExpose;
+export declare namespace ack {
+    var error: (v: any) => jError;
 }

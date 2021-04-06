@@ -1,13 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ackExpose = exports.ackAppends = exports.ack = void 0;
+exports.ack = exports.ackExpose = exports.ackAppends = void 0;
 var ackInjector_1 = require("./ackInjector");
 var ackP = require("ack-p");
 var ackObject = require("./object");
-function ack($var) {
-    return new ackExpose($var);
-}
-exports.ack = ack;
+var error_1 = require("./error");
 exports.ackAppends = {
     modules: new ackInjector_1.ackInjector(ack),
     object: ackObject,
@@ -73,7 +70,7 @@ var ackExpose = (function () {
     ackExpose.prototype.ackGet = function (name) {
         return this.ackit(name)(this.$var);
     };
-    ackExpose.prototype.error = function (v) { return ackExpose.ackit('error')(v); };
+    ackExpose.prototype.error = function (v) { return new error_1.jError(v); };
     ackExpose.prototype.number = function (v) { return ackExpose.ackit('number')(v); };
     ackExpose.prototype.string = function (v) { return ackExpose.ackit('string')(v); };
     ackExpose.prototype.binary = function (v) { return ackExpose.ackit('binary')(v); };
@@ -173,3 +170,8 @@ var ackExpose = (function () {
     return ackExpose;
 }());
 exports.ackExpose = ackExpose;
+function ack($var) {
+    return new ackExpose($var);
+}
+exports.ack = ack;
+ack.error = ackExpose.prototype.error;

@@ -2,11 +2,7 @@ import { ackInjector } from "./ackInjector"
 // import { debug } from "debug/dist/debug.js"
 import * as ackP from "ack-p"
 import * as ackObject from "./object"
-
-/** calling ack() as function, will return a module to work with almost any object */
-export function ack($var): ackExpose{
-  return new ackExpose($var)
-}
+import { jError } from "./error"
 
 export const ackAppends = {
 	modules : new ackInjector(ack),
@@ -84,7 +80,7 @@ export class ackExpose{
 	$var:any
 
 	constructor($var){
-		if(!this)return new ackExpose($var)
+		if(!this)return new ackExpose($var) // convert to class
 		this.$var = $var
 		return this
 	}
@@ -109,7 +105,7 @@ export class ackExpose{
 	Promise = ackAppends.Promise
 	// public static debug = ackAppends.debug
 
-	error(v){return ackExpose.ackit('error')(v)}
+	error(v){return new jError(v)}
 	number(v){return ackExpose.ackit('number')(v)}
 	string(v){return ackExpose.ackit('string')(v)}
 	binary(v){return ackExpose.ackit('binary')(v)}
@@ -229,3 +225,10 @@ export class ackExpose{
 	  return this.getBoolean()!==null
 	}
 }
+
+/** calling ack() as function, will return a module to work with almost any object */
+export function ack($var): ackExpose{
+  return new ackExpose($var)
+}
+
+ack.error = ackExpose.prototype.error
