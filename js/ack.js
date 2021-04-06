@@ -53,6 +53,12 @@ for (var x in exports.ackAppends) {
 }
 var ackExpose = (function () {
     function ackExpose($var) {
+        this.throwBy = exports.ackAppends.throwBy;
+        this.logArrayTo = exports.ackAppends.logArrayTo;
+        this.logError = exports.ackAppends.logError;
+        this.injector = exports.ackAppends.injector;
+        this.promise = exports.ackAppends.promise;
+        this.Promise = exports.ackAppends.Promise;
         if (!this)
             return new ackExpose($var);
         this.$var = $var;
@@ -67,19 +73,19 @@ var ackExpose = (function () {
     ackExpose.prototype.ackGet = function (name) {
         return this.ackit(name)(this.$var);
     };
-    ackExpose.error = function (v) { return ackExpose.ackit('error')(v); };
-    ackExpose.number = function (v) { return ackExpose.ackit('number')(v); };
-    ackExpose.string = function (v) { return ackExpose.ackit('string')(v); };
-    ackExpose.binary = function (v) { return ackExpose.ackit('binary')(v); };
-    ackExpose.base64 = function (v) { return ackExpose.ackit('base64')(v); };
-    ackExpose.method = function (v) { return ackExpose.ackit('method')(v); };
-    ackExpose.array = function (v) { return ackExpose.ackit('array')(v); };
-    ackExpose.queryObject = function (v) { return ackExpose.ackit('queryObject')(v); };
-    ackExpose.week = function (v) { return ackExpose.ackit('week')(v); };
-    ackExpose.month = function (v) { return ackExpose.ackit('month')(v); };
-    ackExpose.year = function (v) { return ackExpose.ackit('year')(v); };
-    ackExpose.date = function (v) { return ackExpose.ackit('date')(v); };
-    ackExpose.time = function (v) { return ackExpose.ackit('time')(v); };
+    ackExpose.prototype.error = function (v) { return ackExpose.ackit('error')(v); };
+    ackExpose.prototype.number = function (v) { return ackExpose.ackit('number')(v); };
+    ackExpose.prototype.string = function (v) { return ackExpose.ackit('string')(v); };
+    ackExpose.prototype.binary = function (v) { return ackExpose.ackit('binary')(v); };
+    ackExpose.prototype.base64 = function (v) { return ackExpose.ackit('base64')(v); };
+    ackExpose.prototype.method = function (v) { return ackExpose.ackit('method')(v); };
+    ackExpose.prototype.array = function (v) { return ackExpose.ackit('array')(v); };
+    ackExpose.prototype.queryObject = function (v) { return ackExpose.ackit('queryObject')(v); };
+    ackExpose.prototype.week = function (v) { return ackExpose.ackit('week')(v); };
+    ackExpose.prototype.month = function (v) { return ackExpose.ackit('month')(v); };
+    ackExpose.prototype.year = function (v) { return ackExpose.ackit('year')(v); };
+    ackExpose.prototype.date = function (v) { return ackExpose.ackit('date')(v); };
+    ackExpose.prototype.time = function (v) { return ackExpose.ackit('time')(v); };
     ackExpose.prototype.function = function () {
         return this.ackGet('function');
     };
@@ -164,12 +170,6 @@ var ackExpose = (function () {
             return false;
         return this.getBoolean() !== null;
     };
-    ackExpose.throwBy = exports.ackAppends.throwBy;
-    ackExpose.logArrayTo = exports.ackAppends.logArrayTo;
-    ackExpose.logError = exports.ackAppends.logError;
-    ackExpose.injector = exports.ackAppends.injector;
-    ackExpose.promise = exports.ackAppends.promise;
-    ackExpose.Promise = exports.ackAppends.Promise;
     return ackExpose;
 }());
 exports.ackExpose = ackExpose;

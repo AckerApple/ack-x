@@ -4,14 +4,14 @@ import * as ackP from "ack-p"
 import * as ackObject from "./object"
 
 /** calling ack() as function, will return a module to work with almost any object */
-export function ack($var){
+export function ack($var): ackExpose{
   return new ackExpose($var)
 }
 
 export const ackAppends = {
 	modules : new ackInjector(ack),
 	object : ackObject,
-	
+
 	throwBy : function(ob, msg){
 		if(ob){
 			throw(ob)
@@ -53,7 +53,7 @@ export const ackAppends = {
 	Promise : function(resolver){
 		return new ackP(resolver)
 	},
-	
+
 	/*debug : function(name, log0, log1, log2){
 		var logger = debug(name)
 		//this.map = this.map || {}
@@ -92,7 +92,7 @@ export class ackExpose{
 	public ackit(name){
 		return ack[name]
 	}
-	
+
 	static ackit(name){
 		return ack[name]
 	}
@@ -100,34 +100,34 @@ export class ackExpose{
 	ackGet(name){
 		return this.ackit(name)(this.$var)
 	}
-	
-	public static throwBy = ackAppends.throwBy
-	public static logArrayTo = ackAppends.logArrayTo
-	public static logError = ackAppends.logError
-	public static injector = ackAppends.injector
-	public static promise = ackAppends.promise
-	public static Promise = ackAppends.Promise
+
+	throwBy = ackAppends.throwBy
+	logArrayTo = ackAppends.logArrayTo
+	logError = ackAppends.logError
+	injector = ackAppends.injector
+	promise = ackAppends.promise
+	Promise = ackAppends.Promise
 	// public static debug = ackAppends.debug
-		
-	public static error(v){return ackExpose.ackit('error')(v)}
-	public static number(v){return ackExpose.ackit('number')(v)}
-	public static string(v){return ackExpose.ackit('string')(v)}
-	public static binary(v){return ackExpose.ackit('binary')(v)}
-	public static base64(v){return ackExpose.ackit('base64')(v)}
-	public static method(v){return ackExpose.ackit('method')(v)}
-	public static array(v){return ackExpose.ackit('array')(v)}
-	public static queryObject(v){return ackExpose.ackit('queryObject')(v)}
-	public static week(v){return ackExpose.ackit('week')(v)}
-	public static month(v){return ackExpose.ackit('month')(v)}
-	public static year(v){return ackExpose.ackit('year')(v)}
-	public static date(v){return ackExpose.ackit('date')(v)}
-	public static time(v){return ackExpose.ackit('time')(v)}
+
+	error(v){return ackExpose.ackit('error')(v)}
+	number(v){return ackExpose.ackit('number')(v)}
+	string(v){return ackExpose.ackit('string')(v)}
+	binary(v){return ackExpose.ackit('binary')(v)}
+	base64(v){return ackExpose.ackit('base64')(v)}
+	method(v){return ackExpose.ackit('method')(v)}
+	array(v){return ackExpose.ackit('array')(v)}
+	queryObject(v){return ackExpose.ackit('queryObject')(v)}
+	week(v){return ackExpose.ackit('week')(v)}
+	month(v){return ackExpose.ackit('month')(v)}
+	year(v){return ackExpose.ackit('year')(v)}
+	date(v){return ackExpose.ackit('date')(v)}
+	time(v){return ackExpose.ackit('time')(v)}
 
 	//deprecate
 	function(){
 		return this.ackGet('function')
 	}
-	
+
 	getSimpleClone(){
 		var target = {}
 		for (var i in this.$var){
@@ -152,7 +152,7 @@ export class ackExpose{
 
 		return def
 	}
-	
+
 	/** $var[name] returned as ack Object. When null, null returned */
 	byName(name){
 		var v = this.get(name)
@@ -173,10 +173,10 @@ export class ackExpose{
 		spacing = spacing==null ? 2 : spacing
 		return JSON.stringify(this.$var, null, spacing)
 	}
-	
+
 	dump(spacing){
 		return this.stringify(spacing)
-	}	
+	}
 	/** negative numbers will be 0  */
 	getBit(){
 		var b = this.getBoolean()
@@ -194,7 +194,7 @@ export class ackExpose{
 		}
 		return this
 	}
-	
+
 	/** reduces variable to a true/false */
 	getBoolean(){
 	  if(this.$var==null || !this.$var.constructor)return false
@@ -223,7 +223,7 @@ export class ackExpose{
 
 	  return null
 	}
-	
+
 	isBooleanLike(){
 	  if(this.$var==null || !this.$var.constructor)return false
 	  return this.getBoolean()!==null

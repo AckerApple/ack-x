@@ -1,6 +1,6 @@
 {
   "name": "ack-x",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Javascript variable exposing library",
   "main": "js/index.js",
   "typings": "js/index.d.ts",
@@ -13,7 +13,8 @@
     "watch": "webpack --watch --progress",
     "build": "npm-run-all build:js build:dist",
     "build:dist": "webpack --progress --mode=production",
-    "build:js": "tsc --project ./ts/tsconfig.json"
+    "build:js": "tsc --project ./ts/tsconfig.json",
+    "save": "npm run build && npm run test && git add . && git commit -m \"update\" && git push"
   },
   "repository": {
     "type": "git",
