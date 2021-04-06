@@ -1,6 +1,9 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
 
+## [1.7.0] - 2020-04-05
+- Export differences
+
 ## [1.5.11] - 2020-08-04
 - diffStats corrections
 

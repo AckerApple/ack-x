@@ -14,7 +14,8 @@
     "build": "npm-run-all build:js build:dist",
     "build:dist": "webpack --progress --mode=production",
     "build:js": "tsc --project ./ts/tsconfig.json",
-    "save": "npm run build && npm run test && git add . && git commit -m \"update\" && git push"
+    "save": "npm run build && npm run test && git add . && git commit -m \"update\"",
+    "deploy": "npm run save && git push && npm publish"
   },
   "repository": {
     "type": "git",
