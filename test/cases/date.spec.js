@@ -5,7 +5,6 @@ const AckDate = aDate.AckDate;
 const dateMonthDiffFloor = aDate.dateMonthDiffFloor;
 const ack = require('../../js/index').ack;
 const assert = require('assert');
-
 var isDst = ack.date().now().isDst()
 var wasDst = ack.date('2/12/2013').isDst()
 var wasDst2 = ack.date('6/1/2016').isDst()

@@ -1,100 +1,67 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ack = exports.ackExpose = exports.ackAppends = exports.PromiseFunction = exports.promise = exports.injector = exports.logError = exports.logArrayTo = exports.throwBy = void 0;
+exports.ackExpose = void 0;
+var object_1 = require("./object");
+var number_1 = require("./number");
+var string_1 = require("./string");
+var binary_1 = require("./binary");
+var base64_1 = require("./base64");
+var array_1 = require("./array");
+var queryObject_1 = require("./queryObject");
+var week_1 = require("./week");
+var month_1 = require("./month");
+var year_1 = require("./year");
+var date_1 = require("./date");
+var time_1 = require("./time");
+var method_1 = require("./method");
 var ackInjector_1 = require("./ackInjector");
 var ackP = require("ack-p");
-var ackObject = require("./object");
 var error_1 = require("./error");
-function throwBy(ob, msg) {
-    if (ob) {
-        throw (ob);
-    }
-    else if (msg) {
-        throw new Error(msg);
-    }
-    else {
-        throw new Error('An unexpected error has occured');
-    }
-}
-exports.throwBy = throwBy;
-function logArrayTo(array, logTo) {
-    logTo.apply(logTo, array);
-}
-exports.logArrayTo = logArrayTo;
-function logError(err, msg, logTo) {
-    logTo = logTo || console.log;
-    var drray = [];
-    if (msg == null && err && err.stack) {
-        msg = msg || err.stack.replace(/(\n|\t|\r)/g, '').split(/\s+at\s+/).shift();
-    }
-    if (msg != null)
-        drray.push(msg);
-    if (err != null)
-        drray.push(err);
-    this.ackit('logErrorArray')(drray, logTo);
-}
-exports.logError = logError;
-function injector($scope) {
-    return new ackInjector_1.ackInjector($scope);
-}
-exports.injector = injector;
-function promise(var0, var1, var2, var3) {
-    var promise = ackP.start();
-    return promise.set.apply(promise, arguments);
-}
-exports.promise = promise;
-function PromiseFunction(resolver) {
-    return new ackP(resolver);
-}
-exports.PromiseFunction = PromiseFunction;
-exports.ackAppends = {
-    modules: new ackInjector_1.ackInjector(ack),
-    object: ackObject,
-    throwBy: throwBy, logArrayTo: logArrayTo, logError: logError, injector: injector,
-    promise: promise,
-    Promise: PromiseFunction,
-};
-for (var x in exports.ackAppends) {
-    ack[x] = exports.ackAppends[x];
-}
 var ackExpose = (function () {
     function ackExpose($var) {
-        this.throwBy = throwBy;
-        this.logArrayTo = logArrayTo;
-        this.logError = logError;
-        this.injector = injector;
-        this.promise = promise;
-        this.Promise = PromiseFunction;
         if (!this)
             return new ackExpose($var);
         this.$var = $var;
         return this;
     }
-    ackExpose.prototype.ackit = function (name) {
-        return ack[name];
+    ackExpose.prototype.throwBy = function (ob, msg) {
+        if (ob) {
+            throw (ob);
+        }
+        else if (msg) {
+            throw new Error(msg);
+        }
+        else {
+            throw new Error('An unexpected error has occured');
+        }
     };
-    ackExpose.ackit = function (name) {
-        return ack[name];
+    ackExpose.prototype.logArrayTo = function (array, logTo) {
+        logTo.apply(logTo, array);
     };
-    ackExpose.prototype.ackGet = function (name) {
-        return this.ackit(name)(this.$var);
+    ackExpose.injector = function ($scope) {
+        return new ackInjector_1.ackInjector($scope);
     };
-    ackExpose.prototype.error = function (v) { return new error_1.jError(v); };
-    ackExpose.prototype.number = function (v) { return ackExpose.ackit('number')(v); };
-    ackExpose.prototype.string = function (v) { return ackExpose.ackit('string')(v); };
-    ackExpose.prototype.binary = function (v) { return ackExpose.ackit('binary')(v); };
-    ackExpose.prototype.base64 = function (v) { return ackExpose.ackit('base64')(v); };
-    ackExpose.prototype.method = function (v) { return ackExpose.ackit('method')(v); };
-    ackExpose.prototype.array = function (v) { return ackExpose.ackit('array')(v); };
-    ackExpose.prototype.queryObject = function (v) { return ackExpose.ackit('queryObject')(v); };
-    ackExpose.prototype.week = function (v) { return ackExpose.ackit('week')(v); };
-    ackExpose.prototype.month = function (v) { return ackExpose.ackit('month')(v); };
-    ackExpose.prototype.year = function (v) { return ackExpose.ackit('year')(v); };
-    ackExpose.prototype.date = function (v) { return ackExpose.ackit('date')(v); };
-    ackExpose.prototype.time = function (v) { return ackExpose.ackit('time')(v); };
-    ackExpose.prototype.function = function () {
-        return this.ackGet('function');
+    ackExpose.promise = function (var0, var1, var2, var3) {
+        var promise = ackP.start();
+        return promise.set.apply(promise, arguments);
     };
+    ackExpose.Promise = function (resolver) {
+        return new ackP(resolver);
+    };
+    ackExpose.error = function (v) { return new error_1.jError(v); };
+    ackExpose.number = function (v) { return number_1.method(v); };
+    ackExpose.object = function (v) { return object_1.method(v); };
+    ackExpose.string = function (v) { return string_1.method(v); };
+    ackExpose.binary = function (v) { return binary_1.method(v); };
+    ackExpose.base64 = function (v) { return base64_1.method(v); };
+    ackExpose.method = function (v) { return method_1.method(v); };
+    ackExpose.array = function (v) { return array_1.method(v); };
+    ackExpose.queryObject = function (v) { return queryObject_1.method(v); };
+    ackExpose.week = function (v) { return week_1.method(v); };
+    ackExpose.month = function (v) { return month_1.method(v); };
+    ackExpose.year = function (v) { return year_1.method(v); };
+    ackExpose.date = function (v) { return date_1.method(v); };
+    ackExpose.time = function (v) { return time_1.method(v); };
     ackExpose.prototype.getSimpleClone = function () {
         var target = {};
         for (var i in this.$var) {
@@ -113,17 +80,6 @@ var ackExpose = (function () {
                 return this.$var[key];
         }
         return def;
-    };
-    ackExpose.prototype.byName = function (name) {
-        var v = this.get(name);
-        if (v != null) {
-            return ack(v);
-        }
-    };
-    ackExpose.prototype.throw = function (msg, logTo) {
-        this.ackit('logError')(this.$var, msg, logTo);
-        this.ackit('throwBy')(this.$var, msg);
-        return this;
     };
     ackExpose.prototype.stringify = function (spacing) {
         spacing = spacing == null ? 2 : spacing;
@@ -179,8 +135,3 @@ var ackExpose = (function () {
     return ackExpose;
 }());
 exports.ackExpose = ackExpose;
-function ack($var) {
-    return new ackExpose($var);
-}
-exports.ack = ack;
-ack.error = ackExpose.prototype.error;

@@ -1,85 +1,25 @@
+// import { method as errorMethod } from "./error"
+import { method as objectMethod } from "./object"
+import { method as numberMethod } from "./number"
+import { method as stringMethod } from "./string"
+import { method as binaryMethod } from "./binary"
+import { method as base64Method } from "./base64"
+import { method as arrayMethod } from "./array"
+import { method as queryObjectMethod } from "./queryObject"
+import { method as weekMethod } from "./week"
+import { method as monthMethod } from "./month"
+import { method as yearMethod } from "./year"
+import { method as dateMethod } from "./date"
+import { method as timeMethod } from "./time"
+import { method as methodMethod } from "./method"
+
 import { ackInjector } from "./ackInjector"
 // import { debug } from "debug/dist/debug.js"
 import * as ackP from "ack-p"
-import * as ackObject from "./object"
+// import * as ackObject from "./object"
 import { jError } from "./error"
 
-export function throwBy(ob, msg){
-	if(ob){
-		throw(ob)
-	}else if(msg){
-		throw new Error(msg)
-	}else{
-		throw new Error('An unexpected error has occured')
-	}
-}
-
-export function logArrayTo(array, logTo) {
-	logTo.apply(logTo, array)
-}
-
-export function logError(err, msg, logTo){
-	logTo = logTo || console.log
-
-	var drray=[]
-
-	if(msg==null && err && err.stack){//?no message
-		msg = msg || err.stack.replace(/(\n|\t|\r)/g,'').split(/\s+at\s+/).shift()//error stack as message
-	}
-
-	if(msg!=null)drray.push(msg)
-	if(err!=null)drray.push(err)
-
-	this.ackit('logErrorArray')(drray, logTo)
-}
-
-export function injector($scope){
-	return new ackInjector($scope)
-}
-
-export function promise(var0?, var1?, var2?, var3?){
-	var promise = ackP.start()
-	return promise.set.apply(promise,arguments)
-}
-
-export function PromiseFunction(resolver){
-	return new ackP(resolver)
-}
-
-export const ackAppends = {
-	modules : new ackInjector(ack),
-	object : ackObject,
-	throwBy, logArrayTo, logError, injector,
-	promise,
-	Promise : PromiseFunction,
-
-	/*debug : function(name, log0, log1, log2){
-		var logger = debug(name)
-		//this.map = this.map || {}
-		//this.map[name] = logger//store memory of logger for meta referencing
-
-		if(arguments.length>1){//logging intended to go with
-			var args = Array.prototype.slice.call(arguments)
-			args.shift()//remove first
-			logger.apply(logger,args)
-		}
-
-		const temp = this
-		logger.debug = function(subname, log0, log1, log2){
-			arguments[0] = name+':'+subname
-			return temp.ackit('debug').apply(ack, arguments)
-		}
-		logger.sublog = logger.debug
-
-		return logger
-	}*/
-}
-
-for(let x in ackAppends){
-	ack[x] = ackAppends[x]
-}
-
-export class ackExpose{
+export class ackExpose {
 	$var:any
 
 	constructor($var){
@@ -88,44 +28,63 @@ export class ackExpose{
 		return this
 	}
 
-	public ackit(name){
-		return ack[name]
+
+	throwBy(ob, msg){
+		if(ob){
+			throw(ob)
+		}else if(msg){
+			throw new Error(msg)
+		}else{
+			throw new Error('An unexpected error has occured')
+		}
 	}
 
-	static ackit(name){
-		return ack[name]
+	logArrayTo(array, logTo) {
+		logTo.apply(logTo, array)
 	}
 
-	ackGet(name){
-		return this.ackit(name)(this.$var)
+	/*logError(err, msg, logTo){
+		logTo = logTo || console.log
+
+		var drray=[]
+
+		if(msg==null && err && err.stack){//?no message
+			msg = msg || err.stack.replace(/(\n|\t|\r)/g,'').split(/\s+at\s+/).shift()//error stack as message
+		}
+
+		if(msg!=null)drray.push(msg)
+		if(err!=null)drray.push(err)
+
+		this.ackit('logErrorArray')(drray, logTo)
+	}*/
+
+	static injector($scope){
+		return new ackInjector($scope)
 	}
 
-	throwBy = throwBy
-	logArrayTo = logArrayTo
-	logError = logError
-	injector = injector
-	promise = promise
-	Promise = PromiseFunction
-	// public static debug = ackAppends.debug
-
-	error(v){return new jError(v)}
-	number(v){return ackExpose.ackit('number')(v)}
-	string(v){return ackExpose.ackit('string')(v)}
-	binary(v){return ackExpose.ackit('binary')(v)}
-	base64(v){return ackExpose.ackit('base64')(v)}
-	method(v){return ackExpose.ackit('method')(v)}
-	array(v){return ackExpose.ackit('array')(v)}
-	queryObject(v){return ackExpose.ackit('queryObject')(v)}
-	week(v){return ackExpose.ackit('week')(v)}
-	month(v){return ackExpose.ackit('month')(v)}
-	year(v){return ackExpose.ackit('year')(v)}
-	date(v){return ackExpose.ackit('date')(v)}
-	time(v){return ackExpose.ackit('time')(v)}
-
-	//deprecate
-	function(){
-		return this.ackGet('function')
+	static promise(var0?, var1?, var2?, var3?){
+		var promise = ackP.start()
+		return promise.set.apply(promise,arguments)
 	}
+
+	static Promise(resolver){
+		return new ackP(resolver)
+	}
+
+	static error(v){return new jError(v)}
+	static number(v){return numberMethod(v)}
+	static object(v){return objectMethod(v)}
+	static string(v){return stringMethod(v)}
+	static binary(v){return binaryMethod(v)}
+	static base64(v){return base64Method(v)}
+	static method(v){return methodMethod(v)}
+	static array(v){return arrayMethod(v)}
+	static queryObject(v){return queryObjectMethod(v)}
+	static week(v){return weekMethod(v)}
+	static month(v){return monthMethod(v)}
+	static year(v){return yearMethod(v)}
+	static date(v){return dateMethod(v)}
+	static time(v){return timeMethod(v)}
 
 	getSimpleClone(){
 		var target = {}
@@ -150,21 +109,6 @@ export class ackExpose{
 		}
 
 		return def
-	}
-
-	/** $var[name] returned as ack Object. When null, null returned */
-	byName(name){
-		var v = this.get(name)
-		if( v!=null ){
-			return ack(v)
-		}
-	}
-
-	//deprecate this
-	throw(msg, logTo){
-		this.ackit('logError')(this.$var, msg, logTo)
-		this.ackit('throwBy')(this.$var, msg)
-		return this
 	}
 
 	/** JSON.stringify with default spacing=2 */
@@ -228,10 +172,3 @@ export class ackExpose{
 	  return this.getBoolean()!==null
 	}
 }
-
-/** calling ack() as function, will return a module to work with almost any object */
-export function ack($var): ackExpose{
-  return new ackExpose($var)
-}
-
-ack.error = ackExpose.prototype.error

@@ -34,15 +34,6 @@ describe('ack()',function(){
 		assert.equal(object.stringify(0),'{"test":11}')
 	})
 
-	it('#byName',function(){
-		var object = ack({
-			test : {x:11, Test:22, TEST:33}
-		})
-		assert.equal(object.byName('test').get('x'),11)
-		assert.equal(object.byName('test').get('Test'),22)
-		assert.equal(object.byName('test').get('TEST'),33)
-	})
-
 	it('#promise',function(done){
 		ack.promise('a','b','c')
 		.then(function(a,b,c){

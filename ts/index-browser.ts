@@ -18,7 +18,9 @@ import { method as methodMethod } from "./method"
 export class ack extends ackExpose {
   constructor( $var? ){
     super( $var )
-    if(!this)return new ack($var)
+
+    if(!this)return new ack($var) // are we being called as not a class, convert
+
     return this
   }
 
