@@ -1,6 +1,6 @@
 {
   "name": "ack-x",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Javascript variable exposing library",
   "main": "js/index.js",
   "typings": "js/index.d.ts",
@@ -11,9 +11,10 @@
     "test:watch:js": "mocha ./test/cases --recursive --watch",
     "start": "webpack-dev-server --content-base test/",
     "watch": "webpack --watch --progress",
-    "build": "npm-run-all build:js build:dist",
+    "build": "npm-run-all build:js build:es build:dist",
     "build:dist": "webpack --progress --mode=production",
     "build:js": "tsc --project ./ts/tsconfig.json",
+    "build:es": "tsc --project ./ts/tsconfig.es.json",
     "save": "npm run build && npm run test && git add . && git commit -m \"update\"",
     "deploy": "npm run save && git push && npm publish"
   },
