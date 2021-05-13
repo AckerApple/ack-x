@@ -1,4 +1,4 @@
-import { ackExpose, ackAppends } from "./ack"
+import { ackExpose } from "./ack"
 
 import { method as errorMethod } from "./error"
 import { method as numberMethod } from "./number"
@@ -15,7 +15,7 @@ import { method as dateMethod } from "./date"
 import { method as timeMethod } from "./time"
 import { method as methodMethod } from "./method"
 
-export class ack extends ackExpose{
+export class ack extends ackExpose {
   constructor( $var? ){
     super( $var )
     if(!this)return new ack($var)
@@ -25,7 +25,7 @@ export class ack extends ackExpose{
   ackit(name){
     return ack[name]
   }
-  
+
   public error = errorMethod
   public number = numberMethod
   public string = stringMethod
@@ -60,3 +60,4 @@ export class ack extends ackExpose{
 }
 
 //export const ack = new Ack()
+export default ack

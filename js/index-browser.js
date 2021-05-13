@@ -71,3 +71,4 @@ var ack = (function (_super) {
     return ack;
 }(ack_1.ackExpose));
 exports.ack = ack;
+exports.default = ack;

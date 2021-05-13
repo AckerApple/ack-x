@@ -1,15 +1,21 @@
 import { ackInjector } from "./ackInjector";
 import * as ackObject from "./object";
 import { jError } from "./error";
+export declare function throwBy(ob: any, msg: any): void;
+export declare function logArrayTo(array: any, logTo: any): void;
+export declare function logError(err: any, msg: any, logTo: any): void;
+export declare function injector($scope: any): ackInjector;
+export declare function promise(var0?: any, var1?: any, var2?: any, var3?: any): any;
+export declare function PromiseFunction(resolver: any): any;
 export declare const ackAppends: {
     modules: ackInjector;
     object: typeof ackObject;
-    throwBy: (ob: any, msg: any) => never;
-    logArrayTo: (array: any, logTo: any) => void;
-    logError: (err: any, msg: any, logTo: any) => void;
-    injector: ($scope: any) => ackInjector;
-    promise: (var0?: any, var1?: any, var2?: any, var3?: any) => any;
-    Promise: (resolver: any) => any;
+    throwBy: typeof throwBy;
+    logArrayTo: typeof logArrayTo;
+    logError: typeof logError;
+    injector: typeof injector;
+    promise: typeof promise;
+    Promise: typeof PromiseFunction;
 };
 export declare class ackExpose {
     $var: any;
@@ -17,12 +23,12 @@ export declare class ackExpose {
     ackit(name: any): any;
     static ackit(name: any): any;
     ackGet(name: any): any;
-    throwBy: (ob: any, msg: any) => never;
-    logArrayTo: (array: any, logTo: any) => void;
-    logError: (err: any, msg: any, logTo: any) => void;
-    injector: ($scope: any) => ackInjector;
-    promise: (var0?: any, var1?: any, var2?: any, var3?: any) => any;
-    Promise: (resolver: any) => any;
+    throwBy: typeof throwBy;
+    logArrayTo: typeof logArrayTo;
+    logError: typeof logError;
+    injector: typeof injector;
+    promise: typeof promise;
+    Promise: typeof PromiseFunction;
     error(v: any): jError;
     number(v: any): any;
     string(v: any): any;

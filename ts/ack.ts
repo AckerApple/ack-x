@@ -4,51 +4,54 @@ import * as ackP from "ack-p"
 import * as ackObject from "./object"
 import { jError } from "./error"
 
+export function throwBy(ob, msg){
+	if(ob){
+		throw(ob)
+	}else if(msg){
+		throw new Error(msg)
+	}else{
+		throw new Error('An unexpected error has occured')
+	}
+}
+
+export function logArrayTo(array, logTo) {
+	logTo.apply(logTo, array)
+}
+
+export function logError(err, msg, logTo){
+	logTo = logTo || console.log
+
+	var drray=[]
+
+	if(msg==null && err && err.stack){//?no message
+		msg = msg || err.stack.replace(/(\n|\t|\r)/g,'').split(/\s+at\s+/).shift()//error stack as message
+	}
+
+	if(msg!=null)drray.push(msg)
+	if(err!=null)drray.push(err)
+
+	this.ackit('logErrorArray')(drray, logTo)
+}
+
+export function injector($scope){
+	return new ackInjector($scope)
+}
+
+export function promise(var0?, var1?, var2?, var3?){
+	var promise = ackP.start()
+	return promise.set.apply(promise,arguments)
+}
+
+export function PromiseFunction(resolver){
+	return new ackP(resolver)
+}
+
 export const ackAppends = {
 	modules : new ackInjector(ack),
 	object : ackObject,
-
-	throwBy : function(ob, msg){
-		if(ob){
-			throw(ob)
-		}else if(msg){
-			throw new Error(msg)
-		}else{
-			throw new Error('An unexpected error has occured')
-		}
-	},
-
-	logArrayTo : function(array, logTo){
-		logTo.apply(logTo, array)
-	},
-
-	logError : function(err, msg, logTo){
-		logTo = logTo || console.log
-
-		var drray=[]
-
-		if(msg==null && err && err.stack){//?no message
-			msg = msg || err.stack.replace(/(\n|\t|\r)/g,'').split(/\s+at\s+/).shift()//error stack as message
-		}
-
-		if(msg!=null)drray.push(msg)
-		if(err!=null)drray.push(err)
-
-		this.ackit('logErrorArray')(drray, logTo)
-	},
-
-	injector : function($scope){
-		return new ackInjector($scope)
-	},
-
-	promise : function(var0?, var1?, var2?, var3?){
-		var promise = ackP.start()
-		return promise.set.apply(promise,arguments)
-	},
-
-	Promise : function(resolver){
-		return new ackP(resolver)
-	},
+	throwBy, logArrayTo, logError, injector,
+	promise,
+	Promise : PromiseFunction,
 
 	/*debug : function(name, log0, log1, log2){
 		var logger = debug(name)
@@ -97,12 +100,12 @@ export class ackExpose{
 		return this.ackit(name)(this.$var)
 	}
 
-	throwBy = ackAppends.throwBy
-	logArrayTo = ackAppends.logArrayTo
-	logError = ackAppends.logError
-	injector = ackAppends.injector
-	promise = ackAppends.promise
-	Promise = ackAppends.Promise
+	throwBy = throwBy
+	logArrayTo = logArrayTo
+	logError = logError
+	injector = injector
+	promise = promise
+	Promise = PromiseFunction
 	// public static debug = ackAppends.debug
 
 	error(v){return new jError(v)}

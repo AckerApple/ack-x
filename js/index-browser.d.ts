@@ -45,3 +45,4 @@ export declare class ack extends ackExpose {
     static time: typeof timeMethod;
     static method: typeof methodMethod;
 }
+export default ack;

@@ -5,6 +5,10 @@ var assert = require('assert'),
 
 describe('index-browser',function(){
   it('has-functions',function(){
+    if (!indexBrowser) {
+      throw 'expected indexBrowser to be defined'
+    }
+
     assert.equal(typeof indexBrowser.error, 'function')
     assert.equal(typeof indexBrowser.number, 'function')
     assert.equal(typeof indexBrowser.string, 'function')

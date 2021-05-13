@@ -1,61 +1,70 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ack = exports.ackExpose = exports.ackAppends = void 0;
+exports.ack = exports.ackExpose = exports.ackAppends = exports.PromiseFunction = exports.promise = exports.injector = exports.logError = exports.logArrayTo = exports.throwBy = void 0;
 var ackInjector_1 = require("./ackInjector");
 var ackP = require("ack-p");
 var ackObject = require("./object");
 var error_1 = require("./error");
+function throwBy(ob, msg) {
+    if (ob) {
+        throw (ob);
+    }
+    else if (msg) {
+        throw new Error(msg);
+    }
+    else {
+        throw new Error('An unexpected error has occured');
+    }
+}
+exports.throwBy = throwBy;
+function logArrayTo(array, logTo) {
+    logTo.apply(logTo, array);
+}
+exports.logArrayTo = logArrayTo;
+function logError(err, msg, logTo) {
+    logTo = logTo || console.log;
+    var drray = [];
+    if (msg == null && err && err.stack) {
+        msg = msg || err.stack.replace(/(\n|\t|\r)/g, '').split(/\s+at\s+/).shift();
+    }
+    if (msg != null)
+        drray.push(msg);
+    if (err != null)
+        drray.push(err);
+    this.ackit('logErrorArray')(drray, logTo);
+}
+exports.logError = logError;
+function injector($scope) {
+    return new ackInjector_1.ackInjector($scope);
+}
+exports.injector = injector;
+function promise(var0, var1, var2, var3) {
+    var promise = ackP.start();
+    return promise.set.apply(promise, arguments);
+}
+exports.promise = promise;
+function PromiseFunction(resolver) {
+    return new ackP(resolver);
+}
+exports.PromiseFunction = PromiseFunction;
 exports.ackAppends = {
     modules: new ackInjector_1.ackInjector(ack),
     object: ackObject,
-    throwBy: function (ob, msg) {
-        if (ob) {
-            throw (ob);
-        }
-        else if (msg) {
-            throw new Error(msg);
-        }
-        else {
-            throw new Error('An unexpected error has occured');
-        }
-    },
-    logArrayTo: function (array, logTo) {
-        logTo.apply(logTo, array);
-    },
-    logError: function (err, msg, logTo) {
-        logTo = logTo || console.log;
-        var drray = [];
-        if (msg == null && err && err.stack) {
-            msg = msg || err.stack.replace(/(\n|\t|\r)/g, '').split(/\s+at\s+/).shift();
-        }
-        if (msg != null)
-            drray.push(msg);
-        if (err != null)
-            drray.push(err);
-        this.ackit('logErrorArray')(drray, logTo);
-    },
-    injector: function ($scope) {
-        return new ackInjector_1.ackInjector($scope);
-    },
-    promise: function (var0, var1, var2, var3) {
-        var promise = ackP.start();
-        return promise.set.apply(promise, arguments);
-    },
-    Promise: function (resolver) {
-        return new ackP(resolver);
-    },
+    throwBy: throwBy, logArrayTo: logArrayTo, logError: logError, injector: injector,
+    promise: promise,
+    Promise: PromiseFunction,
 };
 for (var x in exports.ackAppends) {
     ack[x] = exports.ackAppends[x];
 }
 var ackExpose = (function () {
     function ackExpose($var) {
-        this.throwBy = exports.ackAppends.throwBy;
-        this.logArrayTo = exports.ackAppends.logArrayTo;
-        this.logError = exports.ackAppends.logError;
-        this.injector = exports.ackAppends.injector;
-        this.promise = exports.ackAppends.promise;
-        this.Promise = exports.ackAppends.Promise;
+        this.throwBy = throwBy;
+        this.logArrayTo = logArrayTo;
+        this.logError = logError;
+        this.injector = injector;
+        this.promise = promise;
+        this.Promise = PromiseFunction;
         if (!this)
             return new ackExpose($var);
         this.$var = $var;

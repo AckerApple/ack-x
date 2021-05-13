@@ -1,5 +1,7 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
+## [2.0.0] - 2020-05-12
+- removed /browser.js
 
 ## [1.7.0] - 2020-04-05
 - Export differences

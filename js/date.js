@@ -593,7 +593,6 @@ var AckDate = (function () {
         if (sep === void 0) { sep = "/"; }
         if (!this.date)
             return '';
-        var d = this.date;
         return this.md(sep) + sep + this.yy();
     };
     AckDate.prototype.mmddyy = function (sep) {
@@ -778,9 +777,6 @@ function weekOfDate(date) {
     return Math.ceil(calc);
 }
 exports.weekOfDate = weekOfDate;
-var eackDate = function (date) {
-    return new AckDate(date);
-};
 function parseTimeString(date) {
     var dDate = new Date(date);
     if (dDate != 'Invalid Date') {
@@ -837,7 +833,6 @@ function datesMinuteDiff(date, date2, roundUp) {
     if (roundUp === void 0) { roundUp = false; }
     date2 = toDate(date2 == null ? new Date() : date2);
     var hourDiff = date2 - date.getTime();
-    var secDiff = hourDiff / 1000;
     var minDiff = hourDiff / 60 / 1000;
     var hDiff = hourDiff / 3600 / 1000;
     var hours = Math.floor(hDiff);

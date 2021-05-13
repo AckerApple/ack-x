@@ -786,7 +786,6 @@ export class AckDate {
 
   mdyy(sep = "/") {
     if (!this.date) return '';
-    var d = this.date
     return this.md(sep) + sep + this.yy()
   }
 
@@ -1010,12 +1009,6 @@ export function utcWeekOfDate(d):number{
 
 
 
-
-
-var eackDate = function (date) {
-  return new AckDate(date)
-}
-
 export function parseTimeString(date) {
   var dDate: any = new Date(date);
 
@@ -1084,7 +1077,6 @@ export function datesMinuteDiff(
 ) {
   date2 = toDate(date2 == null ? new Date() : date2)
   var hourDiff = date2 - date.getTime(); //in ms
-  var secDiff = hourDiff / 1000; //in s
   var minDiff = hourDiff / 60 / 1000; //in minutes
   var hDiff = hourDiff / 3600 / 1000; //in hours
   var hours = Math.floor(hDiff);
