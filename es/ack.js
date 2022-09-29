@@ -12,7 +12,6 @@ import { method as dateMethod } from "./date";
 import { method as timeMethod } from "./time";
 import { method as methodMethod } from "./method";
 import { ackInjector } from "./ackInjector";
-import * as ackP from "ack-p";
 import { jError } from "./error";
 var ackExpose = (function () {
     function ackExpose($var) {
@@ -37,13 +36,6 @@ var ackExpose = (function () {
     };
     ackExpose.injector = function ($scope) {
         return new ackInjector($scope);
-    };
-    ackExpose.promise = function (var0, var1, var2, var3) {
-        var promise = ackP.start();
-        return promise.set.apply(promise, arguments);
-    };
-    ackExpose.Promise = function (resolver) {
-        return new ackP(resolver);
     };
     ackExpose.error = function (v) { return new jError(v); };
     ackExpose.number = function (v) { return numberMethod(v); };

@@ -6,8 +6,6 @@ export declare class ackExpose {
     throwBy(ob: any, msg: any): void;
     logArrayTo(array: any, logTo: any): void;
     static injector($scope: any): ackInjector;
-    static promise(var0?: any, var1?: any, var2?: any, var3?: any): any;
-    static Promise(resolver: any): any;
     static error(v: any): jError;
     static number(v: any): import("./number").jXNumber;
     static object(v: any): import("./object").jXObject;
@@ -28,6 +26,6 @@ export declare class ackExpose {
     dump(spacing: any): string;
     getBit(): 1 | 0;
     nullsToEmptyString(): this;
-    getBoolean(): Number | Boolean;
+    getBoolean(): boolean | Number | Boolean;
     isBooleanLike(): boolean;
 }

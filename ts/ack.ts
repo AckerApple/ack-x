@@ -14,9 +14,6 @@ import { method as timeMethod } from "./time"
 import { method as methodMethod } from "./method"
 
 import { ackInjector } from "./ackInjector"
-// import { debug } from "debug/dist/debug.js"
-import * as ackP from "ack-p"
-// import * as ackObject from "./object"
 import { jError } from "./error"
 
 export class ackExpose {
@@ -60,15 +57,6 @@ export class ackExpose {
 
 	static injector($scope){
 		return new ackInjector($scope)
-	}
-
-	static promise(var0?, var1?, var2?, var3?){
-		var promise = ackP.start()
-		return promise.set.apply(promise,arguments)
-	}
-
-	static Promise(resolver){
-		return new ackP(resolver)
 	}
 
 	static error(v){return new jError(v)}

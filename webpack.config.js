@@ -1,6 +1,7 @@
 var webpack = require('webpack')
 var path = require('path')
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+// var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = [{
   mode: "production",
@@ -16,7 +17,18 @@ module.exports = [{
     path: path.join(__dirname,'dist'),
     filename: "ack-x-min.js"
   },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        compress: false,
+        ecma: 5,
+        mangle: true
+      }
+    })],
+  },
   plugins: [
+    /*
     new UglifyJsPlugin({
       cache: true,
       parallel: true,
@@ -26,6 +38,6 @@ module.exports = [{
         mangle: true
       },
       sourceMap: true
-    })
+    })*/
   ]
 }]

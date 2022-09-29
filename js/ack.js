@@ -15,7 +15,6 @@ var date_1 = require("./date");
 var time_1 = require("./time");
 var method_1 = require("./method");
 var ackInjector_1 = require("./ackInjector");
-var ackP = require("ack-p");
 var error_1 = require("./error");
 var ackExpose = (function () {
     function ackExpose($var) {
@@ -41,27 +40,20 @@ var ackExpose = (function () {
     ackExpose.injector = function ($scope) {
         return new ackInjector_1.ackInjector($scope);
     };
-    ackExpose.promise = function (var0, var1, var2, var3) {
-        var promise = ackP.start();
-        return promise.set.apply(promise, arguments);
-    };
-    ackExpose.Promise = function (resolver) {
-        return new ackP(resolver);
-    };
     ackExpose.error = function (v) { return new error_1.jError(v); };
-    ackExpose.number = function (v) { return number_1.method(v); };
-    ackExpose.object = function (v) { return object_1.method(v); };
-    ackExpose.string = function (v) { return string_1.method(v); };
-    ackExpose.binary = function (v) { return binary_1.method(v); };
-    ackExpose.base64 = function (v) { return base64_1.method(v); };
-    ackExpose.method = function (v) { return method_1.method(v); };
-    ackExpose.array = function (v) { return array_1.method(v); };
-    ackExpose.queryObject = function (v) { return queryObject_1.method(v); };
-    ackExpose.week = function (v) { return week_1.method(v); };
-    ackExpose.month = function (v) { return month_1.method(v); };
-    ackExpose.year = function (v) { return year_1.method(v); };
-    ackExpose.date = function (v) { return date_1.method(v); };
-    ackExpose.time = function (v) { return time_1.method(v); };
+    ackExpose.number = function (v) { return (0, number_1.method)(v); };
+    ackExpose.object = function (v) { return (0, object_1.method)(v); };
+    ackExpose.string = function (v) { return (0, string_1.method)(v); };
+    ackExpose.binary = function (v) { return (0, binary_1.method)(v); };
+    ackExpose.base64 = function (v) { return (0, base64_1.method)(v); };
+    ackExpose.method = function (v) { return (0, method_1.method)(v); };
+    ackExpose.array = function (v) { return (0, array_1.method)(v); };
+    ackExpose.queryObject = function (v) { return (0, queryObject_1.method)(v); };
+    ackExpose.week = function (v) { return (0, week_1.method)(v); };
+    ackExpose.month = function (v) { return (0, month_1.method)(v); };
+    ackExpose.year = function (v) { return (0, year_1.method)(v); };
+    ackExpose.date = function (v) { return (0, date_1.method)(v); };
+    ackExpose.time = function (v) { return (0, time_1.method)(v); };
     ackExpose.prototype.getSimpleClone = function () {
         var target = {};
         for (var i in this.$var) {

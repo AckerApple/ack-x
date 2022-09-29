@@ -252,7 +252,7 @@ var AckDate = (function () {
         return this.date.getDate() + this.getMonthDateNumberSuffix();
     };
     AckDate.prototype.getMonthDateNumberSuffix = function () {
-        return number_1.suffixByNumber(this.date.getDate());
+        return (0, number_1.suffixByNumber)(this.date.getDate());
     };
     AckDate.prototype.fullWeeksLeftInMonth = function () {
         var eDate = this.getLastDateOfMonth();

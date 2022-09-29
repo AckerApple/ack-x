@@ -1,5 +1,11 @@
 # ack-x - Change Log
 All notable changes to this project will be documented here.
+
+## [3.0.0] - 2022-09-29
+- removed ack-p
+- removed ack.promise
+- removed ack.Promise
+
 ## [2.0.0] - 2020-05-12
 - removed /browser.js
 

@@ -34,7 +34,7 @@ function stringToDate(date) {
     if (dDate != 'Invalid Date') {
         return date;
     }
-    var parsed = date_1.parseTimeString(date);
+    var parsed = (0, date_1.parseTimeString)(date);
     var newDate = new Date().setHours(parsed.hour);
     newDate = new Date(newDate).setMinutes(parsed.minute);
     return new Date(newDate);

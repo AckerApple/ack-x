@@ -3,17 +3,19 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.method = exports.Month = exports.monthLcaseNameArray = void 0;
+exports.method = exports.Month = exports.monthLcaseNameArray = exports.AckDate = void 0;
 var date_1 = require("./date");
 var date_2 = require("./date");
 Object.defineProperty(exports, "AckDate", { enumerable: true, get: function () { return date_2.AckDate; } });
@@ -29,15 +31,15 @@ var Month = (function (_super) {
         return _this;
     }
     Month.prototype.setStartDate = function (date) {
-        var jDate = date_1.method();
+        var jDate = (0, date_1.method)();
         if (!jDate.isDate(date)) {
             var num = Number(date);
             if (!isNaN(num)) {
-                date = date_1.method().now().setDate(1).setMonth(date).date;
+                date = (0, date_1.method)().now().setDate(1).setMonth(date).date;
             }
             else {
                 var i = this.getMonthIndexByString(date);
-                date = date_1.method(new Date()).setDate(1).setMonth(i + 1).date;
+                date = (0, date_1.method)(new Date()).setDate(1).setMonth(i + 1).date;
             }
         }
         this.date = date;
@@ -48,10 +50,10 @@ var Month = (function (_super) {
     };
     Month.prototype.StartDate = function (isClone) {
         var startDate = !isClone ? this.getStartDate() : this.getStartDate();
-        return date_1.method(startDate);
+        return (0, date_1.method)(startDate);
     };
     Month.prototype.xDate = function () {
-        return date_1.method(this.getStartDate());
+        return (0, date_1.method)(this.getStartDate());
     };
     Month.prototype.getStartDate = function () {
         if (this.date)
@@ -60,8 +62,8 @@ var Month = (function (_super) {
         return this;
     };
     Month.prototype.setEndDate = function (date) {
-        if (!date_1.method(date).isDate() && !isNaN(date))
-            this.endDate = date_1.method(new Date()).setMonth(date).getLastDateOfMonth();
+        if (!(0, date_1.method)(date).isDate() && !isNaN(date))
+            this.endDate = (0, date_1.method)(new Date()).setMonth(date).getLastDateOfMonth();
         else
             this.endDate = date;
         return this;

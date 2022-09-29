@@ -1,6 +1,6 @@
 {
   "name": "ack-x",
-  "version": "2.1.1",
+  "version": "3.0.1",
   "description": "Javascript variable exposing library",
   "main": "js/index.js",
   "typings": "js/index.d.ts",
@@ -15,8 +15,9 @@
     "build:dist": "webpack --progress --mode=production",
     "build:js": "tsc --project ./ts/tsconfig.json",
     "build:es": "tsc --project ./ts/tsconfig.es.json",
-    "save": "npm run build && npm run test && git add . && git commit -m \"update\"",
-    "deploy": "npm run save && git push && npm publish"
+    "version:patch": "npm --no-git-tag-version version patch",
+    "save": "npm run build && npm run version:patch && npm run test && git add . && git commit -m \"update\" && git push",
+    "deploy": "npm run save && npm publish"
   },
   "repository": {
     "type": "git",
@@ -29,15 +30,15 @@
   "author": "Acker Apple",
   "license": "MIT",
   "dependencies": {
-    "ack-p": "^1.0.14",
-    "moment-mini": "^2.22.1"
+    "moment-mini": "^2.29.4"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
     "npm-run-all": "^4.1.5",
-    "typescript": "^3.2.1",
-    "uglifyjs-webpack-plugin": "^2.0.1",
-    "webpack": "^4.26.1",
-    "webpack-cli": "^3.1.2"
+    "terser-webpack-plugin": "^5.3.6",
+    "typescript": "^4.8.4",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }

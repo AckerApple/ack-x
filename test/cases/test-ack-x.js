@@ -34,30 +34,6 @@ describe('ack()',function(){
 		assert.equal(object.stringify(0),'{"test":11}')
 	})
 
-	it('#promise',function(done){
-		ack.promise('a','b','c')
-		.then(function(a,b,c){
-			assert.equal(a, 'a')
-			assert.equal(b, 'b')
-			assert.equal(c, 'c')
-		})
-		.then(done).catch(done)
-	})
-
-	it('#Promise',function(done){
-		ack.Promise(function(res,rej){
-			setTimeout(function(){
-				res('a','b','c')
-			}, 10)
-		})
-		.then(function(a,b,c){
-			assert.equal(a, 'a')
-			assert.equal(b, 'b')
-			assert.equal(c, 'c')
-		})
-		.then(done).catch(done)
-	})
-
 	it('#nullsToEmptyString',function(){
 		var object = {test:11, Test:null, TEST:33}
 		ack(object).nullsToEmptyString()
